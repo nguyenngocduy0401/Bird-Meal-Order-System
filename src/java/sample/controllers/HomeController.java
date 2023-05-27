@@ -45,15 +45,13 @@ public class HomeController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = HOME_PAGE;
         try {
-//            ProductDAO dao = new ProductDAO();
-//            List<ProductDTO> result
-//                    = dao.loadProducts();
-//            request.setAttribute("PRODUCTS", result);
-//            //end if searchValue is not null and not blank
-//        } catch (SQLException e) {
-//            log("AccountSearchServlet _ SQL _ " + e.getMessage());
-//        } catch (NamingException e) {
-//            log("AccountSearchServlet _ Naming _ " + e.getMessage());
+            ProductDAO dao = new ProductDAO();
+            List<ProductDTO> result = dao.loadProducts();
+            request.setAttribute("PRODUCTS", result);
+        } catch (SQLException e) {
+            log("AccountSearchServlet _ SQL _ " + e.getMessage());
+        } catch (NamingException e) {
+            log("AccountSearchServlet _ Naming _ " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

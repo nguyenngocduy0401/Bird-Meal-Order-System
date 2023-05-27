@@ -91,12 +91,14 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
                 <div class="col-md-7 container-fluid">
-
-                    <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control" placeholder="Have a question? Ask Now">
-                        <button class="btn btn-primary">Search</button>
-                    </div>
+                    <form action="MainController">
+                        <div class="search">
+                            <i class="fa fa-search"></i>
+                            <input name="txtSearchValue" type="text" class="form-control" placeholder="Search any product...">
+                            <button class="btn btn-primary">Search</button>
+                            <input type="hidden" value="Search" name="btAction"/>
+                        </div>
+                    </form>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="Home.html" class="nav-item nav-link active">Home</a>
@@ -108,44 +110,49 @@
         </nav>
         <!-- Navbar End -->
 
+        <c:if test="${not empty result}" >
+            <section class=" col-centered col-md-9 mt-5 mx-auto ">
 
-        <section class=" col-centered col-md-9 mt-5 mx-auto ">
-            <c:forEach var="dto" items="${result}">
-            <div class="row product-list">
-                <div class="col-md-4 mt-1">
-                    <section class="panel">
-                        <div class="product-item position-relative bg-light d-flex flex-column text-center">
-                            <img class="img-fluid mb-4" src="https://reviewaz.vn/storage/thuc-an-cho-chim.png" alt="">
-                            <h6 class="text-uppercase">${dto.productName}</h6>
-                            <h5 class="text-primary mb-0">${dto.Price} VND</h5>
-                            <div class="btn-action d-flex justify-content-center">
-                                <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
-                                <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-eye"></i></a>
-                            </div>
+                <div class="row product-list">
+                    <c:forEach var="dto" items="${result}">
+                        <div class="col-md-4 mt-1">
+                            <section class="panel">
+                                <div class="product-item position-relative bg-light d-flex flex-column text-center">
+                                    <img class="img-fluid mb-4" src="https://reviewaz.vn/storage/thuc-an-cho-chim.png" alt="">
+                                    <h6 class="text-uppercase">${dto.productName}</h6>
+                                    <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                    <div class="btn-action d-flex justify-content-center">
+                                        <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
+                                        <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-eye"></i></a>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-                    </section>
+                    </c:forEach>
                 </div>
-            </div>
-            </c:forEach>
+            </c:if>
+            <c:if test="${empty result}">
+                Khong co san pham!!
+            </c:if>
+            <div class="col-12 mt-5">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-lg m-0">
+                        <li class="page-item disabled">
+                            <a class="page-link rounded-0" href="#" aria-label="Previous">
+                                <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link rounded-0" href="#" aria-label="Next">
+                                <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div> 
         </section>
-        <div class="col-12 mt-5">
-            <nav aria-label="Page navigation">
-                <ul class="pagination pagination-lg m-0">
-                    <li class="page-item disabled">
-                        <a class="page-link rounded-0" href="#" aria-label="Previous">
-                            <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0" href="#" aria-label="Next">
-                            <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div> 
-    </div>
+    </body>
 </html>
