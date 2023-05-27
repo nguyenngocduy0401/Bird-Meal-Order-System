@@ -132,7 +132,7 @@
                 </div>
             </c:if>
             <c:if test="${empty result}">
-                Khong co san pham!!
+                Không có sản phẩm tương tự được tìm thấy!!
             </c:if>
             <div class="col-12 mt-5">
                 <nav aria-label="Page navigation">
