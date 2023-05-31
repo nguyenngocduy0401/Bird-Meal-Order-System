@@ -19,7 +19,7 @@ import sample.dto.UserDTO;
  *
  * @author Duy
  */
-public class Home extends HttpServlet {
+public class LoginCookieController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,10 +55,10 @@ public class Home extends HttpServlet {
                     Cookie resetCookie = new Cookie("selector", "0");
                     resetCookie.setMaxAge(0); 
                     response.addCookie(resetCookie);
-                    response.sendRedirect("login.jsp");
+                    response.sendRedirect("HomeController");
                 }
             } else {
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("HomeController");
             }
         }
     }

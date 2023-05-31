@@ -3,7 +3,7 @@
     Created on : May 26, 2023, 6:16:36 PM
     Author     : Duy
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -133,6 +133,15 @@
 
                                 </div>
 
+                                
+
+                                    <c:if test="${param.check eq '1'}">
+                                        <div>Don't let your password or username blank</p></div>
+                                    </c:if>
+                                    <c:if test="${param.check eq '2'}">
+                                        <div>Your account is not exist</p></div>
+                                    </c:if>
+
                                 <div class="col-12">
                                     <tr><td colspan="2"><input class="btn btn-primary w-100 py-3" type="submit" value="login" name="action"></td></tr>
                                     <!--                                <button class="btn btn-primary w-100 py-3" type="submit">Login</button>-->
@@ -141,8 +150,8 @@
                             </div>
                         </form>
                     </div>
-<a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/Bird_Meal_Order_System/GoogleController&response_type=code
-		   &client_id=769539934522-jrnh7eillvbdckp6tcaphgsfu10a6feh.apps.googleusercontent.com&approval_prompt=force">Login with google</a>
+                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/Bird_Meal_Order_System/GoogleController&response_type=code
+                       &client_id=769539934522-jrnh7eillvbdckp6tcaphgsfu10a6feh.apps.googleusercontent.com&approval_prompt=force">Login with google</a>
                 </div>
             </div>
         </div>

@@ -45,10 +45,10 @@ public class LoginController extends HttpServlet {
             String codeString = randomCode.toString();
             try {
                 if (username == null || username.equals("") || password == null || password.equals("")) {
-                    response.sendRedirect("login.jsp");
+                    response.sendRedirect("login.jsp?check=1");
                 } else {
                     user = UserDAO.getUser(username, password);
-                    if (user != null && user.isStatus() != false) {
+                    if (user != null && user.isStatus() != false  && user.getNumberReport() == 10 ) {
                         //admin
                         if (user.getRole() == 0) {
                             HttpSession session = request.getSession(true);
@@ -97,7 +97,7 @@ public class LoginController extends HttpServlet {
                             }
                         }
                     } else {
-                        response.sendRedirect("login.jsp");
+                        response.sendRedirect("login.jsp?check=2");
                     }
                 }
 

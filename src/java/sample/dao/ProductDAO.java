@@ -249,6 +249,51 @@ public class ProductDAO {
         System.out.println(ep);
     }
 
-   
+    public static ProductDTO getProductByID(int getProductID) {
+        ProductDTO product = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String s = "SELECT ProductID, ProductName, Price, Quantity, CategoryID, ProductDetail, Size, AgeRecommendation, Date , [Status], Country\n"
+                        + "FROM Product\n"
+                        + "WHERE ProductID = ?;";
+                PreparedStatement pst = cn.prepareStatement(s);
+                pst.setInt(1, getProductID);
+                ResultSet kq = pst.executeQuery();
+                if (kq != null) {
+                    while (kq.next()) {
+                        int productID = kq.getInt("ProductID");
+                        String productName = kq.getString("ProductName");
+                        double price = kq.getDouble("Price");
+                        int quantity = kq.getInt("Quantity");
+                        String categoryID = kq.getString("CategoryID");
+                        String productDetail = kq.getString("ProductDetail");
+                        String size = kq.getString("Size");
+                        int ageRecommendation = kq.getInt("AgeRecommendation");
+                        String date = kq.getString("Date");
+                        int status = kq.getInt("Status");
+                        String country = kq.getString("Country");
+                        product = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country);
+
+                    }
+                    cn.close();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return product;
+    }
 
 }

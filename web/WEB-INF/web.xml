@@ -13,8 +13,8 @@
         <servlet-class>sample.controllers.GoogleController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Home</servlet-name>
-        <servlet-class>sample.controllers.Home</servlet-class>
+        <servlet-name>LoginCookieController</servlet-name>
+        <servlet-class>sample.controllers.LoginCookieController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutController</servlet-name>
@@ -37,8 +37,8 @@
         <url-pattern>/GoogleController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Home</servlet-name>
-        <url-pattern>/Home</url-pattern>
+        <servlet-name>LoginCookieController</servlet-name>
+        <url-pattern>/LoginCookieController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
@@ -54,6 +54,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Home</welcome-file>
+        <welcome-file>LoginCookieController</welcome-file>
     </welcome-file-list>
 </web-app>

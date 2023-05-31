@@ -101,7 +101,7 @@
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <a href="Login.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                    <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </nav>
@@ -122,7 +122,7 @@
                                     <h5 class="text-primary mb-0">${dto.price} VND</h5>
                                     <div class="btn-action d-flex justify-content-center">
                                         <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
-                                        <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-eye"></i></a>
+                                        <a class="btn btn-primary py-2 px-3" href="ProductDetailController?productID=${dto.productID}"><i class="bi bi-eye"></i></a>
                                     </div>
                                 </div>
                             </section>

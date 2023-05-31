@@ -6,7 +6,11 @@
 package sample.test;
 
 import java.util.ArrayList;
+import sample.dao.CategoryDAO;
+import sample.dao.ProductDAO;
 import sample.dao.UserDAO;
+import sample.dto.CategoryDTO;
+import sample.dto.ProductDTO;
 import sample.dto.UserDTO;
 
 /**
@@ -15,11 +19,15 @@ import sample.dto.UserDTO;
  */
 public class TestgetUser {
     public static void main(String[] args) {
+        CategoryDTO i = CategoryDAO.getCategoryByID(1);
+        System.out.println(i.getCategoryName());
+//        ProductDTO i = ProductDAO.getProductByID(1);
+//        System.out.println(i.getStatus());
          
-        UserDTO user = UserDAO.getUser("asdasd", "asdasd");
-        
-        System.out.println(user);
-        
+//        UserDTO user = UserDAO.getUser("asdasd", "asdasd");
+//        
+//        System.out.println(user);
+//        
         
         
 //        boolean list = UserDAO.deleteToken("748934c5-8dc0-4019-a427-7f6195bd0b11");
