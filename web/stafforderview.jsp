@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Bird Meal Order System</title>
     </head>
     <style>  
         table, th, td {  
@@ -69,7 +69,6 @@
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
     </head>
-
     <body>
         <header>
             <!-- Topbar Start -->
@@ -120,7 +119,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
 
                     <div class="navbar-nav ms-auto py-0">
-                        <a href="Home.html" class="nav-item nav-link active">Home</a>
+                        <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                         <a href="blog.html" class="nav-item nav-link">Blog</a>
                         <a href="cart.html" class="nav-item nav-link pt-3 "><i
                                 class="bi bi-cart  fs-1 text-primary me-1"></i></a>
@@ -131,64 +130,50 @@
             </nav>
             <!-- Navbar End -->
         </header>
-
-
+        
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
             <div class="navbar-collapse">
                 <a href="addnew.html" class="nav-item nav-link active">Add new product</a>
-                <a href="Staff.html" class="nav-item nav-link">Product list</a>
-                <a href="orderlist.html" class="nav-item nav-link">Order list</a>
+                <a href="MainController?btAction=StaffHome" class="nav-item nav-link">Product list</a>
+                <a href="MainController?btAction=StaffOrderHome" class="nav-item nav-link">Order list</a>
                 <a href="feedback.html" class="nav-item nav-link">Feedback</a>
 
             </div>
         </nav>
-        <c:set var="result" value="${requestScope.PRODUCTS}" />
-        <h1 class="h123">Product list</h1>
+        
+        <h1 class="h123">Order list</h1>
 
         <div class="d-flex form-inputs" id="class">
             <form action="MainController">
                 <input type="text" placeholder="Search any product...">
                 <i class="bx bx-search"></i>
-                <button>Search</button>
-                <button>Add new product</button>
-                <button  name="btAction" value="StaffHome">List All</button>
+                <button  name="btAction" value="StaffOrderHome">List All</button>
             </form>
         </div>
-
-        <div>
-            <c:if test="${empty result}">
-                Vui long them moi san pham!!
-            </c:if>
-            <c:if test="${not empty result}">
-                <table border="1">
+        <c:set var="result" value="${requestScope.ORDERS}" />
+        <c:if test="${empty result}" >
+            Khong co order
+        </c:if>
+        <c:if test="${not empty result}" >
+            <table border="1">
                     <thead style="background: #7AB730; color: white">
                         <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Category</th>
-                            <th>Details</th>
-                            <th>Size</th>
-                            <th>Age Recommendation</th>
-                            <th>Date</th>
+                            <th>User</th>
+                            <th>Order Day</th>
+                            <th>Shipping day</th>
                             <th>Status</th>
-                            <th>Country</th>
-                            <th>Action</th> 
+                            <th>Order Address</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id = "content">
                         <c:forEach var="dto" items="${result}">
                             <tr>
-                                <td>${dto.productName}</td>
-                                <td>${dto.price}</td>
-                                <td>${dto.quantity}</td>
-                                <td>${dto.categoryID}</td>
-                                <td>${dto.productDetail}</td>
-                                <td>${dto.size}</td>
-                                <td>${dto.ageRecommendation}</td>
-                                <td>${dto.date}</td>
+                                <td>${dto.userID}</td>
+                                <td>${dto.orderDate}</td>
+                                <td>${dto.shippingDate}</td>
                                 <td>${dto.status}</td>
-                                <td>${dto.country}</td>
+                                <td>${dto.orderAddress}</td>
                                 <td>
                                     <button>Delete</button>
                                     <button>Edit</button>
@@ -197,10 +182,8 @@
                         </c:forEach>
                     </tbody>
                 </table>
-            </c:if>
-        </div>
-
-        <div class="col-12 mt-5">
+        </c:if>
+    <div class="col-12 mt-5">
             <nav aria-label="Page navigation">
                 <ul class="pagination pagination-lg m-0">
                     <c:if test="${TAGS <= PAGE && TAGS > 1}">
@@ -216,7 +199,7 @@
                             <a class="page-link" onclick="loadPage(${i})">${i}</a>
                         </li>
                     </c:forEach>
-                    <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
+                    <c:if test="${TAGS >= 1 && TAGS < PAGE}">
                         <li class="page-item">
                             <a onclick="nextPage()" class="page-link rounded-0" aria-label="Next">
                                 <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
@@ -233,7 +216,7 @@
 
                                             $.ajax({
                                                 type: "get",
-                                                url: "PagingStaffProduct",
+                                                url: "pagingOrder",
                                                 data: {
                                                     index: amount + 1,
                                                     txtSearchValue: '${requestScope.txtSearchValue}',
@@ -248,7 +231,7 @@
                                             var amount = ${requestScope.TAGS};
                                             $.ajax({
                                                 type: "get",
-                                                url: "PagingStaffProduct",
+                                                url: "pagingOrder",
                                                 data: {
                                                     index: amount - 1,
                                                     txtSearchValue: '${requestScope.txtSearchValue}',
@@ -263,7 +246,7 @@
                                             var amount = param;
                                             $.ajax({
                                                 type: "get",
-                                                url: "PagingStaffProduct",
+                                                url: "pagingOrder",
                                                 data: {
                                                     index: amount,
                                                     txtSearchValue: '${requestScope.txtSearchValue}',
@@ -312,5 +295,4 @@
             </div>
         </footer>
     </body>
-
 </html>

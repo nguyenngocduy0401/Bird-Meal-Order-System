@@ -1,8 +1,4 @@
-<%-- 
-    Document   : home
-    Created on : May 27, 2023, 12:48:39 PM
-    Author     : Duy
---%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -91,61 +87,124 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
                 <div class="col-md-7 container-fluid">
-
-                    <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control" placeholder="Have a question? Ask Now">
-                        <button class="btn btn-primary">Search</button>
-                    </div>
+                    <form action="MainController">
+                        <div class="search">
+                            <i class="fa fa-search"></i>
+                            <input name="txtSearchValue" type="text" class="form-control" placeholder="Search any product...">
+                            <button class="btn btn-primary">Search</button>
+                            <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
+                            <input type="hidden" value="Search" name="btAction"/>
+                        </div>
+                    </form>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="Home.html" class="nav-item nav-link active">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                    <a href="Login.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
-
-
-        <section class=" col-centered col-md-9 mt-5 mx-auto ">
-            <c:forEach var="dto" items="${result}">
-            <div class="row product-list">
-                <div class="col-md-4 mt-1">
-                    <section class="panel">
-                        <div class="product-item position-relative bg-light d-flex flex-column text-center">
-                            <img class="img-fluid mb-4" src="https://reviewaz.vn/storage/thuc-an-cho-chim.png" alt="">
-                            <h6 class="text-uppercase">${dto.productName}</h6>
-                            <h5 class="text-primary mb-0">${dto.Price} VND</h5>
-                            <div class="btn-action d-flex justify-content-center">
-                                <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
-                                <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-eye"></i></a>
-                            </div>
+        
+        <c:if test="${empty result}">
+            Không có sản phẩm tương tự được tìm thấy!!
+        </c:if>
+        <c:if test="${not empty result}" >
+            <section class=" col-centered col-md-9 mt-5 mx-auto ">
+                <div id ="cotent" class="row product-list">
+                    <c:forEach var="dto" items="${result}">
+                        <div class="product col-md-4 mt-1">
+                            <section class="panel">
+                                <div class="product-item position-relative bg-light d-flex flex-column text-center">
+                                    <img class="img-fluid mb-4" src="https://reviewaz.vn/storage/thuc-an-cho-chim.png" alt="">
+                                    <h6 class="text-uppercase">${dto.productName}</h6>
+                                    <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                    <div class="btn-action d-flex justify-content-center">
+                                        <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
+                                        <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-eye"></i></a>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-                    </section>
+                    </c:forEach>
                 </div>
-            </div>
-            </c:forEach>
-        </section>
-        <div class="col-12 mt-5">
-            <nav aria-label="Page navigation">
-                <ul class="pagination pagination-lg m-0">
-                    <li class="page-item disabled">
-                        <a class="page-link rounded-0" href="#" aria-label="Previous">
-                            <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0" href="#" aria-label="Next">
-                            <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div> 
-    </div>
+
+                <div class="col-12 mt-5">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-lg m-0">
+                            <c:if test="${TAGS <= PAGE && TAGS > 1}">
+                                <li class="page-item">
+                                    <a class="page-link rounded-0" onclick="previousPage()" aria-label="Previous">
+                                        <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:forEach begin="1" end="${PAGE}" var="i">
+                                <li class="${TAGS == i?"page-item active":"page-item"}">
+                                    <a class="page-link" onclick="loadPage(${i})">${i}</a>
+                                </li>
+                            </c:forEach>
+                            <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
+                                <li class="page-item">
+                                    <a onclick="nextPage()" class="page-link rounded-0" aria-label="Next">
+                                        <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                                    </a>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+        </c:if>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+                                        function nextPage() {
+                                            var amount = ${requestScope.TAGS};
+                                            $.ajax({
+                                                type: "get",
+                                                url: "PagingProduct",
+                                                data: {
+                                                    index: amount + 1,
+                                                    txtSearchValue: '${requestScope.txtSearchValue}',
+                                                },
+                                                success: function (data) {
+                                                    var row = document.getElementById("cotent");
+                                                    row.innerHTML = data;
+                                                }
+                                            });
+                                        }
+                                        function previousPage() {
+                                            var amount = ${requestScope.TAGS};
+                                            $.ajax({
+                                                type: "get",
+                                                url: "PagingProduct",
+                                                data: {
+                                                    index: amount - 1,
+                                                    txtSearchValue: '${requestScope.txtSearchValue}',
+                                                },
+                                                success: function (data) {
+                                                    var row = document.getElementById("cotent");
+                                                    row.innerHTML = data;
+                                                }
+                                            });
+                                        }
+                                        function loadPage(param) {
+                                            var amount = param;
+                                            $.ajax({
+                                                type: "get",
+                                                url: "PagingProduct",
+                                                data: {
+                                                    index: amount,
+                                                    txtSearchValue: '${requestScope.txtSearchValue}',
+                                                },
+                                                success: function (data) {
+                                                    var row = document.getElementById("cotent");
+                                                    row.innerHTML = data;
+                                                }
+                                            });
+                                        }
+        </script>
+    </body>
 </html>
