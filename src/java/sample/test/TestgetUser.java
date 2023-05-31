@@ -6,9 +6,11 @@
 package sample.test;
 
 import java.util.ArrayList;
+import sample.dao.BirdDAO;
 import sample.dao.CategoryDAO;
 import sample.dao.ProductDAO;
 import sample.dao.UserDAO;
+import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
 import sample.dto.ProductDTO;
 import sample.dto.UserDTO;
@@ -19,8 +21,20 @@ import sample.dto.UserDTO;
  */
 public class TestgetUser {
     public static void main(String[] args) {
-        CategoryDTO i = CategoryDAO.getCategoryByID(1);
-        System.out.println(i.getCategoryName());
+        
+        
+        
+        ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(2);
+        for (BirdDTO birdDTO : listBird) {
+            System.out.println(birdDTO.getBirdName());
+        }
+        
+//        CategoryDTO i = CategoryDAO.getCategoryByID(1);
+//        System.out.println(i.getCategoryName());
+        
+        
+        
+        
 //        ProductDTO i = ProductDAO.getProductByID(1);
 //        System.out.println(i.getStatus());
          

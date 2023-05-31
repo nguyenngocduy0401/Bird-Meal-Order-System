@@ -24,7 +24,7 @@ public class BirdDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT BirdName\n"
+                String sql = "SELECT Bird.BirdID, BirdName \n"
                         + "FROM Product\n"
                         + "JOIN CategoriesBird ON Product.ProductID = CategoriesBird.ProductID\n"
                         + "JOIN Bird ON CategoriesBird.BirdID = Bird.BirdID\n"
@@ -35,8 +35,9 @@ public class BirdDAO {
                 if (rs != null) {
                     while (rs.next()) {
                         String birdName = rs.getString("BirdName");
+                        int birdID = rs.getInt("BirdID");
                         
-                        BirdDTO bird = new BirdDTO(productID, birdName);
+                        BirdDTO bird = new BirdDTO(birdID, birdName);
                         list.add(bird);
                     }
                     cn.close();

@@ -7,10 +7,17 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.dao.BirdDAO;
+import sample.dao.CategoryDAO;
+import sample.dao.ProductDAO;
+import sample.dto.BirdDTO;
+import sample.dto.CategoryDTO;
+import sample.dto.ProductDTO;
 
 /**
  *
@@ -31,8 +38,16 @@ public class ProductDetailController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            
+            int productID = Integer.parseInt(request.getParameter("productID"));
+            ProductDTO productDTO = ProductDAO.getProductByID(productID);
+            CategoryDTO categoryDTO = CategoryDAO.getCategoryByID(productID);
+            ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(productID);
+            if(productDTO !=null){
+                request.setAttribute("productDTO", productDTO);
+                request.setAttribute("categoryDTO", categoryDTO);
+                request.setAttribute("listBird", listBird);
+                request.getRequestDispatcher("productDetail.jsp").forward(request, response);
+            }
         }
     }
 
