@@ -39,7 +39,7 @@ public class ProductDAO {
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    String productID = rs.getString("ProductID");
+                    int productID = rs.getInt("ProductID");
                     String productName = rs.getString("ProductName");
                     double price = rs.getDouble("Price");
                     int quantity = rs.getInt("Quantity");
@@ -94,7 +94,7 @@ public class ProductDAO {
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
-                    String productID = rs.getString("ProductID");
+                    int productID = rs.getInt("ProductID");
                     String productName = rs.getString("ProductName");
                     double price = rs.getDouble("Price");
                     int quantity = rs.getInt("Quantity");
@@ -209,7 +209,7 @@ public class ProductDAO {
                 rs = stm.executeQuery();
 
                 while (rs.next()) {
-                    String productID = rs.getString("ProductID");
+                    int productID = rs.getInt("ProductID");
                     String productName = rs.getString("ProductName");
                     double price = rs.getDouble("Price");
                     int quantity = rs.getInt("Quantity");

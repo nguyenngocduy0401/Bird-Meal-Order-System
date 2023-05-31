@@ -27,8 +27,6 @@ import sample.dto.ProductDTO;
  */
 @WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
 public class HomeController extends HttpServlet {
-    
-    
     private final String HOME_PAGE = "home.jsp";
     private final int ON_PAGE_PRODUCT = 6;
 
@@ -45,7 +43,6 @@ public class HomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException, ClassNotFoundException {
-        response.setContentType("text/html;charset=UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         String indexPage = request.getParameter("index");
         String url = HOME_PAGE;
@@ -85,9 +82,7 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (NamingException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (NamingException | ClassNotFoundException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -105,9 +100,7 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (NamingException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (NamingException | ClassNotFoundException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
