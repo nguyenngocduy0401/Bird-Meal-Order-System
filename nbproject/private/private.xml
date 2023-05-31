@@ -3,20 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/web/Login.html</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/dto/ProductDTO.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/controllers/GoogleController.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/controllers/LogoutController.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/test/TestgetUser.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/dto/UserDTO.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/dto/UserGoogleDTO.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/controllers/LoginController.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/dto/Constants.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/web/login.jsp</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/controllers/ProductDetailController.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/controllers/Home.java</file>
-            <file>file:/C:/Users/Duy/Documents/NetBeansProjects/Bird%20Meal%20Order%20System/Bird-Meal-Order-System/src/java/sample/dao/UserDAO.java</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/staff.jsp</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/GoogleController.java</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/ProductDetailController.java</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/admin.jsp</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/Admin.html</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/dao/UserDAO.java</file>
         </group>
     </open-files>
 </project-private>
