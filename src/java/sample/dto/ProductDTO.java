@@ -9,9 +9,11 @@ import java.io.Serializable;
 
 /**
  *
- * @author Admin
+ * @author Duy
  */
 public class ProductDTO implements Serializable{
+   
+    
     private String productID;
     private String productName;
     private double price;
@@ -138,7 +140,4 @@ public class ProductDTO implements Serializable{
         this.country = country;
     }
 
-   
-    
-    
 }

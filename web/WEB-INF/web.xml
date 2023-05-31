@@ -9,12 +9,20 @@
         <servlet-class>sample.controllers.LoginController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HomeController</servlet-name>
-        <servlet-class>sample.controllers.HomeController</servlet-class>
+        <servlet-name>GoogleController</servlet-name>
+        <servlet-class>sample.controllers.GoogleController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchController</servlet-name>
-        <servlet-class>sample.controllers.SearchController</servlet-class>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>sample.controllers.Home</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>sample.controllers.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductDetailController</servlet-name>
+        <servlet-class>sample.controllers.ProductDetailController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
@@ -25,12 +33,20 @@
         <url-pattern>/LoginController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>HomeController</servlet-name>
-        <url-pattern>/HomeController</url-pattern>
+        <servlet-name>GoogleController</servlet-name>
+        <url-pattern>/GoogleController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SearchController</servlet-name>
-        <url-pattern>/SearchController</url-pattern>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/LogoutController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductDetailController</servlet-name>
+        <url-pattern>/ProductDetailController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -38,6 +54,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>Home</welcome-file>
     </welcome-file-list>
 </web-app>

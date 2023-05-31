@@ -7,24 +7,20 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.dao.UserDAO;
+import sample.dto.UserDTO;
 
 /**
  *
- * @author Admin
+ * @author Duy
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
-    private final String INDEX = "index.html";
-    private final String HOME_CONTROLLER = "HomeController";
-    private final String SEARCH_CONTROLLER = "SearchController";
-    
-    
+public class Home extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,18 +33,33 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = INDEX;
-        String btAction = request.getParameter("btAction");
-        try{
-            if(btAction == null){
-                url = HOME_CONTROLLER;
-            } else if (btAction.equals("Search")){
-                url = SEARCH_CONTROLLER;
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            Cookie[] c = request.getCookies();
+            String token = "";
+            if (c != null) {
+                for (Cookie aCookie : c) {
+                    if (aCookie.getName().equals("selector")) {
+                        token = aCookie.getValue();
+                    }
+                }
             }
-            
-        }finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            if (!token.equals("")) {
+                UserDTO userDTO = UserDAO.getToken(token);
+                if (userDTO != null) {
+                    String username = userDTO.getUserName();
+                    String password = userDTO.getPassword();
+                    String url = response.encodeRedirectURL("LoginController?txtUsername=" + username + "&txtPassword=" + password);
+                    response.sendRedirect(url);
+                } else {
+                    Cookie resetCookie = new Cookie("selector", "0");
+                    resetCookie.setMaxAge(0); 
+                    response.addCookie(resetCookie);
+                    response.sendRedirect("login.jsp");
+                }
+            } else {
+                response.sendRedirect("login.jsp");
+            }
         }
     }
 

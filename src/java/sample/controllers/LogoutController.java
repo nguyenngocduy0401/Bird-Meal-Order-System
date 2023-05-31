@@ -7,28 +7,20 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.ProductDAO;
-import sample.dto.ProductDTO;
+import javax.servlet.http.HttpSession;
+import sample.dao.UserDAO;
+import sample.dto.UserDTO;
 
 /**
  *
- * @author Admin
+ * @author Duy
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
-public class HomeController extends HttpServlet {
-
-    private final String HOME_PAGE = "home.jsp";
+public class LogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,23 +30,41 @@ public class HomeController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.lang.ClassNotFoundException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = HOME_PAGE;
-        try {
-            ProductDAO dao = new ProductDAO();
-            List<ProductDTO> result = dao.loadProducts();
-            request.setAttribute("PRODUCTS", result);
-        } catch (SQLException e) {
-            log("AccountSearchServlet _ SQL _ " + e.getMessage());
-        } catch (NamingException e) {
-            log("AccountSearchServlet _ Naming _ " + e.getMessage());
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            Cookie[] c = request.getCookies();
+            String token = "";
+
+            try {
+                HttpSession session = request.getSession();
+                if (session != null) {
+                    session.invalidate();
+                }
+                if (c != null) {
+                    for (Cookie aCookie : c) {
+                        if (aCookie.getName().equals("selector")) {
+                            token = aCookie.getValue();
+                        }
+                    }
+                }
+                if (!token.equals("")) {
+                    UserDTO userDTO = UserDAO.getToken(token);
+                    if (userDTO != null) {
+                        Cookie resetCookie = new Cookie("selector", "0");
+                        resetCookie.setMaxAge(0);
+                        response.addCookie(resetCookie);
+                        UserDAO.deleteToken(token);
+                    }
+                }
+            } catch (Exception e) {
+                log("Error at LogoutController" + e.toString());
+            } finally {
+                response.sendRedirect("login.jsp");
+            }
         }
     }
 
@@ -70,11 +80,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -88,11 +94,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

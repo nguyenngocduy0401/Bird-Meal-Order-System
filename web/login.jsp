@@ -3,7 +3,7 @@
     Created on : May 26, 2023, 6:16:36 PM
     Author     : Duy
 --%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -141,7 +141,8 @@
                             </div>
                         </form>
                     </div>
-
+<a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/Bird_Meal_Order_System/GoogleController&response_type=code
+		   &client_id=769539934522-jrnh7eillvbdckp6tcaphgsfu10a6feh.apps.googleusercontent.com&approval_prompt=force">Login with google</a>
                 </div>
             </div>
         </div>

@@ -7,28 +7,16 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.ProductDAO;
-import sample.dto.ProductDTO;
 
 /**
  *
- * @author Admin
+ * @author Duy
  */
-@WebServlet(name = "SearchController", urlPatterns = {"/SearchController"})
-public class SearchController extends HttpServlet {
-
-    private final String HOME_PAGE = "home.jsp";
+public class ProductDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,25 +28,11 @@ public class SearchController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = HOME_PAGE;
-        String searchValue = request.getParameter("txtSearchValue");
-        try {
-            if (searchValue == null || searchValue.trim().isEmpty()) {
-                request.setAttribute("PRODUCTS", null);
-            } else {
-                ProductDAO dao = new ProductDAO();
-                List<ProductDTO> result = dao.searchListProduct(searchValue);
-                request.setAttribute("PRODUCTS", result);
-            }
-        } catch (SQLException e) {
-            log("AccountSearchServlet _ SQL _ " + e.getMessage());
-        } catch (NamingException e) {
-            log("AccountSearchServlet _ Naming _ " + e.getMessage());
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            
         }
     }
 
@@ -74,11 +48,7 @@ public class SearchController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -92,11 +62,7 @@ public class SearchController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SearchController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
