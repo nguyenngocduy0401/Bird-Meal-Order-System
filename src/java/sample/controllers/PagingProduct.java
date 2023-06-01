@@ -62,7 +62,7 @@ public class PagingProduct extends HttpServlet {
                 out.print("<div class=\"col-md-4 mt-1\">\n"
                         + "                            <section class=\"panel\">\n"
                         + "                                <div class=\"product-item position-relative bg-light d-flex flex-column text-center\">\n"
-                        + "                                    <img class=\"img-fluid mb-4\" src=\"https://reviewaz.vn/storage/thuc-an-cho-chim.png\" alt=\"\">\n"
+                        + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
                         + "                                    <h6 class=\"text-uppercase\">" + dto.getProductName() + "</h6>\n"
                         + "                                    <h5 class=\"text-primary mb-0\">" + dto.getPrice() + " VND</h5>\n"
                         + "                                    <div class=\"btn-action d-flex justify-content-center\">\n"

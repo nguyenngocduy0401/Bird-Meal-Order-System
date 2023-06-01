@@ -25,24 +25,12 @@ public class ProductDTO implements Serializable{
     private String date;
     private int status;
     private String country;
+    private String imgPath;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(String productName, double price, int quantity, String categoryID, String productDetail, String size, int ageRecommendation, String date, int status, String country) {
-        this.productName = productName;
-        this.price = price;
-        this.quantity = quantity;
-        this.categoryID = categoryID;
-        this.productDetail = productDetail;
-        this.size = size;
-        this.ageRecommendation = ageRecommendation;
-        this.date = date;
-        this.status = status;
-        this.country = country;
-    }
-
-    public ProductDTO(int productID, String productName, double price, int quantity, String categoryID, String productDetail, String size, int ageRecommendation, String date, int status, String country) {
+    public ProductDTO(int productID, String productName, double price, int quantity, String categoryID, String productDetail, String size, int ageRecommendation, String date, int status, String country, String imgPath) {
         this.productID = productID;
         this.productName = productName;
         this.price = price;
@@ -54,6 +42,21 @@ public class ProductDTO implements Serializable{
         this.date = date;
         this.status = status;
         this.country = country;
+        this.imgPath = imgPath;
+    }
+
+    public ProductDTO(String productName, double price, int quantity, String categoryID, String productDetail, String size, int ageRecommendation, String date, int status, String country, String imgPath) {
+        this.productName = productName;
+        this.price = price;
+        this.quantity = quantity;
+        this.categoryID = categoryID;
+        this.productDetail = productDetail;
+        this.size = size;
+        this.ageRecommendation = ageRecommendation;
+        this.date = date;
+        this.status = status;
+        this.country = country;
+        this.imgPath = imgPath;
     }
 
     public void setProductID(int productID) {
@@ -144,4 +147,14 @@ public class ProductDTO implements Serializable{
         this.country = country;
     }
 
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    
+    
 }

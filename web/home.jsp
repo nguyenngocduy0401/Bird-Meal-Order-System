@@ -117,7 +117,7 @@
                         <div class="product col-md-4 mt-1">
                             <section class="panel">
                                 <div class="product-item position-relative bg-light d-flex flex-column text-center">
-                                    <img class="img-fluid mb-4" src="https://reviewaz.vn/storage/thuc-an-cho-chim.png" alt="">
+                                    <img class="img-fluid mb-4" src="${dto.imgPath}" alt="">
                                     <h6 class="text-uppercase">${dto.productName}</h6>
                                     <h5 class="text-primary mb-0">${dto.price} VND</h5>
                                     <div class="btn-action d-flex justify-content-center">
