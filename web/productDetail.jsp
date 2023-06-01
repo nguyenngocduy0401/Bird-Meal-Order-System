@@ -13,15 +13,24 @@
     </head>
     <body>
         <table>
-                <tr><td rowspan="8"><img src="${plantObj.imgpath}"width="300" height="300"> </td></tr>
+                <tr><td rowspan="8"><img src="${productDTO.imgPath}"width="300" height="300"> </td></tr>
            
             <tr><td>product:${productDTO.productName}</td></tr>
             <tr><td>price:${productDTO.price}</td></tr>
-            <tr><td>description:${productDTO.quantity}</td></tr>
+            <tr><td>quantity:${productDTO.quantity}</td></tr>
             <tr><td>categoryName:${categoryDTO.categoryName}</td></tr>
+             <tr><td>Detail:${productDTO.productDetail}</td></tr>
+             <tr><td>Size:${productDTO.size}</td></tr>
+             <tr><td>AgeRecommend:${productDTO.ageRecommendation}</td></tr>
+             <tr><td>Country:${productDTO.country}</td></tr>
             <tr><td>listBird:<c:forEach items="${listBird}" var="bird">
-    <p>${bird.birdName}</p>
-</c:forEach></td></tr>
+                                <p>${bird.birdName}</p>
+                            </c:forEach></td></tr>
+            
+             
+                                    <c:if test="${productDTO.status eq '0'}">
+                                        <div>Het Hang</p></div>
+                                    </c:if>
             
         </table>
     </body>

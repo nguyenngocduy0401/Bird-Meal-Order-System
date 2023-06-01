@@ -49,20 +49,20 @@ public class PagingProduct extends HttpServlet {
         int page = Integer.parseInt(indexPage);
         String txtSearchValue = request.getParameter("txtSearchValue");
         List<ProductDTO> result = null;
-        if(txtSearchValue == null || txtSearchValue.trim().equals("")){
-            result=dao.pagingProduct(page, ON_PAGE_PRODUCT);
+        if (txtSearchValue == null || txtSearchValue.trim().equals("")) {
+            result = dao.pagingProduct(page, ON_PAGE_PRODUCT);
         } else {
             result = dao.searchListProduct(txtSearchValue, page, ON_PAGE_PRODUCT);
         }
         PrintWriter out = response.getWriter();
-        
+
         try {
 
             result.forEach((dto) -> {
                 out.print("<div class=\"col-md-4 mt-1\">\n"
                         + "                            <section class=\"panel\">\n"
                         + "                                <div class=\"product-item position-relative bg-light d-flex flex-column text-center\">\n"
-                        + "                                    <img class=\"img-fluid mb-4\" src=\"https://reviewaz.vn/storage/thuc-an-cho-chim.png\" alt=\"\">\n"
+                        + "                                    <img class=\"img-fluid mb-4\" src=\" "+ dto.getImgPath()+" \" alt=\"\">\n"
                         + "                                    <h6 class=\"text-uppercase\">" + dto.getProductName() + "</h6>\n"
                         + "                                    <h5 class=\"text-primary mb-0\">" + dto.getPrice() + " VND</h5>\n"
                         + "                                    <div class=\"btn-action d-flex justify-content-center\">\n"

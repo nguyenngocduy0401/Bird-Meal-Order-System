@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
                     response.sendRedirect("login.jsp?check=1");
                 } else {
                     user = UserDAO.getUser(username, password);
-                    if (user != null && user.isStatus() != false  && user.getNumberReport() == 10 ) {
+                    if (user != null && user.isStatus() != false  && user.getNumberReport() != 10 ) {
                         //admin
                         if (user.getRole() == 0) {
                             HttpSession session = request.getSession(true);

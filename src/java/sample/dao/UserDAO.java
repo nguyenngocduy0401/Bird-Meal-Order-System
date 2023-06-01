@@ -8,6 +8,7 @@ package sample.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import sample.dto.UserDTO;
 import sample.utils.DBUtils;
 
@@ -40,7 +41,7 @@ public class UserDAO {
                         int role = kq.getInt("Role");
                         boolean status = kq.getBoolean("Status");
                         String address = kq.getString("Address");
-                        int phoneNumber = kq.getInt("PhoneNumber");
+                        String phoneNumber = kq.getString("PhoneNumber");
                         boolean gender = kq.getBoolean("Gender");
                         int numberReport = kq.getInt("NumberReport");
                         user = new UserDTO(role, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
@@ -87,7 +88,7 @@ public class UserDAO {
                         int role = kq.getInt("Role");
                         boolean status = kq.getBoolean("Status");
                         String address = kq.getString("Address");
-                        int phoneNumber = kq.getInt("PhoneNumber");
+                        String phoneNumber = kq.getString("PhoneNumber");
                         boolean gender = kq.getBoolean("Gender");
                         int numberReport = kq.getInt("NumberReport");
                         user = new UserDTO(role, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
@@ -175,7 +176,7 @@ public class UserDAO {
                         int role = kq.getInt("Role");
                         boolean status = kq.getBoolean("Status");
                         String address = kq.getString("Address");
-                        int phoneNumber = kq.getInt("PhoneNumber");
+                        String phoneNumber = kq.getString("PhoneNumber");
                         boolean gender = kq.getBoolean("Gender");
                         int numberReport = kq.getInt("NumberReport");
                         user = new UserDTO(role, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
@@ -237,6 +238,144 @@ public class UserDAO {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+        return result;
+    }
+    
+    public static boolean createAccount(UserDTO dto)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "INSERT INTO [User]("
+                        + "UserName, Password, Email, Fullname, Role, Status, Address, PhoneNumber, Gender, NumberReport"
+                        + ") VALUES("
+                        + "? , ?, ?, ?, ?, ?, ?, ?, ? , ?"
+                        + ")";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, dto.getUserName());
+                stm.setString(2, dto.getPassword());
+                stm.setString(3, dto.getEmail());
+                stm.setNString(4, dto.getFullName());
+                stm.setInt(5, dto.getRole());
+                stm.setBoolean(6, dto.isStatus());
+                stm.setNString(7, dto.getAddress());
+                stm.setString(8, dto.getPhoneNumber());
+                stm.setBoolean(9, dto.isGender());
+                stm.setInt(10, dto.getNumberReport());
+
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return result;
+    }
+
+    public static boolean checkEmailExist(String email)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        boolean result = false;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT Email "
+                        + "FROM [User] "
+                        + "WHERE email = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    result = true;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    public static boolean updateAccountCustomer(String username, String fullName, String address, String phoneNumber, Boolean gender)
+            throws SQLException, ClassNotFoundException{
+        Connection con = null;
+        PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
+        boolean result = false; //thong qua bien trung gian
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "Update [User] "
+                        + "Set Fullname = ?, Address = ? , PhoneNumber = ?, Gender = ? "
+                        + "Where username = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, fullName);
+                stm.setString(2, address);
+                stm.setString(3, phoneNumber);
+                stm.setBoolean(4, gender);
+                stm.setString(5, username);
+                        
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            } //end connection has existed 
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    public static boolean updatePassword(String username, String password)
+            throws SQLException, ClassNotFoundException{
+        Connection con = null;
+        PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
+        boolean result = false; //thong qua bien trung gian
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "Update [User] "
+                        + "Set Password = ? "
+                        + "Where username = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, password);
+                stm.setString(2, username);
+                        
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            } //end connection has existed 
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
             }
         }
         return result;

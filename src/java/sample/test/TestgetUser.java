@@ -5,6 +5,7 @@
  */
 package sample.test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import sample.dao.BirdDAO;
 import sample.dao.CategoryDAO;
@@ -20,14 +21,14 @@ import sample.dto.UserDTO;
  * @author Duy
  */
 public class TestgetUser {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         
-        
-        
-        ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(2);
-        for (BirdDTO birdDTO : listBird) {
-            System.out.println(birdDTO.getBirdName());
-        }
+        boolean i = UserDAO.checkEmailExist("daclacduy1@gmail.com");
+        System.out.println(i);
+//        ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(2);
+//        for (BirdDTO birdDTO : listBird) {
+//            System.out.println(birdDTO.getBirdName());
+//        }
         
 //        CategoryDTO i = CategoryDAO.getCategoryByID(1);
 //        System.out.println(i.getCategoryName());

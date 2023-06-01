@@ -1,34 +1,33 @@
-package sample.controllers;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+package sample.controllers;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.fluent.Form;
-import org.apache.http.client.fluent.Request;
-import sample.dao.UserDAO;
-import sample.dto.Constants;
-import sample.dto.UserDTO;
-import sample.dto.UserGoogleDTO;
 
 /**
  *
- * @author Duy
+ * @author haong
  */
-public class GoogleController extends HttpServlet {
-
+import sample.dao.TokenDAO;
+import sample.dto.TokenDTO;
+@WebServlet(name = "ConfirmationEmailServlet", urlPatterns = {"/ConfirmationEmailServlet"})
+public class ConfirmationEmailServlet extends HttpServlet {
+    private final String ERROR_REGISTRATION = "errorRegistration.html";
+    private final String REGISTER_PAGE = "register.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,50 +40,32 @@ public class GoogleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            String code = request.getParameter("code");
-            String save = request.getParameter("savelogin");
-            String accessToken = getToken(code);
-            UserGoogleDTO user = getUserInfo(accessToken);
-            UserDTO userDTO = UserDAO.getUserByEmail(user.getEmail());
-            if (userDTO != null) {
-                String username = userDTO.getUserName();
-                String password = userDTO.getPassword();
-                String url = response.encodeRedirectURL("LoginController?txtUsername=" + username + "&txtPassword=" + password + "&saveLogin" + save);
-                response.sendRedirect(url);
+        String token = request.getParameter("token").trim();
+        String url = ERROR_REGISTRATION;
+        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        try {
+            TokenDAO dao = new TokenDAO();
+            TokenDTO dto = dao.findByToken(token);
+            if (dto == null) {
+                return;
+            } else if (dto.getExpiresAt().before(now)) {
+                return;
             } else {
                 HttpSession session = request.getSession();
-                session.setAttribute("REGISTRATION", user);
-                String url = "register.jsp";
+                session.setAttribute("REGISTRATION", dto);
+                url = REGISTER_PAGE;
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            log("ConfirmationEmailServlet_ClassNotFoundException" + ex.getMessage());
+        } catch (SQLException ex) {
+             log("ConfirmationEmailServlet_SQLException" + ex.getMessage());
+        }finally{
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
-
-            }
         }
     }
-
-    public static String getToken(String code) throws ClientProtocolException, IOException {
-        // call api to get token
-        String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
-                .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
-                        .add("client_secret", Constants.GOOGLE_CLIENT_SECRET)
-                        .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI).add("code", code)
-                        .add("grant_type", Constants.GOOGLE_GRANT_TYPE).build())
-                .execute().returnContent().asString();
-
-        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
-        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
-        return accessToken;
-    }
-
-    public static UserGoogleDTO getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
-        String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
-        String response = Request.Get(link).execute().returnContent().asString();
-
-        UserGoogleDTO googlePojo = new Gson().fromJson(response, UserGoogleDTO.class);
-
-        return googlePojo;
-    }
+        
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

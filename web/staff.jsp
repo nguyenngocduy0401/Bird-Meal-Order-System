@@ -124,8 +124,8 @@
                         <a href="blog.html" class="nav-item nav-link">Blog</a>
                         <a href="cart.html" class="nav-item nav-link pt-3 "><i
                                 class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                        <a href="edit.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Profile <i
-                                class="bi bi-arrow-down"></i></a>
+                       <a href="LogoutController" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Logout <i
+                    class="bi bi-arrow-down"></i></a>
                     </div>
                 </div>
             </nav>

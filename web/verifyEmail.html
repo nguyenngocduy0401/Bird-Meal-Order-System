@@ -1,22 +1,20 @@
-<%-- 
-    Document   : Login
-    Created on : May 26, 2023, 6:16:36 PM
-    Author     : Duy
---%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
     <head>
-        <meta charset="utf-8">
         <title>Bird Meal Order System</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-              <!-- Favicon -->
-              <link href="img/favicon.ico" rel="icon">
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
 
-              <!-- Google Web Fonts -->
-              <link rel="preconnect" href="https://fonts.gstatic.com">
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">  
 
         <!-- Icon Font Stylesheet -->
@@ -81,7 +79,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="index.html" class="navbar-brand ms-lg-5">
+            <a href="/BirdMealOrderSystem" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -98,10 +96,10 @@
                     </div>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="Home.html" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <a href="details" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Account <i class="bi bi-arrow-right"></i></a>
+                    <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </nav>
@@ -110,49 +108,25 @@
         <div class="container-fluid pt-5">
             <div class="container">
                 <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                    <h6 class="text-primary text-uppercase">Login</h6>
-                    <h1 class="display-5 text-uppercase mb-0">Login</h1>
+                    <h6 class="text-primary text-uppercase">Register a new account</h6>
+                    <h1 class="display-5 text-uppercase mb-0">Register a new account</h1>
                 </div>
                 <div class="row g-5">
                     <div class="col-lg-7">
-                        <form action="LoginController" method="post" >
-                            <div class="row g-3">
+                        <form action="SendConfirmationEmailServlet">
                                 <div class="col-12">
-                                    <input placeholder="Username" type="text" class="form-control bg-light border-0 px-4"
-                                           name ="txtUsername"  style="height: 55px;" >
+                                    <input type="text" class="form-control bg border-0 px-4" placeholder="Email*"
+                                           style="height: 55px;" name="txtEmail">
                                 </div>
-                                <div class="col-12">
-                                    <input placeholder="Password" type="password" class="form-control bg-light border-0 px-4" 
-                                           name ="txtPassword" style="height: 55px;" >
-                                </div>
-                                <div class="col-6 ms">
-                                    <input type="checkbox" value="savelogin" name="savelogin">Stayed signed in</td>
-                                </div>
-                                <div class="col-6 ms-auto">
-                                    <a href="verifyEmail.html" class="nav-item nav-link">Don't  have account?Register a new!</a>
-
-                                </div>
-
-                                
-
-                                    <c:if test="${param.check eq '1'}">
-                                        <div>Don't let your password or username blank</p></div>
-                                    </c:if>
-                                    <c:if test="${param.check eq '2'}">
-                                        <div>Your account is not exist</p></div>
-                                    </c:if>
-
-                                <div class="col-12">
-                                    <tr><td colspan="2"><input class="btn btn-primary w-100 py-3" type="submit" value="login" name="action"></td></tr>
-                                    <!--                                <button class="btn btn-primary w-100 py-3" type="submit">Login</button>-->
-
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3 mt-3" type="submit">Continue</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
+
                     </div>
-                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8084/Bird_Meal_Order_System/GoogleController&response_type=code
-                       &client_id=769539934522-jrnh7eillvbdckp6tcaphgsfu10a6feh.apps.googleusercontent.com&approval_prompt=force">Login with google</a>
                 </div>
-            </div>
-        </div>
+            
+    </body>
 </html>
