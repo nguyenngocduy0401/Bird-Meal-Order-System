@@ -56,14 +56,15 @@ public class SearchController extends HttpServlet {
                 request.setAttribute("PRODUCTS", null);
             } else {
                 ProductDAO dao = new ProductDAO();
-                List<ProductDTO> result = dao.searchListProduct(searchValue, page, ON_PAGE_PRODUCT);
-                int amount = dao.getAmountSearchProduct(searchValue);
+                List<ProductDTO> result = dao.searchListProductUser(searchValue, page, ON_PAGE_PRODUCT);
+                int amount = dao.getAmountSearchProductUser(searchValue);
                 int endPage = amount/ON_PAGE_PRODUCT;
                 if(amount%ON_PAGE_PRODUCT!=0) endPage ++;
                 request.setAttribute("PRODUCTS", result);
                 request.setAttribute("PAGE", endPage);
                 request.setAttribute("TAGS", page);
                 request.setAttribute("txtSearchValue", searchValue);
+                request.setAttribute("RESULT_AMOUNT", amount);
             }
         } catch (SQLException e) {
             log("AccountSearchServlet _ SQL _ " + e.getMessage());

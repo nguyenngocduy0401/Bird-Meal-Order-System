@@ -53,8 +53,8 @@ public class HomeController extends HttpServlet {
         
         try {
             ProductDAO dao = new ProductDAO();
-            List<ProductDTO> result = dao.pagingProduct(page, ON_PAGE_PRODUCT);
-            int amount = dao.getAmountProduct();
+            List<ProductDTO> result = dao.pagingProductUser(page, ON_PAGE_PRODUCT);
+            int amount = dao.getAmountProductUser();
             int endPage = amount/ON_PAGE_PRODUCT;
             if(amount%ON_PAGE_PRODUCT!=0) endPage ++;
             request.setAttribute("PRODUCTS", result);

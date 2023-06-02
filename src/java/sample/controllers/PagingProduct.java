@@ -26,7 +26,7 @@ import sample.dto.ProductDTO;
  */
 @WebServlet(name = "PagingProduct", urlPatterns = {"/PagingProduct"})
 public class PagingProduct extends HttpServlet {
-
+    
     private final int ON_PAGE_PRODUCT = 6;
 
     /**
@@ -46,20 +46,30 @@ public class PagingProduct extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         ProductDAO dao = new ProductDAO();
         String indexPage = request.getParameter("index");
+        int endPage = 0;
         int page = Integer.parseInt(indexPage);
         String txtSearchValue = request.getParameter("txtSearchValue");
         List<ProductDTO> result = null;
-        if(txtSearchValue == null || txtSearchValue.trim().equals("")){
-            result=dao.pagingProduct(page, ON_PAGE_PRODUCT);
+        if (txtSearchValue == null || txtSearchValue.trim().equals("")) {
+            result = dao.pagingProductUser(page, ON_PAGE_PRODUCT);
+            int amount = dao.getAmountProductUser();
+            endPage = amount / ON_PAGE_PRODUCT;
+            if (amount % ON_PAGE_PRODUCT != 0) {
+                endPage++;
+            }
         } else {
-            result = dao.searchListProduct(txtSearchValue, page, ON_PAGE_PRODUCT);
+            result = dao.searchListProductUser(txtSearchValue, page, ON_PAGE_PRODUCT);
+            int amount = dao.getAmountSearchProductUser(txtSearchValue);
+            endPage = amount / ON_PAGE_PRODUCT;
+            if (amount % ON_PAGE_PRODUCT != 0) {
+                endPage++;
+            }
         }
         PrintWriter out = response.getWriter();
         
         try {
-
             result.forEach((dto) -> {
-                out.print("<div class=\"col-md-4 mt-1\">\n"
+                out.println("<div class=\"col-md-4 mt-1\">\n"
                         + "                            <section class=\"panel\">\n"
                         + "                                <div class=\"product-item position-relative bg-light d-flex flex-column text-center\">\n"
                         + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
@@ -73,9 +83,37 @@ public class PagingProduct extends HttpServlet {
                         + "                            </section>\n"
                         + "                        </div>");
             });
-            request.setAttribute("TAGS", indexPage);
+            out.println("<div class=\"col-12 mt-5\">\n"
+                    + "                            <nav aria-label=\"Page navigation\">\n"
+                    + "                                <ul class=\"pagination pagination-lg m-0\">");
+            if (1 < page && page <= endPage) {
+                out.println("<li class=\"page-item\">\n"
+                        + "                                            <a class=\"page-link rounded-0\" onclick=\"loadPage(" + (page - 1) + ")\" aria-label=\"Previous\">\n"
+                        + "                                                <span aria-hidden=\"true\"><i class=\"bi bi-arrow-left\"></i></span>\n"
+                        + "                                            </a>\n"
+                        + "                                        </li>");
+            }
+            for (int i = 1; i <= endPage; i++) {
+                if (page == i) {
+                    out.println("<li class=\"page-item active\">\n"
+                            + "                                            <a class=\"page-link\" onclick=\"loadPage(" + i + ")\">" + i + "</a>\n"
+                            + "                                        </li>");
+                } else {
+                    out.println("<li class=\"page-item\">\n"
+                            + "                                            <a class=\"page-link\" onclick=\"loadPage(" + i + ")\">" + i + "</a>\n"
+                            + "                                        </li>");
+                }
+                
+            }
+            if (1 <= page && page < endPage) {
+                out.println("<li class=\"page-item\">\n"
+                        + "                                            <a onclick=\"loadPage(" + (page + 1) + ")\" class=\"page-link rounded-0\" aria-label=\"Next\">\n"
+                        + "                                                <span aria-hidden=\"true\"><i class=\"bi bi-arrow-right\"></i></span>\n"
+                        + "                                            </a>\n"
+                        + "                                        </li>");
+            }
         } finally {
-
+            
         }
     }
 

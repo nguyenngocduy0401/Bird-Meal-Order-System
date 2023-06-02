@@ -49,11 +49,11 @@
         <title>Bird Meal Order System</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-              <!-- Favicon -->
-              <link href=" img/favicon.ico" rel="icon">
+        <!-- Favicon -->
+        <link href=" img/favicon.ico" rel="icon">
 
-              <!-- Google Web Fonts -->
-              <link rel="preconnect" href="https://fonts.gstatic.com">
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
@@ -109,7 +109,7 @@
 
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-                <a href="Home.html" class="navbar-brand ms-lg-5">
+                <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
                     <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store
                     </h1>
                 </a>
@@ -130,7 +130,7 @@
             </nav>
             <!-- Navbar End -->
         </header>
-        
+
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
             <div class="navbar-collapse">
                 <a href="addnew.html" class="nav-item nav-link active">Add new product</a>
@@ -140,7 +140,7 @@
 
             </div>
         </nav>
-        
+
         <h1 class="h123">Order list</h1>
 
         <div class="d-flex form-inputs" id="class">
@@ -155,7 +155,8 @@
             Khong co order
         </c:if>
         <c:if test="${not empty result}" >
-            <table border="1">
+            <div id = "content">
+                <table border="1">
                     <thead style="background: #7AB730; color: white">
                         <tr>
                             <th>User</th>
@@ -166,7 +167,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id = "content">
+                    <tbody>
                         <c:forEach var="dto" items="${result}">
                             <tr>
                                 <td>${dto.userID}</td>
@@ -182,117 +183,94 @@
                         </c:forEach>
                     </tbody>
                 </table>
-        </c:if>
-    <div class="col-12 mt-5">
-            <nav aria-label="Page navigation">
-                <ul class="pagination pagination-lg m-0">
-                    <c:if test="${TAGS <= PAGE && TAGS > 1}">
-                        <li class="page-item">
-                            <a class="page-link rounded-0" onclick="previousPage()" aria-label="Previous">
-                                <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                            </a>
-                        </li>
-                    </c:if>
+                <c:set var="prePage" value="${TAGS - 1}" />
+                <c:set var="nextPage" value="${TAGS + 1}" />
+                <div class=" col-centered col-md-9 mt-5 mx-auto ">
+                    <c:if test="${requestScope.PAGE != 1}">
+                        <div class="col-12 mt-5">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination pagination-lg m-0">
+                                    <c:if test="${TAGS <= PAGE && TAGS > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link rounded-0" onclick="loadPage(${prePage})" aria-label="Previous">
+                                                <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
+                                            </a>
+                                        </li>
+                                    </c:if>
 
-                    <c:forEach begin="1" end="${PAGE}" var="i">
-                        <li class="${TAGS == i?"page-item active":"page-item"}">
-                            <a class="page-link" onclick="loadPage(${i})">${i}</a>
-                        </li>
-                    </c:forEach>
-                    <c:if test="${TAGS >= 1 && TAGS < PAGE}">
-                        <li class="page-item">
-                            <a onclick="nextPage()" class="page-link rounded-0" aria-label="Next">
-                                <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                            </a>
-                        </li>
+                                    <c:forEach begin="1" end="${PAGE}" var="i">
+                                        <li class="${TAGS == i?"page-item active":"page-item"}">
+                                            <a class="page-link" onclick="loadPage(${i})">${i}</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
+                                        <li class="page-item">
+                                            <a onclick="loadPage(${nextPage})" class="page-link rounded-0" aria-label="Next">
+                                                <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                                            </a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
+                        </div>
                     </c:if>
-                </ul>
-            </nav>
-        </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script>
-                                        function nextPage() {
-                                            var amount = ${requestScope.TAGS};
+                </div>
 
-                                            $.ajax({
-                                                type: "get",
-                                                url: "pagingOrder",
-                                                data: {
-                                                    index: amount + 1,
-                                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                                                },
-                                                success: function (data) {
-                                                    var row = document.getElementById("content");
-                                                    row.innerHTML = data;
-                                                }
-                                            });
-                                        }
-                                        function previousPage() {
-                                            var amount = ${requestScope.TAGS};
-                                            $.ajax({
-                                                type: "get",
-                                                url: "pagingOrder",
-                                                data: {
-                                                    index: amount - 1,
-                                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                                                },
-                                                success: function (data) {
-                                                    var row = document.getElementById("content");
-                                                    row.innerHTML = data;
-                                                }
-                                            });
-                                        }
-                                        function loadPage(param) {
-                                            var amount = param;
-                                            $.ajax({
-                                                type: "get",
-                                                url: "pagingOrder",
-                                                data: {
-                                                    index: amount,
-                                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                                                },
-                                                success: function (data) {
-                                                    var row = document.getElementById("content");
-                                                    row.innerHTML = data;
-                                                }
-                                            });
-                                        }
-        </script>
-        
-        
-        <footer>
-            <div class="container-fluid border-bottom d-none d-lg-block">
-                <div class="row gx-0">
-                    <div class="col-lg-4 text-center py-2">
-                        <div class="d-inline-flex align-items-center">
-                            <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
-                            <div class="text-start">
-                                <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
-                                <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
+            </c:if>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <script>
+                                                    function loadPage(param) {
+                                                        var amount = param;
+                                                        $.ajax({
+                                                            type: "get",
+                                                            url: "pagingOrder",
+                                                            data: {
+                                                                index: amount,
+                                                                txtSearchValue: '${requestScope.txtSearchValue}',
+                                                            },
+                                                            success: function (data) {
+                                                                var row = document.getElementById("content");
+                                                                row.innerHTML = data;
+                                                            }
+                                                        });
+                                                    }
+            </script>
+
+
+            <footer>
+                <div class="container-fluid border-bottom d-none d-lg-block">
+                    <div class="row gx-0">
+                        <div class="col-lg-4 text-center py-2">
+                            <div class="d-inline-flex align-items-center">
+                                <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
+                                <div class="text-start">
+                                    <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
+                                    <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 text-center border-start border-end py-2">
-                        <div class="d-inline-flex align-items-center">
-                            <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
-                            <div class="text-start">
-                                <h6 class="text-uppercase mb-1">Email Us</h6>
+                        <div class="col-lg-4 text-center border-start border-end py-2">
+                            <div class="d-inline-flex align-items-center">
+                                <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
+                                <div class="text-start">
+                                    <h6 class="text-uppercase mb-1">Email Us</h6>
 
-                                <span>fpt@example.com</span>
+                                    <span>fpt@example.com</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 text-center py-2">
-                        <div class="d-inline-flex align-items-center">
-                            <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
-                            <div class="text-start">
-                                <h6 class="text-uppercase mb-1">Call Us</h6>
-                                <span>+123454654</span>
+                        <div class="col-lg-4 text-center py-2">
+                            <div class="d-inline-flex align-items-center">
+                                <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+                                <div class="text-start">
+                                    <h6 class="text-uppercase mb-1">Call Us</h6>
+                                    <span>+123454654</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </footer>
+            </footer>
     </body>
 </html>
