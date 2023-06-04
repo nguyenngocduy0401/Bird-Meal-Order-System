@@ -107,7 +107,18 @@
         </nav>
         <!-- Navbar End -->
 
+        
         <section class=" col-centered col-md-9 mt-5 mx-auto ">
+            
+            <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+        <div class="navbar-collapse">
+            <form action="MainController">
+                <input type="hidden" name="btAction" value="Filter" />
+                
+            </form>
+        </div>
+    </nav>
+            
             <c:if test="${empty result}">
                 <p class="text-uppercase mb-1">Không có sản phẩm tương tự được tìm thấy!!</p>
             </c:if>
