@@ -7,7 +7,6 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -41,40 +40,54 @@ public class LoginController extends HttpServlet {
             String password = request.getParameter("txtPassword");
             String save = request.getParameter("savelogin");
             UserDTO user = null;
-            UUID randomCode = UUID.randomUUID();
-            String codeString = randomCode.toString();
             try {
                 if (username == null || username.equals("") || password == null || password.equals("")) {
-                    response.sendRedirect("login.jsp?check=1");
+                    Cookie[] c = request.getCookies();
+                    String token = "";
+                    if (c != null) {
+                        for (Cookie aCookie : c) {
+                            if (aCookie.getName().equals("selector")) {
+                                token = aCookie.getValue();
+                            }
+                        }
+                    }
+                    if (!token.equals("")) {
+                        response.sendRedirect("personalPage.jsp");
+                    } else {
+                        response.sendRedirect("errorpage.html");
+                    }
                 } else {
                     user = UserDAO.getUser(username, password);
-                    if (user != null && user.isStatus() != false  && user.getNumberReport() != 10 ) {
+                    System.out.println(user.getUserName());
+                    if (user != null) {
                         //admin
                         if (user.getRole() == 0) {
                             HttpSession session = request.getSession(true);
                             if (session != null) {
-                                session.setAttribute("user", user);
+                                session.setAttribute("name", user.getFullName());
+                                session.setAttribute("userName", username);
                                 //create a cookie and attach it to response object
                                 if (save != null) {
-                                    String token = codeString;
+                                    String token = "ABC123";
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(60 * 2);// this is a sample
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("admin.jsp");
                             }
 
-                        } else if (user.getRole() == 1) {//staff
+                        } else if (user.getRole() == 1) {//satff
                             HttpSession session = request.getSession(true);
                             if (session != null) {
-                                session.setAttribute("user", user);
+                                session.setAttribute("name", user.getFullName());
+                                session.setAttribute("userName", username);
                                 //create a cookie and attach it to reponse object
                                 if (save != null) {
-                                    String token = codeString;
+                                    String token = "ABC123";
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(60 * 2);// this is a sample
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("staff.jsp");
@@ -82,13 +95,14 @@ public class LoginController extends HttpServlet {
                         } else if (user.getRole() == 2) {//customer
                             HttpSession session = request.getSession(true);
                             if (session != null) {
-                                session.setAttribute("user", user);
+                                session.setAttribute("name", user.getFullName());
+                                session.setAttribute("userName", username);
                                 //create a cookie and attach it to reponse object
                                 if (save != null) {
-                                    String token = codeString;
+                                    String token = "ABC123";
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(60 * 2);// this is a sample
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("home.jsp");
@@ -96,8 +110,6 @@ public class LoginController extends HttpServlet {
                                 response.sendRedirect("invalid.html");
                             }
                         }
-                    } else {
-                        response.sendRedirect("login.jsp?check=2");
                     }
                 }
 

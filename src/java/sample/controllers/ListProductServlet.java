@@ -7,25 +7,28 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.dao.ProductDAO;
+import sample.dto.ProductDTO;
 
 /**
  *
- * @author Admin
+ * @author DucAnh
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
-    private final String INDEX = "index.html";
-    private final String HOME_CONTROLLER = "HomeController";
-    private final String SEARCH_CONTROLLER = "SearchController";
-    private final String STAFF_HOME_CONTROLLER = "StaffHomeController";
-    private final String STAFF_ORDER_CONTROLLER = "StaffOrderController";
-    
+@WebServlet(name = "ListProductServlet", urlPatterns = {"/ListProductServlet"})
+public class ListProductServlet extends HttpServlet {
+private final String HOME_PAGE = "homepage.jsp";
+private final String SHOPPING_PAGE = "shopping.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,26 +39,25 @@ public class MainController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = INDEX;
-        String btAction = request.getParameter("btAction");
-        try{
-            if(btAction == null){
-                url = HOME_CONTROLLER;
-            } else if (btAction.equals("Search")){
-                url = SEARCH_CONTROLLER;
-            } else if (btAction.equals("Home")){
-                url = HOME_CONTROLLER;
-            } else if (btAction.equals("StaffHome")){
-                url = STAFF_HOME_CONTROLLER;
-            } else if (btAction.equals("StaffOrderHome")){
-                url = STAFF_ORDER_CONTROLLER;
-            }
+        PrintWriter out = response.getWriter();
+        String url = HOME_PAGE;
+        try {
+            ProductDAO dao = new ProductDAO();
+            dao.showBookList();
             
-        }finally{
+            List<ProductDTO> dto = dao.getProductList();
+            request.setAttribute("FOOD_LIST", dto);
+            url = SHOPPING_PAGE;
+        } catch (SQLException ex) {
+            log("BuyBookServlet_SQL: " + ex.getMessage());
+        } catch (NamingException ex) {
+            log("BuyBookServlet_Naming: " + ex.getMessage());
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
+            out.close();
         }
     }
 
@@ -71,7 +73,11 @@ public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(ListProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**
@@ -85,7 +91,11 @@ public class MainController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(ListProductServlet.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**

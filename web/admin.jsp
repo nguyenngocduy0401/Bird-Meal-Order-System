@@ -3,7 +3,7 @@
     Created on : May 27, 2023, 12:47:49 PM
     Author     : Duy
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <style>  
@@ -43,9 +43,7 @@
     }
 
     </style>
-<c:if test="${sessionScope.user==null||sessionScope.user.role ne 0}">
-            <c:redirect url="login.jsp"></c:redirect>
-        </c:if>
+
 <head>
     
     <meta charset="utf-8">
@@ -127,7 +125,7 @@
             <a href="blog.html" class="nav-item nav-link">Blog</a>
             <a href="cart.html" class="nav-item nav-link pt-3 "><i
                     class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-            <a href="LogoutController" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Logout <i
+            <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Profile <i
                     class="bi bi-arrow-down"></i></a>
         </div>
     </div>

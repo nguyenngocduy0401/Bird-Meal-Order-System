@@ -3,34 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sample.controllers;
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.ProductDAO;
-import sample.dto.ProductDTO;
 
 /**
  *
- * @author Admin
+ * @author DucAnh
  */
-@WebServlet(name = "StaffHomeController", urlPatterns = {"/StaffHomeController"})
-public class StaffHomeController extends HttpServlet {
+@WebServlet(name = "DispatchServlet", urlPatterns = {"/DispatchServlet"})
+public class DispatchServlet extends HttpServlet {
+private final String HOME_PAGE = "homepage.jsp";
+private final String LIST_PRODUCT_CONTROLLER = "ListProductServlet";
+private final String ADD_ITEM_TO_CART = "AddItemToCartServlet";
+private final String VIEW_YOUR_CART = "viewcart.jsp";
+private final String SHOPPING_PRODUCT = "shopping.jsp";
+private final String CHECK_OUT_TROLLER = "CheckOutOrderServlet.jsp";
+private final String CONFIRM_CHECK_OUT = "ConfirmCheckOutServlet.jsp";
+//private final String REMOVE_ITEM_FORM_CART = "RemoveItemServlet";
 
-    private final String HOME_PAGE = "staff.jsp";
-    private final int ON_PAGE_PRODUCT = 10;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,31 +37,29 @@ public class StaffHomeController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws javax.naming.NamingException
-     * @throws java.lang.ClassNotFoundException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NamingException, ClassNotFoundException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String indexPage = request.getParameter("index");
         String url = HOME_PAGE;
-        if(indexPage == null){
-            indexPage = "1";
-        }
-        int page = Integer.parseInt(indexPage);
-        
+        //Which button did user clicked?
+        String button = request.getParameter("btAction");
+
         try {
-            ProductDAO dao = new ProductDAO();
-            List<ProductDTO> result = dao.pagingProduct(page, ON_PAGE_PRODUCT);
-            int amount = dao.getAmountProduct();
-            int endPage = amount/ON_PAGE_PRODUCT;
-            if(amount%ON_PAGE_PRODUCT!=0) endPage ++;
-            request.setAttribute("PRODUCTS", result);
-            request.setAttribute("PAGE", endPage);
-            request.setAttribute("TAGS", page);
-        } catch (SQLException e) {
-            log("AccountSearchServlet _ SQL _ " + e.getMessage());
-        } finally {
+            if (button == null) {
+                //transfer to Login Page
+            }else if(button.equals("View Your Cart")){
+                url = VIEW_YOUR_CART;
+            }else if(button.equals("Add")){
+                url = ADD_ITEM_TO_CART;
+            }else if(button.equals("shopping")){
+                url=SHOPPING_PRODUCT;
+            }else if(button.equals("Check Out Selected Books")){
+                url = CHECK_OUT_TROLLER;
+            }else if(button.equals("Check Out")){
+                url=CONFIRM_CHECK_OUT;
+            }
+           } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
@@ -81,11 +77,7 @@ public class StaffHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (NamingException | ClassNotFoundException ex) {
-            Logger.getLogger(StaffHomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -99,11 +91,7 @@ public class StaffHomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (NamingException | ClassNotFoundException ex) {
-            Logger.getLogger(StaffHomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

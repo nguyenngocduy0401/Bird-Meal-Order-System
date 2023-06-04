@@ -19,14 +19,14 @@ public class UserDTO {
     private int role;
     private boolean status;
     private String address;
-    private String phoneNumber;
+    private int phoneNumber;
     private boolean gender;
     private int numberReport;
 
     public UserDTO() {
     }
 
-    public UserDTO(int userID, String userName, String password, String email, String fullName, int role, boolean status, String address, String phoneNumber, boolean gender, int numberReport) {
+    public UserDTO(int userID, String userName, String password, String email, String fullName, int role, boolean status, String address, int phoneNumber, boolean gender, int numberReport) {
         this.userID = userID;
         this.userName = userName;
         this.password = password;
@@ -39,21 +39,6 @@ public class UserDTO {
         this.gender = gender;
         this.numberReport = numberReport;
     }
-
-    public UserDTO(String userName, String password, String email, String fullName, int role, boolean status, String address, String phoneNumber, boolean gender, int numberReport) {
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-        this.fullName = fullName;
-        this.role = role;
-        this.status = status;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.numberReport = numberReport;
-    }
-
-    
 
     public int getUserID() {
         return userID;
@@ -119,14 +104,13 @@ public class UserDTO {
         this.address = address;
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 
     public boolean isGender() {
         return gender;
