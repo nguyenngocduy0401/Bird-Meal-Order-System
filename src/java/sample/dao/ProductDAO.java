@@ -554,5 +554,4 @@ public class ProductDAO {
         }
         return product;
     }
-
 }
