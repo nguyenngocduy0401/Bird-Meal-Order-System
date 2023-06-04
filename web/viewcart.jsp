@@ -121,7 +121,7 @@
         </div>
 
 
-        <section class="card col-md-7 mx-auto container-fluid pt-5" >
+        <section class="card col-md-8 mx-auto container-fluid pt-5" >
             <c:set var="cart" value="${sessionScope.CART}" />
             <c:if test="${not empty cart}">
                 <c:set var="items" value="${cart.items}" />
