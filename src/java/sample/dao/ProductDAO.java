@@ -32,7 +32,18 @@ public class ProductDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT ProductID, ProductName, Price, Quantity, CategoryID, ProductDetail, Size, AgeRecommendation, Date , [Status], Country, imgPath\n"
+                String sql = "SELECT [ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[Price]\n"
+                        + "      ,[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath] "
                         + "FROM Product ";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
@@ -48,7 +59,8 @@ public class ProductDAO {
                     String date = rs.getString("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
-String imgPath = rs.getString("imgPath");
+                    String imgPath = rs.getString("imgPath");
+
                     ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
                     listProduct.add(dto);
                 }//end while rs not null
@@ -78,7 +90,18 @@ String imgPath = rs.getString("imgPath");
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT ProductID, ProductName, Price, Quantity, CategoryID, ProductDetail, Size, AgeRecommendation, Date , [Status], Country, imgPath\n"
+                String sql = "SELECT [ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[Price]\n"
+                        + "      ,[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath] "
                         + "FROM Product "
                         + "WHERE ProductName like ? "
                         + "ORDER BY ProductID "
@@ -101,8 +124,73 @@ String imgPath = rs.getString("imgPath");
                     String date = rs.getString("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
-
                     String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
+    
+    public List<ProductDTO> searchListProductUser(String searchValue, int index, int onPageProduct)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[Price]\n"
+                        + "      ,[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath] "
+                        + "FROM Product "
+                        + "WHERE ProductName like ? AND Status = 1 "
+                        + "ORDER BY ProductID "
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + searchValue + "%");
+                stm.setInt(2, (index - 1) * 6);
+                stm.setInt(3, onPageProduct);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    String date = rs.getString("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
                     ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
                     listProduct.add(dto);
                 }//end while rs not null
@@ -131,6 +219,38 @@ String imgPath = rs.getString("imgPath");
                 String sql = "SELECT COUNT (*) "
                         + "FROM Product "
                         + "WHERE ProductName like ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + searchValue + "%");
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return 0;
+    }
+    
+    public int getAmountSearchProductUser(String searchValue) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT COUNT (*) "
+                        + "FROM Product "
+                        + "WHERE ProductName like ? AND Status = 1 ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
                 rs = stm.executeQuery();
@@ -182,6 +302,101 @@ String imgPath = rs.getString("imgPath");
         }
         return 0;
     }
+    
+    public int getAmountProductUser() throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT COUNT (*) "
+                        + "FROM Product "
+                        + "WHERE Status = 1 ";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return 0;
+    }
+    
+    public List<ProductDTO> pagingProductUser(int index, int onPageProduct)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[Price]\n"
+                        + "      ,[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath] "
+                        + "FROM Product "
+                        + "WHERE Status = 1 "
+                        + "ORDER BY ProductID "
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, (index - 1) * onPageProduct);
+                stm.setInt(2, onPageProduct);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    String date = rs.getString("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
 
     public List<ProductDTO> pagingProduct(int index, int onPageProduct)
             throws SQLException, NamingException, ClassNotFoundException {
@@ -194,7 +409,18 @@ String imgPath = rs.getString("imgPath");
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT ProductID, ProductName, Price, Quantity, CategoryID, ProductDetail, Size, AgeRecommendation, Date , [Status], Country, imgPath\n"
+                String sql = "SELECT [ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[Price]\n"
+                        + "      ,[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath] "
                         + "FROM Product "
                         + "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
@@ -215,8 +441,8 @@ String imgPath = rs.getString("imgPath");
                     String date = rs.getString("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
-
                     String imgPath = rs.getString("imgPath");
+
                     ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
                     listProduct.add(dto);
                 }//end while rs not null
@@ -234,18 +460,54 @@ String imgPath = rs.getString("imgPath");
         }
         return listProduct;
     }
+    
+     public ProductDTO getProductByProductID(int productID)
+            throws SQLException, NamingException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
 
-    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
-        ProductDAO dao = new ProductDAO();
-        List<ProductDTO> listProduct = dao.loadProducts();
-        int ep = dao.getAmountSearchProduct("a");
-        for (ProductDTO o : listProduct) {
-            System.out.println(o);
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "select * from Product where ProductID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, productID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    //String productID = rs.getString("productID");
+                    String productName = rs.getString("productName");
+                    double price = rs.getDouble("price");
+                    int quantity = rs.getInt("quantity");
+                    int categoryID = rs.getInt("categoryID");
+                    String productDetail = rs.getString("productDetail");
+                    String size = rs.getString("size");
+                    int ageRecommendation = rs.getInt("ageRecommendation");
+                    String Date = rs.getString("date");
+                    int status = rs.getInt("status");
+                    String Country = rs.getString("country");
+                    String ImgPath = rs.getString("imgPath");
+                    ProductDTO result = new ProductDTO(productID, productName, price,
+                            quantity, categoryID, productDetail, size, ageRecommendation, 
+                            Date, status, Country, ImgPath);
+                    return result;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
         }
-        System.out.println(ep);
+        return null;
     }
-
-    public static ProductDTO getProductByID(int getProductID) {
+     
+     public static ProductDTO getProductByID(int getProductID) {
         ProductDTO product = null;
         Connection cn = null;
         try {

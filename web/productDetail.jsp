@@ -93,7 +93,13 @@
             <div class="navbar-nav ms-auto py-0">
                 <a href="Home.jsp" class="nav-item nav-link active">Home</a>
                 <a href="blog.html" class="nav-item nav-link">Blog</a>
-                <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                <div class="nav-item nav-link pt-3 ">
+                    <div class="bi bi-cart  fs-1 text-primary me-1">
+                        <form action="viewcart.jsp">
+                            <input type="submit" value="View Your Cart" class="btn"/>
+                        </form>
+                    </div>
+                </div>
                 <a href="Login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
@@ -111,7 +117,7 @@
                     </div>
                     <div></div>
                     <div class="lead">${productDTO.productDetail}</div>
-                    
+
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
 
@@ -123,11 +129,16 @@
                             </c:if>
                             <c:if test="${productDTO.status eq '1'}">
                             <button class="btn btn-primary flex-shrink-0" type="button">
-                                <i class="bi bi-cart-fill me-1 "></i>
-                                Add to cart
+                                <div class="bi bi-cart-fill me-1 ">
+                                    <form action="AddItemToCartServlet">
+                                        <input type="submit" value="Add" class="btn"
+                                               />
+                                        <input type="hidden" name="pk" value="${productDTO.productID}" />
+                                    </form>
+                                </div>
+
                             </button>
                         </c:if>
-
                     </div>
                 </div>
             </div>
@@ -146,8 +157,8 @@
                         <tr>
                             <td>Bith</td>
                             <td><c:forEach items="${listBird}" var="bird">
-                            ${bird.birdName}
-                                <c:if test="${bird.birdName != null}"> | </c:if>
+                                    ${bird.birdName}
+                                    <c:if test="${bird.birdName != null}"> | </c:if>
                                 </c:forEach></td>
                         </tr>
                         <tr>
@@ -162,8 +173,8 @@
                 </table>
             </div>
         </div>
-                        
-                    <h1> Feedback</h1>
+
+        <h1> Feedback</h1>
     </div>
 </section>
 

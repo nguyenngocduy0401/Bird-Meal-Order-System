@@ -25,6 +25,9 @@ public class MainController extends HttpServlet {
     private final String SEARCH_CONTROLLER = "SearchController";
     private final String STAFF_HOME_CONTROLLER = "StaffHomeController";
     private final String STAFF_ORDER_CONTROLLER = "StaffOrderController";
+    private final String ADD_ITEM_TO_CART = "AddItemToCartServlet";
+    private final String CHECK_OUT_TROLLER = "CheckOutOrderServlet.jsp";
+private final String CONFIRM_CHECK_OUT = "ConfirmCheckOutServlet.jsp";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,6 +54,12 @@ public class MainController extends HttpServlet {
                 url = STAFF_HOME_CONTROLLER;
             } else if (btAction.equals("StaffOrderHome")){
                 url = STAFF_ORDER_CONTROLLER;
+            }else if(btAction.equals("Add")){
+                url = ADD_ITEM_TO_CART;
+            }else if(btAction.equals("Check Out Selected Books")){
+                url = CHECK_OUT_TROLLER;
+            }else if(btAction.equals("Check Out")){
+                url=CONFIRM_CHECK_OUT;
             }
             
         }finally{
