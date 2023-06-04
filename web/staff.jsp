@@ -1,6 +1,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:if test="${sessionScope.user==null||sessionScope.user.role ne 1}">
+    <c:redirect url="login.jsp"></c:redirect>
+</c:if>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -49,11 +52,11 @@
         <title>Bird Meal Order System</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-              <!-- Favicon -->
-              <link href=" img/favicon.ico" rel="icon">
+        <!-- Favicon -->
+        <link href=" img/favicon.ico" rel="icon">
 
-              <!-- Google Web Fonts -->
-              <link rel="preconnect" href="https://fonts.gstatic.com">
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
@@ -124,8 +127,8 @@
                         <a href="blog.html" class="nav-item nav-link">Blog</a>
                         <a href="cart.html" class="nav-item nav-link pt-3 "><i
                                 class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                       <a href="LogoutController" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Logout <i
-                    class="bi bi-arrow-down"></i></a>
+                        <a href="LogoutController" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Logout <i
+                                class="bi bi-arrow-down"></i></a>
                     </div>
                 </div>
             </nav>
@@ -226,57 +229,57 @@
                 </ul>
             </nav>
         </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script>
-                                        function nextPage() {
-                                            var amount = ${requestScope.TAGS};
+                                function nextPage() {
+                                    var amount = ${requestScope.TAGS};
 
-                                            $.ajax({
-                                                type: "get",
-                                                url: "PagingStaffProduct",
-                                                data: {
-                                                    index: amount + 1,
-                                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                                                },
-                                                success: function (data) {
-                                                    var row = document.getElementById("content");
-                                                    row.innerHTML = data;
-                                                }
-                                            });
+                                    $.ajax({
+                                        type: "get",
+                                        url: "PagingStaffProduct",
+                                        data: {
+                                            index: amount + 1,
+                                            txtSearchValue: '${requestScope.txtSearchValue}',
+                                        },
+                                        success: function (data) {
+                                            var row = document.getElementById("content");
+                                            row.innerHTML = data;
                                         }
-                                        function previousPage() {
-                                            var amount = ${requestScope.TAGS};
-                                            $.ajax({
-                                                type: "get",
-                                                url: "PagingStaffProduct",
-                                                data: {
-                                                    index: amount - 1,
-                                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                                                },
-                                                success: function (data) {
-                                                    var row = document.getElementById("content");
-                                                    row.innerHTML = data;
-                                                }
-                                            });
+                                    });
+                                }
+                                function previousPage() {
+                                    var amount = ${requestScope.TAGS};
+                                    $.ajax({
+                                        type: "get",
+                                        url: "PagingStaffProduct",
+                                        data: {
+                                            index: amount - 1,
+                                            txtSearchValue: '${requestScope.txtSearchValue}',
+                                        },
+                                        success: function (data) {
+                                            var row = document.getElementById("content");
+                                            row.innerHTML = data;
                                         }
-                                        function loadPage(param) {
-                                            var amount = param;
-                                            $.ajax({
-                                                type: "get",
-                                                url: "PagingStaffProduct",
-                                                data: {
-                                                    index: amount,
-                                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                                                },
-                                                success: function (data) {
-                                                    var row = document.getElementById("content");
-                                                    row.innerHTML = data;
-                                                }
-                                            });
+                                    });
+                                }
+                                function loadPage(param) {
+                                    var amount = param;
+                                    $.ajax({
+                                        type: "get",
+                                        url: "PagingStaffProduct",
+                                        data: {
+                                            index: amount,
+                                            txtSearchValue: '${requestScope.txtSearchValue}',
+                                        },
+                                        success: function (data) {
+                                            var row = document.getElementById("content");
+                                            row.innerHTML = data;
                                         }
+                                    });
+                                }
         </script>
-        
-        
+
+
         <footer>
             <div class="container-fluid border-bottom d-none d-lg-block">
                 <div class="row gx-0">
