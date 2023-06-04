@@ -292,5 +292,50 @@ String imgPath = rs.getString("imgPath");
         }
         return product;
     }
+     public ProductDTO getProductByProductID(int productID)
+            throws SQLException, NamingException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "select * from Product where ProductID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, productID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    //String productID = rs.getString("productID");
+                    String productName = rs.getString("productName");
+                    double price = rs.getDouble("price");
+                    int quantity = rs.getInt("quantity");
+                    int categoryID = rs.getInt("categoryID");
+                    String productDetail = rs.getString("productDetail");
+                    String size = rs.getString("size");
+                    int ageRecommendation = rs.getInt("ageRecommendation");
+                    String Date = rs.getString("date");
+                    int status = rs.getInt("status");
+                    String Country = rs.getString("country");
+                    String ImgPath = rs.getString("imgPath");
+                    ProductDTO result = new ProductDTO(productID, productName, price,
+                            quantity, categoryID, productDetail, size, ageRecommendation, 
+                            Date, status, Country, ImgPath);
+                    return result;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return null;
+    }
 
 }

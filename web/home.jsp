@@ -100,13 +100,13 @@
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
-                    <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
-        
+
         <c:if test="${empty result}">
             Không có sản phẩm tương tự được tìm thấy!!
         </c:if>
@@ -121,7 +121,19 @@
                                     <h6 class="text-uppercase">${dto.productName}</h6>
                                     <h5 class="text-primary mb-0">${dto.price} VND</h5>
                                     <div class="btn-action d-flex justify-content-center">
-                                        <a class="btn btn-primary py-2 px-3" href=""><i class="bi bi-cart"></i></a>
+                                        <div class="btn btn-primary py-2 px-3" href=""> 
+                                            <div class="bi bi-cart"> 
+                                                <c:if test="${dto.quantity ne 0}">
+                                                    <form action="AddItemToCartServlet">
+                                                        <input type="submit" value="Add" class="btn"
+                                                               
+                                                               />
+                                                        <input type="hidden" name="pk" value="${dto.productID}" />
+                                                    </form>
+                                                </c:if>
+                                            </div>
+                                        </div>
+
                                         <a class="btn btn-primary py-2 px-3" href="ProductDetailController?productID=${dto.productID}"><i class="bi bi-eye"></i></a>
                                     </div>
                                 </div>
