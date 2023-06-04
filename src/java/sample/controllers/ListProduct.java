@@ -7,24 +7,24 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Properties;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.dao.ProductDAO;
 
 /**
  *
- * @author DucAnh
+ * @author Admin
  */
-@WebServlet(name = "CartServlet", urlPatterns = {"/CartServlet"})
-public class CartServlet extends HttpServlet {
-private final String ERROR_PAGE = "errorpage.html";
-private final String REMOVE_FOOD_FROM_CART = "RemoveFookFromCartServlet";
-private final String CONFIRM_CHECK_OUT_CONTROLLER = "ConfirmCheckOutServlet";
+@WebServlet(name = "ListProduct", urlPatterns = {"/ListProduct"})
+public class ListProduct extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,23 +35,21 @@ private final String CONFIRM_CHECK_OUT_CONTROLLER = "ConfirmCheckOutServlet";
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-         PrintWriter out = response.getWriter();
-                
-        String action = request.getParameter("btAction");  
-        String url = ERROR_PAGE;
-        
+        ProductDAO dao = new ProductDAO();
+        int onPageProduct = 6;
+        String url = "index.html";
         try {
-            if (action.equals("Remove Selected Foods")) {
-                url = REMOVE_FOOD_FROM_CART;
-            } else if (action.equals("Check Out Selected Foods")) {
-                url = CONFIRM_CHECK_OUT_CONTROLLER;
+            int  count = dao.getAmountProduct();
+            int endPage = count/onPageProduct;
+            if(count%onPageProduct != 0){
+                endPage ++;
             }
-        } finally {
+            request.setAttribute("ENDPAGE", endPage);
+        }finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            out.close();
         }
     }
 
@@ -67,7 +65,15 @@ private final String CONFIRM_CHECK_OUT_CONTROLLER = "ConfirmCheckOutServlet";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            try {
+                processRequest(request, response);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ListProduct.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ListProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -81,7 +87,15 @@ private final String CONFIRM_CHECK_OUT_CONTROLLER = "ConfirmCheckOutServlet";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            try {
+                processRequest(request, response);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ListProduct.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ListProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

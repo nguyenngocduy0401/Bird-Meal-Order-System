@@ -3,9 +3,65 @@
     Created on : May 26, 2023, 6:16:36 PM
     Author     : Duy
 --%>
+<style>
+    .line-separator {
+    background-color: #545454;
+    flex-grow: 5;
+    height: 1px;
+}
+.or-container {
+    align-items: center;
+    color: #545454;
+    display: flex;
+    margin: 25px 0;
+}
+.btn-login{
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 23px
+}
+.or-label {
+    flex-grow: 1;
+    margin: 0 15px;
+    text-align: center;
+}
 
+.btn {
+    border-radius: 2px;
+    text-transform: capitalize;
+    font-size: 15px;
+    padding: 10px 19px;
+    cursor: pointer
+}
+
+.btn-md {
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 23px
+}
+
+.btn-google {
+        color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd;
+}
+
+</style>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:if test="${sessionScope.user!=null}">
+    <c:if test="${sessionScope.user.role eq 0}">
+        <c:redirect url="admin.jsp"></c:redirect>
+    </c:if>
+    <c:if test="${sessionScope.user.role eq 1}">
+        <c:redirect url="staff.jsp"></c:redirect>
+    </c:if>
+    <c:if test="${sessionScope.user.role eq 2}">
+        <c:redirect url="home.jsp"></c:redirect>
+    </c:if>
+</c:if>
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -81,7 +137,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="index.html" class="navbar-brand ms-lg-5">
+            <a href="home.jsp" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -98,7 +154,7 @@
                     </div>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="home.jsp" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <a href="details" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Account <i class="bi bi-arrow-right"></i></a>
@@ -129,19 +185,37 @@
                                     <input type="checkbox" value="savelogin" name="savelogin">Stayed signed in</td>
                                 </div>
                                 <div class="col-6 ms-auto">
-                                    <a href="register.html" class="nav-item nav-link">Don't  have account?Register a new!</a>
+                                    <a href="verifyEmail.html" class="nav-item nav-link">Don't  have account?Register a new!</a>
 
                                 </div>
 
+
+
+                                <c:if test="${param.check eq '1'}">
+                                    <div style="color: red;">Don't let your password or username blank</p></div>
+                                </c:if>
+                                <c:if test="${param.check eq '2'}">
+                                    <div style="color: red;">Your account is not exist</p></div>
+                                </c:if>
+
                                 <div class="col-12">
-                                    <tr><td colspan="2"><input class="btn btn-primary w-100 py-3" type="submit" value="login" name="action"></td></tr>
-                                    <!--                                <button class="btn btn-primary w-100 py-3" type="submit">Login</button>-->
+                                    <tr><td colspan="2"><button class="btn-login btn btn-primary w-100 py-3" style="font-size: 18px;" type="submit" name="action" value="login">LOGIN</button></td></tr>
+                                    
 
                                 </div>
                             </div>
                         </form>
-                    </div>
+                        <div class="col-md-12">
+                             <div class="or-container"><div class="line-separator"></div> <div class="or-label">OR</div><div class="line-separator"></div></div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-12 " >
+                                  <a style="background-color: #ffffff"class=" col-md-12 btn btn-lg btn-google btn-block text-uppercase btn-outline w-100 py-3" href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8084/Bird_Meal_Order_System/GoogleController&response_type=code
+                                     &client_id=769539934522-jrnh7eillvbdckp6tcaphgsfu10a6feh.apps.googleusercontent.com&approval_prompt=force"><img style="width: auto; height: auto; background-color: #ffffff" src="https://img.icons8.com/color/16/000000/google-logo.png"> Login Using Google</a>
 
+                                </div>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>
