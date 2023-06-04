@@ -87,7 +87,7 @@ public class PagingProduct extends HttpServlet {
                             + "                                                </form>\n");
                 }
                 out.print("                                        </div>\n"
-                        + "                                        <a class=\"btn btn-primary py-2 px-3\" href=\"ProductDetailController?productID=${dto.productID}\"><i class=\"bi bi-eye\"></i></a>\n"
+                        + "                                        <a class=\"btn btn-primary py-2 px-3\" href=\"ProductDetailController?productID=" + dto.getProductID() + "\"><i class=\"bi bi-eye\"></i></a>\n"
                         + "                                    </div>\n"
                         + "                                </div>\n"
                         + "                            </section>\n"
