@@ -1,6 +1,10 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-
+<style>
+    .card{
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+</style>
 <meta charset="utf-8">
 <title>Bird Meal Order System</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport
@@ -93,20 +97,14 @@
             <div class="navbar-nav ms-auto py-0">
                 <a href="Home.jsp" class="nav-item nav-link active">Home</a>
                 <a href="blog.html" class="nav-item nav-link">Blog</a>
-                <div class="nav-item nav-link pt-3 ">
-                    <div class="bi bi-cart  fs-1 text-primary me-1">
-                        <form action="viewcart.jsp">
-                            <input type="submit" value="View Your Cart" class="btn"/>
-                        </form>
-                    </div>
-                </div>
+                <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                 <a href="Login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </nav>
     <!-- Navbar End -->
     <section class="py-7">
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="card container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
                 <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="${productDTO.imgPath}" alt="..." /></div>
                 <div class="col-md-6">
@@ -119,8 +117,6 @@
                     <div class="lead">${productDTO.productDetail}</div>
 
                     <div class="d-flex">
-                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-
                         <c:if test="${productDTO.status eq '0'}">
                             <button class="btn btn-primary flex-shrink-0" type="button">
                                 <i class="bi bi-cart-fill me-1 "></i>
@@ -128,16 +124,14 @@
                                 Stock </button>
                             </c:if>
                             <c:if test="${productDTO.status eq '1'}">
-                            <button class="btn btn-primary flex-shrink-0" type="button">
-                                <div class="bi bi-cart-fill me-1 ">
-                                    <form action="AddItemToCartServlet">
-                                        <input type="submit" value="Add" class="btn"
-                                               />
-                                        <input type="hidden" name="pk" value="${productDTO.productID}" />
-                                    </form>
-                                </div>
 
-                            </button>
+                            <form action="AddItemToCartServlet">
+                                <button type="submit" value="Add" class="btn btn-primary flex-shrink-0" type="button">
+                                    <i class="bi bi-cart-fill me-1 "></i>
+                                    Add to cart
+                                </button>
+                                <input type="hidden" name="pk" value="${productDTO.productID}" />
+                            </form>
                         </c:if>
                     </div>
                 </div>
@@ -172,11 +166,41 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+                        <div class="mb-5">
+                    <h3 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">3 Comments</h3>
+                    <div class="d-flex mb-4">
+                        <img src="img/avata.jpg" class="img-fluid" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6><a href="">Customer</a> <small><i>01 Jan 2045</i></small></h6>
+                            <p>Noi dung danh gia chat luong san pham</p>
+                            <button class="btn btn-sm btn-light">Reply</button>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-4">
+                        <img src="img/avata.jpg" class="img-fluid" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6><a href="">Customer</a> <small><i>01 Jan 2045</i></small></h6>
+                            <p>Noi dung danh gia chat luong san pham</p>
+                            <button class="btn btn-sm btn-light">Reply</button>
+                        </div>
+                    </div>
+                    <div class="d-flex ms-5 mb-4">
+                        <img src="img/avata.jpg" class="img-fluid" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6><a href="">Staff</a> <small><i>01 Jan 2045</i></small></h6>
+                            <p>Noi dung phan hoi den tu staff</p>
+                            <button class="btn btn-sm btn-light">Reply</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Comment List End -->
+            </div>
 
-        <h1> Feedback</h1>
+        </div>
     </div>
+    
 </section>
+                        
 
 
 

@@ -156,7 +156,7 @@
                 <div class="navbar-nav ms-auto py-0">
                     <a href="home.jsp" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
-                    <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <a href="details" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Account <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>

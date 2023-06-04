@@ -3,7 +3,11 @@
     Created on : May 26, 2023, 3:46:31 PM
     Author     : DucAnh
 --%>
-
+<style>
+    .card{
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+</style>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -79,7 +83,7 @@
             </div>
         </div>
         <!-- Topbar End -->
-        <div class="container-fluid pt-5">
+     
             <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
                 <a href="index.html" class="navbar-brand ms-lg-5">
                     <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
@@ -100,19 +104,14 @@
                     <div class="navbar-nav ms-auto py-0">
                         <a href="Home.html" class="nav-item nav-link active">Home</a>
                         <a href="blog.html" class="nav-item nav-link">Blog</a>
-                        <div class="nav-item nav-link pt-3 ">
-                        <div class="bi bi-cart  fs-1 text-primary me-1">
-                            <form action="viewcart.jsp">
-                                <input type="submit" value="View Your Cart" class="btn"/>
-                            </form>
-                        </div>
-                    </div>
+                        <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                         <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </nav>
             <!-- Navbar End -->
-            <div class="container">
+            <div class="container-fluid pt-5">
+             <div class="container">
                 <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
                     <h6 class="text-primary text-uppercase">Cart</h6>
                     <h1 class="display-5 text-uppercase mb-0">Cart</h1>
@@ -120,7 +119,8 @@
             </div>
 
 
-            <section class="pt-5 pb-5">
+
+            <section class="card pt-5  ms-2 col-md-7 mx-auto" >
                 <c:set var="cart" value="${sessionScope.CART}" />
                 <c:if test="${not empty cart}">
                     <c:set var="items" value="${cart.items}" />
