@@ -5,7 +5,6 @@
  */
 package sample.utils;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author ADMIN
  */
-public class DBUtils implements Serializable{
+public class DBUtils {
 
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         Connection conn = null;
