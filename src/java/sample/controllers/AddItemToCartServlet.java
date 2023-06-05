@@ -65,7 +65,6 @@ private final String LIST_PRODUCT = "HomeController";
         } catch (NamingException ex) {
             log("AddBookToCartServlet_Naming: " + ex.getMessage());
         } finally {
-            response.sendRedirect(url);
             out.close();
         }
         

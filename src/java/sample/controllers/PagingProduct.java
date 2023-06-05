@@ -79,13 +79,11 @@ public class PagingProduct extends HttpServlet {
                         + "\n"
                         + "                                        <div class=\"d-flex\">\n");
                 if (dto.getQuantity() != 0) {
-                    out.print("<form action=\"AddItemToCartServlet\">\n"
-                            + "                                                    <button type=\"submit\" value=\"Add\" class=\"btn btn-primary py-2 px-3\" type=\"button\">\n"
+                    out.print("<button type=\"submit\" value=\"Add\" onclick=\"addToCart(" + dto.getProductID() + ")\" class=\"btn btn-primary py-2 px-3\" type=\"button\">\n"
                             + "                                                        <i class=\"bi bi-cart-fill me-1 \"></i>\n"
-                            + "                                                    </button>\n"
-                            + "                                                    <input type=\"hidden\" name=\"pk\" value=\"" + dto.getProductID() + "\" />\n"
-                            + "                                                </form>\n");
+                            + "                                                    </button>");
                 }
+
                 out.print("                                        </div>\n"
                         + "                                        <a class=\"btn btn-primary py-2 px-3\" href=\"ProductDetailController?productID=" + dto.getProductID() + "\"><i class=\"bi bi-eye\"></i></a>\n"
                         + "                                    </div>\n"

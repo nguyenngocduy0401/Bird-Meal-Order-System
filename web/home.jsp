@@ -131,12 +131,9 @@
                                             <c:if test="${dto.quantity eq 0}">
                                             </c:if>
                                             <c:if test="${dto.quantity ne 0}">
-                                                <form action="AddItemToCartServlet">
-                                                    <button type="submit" value="Add" class="btn btn-primary py-2 px-3" type="button">
+                                                    <button type="submit" value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
                                                         <i class="bi bi-cart-fill me-1 "></i>
                                                     </button>
-                                                    <input type="hidden" name="pk" value="${dto.productID}" />
-                                                </form>
                                             </c:if>
                                         </div>
                                         <a class="btn btn-primary py-2 px-3" href="ProductDetailController?productID=${dto.productID}"><i class="bi bi-eye"></i></a>
@@ -193,6 +190,18 @@
                                                         success: function (data) {
                                                             var row = document.getElementById("content");
                                                             row.innerHTML = data;
+                                                        }
+                                                    });
+                                                }
+                                                function addToCart(param) {
+                                                    var id = param;
+                                                    $.ajax({
+                                                        type: "post",
+                                                        url: "AddItemToCartServlet",
+                                                        data: {
+                                                            pk: id,
+                                                        },
+                                                        success: function () {
                                                         }
                                                     });
                                                 }

@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/dao/ProductDAO.java</file>
-            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/staff.jsp</file>
-            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/GoogleController.java</file>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/web/home.jsp</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/viewcart.jsp</file>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/PagingProduct.java</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/AddItemToCartServlet.java</file>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/dto/ProductDTO.java</file>
         </group>
     </open-files>
