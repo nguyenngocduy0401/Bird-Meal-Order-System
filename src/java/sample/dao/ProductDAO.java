@@ -108,7 +108,7 @@ public class ProductDAO {
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
-                stm.setInt(2, (index - 1) * 6);
+                stm.setInt(2, (index - 1) * onPageProduct);
                 stm.setInt(3, onPageProduct);
                 rs = stm.executeQuery();
 
@@ -173,7 +173,7 @@ public class ProductDAO {
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
-                stm.setInt(2, (index - 1) * 6);
+                stm.setInt(2, (index - 1) * onPageProduct);
                 stm.setInt(3, onPageProduct);
                 rs = stm.executeQuery();
 
