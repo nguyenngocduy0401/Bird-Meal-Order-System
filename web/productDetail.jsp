@@ -125,14 +125,26 @@
                             </c:if>
                             <c:if test="${productDTO.status eq '1'}">
 
-                            <form action="AddItemToCartServlet">
-                                <button type="submit" value="Add" class="btn btn-primary flex-shrink-0" type="button">
-                                    <i class="bi bi-cart-fill me-1 "></i>
-                                    Add to cart
-                                </button>
-                                <input type="hidden" name="pk" value="${productDTO.productID}" />
-                            </form>
+                            <button type="submit" value="Add" onclick="addToCart(${productDTO.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                        <i class="bi bi-cart-fill me-1 "></i>
+                                                   Add to cart </button>
                         </c:if>
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+                                                
+                                                function addToCart(param) {
+                                                    var id = param;
+                                                    $.ajax({
+                                                        type: "post",
+                                                        url: "AddItemToCartServlet",
+                                                        data: {
+                                                            pk: id,
+                                                        },
+                                                        success: function () {
+                                                        }
+                                                    });
+                                                }
+        </script>
                     </div>
                 </div>
             </div>

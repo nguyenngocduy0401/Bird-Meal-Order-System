@@ -195,7 +195,7 @@
                                     <div style="color: red;">Don't let your password or username blank</p></div>
                                 </c:if>
                                 <c:if test="${param.check eq '2'}">
-                                    <div style="color: red;">Your account is not exist</p></div>
+                                    <div style="color: red;">Your username or password is incorrect</p></div>
                                 </c:if>
 
                                 <div class="col-12">
