@@ -6,7 +6,6 @@
 package sample.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,7 +17,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.dao.CategoryDAO;
 import sample.dao.ProductDAO;
+import sample.dto.CategoryDTO;
 import sample.dto.ProductDTO;
 
 /**
@@ -27,6 +28,7 @@ import sample.dto.ProductDTO;
  */
 @WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
 public class HomeController extends HttpServlet {
+
     private final String HOME_PAGE = "home.jsp";
     private final int ON_PAGE_PRODUCT = 6;
 
@@ -40,26 +42,32 @@ public class HomeController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws javax.naming.NamingException
      * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NamingException, ClassNotFoundException {
+            throws ServletException, IOException, NamingException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         String indexPage = request.getParameter("index");
         String url = HOME_PAGE;
-        if(indexPage == null){
+        if (indexPage == null) {
             indexPage = "1";
         }
         int page = Integer.parseInt(indexPage);
-        
+
         try {
             ProductDAO dao = new ProductDAO();
             List<ProductDTO> result = dao.pagingProductUser(page, ON_PAGE_PRODUCT);
+            CategoryDAO cateDAO = new CategoryDAO();
+            List<CategoryDTO> cateList = cateDAO.getCatetoryList();
+            List<String> listSize = dao.getSizeList();
             int amount = dao.getAmountProductUser();
             int endPage = amount/ON_PAGE_PRODUCT;
             if(amount%ON_PAGE_PRODUCT!=0) endPage ++;
             request.setAttribute("PRODUCTS", result);
             request.setAttribute("PAGE", endPage);
             request.setAttribute("TAGS", page);
+            request.setAttribute("CATEGORY_LIST", cateList);
+            request.setAttribute("SIZE_LIST", listSize);
         } catch (SQLException e) {
             log("AccountSearchServlet _ SQL _ " + e.getMessage());
         } finally {
@@ -84,6 +92,8 @@ public class HomeController extends HttpServlet {
             processRequest(request, response);
         } catch (NamingException | ClassNotFoundException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -101,6 +111,8 @@ public class HomeController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NamingException | ClassNotFoundException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

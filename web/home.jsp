@@ -31,7 +31,9 @@
 
     <body>
         <c:set var="result" value="${requestScope.PRODUCTS}" />
-        <!-- Topbar Start -->
+        <c:set var="cateList" value="${requestScope.CATEGORY_LIST}"/>
+        <c:set var="sizeList" value="${requestScope.SIZE_LIST}"/>
+
         <div class="container-fluid border-bottom d-none d-lg-block">
             <div class="row gx-0">
                 <div class="col-lg-3 text-center py-2">
@@ -73,10 +75,8 @@
                 </div>
             </div>
         </div>
-        <!-- Topbar End -->
 
 
-        <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
             <a href="index.html" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
@@ -105,24 +105,49 @@
                 </div>
             </div>
         </nav>
-        <!-- Navbar End -->
 
-        <section class=" col-centered col-md-9 mt-5 mx-auto ">
+
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm mt-5 mx-auto">
+            <div class="col-md-7 container-fluid">
+                <select id="cate" name="ddbCategory" class="text-primary bg-light border-0">
+                    <option selected="selected" value=-1>Category</option>
+                    <c:forEach var="cate" items="${cateList}">
+                        <option value="${cate.categoryID}">${cate.categoryName}</option>
+                    </c:forEach>
+                </select>
+                <c:set var="categoryselect" value="ddbCategory" />
+                <select name="ddbSize" class="text-primary bg-light border-0">
+                    <option value="">Size</option>
+                    <c:forEach var="size" items="${sizeList}">
+                        <option value="${size}">${size}</option>
+                    </c:forEach>
+                </select>
+                <c:set var="sizeselect" value="ddbSize" />
+                <input type="number" name="minPrice" value="" placeholder="Min Price"/>
+                <input type="number" name="maxPrice" value="" placeholder="Max Price"/>
+                <a href="" onclick="filter()" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Filter <i class=""></i></a>
+            </div>
+        </nav>
+
+
+        <section class=" col-centered col-md-9 mt-5 mx-auto">
             <c:if test="${empty result}">
                 <p class="text-uppercase mb-1">Không có sản phẩm tương tự được tìm thấy!!</p>
             </c:if>
-            <c:if test="${not empty requestScope.RESULT_AMOUNT}">
-                <p class="text-uppercase mb-1">Có ${requestScope.RESULT_AMOUNT} sản phẩm được tìm thấy cho '${requestScope.txtSearchValue}'</p>
-            </c:if>
         </section>
         <c:if test="${not empty result}" >
-            <section class=" col-centered col-md-9 mt-5 mx-auto ">
+            <section class="col-centered col-md-9 mt-5 mx-auto">
+                <c:if test="${not empty requestScope.RESULT_AMOUNT}">
+                    <p class="text-uppercase mb-1">Có ${requestScope.RESULT_AMOUNT} sản phẩm được tìm thấy cho <i class ="text-uppercase text-primary rounded">'${requestScope.txtSearchValue}'</i></p>
+                </c:if>
+            </section>
+            <section class="card col-md-10 mx-auto container-fluid mt-5 mx-auto ">
                 <div id ="content" class="row product-list">
                     <c:forEach var="dto" items="${result}">
                         <div class="product col-md-4 mt-1">
                             <section class="panel">
-                                <div class="product-item position-relative bg-light d-flex flex-column text-center">
-                                    <img class="img-fluid mb-4" src="${dto.imgPath}" alt="">
+                                <div class="product-item position-relative bg-light d-flex flex-column text-center product">
+                                    <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                     <h6 class="text-uppercase">${dto.productName}</h6>
                                     <h5 class="text-primary mb-0">${dto.price} VND</h5>
                                     <div class="btn-action d-flex justify-content-center">
@@ -131,9 +156,9 @@
                                             <c:if test="${dto.quantity eq 0}">
                                             </c:if>
                                             <c:if test="${dto.quantity ne 0}">
-                                                    <button type="submit" value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                        <i class="bi bi-cart-fill me-1 "></i>
-                                                    </button>
+                                                <button type="submit" value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                    <i class="bi bi-cart-fill me-1 "></i>
+                                                </button>
                                             </c:if>
                                         </div>
                                         <a class="btn btn-primary py-2 px-3" href="ProductDetailController?productID=${dto.productID}"><i class="bi bi-eye"></i></a>
@@ -142,7 +167,6 @@
                             </section>
                         </div>
                     </c:forEach>
-
                     <c:set var="prePage" value="${TAGS - 1}" />
                     <c:set var="nextPage" value="${TAGS + 1}" />
                     <c:if test="${requestScope.PAGE != 1}">
@@ -202,6 +226,20 @@
                                                             pk: id,
                                                         },
                                                         success: function () {
+                                                        }
+                                                    });
+                                                }
+                                                function filter() {
+                                                    $.ajax({
+                                                        type: "post",
+                                                        url: "PagingFilter",
+                                                        data: {
+                                                            cateFilter: $("#cate").val(),
+                                                            sizeFilter: '${requestScope.sizeselect}',
+                                                        },
+                                                        success: function (data) {
+                                                            var row = document.getElementById("content");
+                                                            row.innerHTML = data;
                                                         }
                                                     });
                                                 }

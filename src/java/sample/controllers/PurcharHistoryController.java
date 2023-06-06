@@ -7,30 +7,31 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.catalina.Session;
+import sample.dao.OrderDetailsDAO;
+import sample.dto.OrderDetailDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
-    private final String INDEX = "index.html";
-    private final String HOME_CONTROLLER = "HomeController";
-    private final String SEARCH_CONTROLLER = "SearchController";
-    private final String STAFF_HOME_CONTROLLER = "StaffHomeController";
-    private final String STAFF_ORDER_CONTROLLER = "StaffOrderController";
-    private final String ADD_ITEM_TO_CART = "AddItemToCartServlet";
-    private final String CHECK_OUT_TROLLER = "CheckOutOrderServlet.jsp";
-    private final String CONFIRM_CHECK_OUT = "ConfirmCheckOutServlet.jsp";
-    private final String PURCHASE = "PurcharHistoryController";
-    
-    
+@WebServlet(name = "PurcharHistoryController", urlPatterns = {"/PurcharHistoryController"})
+public class PurcharHistoryController extends HttpServlet {
+
+    private final String HOME_PAGE = "purchase.jsp";
+    private final int ON_PAGE_PRODUCT = 5;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,32 +42,19 @@ public class MainController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = INDEX;
-        String btAction = request.getParameter("btAction");
-        try{
-            if(btAction == null){
-                url = HOME_CONTROLLER;
-            } else if (btAction.equals("Search")){
-                url = SEARCH_CONTROLLER;
-            } else if (btAction.equals("Home")){
-                url = HOME_CONTROLLER;
-            } else if (btAction.equals("StaffHome")){
-                url = STAFF_HOME_CONTROLLER;
-            } else if (btAction.equals("StaffOrderHome")){
-                url = STAFF_ORDER_CONTROLLER;
-            }else if(btAction.equals("Add")){
-                url = ADD_ITEM_TO_CART;
-            }else if(btAction.equals("Check Out Selected Books")){
-                url = CHECK_OUT_TROLLER;
-            }else if(btAction.equals("Check Out")){
-                url=CONFIRM_CHECK_OUT;
-            }else if(btAction.equals("Purchase")){
-                url = PURCHASE;
-            }
-            
-        }finally{
+        HttpSession session = request.getSession();
+//        String Id = (String) session.getParameter("userID");
+//        int userID = Integer.parseInt(Id);
+        String url = HOME_PAGE;
+        try {
+            OrderDetailsDAO dao = new OrderDetailsDAO();
+            int amount = dao.getAmount(dao.getProductByUserID(3));
+            List<OrderDetailDTO> listOrder = dao.getProductByUserID(3,0,ON_PAGE_PRODUCT);
+            request.setAttribute("ORDERS", listOrder);
+            request.setAttribute("AMOUNT", amount);
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
@@ -84,7 +72,13 @@ public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -98,7 +92,13 @@ public class MainController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

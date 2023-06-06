@@ -63,6 +63,49 @@ public class OrderDAO {
         return list;
     }
     
+    public List<OrderDTO> loadOrderUser(int userID)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<OrderDTO> list = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT OrderID, OrderDate, "
+                        + "ShippingDate, Status, OrderAddress "
+                        + "FROM [Order] "
+                        + "WHERE UserID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int orderID = rs.getInt("OrderID");
+                    Date orderDate = rs.getDate("OrderDate");
+                    Date shippingDate = rs.getDate("ShippingDate");
+                    int status = rs.getInt("Status");
+                    String orderAddress = rs.getString("OrderAddress");
+
+                    OrderDTO dto =new OrderDTO(orderID, userID, orderDate, shippingDate, status, orderAddress);
+                    list.add(dto);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return list;
+    }
+    
     public int getAmountOrder() throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -139,9 +182,10 @@ public class OrderDAO {
         return list;
     }
     
+    
     public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
         OrderDAO dao = new OrderDAO();
-        List<OrderDTO> list = dao.loadPagingOrder(0,3);
+        List<OrderDTO> list = dao.loadOrderUser(3);
         list.forEach((o) -> {
             System.out.println(o);
         });
