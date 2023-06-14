@@ -52,12 +52,12 @@ public class UpdateCartController extends HttpServlet {
                             int quantity = Integer.parseInt(parts[1]);
                             if (productId.equals(pid)) {
                                 quantity = Integer.parseInt(qty);
-                            }
+        }
                             if (quantity == 0) {
                                 cart.remove(productId, quantity);
                             } else {
                                 cart.put(productId, quantity);
-                            }
+    }
 
                         }
                         break;

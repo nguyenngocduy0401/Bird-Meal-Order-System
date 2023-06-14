@@ -54,8 +54,8 @@ public class SubmitCheckOutController extends HttpServlet {
                                     cookie.setMaxAge(0);
                                     response.addCookie(cookie);
                                     break;
-                                }
-                            }
+        }
+    }
                         }
                         session.removeAttribute("cart");
                         session.removeAttribute("cartCheckOutForGuest");

@@ -24,7 +24,7 @@ public class UserDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String s = "select UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
+                String s = "select UserID,UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
                         + "from [User]\n"
                         + "where  UserName=? and Password=? ";
                 PreparedStatement pst = cn.prepareStatement(s);
@@ -33,7 +33,7 @@ public class UserDAO {
                 ResultSet kq = pst.executeQuery();
                 if (kq != null) {
                     while (kq.next()) {
-                        
+                        int userID = kq.getInt("UserID");
                         String userName = kq.getString("UserName");
                         String password = kq.getString("Password");
                         String email = kq.getString("Email");
@@ -44,7 +44,7 @@ public class UserDAO {
                         String phoneNumber = kq.getString("PhoneNumber");
                         boolean gender = kq.getBoolean("Gender");
                         int numberReport = kq.getInt("NumberReport");
-                        user = new UserDTO(role, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
+                        user = new UserDTO(userID, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
 
                     }
                     cn.close();

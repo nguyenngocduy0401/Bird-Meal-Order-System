@@ -7,38 +7,37 @@ package sample.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author Admin
  */
 public class OrderDTO implements Serializable{
-    
+  private List<ProductDTO> productsList;
   private int orderID;
   private int userID;
-  private Date orderDate;
-  private Date shippingDate;
+  private String date;
   private int status;
   private String orderAddress;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(int orderID, int userID, Date orderDate, Date shippingDate, int status, String orderAddress) {
+    public OrderDTO(int orderID, int userID, String date, int status, String orderAddress) {
         this.orderID = orderID;
         this.userID = userID;
-        this.orderDate = orderDate;
-        this.shippingDate = shippingDate;
+        this.date = date;
         this.status = status;
         this.orderAddress = orderAddress;
     }
 
-    public OrderDTO(int userID, Date orderDate, Date shippingDate, int status, String orderAddress) {
-        this.userID = userID;
-        this.orderDate = orderDate;
-        this.shippingDate = shippingDate;
-        this.status = status;
-        this.orderAddress = orderAddress;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public int getOrderID() {
@@ -57,22 +56,6 @@ public class OrderDTO implements Serializable{
         this.userID = userID;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public Date getShippingDate() {
-        return shippingDate;
-    }
-
-    public void setShippingDate(Date shippingDate) {
-        this.shippingDate = shippingDate;
-    }
-
     public int getStatus() {
         return status;
     }
@@ -87,6 +70,14 @@ public class OrderDTO implements Serializable{
 
     public void setOrderAddress(String orderAddress) {
         this.orderAddress = orderAddress;
+    }
+
+    public void setProductsList(List<ProductDTO> productsList) {
+        this.productsList = productsList;
+    }
+
+    public List<ProductDTO> getProductsList() {
+        return productsList;
     }
     
 }

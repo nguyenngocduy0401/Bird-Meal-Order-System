@@ -231,37 +231,6 @@
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script>
-                                function nextPage() {
-                                    var amount = ${requestScope.TAGS};
-
-                                    $.ajax({
-                                        type: "get",
-                                        url: "PagingStaffProduct",
-                                        data: {
-                                            index: amount + 1,
-                                            txtSearchValue: '${requestScope.txtSearchValue}',
-                                        },
-                                        success: function (data) {
-                                            var row = document.getElementById("content");
-                                            row.innerHTML = data;
-                                        }
-                                    });
-                                }
-                                function previousPage() {
-                                    var amount = ${requestScope.TAGS};
-                                    $.ajax({
-                                        type: "get",
-                                        url: "PagingStaffProduct",
-                                        data: {
-                                            index: amount - 1,
-                                            txtSearchValue: '${requestScope.txtSearchValue}',
-                                        },
-                                        success: function (data) {
-                                            var row = document.getElementById("content");
-                                            row.innerHTML = data;
-                                        }
-                                    });
-                                }
                                 function loadPage(param) {
                                     var amount = param;
                                     $.ajax({

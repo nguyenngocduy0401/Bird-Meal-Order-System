@@ -49,8 +49,8 @@ public class CheckOutProductController extends HttpServlet {
                     for (String pidValue : pid) {
                         if (Integer.parseInt(pidValue) == Integer.parseInt(productId)) {
                             cartCheckOutForGuest.put(productId, quantity);
-                        }
-                    }
+        }
+    }
                 }
             }
 

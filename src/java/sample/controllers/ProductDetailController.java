@@ -40,7 +40,7 @@ public class ProductDetailController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             int productID = Integer.parseInt(request.getParameter("productID"));
             ProductDTO productDTO = ProductDAO.getProductByID(productID);
-            CategoryDTO categoryDTO = CategoryDAO.getCategoryByID(productDTO.getCategoryID());
+            CategoryDTO categoryDTO = CategoryDAO.getCategoryByID(productID);
             ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(productID);
             if(productDTO !=null){
                 request.setAttribute("productDTO", productDTO);

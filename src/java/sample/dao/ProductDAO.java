@@ -86,11 +86,10 @@ public class ProductDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         List<ProductDTO> listProduct = new ArrayList<>();
-
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT [ProductID]\n"
+                String sql = "SELECT [Product].[ProductID]\n"
                         + "      ,[ProductName]\n"
                         + "      ,[Price]\n"
                         + "      ,[Quantity]\n"
@@ -101,11 +100,15 @@ public class ProductDAO {
                         + "      ,[Date]\n"
                         + "      ,[Status]\n"
                         + "      ,[Country]\n"
-                        + "      ,[imgPath] "
-                        + "FROM Product "
-                        + "WHERE ProductName like ? "
-                        + "ORDER BY ProductID "
+                        + "      ,[imgPath]\n"
+                        + "	  ,[Bird].BirdName\n"
+                        + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
+                        + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                        + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                        + "WHERE ProductName like ? ";
+                String paging = "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+                sql = sql + paging;
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
                 stm.setInt(2, (index - 1) * onPageProduct);
@@ -143,34 +146,72 @@ public class ProductDAO {
         }
         return listProduct;
     }
-    
-    public List<ProductDTO> searchListProductUser(String searchValue, int index, int onPageProduct)
+
+    public List<ProductDTO> searchListProductUser(String searchValue, int index, int onPageProduct, int categoryFilter, String sizeFilter, double priceMinFilter, double priceMaxFilter, String birdFilter)
             throws SQLException, NamingException, ClassNotFoundException {
 
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         List<ProductDTO> listProduct = new ArrayList<>();
-
+        String and = "AND ";
+        String sql = "";
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT [ProductID]\n"
-                        + "      ,[ProductName]\n"
-                        + "      ,[Price]\n"
-                        + "      ,[Quantity]\n"
-                        + "      ,[CategoryID]\n"
-                        + "      ,[ProductDetail]\n"
-                        + "      ,[Size]\n"
-                        + "      ,[AgeRecommendation]\n"
-                        + "      ,[Date]\n"
-                        + "      ,[Status]\n"
-                        + "      ,[Country]\n"
-                        + "      ,[imgPath] "
-                        + "FROM Product "
-                        + "WHERE ProductName like ? AND Status = 1 "
-                        + "ORDER BY ProductID "
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "	  ,[Bird].BirdName\n"
+                            + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE ProductName like ? ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "  FROM [Product] "
+                            + "WHERE ProductName like ? AND Status = 1 ";
+                }
+
+                if (categoryFilter != -1) {
+                    sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
+                }
+                if (!sizeFilter.trim().equals("")) {
+                    sql = sql + and + "Size like '" + sizeFilter + "'";
+                }
+                if (priceMinFilter <= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price < " + priceMaxFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter <= 0) {
+                    sql = sql + and + "Price > " + priceMinFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
+                }
+
+                String paging = "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+                sql = sql + paging;
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
                 stm.setInt(2, (index - 1) * onPageProduct);
@@ -240,17 +281,45 @@ public class ProductDAO {
         }
         return 0;
     }
-    
-    public int getAmountSearchProductUser(String searchValue) throws SQLException, ClassNotFoundException {
+
+    public int getAmountSearchProductUser(String searchValue, int categoryFilter, String sizeFilter, double priceMinFilter, double priceMaxFilter, String birdFilter) throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
+        String and = "AND ";
+        String sql = "";
+
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT COUNT (*) "
-                        + "FROM Product "
-                        + "WHERE ProductName like ? AND Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE ProductName like ? AND Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] "
+                            + "WHERE ProductName like ? AND Status = 1 ";
+                }
+                if (categoryFilter != -1) {
+                    sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
+                }
+                if (!sizeFilter.trim().equals("")) {
+                    sql = sql + and + "Size like '" + sizeFilter + "'";
+                }
+                if (priceMinFilter <= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price < " + priceMaxFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter <= 0) {
+                    sql = sql + and + "Price > " + priceMinFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
+                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
                 rs = stm.executeQuery();
@@ -302,17 +371,45 @@ public class ProductDAO {
         }
         return 0;
     }
-    
-    public int getAmountProductUser() throws SQLException, ClassNotFoundException {
+
+    public int getAmountProductUser(int categoryFilter, String sizeFilter, double priceMinFilter, double priceMaxFilter, String birdFilter) throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
+        String and = "AND ";
+        String sql = "";
+
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT COUNT (*) "
-                        + "FROM Product "
-                        + "WHERE Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
+                if (categoryFilter != -1) {
+                    sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
+                }
+                if (!sizeFilter.trim().equals("")) {
+                    sql = sql + and + "Size like '" + sizeFilter + "'";
+                }
+                if (priceMinFilter <= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price < " + priceMaxFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter <= 0) {
+                    sql = sql + and + "Price > " + priceMinFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
+                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -333,34 +430,74 @@ public class ProductDAO {
         }
         return 0;
     }
-    
-    public List<ProductDTO> pagingProductUser(int index, int onPageProduct)
+
+    public List<ProductDTO> pagingProductUser(int index, int onPageProduct, int categoryFilter, String sizeFilter, double priceMinFilter, double priceMaxFilter, String birdFilter)
             throws SQLException, NamingException, ClassNotFoundException {
 
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         List<ProductDTO> listProduct = new ArrayList<>();
+        String and = "AND ";
+        String sql;
 
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT [ProductID]\n"
-                        + "      ,[ProductName]\n"
-                        + "      ,[Price]\n"
-                        + "      ,[Quantity]\n"
-                        + "      ,[CategoryID]\n"
-                        + "      ,[ProductDetail]\n"
-                        + "      ,[Size]\n"
-                        + "      ,[AgeRecommendation]\n"
-                        + "      ,[Date]\n"
-                        + "      ,[Status]\n"
-                        + "      ,[Country]\n"
-                        + "      ,[imgPath] "
-                        + "FROM Product "
-                        + "WHERE Status = 1 "
-                        + "ORDER BY ProductID "
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "	  ,[Bird].BirdName\n"
+                            + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "  FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
+                if (categoryFilter != -1) {
+                    sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
+                }
+                if (!sizeFilter.trim().equals("")) {
+                    sql = sql + and + "Size like '" + sizeFilter + "'";
+                }
+                if (priceMinFilter <= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price < " + priceMaxFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter <= 0) {
+                    sql = sql + and + "Price > " + priceMinFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
+                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "[BirdName] like '" + birdFilter + "'";
+//                }
+                String paging = "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+                sql = sql + paging;
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, (index - 1) * onPageProduct);
                 stm.setInt(2, onPageProduct);
@@ -460,8 +597,174 @@ public class ProductDAO {
         }
         return listProduct;
     }
-    
-     public ProductDTO getProductByProductID(int productID)
+
+    public List<ProductDTO> pagingProductFilterUser(int index, int onPageProduct, int categoryFilter, String sizeFilter, double priceMinFilter, double priceMaxFilter, String birdFilter)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+        String and = "AND ";
+        String sql = "";
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "	  ,[Bird].BirdName\n"
+                            + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "  FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
+
+                if (categoryFilter != -1) {
+                    sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
+                }
+                if (!sizeFilter.trim().equals("")) {
+                    sql = sql + and + "Size like '" + sizeFilter + "'";
+                }
+                if (priceMinFilter <= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price < " + priceMaxFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter <= 0) {
+                    sql = sql + and + "Price > " + priceMinFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
+                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
+                String paging = "ORDER BY ProductID "
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+                sql = sql + paging;
+                stm = con.prepareStatement(sql);
+
+                stm.setInt(1, (index - 1) * onPageProduct);
+                stm.setInt(2, onPageProduct);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
+
+    public int getAmountProductFilter(int categoryFilter, String sizeFilter, double priceMinFilter, double priceMaxFilter, String birdFilter)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String and = "AND ";
+        String sql = "";
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
+
+                if (categoryFilter != -1) {
+                    sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
+                }
+                if (!sizeFilter.trim().equals("")) {
+                    sql = sql + and + "Size like '" + sizeFilter + "'";
+                }
+                if (priceMinFilter <= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price < " + priceMaxFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter <= 0) {
+                    sql = sql + and + "Price > " + priceMinFilter + " ";
+                } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
+                    sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
+                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return 0;
+    }
+
+    public ProductDTO getProductByProductID(int productID)
             throws SQLException, NamingException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -483,13 +786,13 @@ public class ProductDAO {
                     String productDetail = rs.getString("productDetail");
                     String size = rs.getString("size");
                     int ageRecommendation = rs.getInt("ageRecommendation");
-                    int Date = rs.getInt("date");
+                    int date = rs.getInt("Date");
                     int status = rs.getInt("status");
                     String Country = rs.getString("country");
                     String ImgPath = rs.getString("imgPath");
                     ProductDTO result = new ProductDTO(productID, productName, price,
-                            quantity, categoryID, productDetail, size, ageRecommendation, 
-                            Date, status, Country, ImgPath);
+                            quantity, categoryID, productDetail, size, ageRecommendation,
+                            date, status, Country, ImgPath);
                     return result;
                 }
             }
@@ -506,8 +809,8 @@ public class ProductDAO {
         }
         return null;
     }
-     
-     public static ProductDTO getProductByID(int getProductID) {
+
+    public static ProductDTO getProductByID(int getProductID) {
         ProductDTO product = null;
         Connection cn = null;
         try {
@@ -554,4 +857,233 @@ public class ProductDAO {
         }
         return product;
     }
+
+    public List<String> getSizeList() throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<String> listSize = new ArrayList<>();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [ProjectBirdMealOrderSystem].[dbo].Product.Size\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Product]\n"
+                        + "  GROUP BY [ProjectBirdMealOrderSystem].[dbo].Product.Size";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    listSize.add(rs.getString("Size"));
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listSize;
+    }
+
+    public List<ProductDTO> getProductByOrderID(int orderID) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [OrderDetail] .[ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[OrderDetail] .[Price]\n"
+                        + "      ,[OrderDetail] .[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath]\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Product] \n"
+                        + "  INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail] \n"
+                        + "  ON [ProjectBirdMealOrderSystem].[dbo].[OrderDetail].ProductID = [ProjectBirdMealOrderSystem].[dbo].[Product].ProductID\n"
+                        + "	WHERE [OrderDetail].OrderID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
+
+    public List<ProductDTO> getProductByUserID(int orderID) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [OrderDetail] .[ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[OrderDetail] .[Price]\n"
+                        + "      ,[OrderDetail] .[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath]\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Product] \n"
+                        + "  INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail] \n"
+                        + "  ON [ProjectBirdMealOrderSystem].[dbo].[OrderDetail].ProductID = [ProjectBirdMealOrderSystem].[dbo].[Product].ProductID\n"
+                        + "  WHERE [OrderDetail].OrderID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
+
+    public List<ProductDTO> getProductInListByName(List<ProductDTO> list, String name) throws SQLException, ClassNotFoundException {
+        List<ProductDTO> listProduct = new ArrayList<>();
+        list.stream().filter((product) -> (product.getProductName().toLowerCase().contains(name.toLowerCase()))).forEachOrdered((product) -> {
+            listProduct.add(product);
+        });
+        return listProduct;
+    }
+
+    //lay cac san pham trong 1 oder thong qua orderid la thong tin san pham trong order khong phai o db product
+    public List<ProductDTO> getProductInOrder(int OrderID)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT OrderDetail.[ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,OrderDetail.[Price]\n"
+                        + "      ,OrderDetail.[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath] "
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[OrderDetail]\n"
+                        + "  INNER JOIN Product ON Product.ProductID = OrderDetail.ProductID\n"
+                        + "  WHERE OrderID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, OrderID);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
+
+//    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
+//        ProductDAO dao = new ProductDAO();
+//        List<ProductDTO> listProduct = new ArrayList<>();
+//        listProduct = dao.pagingProductUser(1, 6, -1, "", -1, -1, "");
+//        listProduct.forEach((dto)->{
+//            System.out.println(dto);
+//        });   
+//    }
 }
