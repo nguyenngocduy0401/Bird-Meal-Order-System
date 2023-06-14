@@ -56,7 +56,7 @@ public class ProductDAO {
                     String productDetail = rs.getString("ProductDetail");
                     String size = rs.getString("Size");
                     int ageRecommendation = rs.getInt("AgeRecommendation");
-                    String date = rs.getString("Date");
+                    int date = rs.getInt("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
                     String imgPath = rs.getString("imgPath");
@@ -121,7 +121,7 @@ public class ProductDAO {
                     String productDetail = rs.getString("ProductDetail");
                     String size = rs.getString("Size");
                     int ageRecommendation = rs.getInt("AgeRecommendation");
-                    String date = rs.getString("Date");
+                    int date = rs.getInt("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
                     String imgPath = rs.getString("imgPath");
@@ -186,7 +186,7 @@ public class ProductDAO {
                     String productDetail = rs.getString("ProductDetail");
                     String size = rs.getString("Size");
                     int ageRecommendation = rs.getInt("AgeRecommendation");
-                    String date = rs.getString("Date");
+                    int date = rs.getInt("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
                     String imgPath = rs.getString("imgPath");
@@ -375,7 +375,7 @@ public class ProductDAO {
                     String productDetail = rs.getString("ProductDetail");
                     String size = rs.getString("Size");
                     int ageRecommendation = rs.getInt("AgeRecommendation");
-                    String date = rs.getString("Date");
+                    int date = rs.getInt("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
                     String imgPath = rs.getString("imgPath");
@@ -438,7 +438,7 @@ public class ProductDAO {
                     String productDetail = rs.getString("ProductDetail");
                     String size = rs.getString("Size");
                     int ageRecommendation = rs.getInt("AgeRecommendation");
-                    String date = rs.getString("Date");
+                    int date = rs.getInt("Date");
                     int status = rs.getInt("Status");
                     String country = rs.getString("Country");
                     String imgPath = rs.getString("imgPath");
@@ -483,7 +483,7 @@ public class ProductDAO {
                     String productDetail = rs.getString("productDetail");
                     String size = rs.getString("size");
                     int ageRecommendation = rs.getInt("ageRecommendation");
-                    String Date = rs.getString("date");
+                    int Date = rs.getInt("date");
                     int status = rs.getInt("status");
                     String Country = rs.getString("country");
                     String ImgPath = rs.getString("imgPath");
@@ -529,7 +529,7 @@ public class ProductDAO {
                         String productDetail = kq.getString("ProductDetail");
                         String size = kq.getString("Size");
                         int ageRecommendation = kq.getInt("AgeRecommendation");
-                        String date = kq.getString("Date");
+                        int date = kq.getInt("Date");
                         int status = kq.getInt("Status");
                         String country = kq.getString("Country");
                         String imgPath = kq.getString("imgPath");

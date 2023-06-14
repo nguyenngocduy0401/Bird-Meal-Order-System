@@ -6,7 +6,6 @@
 package sample.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  *
@@ -17,11 +16,11 @@ public class OrderGuestDTO implements Serializable{
     private int orderID;
     private String fullName;
     private String phoneNumber;
-    private Timestamp orderDate;
+    private String orderDate;
     private String shippingDate;
     private int status;
     private String orderAddress;
-    private double total;
+    private String token;
 
    
 
@@ -29,7 +28,7 @@ public class OrderGuestDTO implements Serializable{
 
     }
 
-    public OrderGuestDTO(int orderID, String fullName, String phoneNumber, Timestamp orderDate, String shippingDate, int status, String orderAddress, double total) {
+    public OrderGuestDTO(int orderID, String fullName, String phoneNumber, String orderDate, String shippingDate, int status, String orderAddress, String token) {
         this.orderID = orderID;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
@@ -37,8 +36,10 @@ public class OrderGuestDTO implements Serializable{
         this.shippingDate = shippingDate;
         this.status = status;
         this.orderAddress = orderAddress;
-        this.total = total;
+        this.token = token;
     }
+
+    
 
     public int getOrderID() {
         return orderID;
@@ -64,11 +65,11 @@ public class OrderGuestDTO implements Serializable{
         this.phoneNumber = phoneNumber;
     }
 
-    public Timestamp getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Timestamp orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -96,13 +97,15 @@ public class OrderGuestDTO implements Serializable{
         this.orderAddress = orderAddress;
     }
 
-    public double getTotal() {
-        return total;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public String getToken() {
+        return token;
     }
+
+    
 
     
 

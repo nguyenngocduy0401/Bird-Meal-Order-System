@@ -136,9 +136,9 @@
                                                     var id = param;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "AddItemToCartServlet",
+                                                        url: "AddToCartController",
                                                         data: {
-                                                            pk: id,
+                                                            pid: id,
                                                         },
                                                         success: function () {
                                                         }
@@ -161,7 +161,7 @@
                             <td>${categoryDTO.categoryName}</td>
                         </tr>
                         <tr>
-                            <td>Bith</td>
+                            <td>Bird</td>
                             <td><c:forEach items="${listBird}" var="bird">
                                     ${bird.birdName}
                                     <c:if test="${bird.birdName != null}"> | </c:if>
@@ -174,6 +174,10 @@
                         <tr>
                             <td>Size</td>
                             <td>${productDTO.size}</td>
+                        </tr>
+                         <tr>
+                            <td>EXP</td>
+                            <td>${productDTO.date} months</td>
                         </tr>
                     </tbody>
                 </table>

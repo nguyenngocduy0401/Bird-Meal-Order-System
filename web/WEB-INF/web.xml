@@ -24,6 +24,30 @@
         <servlet-name>ProductDetailController</servlet-name>
         <servlet-class>sample.controllers.ProductDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddToCartController</servlet-name>
+        <servlet-class>sample.controllers.AddToCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowCartController</servlet-name>
+        <servlet-class>sample.controllers.ShowCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartController</servlet-name>
+        <servlet-class>sample.controllers.UpdateCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveProductController</servlet-name>
+        <servlet-class>sample.controllers.RemoveProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckOutProductController</servlet-name>
+        <servlet-class>sample.controllers.CheckOutProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubmitCheckOutController</servlet-name>
+        <servlet-class>sample.controllers.SubmitCheckOutController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -47,6 +71,30 @@
     <servlet-mapping>
         <servlet-name>ProductDetailController</servlet-name>
         <url-pattern>/ProductDetailController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartController</servlet-name>
+        <url-pattern>/AddToCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowCartController</servlet-name>
+        <url-pattern>/ShowCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartController</servlet-name>
+        <url-pattern>/UpdateCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveProductController</servlet-name>
+        <url-pattern>/RemoveProductController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckOutProductController</servlet-name>
+        <url-pattern>/CheckOutProductController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitCheckOutController</servlet-name>
+        <url-pattern>/SubmitCheckOutController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

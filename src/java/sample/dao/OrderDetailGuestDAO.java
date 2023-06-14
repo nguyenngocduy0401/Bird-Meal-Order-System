@@ -9,80 +9,52 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.naming.NamingException;
-import sample.dto.OrderDetailGuestDTO;
 import sample.dto.ProductDTO;
 import sample.utils.DBUtils;
-
 
 /**
  *
  * @author DucAnh
  */
-public class OrderDetailGuestDAO implements Serializable{
+public class OrderDetailGuestDAO implements Serializable {
 
-    private List<OrderDetailGuestDTO> orderDetailsList;
-
-    public List<OrderDetailGuestDTO> getOrderDetailsList() {
-        return orderDetailsList;
-    }
-
-    public boolean createOrderDetails(int orderID, Map<ProductDTO, Integer> checkedItems)
+    public static boolean createOrderDetailsForGuest(int orderID, LinkedHashMap<String, Integer> checkedItems)
             throws SQLException, NamingException, ClassNotFoundException {
-        Connection con = null;
-        PreparedStatement stm = null;
+        try (Connection con = DBUtils.getConnection();
+                PreparedStatement stm = con.prepareStatement("INSERT INTO OrderDetailsGuest (OrderID, ProductID, Quantity, Price) VALUES (?, ?, ?, ?)")) {
 
-        try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                con.setAutoCommit(false); //*****
-                String sql = "INSERT INTO OrderDetailsGuest \n"
-                        + "(OrderID, ProductID, Quantity, Price) \n"
-                        + "VALUES (?,?,?,?) ";
-                stm = con.prepareStatement(sql);
-                Double price;
-                Double total;
-                int quantity;
-//                int i = 0; //*****
-                int affectedRows = 0;
-                for (ProductDTO dto : checkedItems.keySet()) {
-                    quantity = checkedItems.get(dto);
-                    price = dto.getPrice();
-                    total = quantity * price;
-                    stm.setInt(1, orderID);
-                    stm.setInt(2, dto.getProductID());
-                    stm.setInt(3, quantity);
-                    stm.setDouble(4, price);
-                    affectedRows += stm.executeUpdate(); //*****
-//                    stm.addBatch(); //******
-//                    i++;//******
-                }
+            con.setAutoCommit(false);
 
-                con.commit(); //*****
+            int affectedRows = 0;
 
-                if (affectedRows == checkedItems.size()) { //*****
-                    return true;
-                }
+            for (Map.Entry<String, Integer> entry : checkedItems.entrySet()) {
+                String productID = entry.getKey();
+                int quantity = entry.getValue();
+                ProductDTO product = ProductDAO.getProductByID(Integer.parseInt(productID)); // Retrieve the price based on the product ID
 
-//                if (i % 100 == 0 || i == checkedItems.size()) {
-//                    stm.executeBatch();
-//                    return true;
-//                }
+                stm.setInt(1, orderID);
+                stm.setString(2, productID);
+                stm.setInt(3, quantity);
+                stm.setDouble(4, product.getPrice());
+
+                stm.addBatch();
+
+                affectedRows++;
+            }
+
+            int[] batchResults = stm.executeBatch();
+            con.commit();
+
+            if (batchResults.length == affectedRows) {
+                return true;
             }
         } catch (SQLException ex) {
-            if (con != null) {
-                con.rollback();
-            }
-        } finally {
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            // Handle the exception or rethrow it
         }
+
         return false;
     }
 }

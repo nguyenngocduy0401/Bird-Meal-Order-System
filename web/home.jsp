@@ -197,9 +197,9 @@
                                                     var id = param;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "AddItemToCartServlet",
+                                                        url: "AddToCartController",
                                                         data: {
-                                                            pk: id,
+                                                            pid: id,
                                                         },
                                                         success: function () {
                                                         }

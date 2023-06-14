@@ -7,27 +7,22 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
+import java.util.LinkedHashMap;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.dao.CartObj;
+import sample.dao.OrderDetailGuestDAO;
+import sample.dao.OrderGuestDAO;
 
 /**
  *
- * @author DucAnh
+ * @author Duy
  */
-@WebServlet(name = "AddItemToCartServlet", urlPatterns = {"/AddItemToCartServlet"})
-public class AddItemToCartServlet extends HttpServlet {
-private final String SHOPPING_PAGE = "shopping.jsp";
-private final String ERROR_PAGE = "errorpage.html";
-private final String LIST_PRODUCT = "HomeController";
+public class SubmitCheckOutController extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,37 +33,39 @@ private final String LIST_PRODUCT = "HomeController";
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();  
-        String url = ERROR_PAGE;
-        try {
-            //1. Cust goes to cart place
-            HttpSession session = request.getSession();
-            //2. Cust takes their --> attributes
-            CartObj cart = (CartObj)session.getAttribute("CART");
-            if (cart == null) {
-                cart = new CartObj();
-            }//cart is not existed --> create cart
-            //3. Cust takes book item --> parameter
-            String productID = request.getParameter("pk");
-            //4. Cust drops item down
-            cart.addItemToCart(productID);
-            //5. Update to cart place
-            session.setAttribute("CART", cart);
-            //6. Cust goes to shopping
-//            url = "DispatchServlet"
-//                    + "?btAction=Buy";
-            url = LIST_PRODUCT;
-        } catch (SQLException ex) {
-            log("AddBookToCartServlet_SQL: " + ex.getMessage());
-        } catch (NamingException ex) {
-            log("AddBookToCartServlet_Naming: " + ex.getMessage());
-        } finally {
-            out.close();
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            String name = request.getParameter("txtName");
+            String phone = request.getParameter("txtPhoneNumber");
+            String address = request.getParameter("txtAddress");
+            HttpSession session = request.getSession(true);
+            LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cartCheckOutForGuest");
+            try {
+                int oderID = OrderGuestDAO.createNewOrderForGuest(name, phone, 1, address);
+                if (oderID != -1) {
+                    boolean finishCheckOut = OrderDetailGuestDAO.createOrderDetailsForGuest(oderID, cart);
+                    if (finishCheckOut) {
+                        Cookie[] cookies = request.getCookies();
+                        if (cookies != null) {
+                            for (Cookie cookie : cookies) {
+                                if (cookie.getName().equals("cart")) {
+                                    cookie.setMaxAge(0);
+                                    response.addCookie(cookie);
+                                    break;
+                                }
+                            }
+                        }
+                        session.removeAttribute("cart");
+                        session.removeAttribute("cartCheckOutForGuest");
+                        response.sendRedirect("LoginCookieController");
+                    }
+                }
+            } catch (Exception e) {
+            }
+
         }
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -83,11 +80,7 @@ private final String LIST_PRODUCT = "HomeController";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
         processRequest(request, response);
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(AddItemToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
-    }
     }
 
     /**
@@ -101,11 +94,7 @@ private final String LIST_PRODUCT = "HomeController";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
         processRequest(request, response);
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(AddItemToCartServlet.class.getName()).log(Level.SEVERE, null, ex);
-    }
     }
 
     /**

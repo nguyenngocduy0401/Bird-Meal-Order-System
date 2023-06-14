@@ -23,7 +23,7 @@ public class ProductDTO implements Serializable{
     private String productDetail;
     private String size;
     private int ageRecommendation;
-    private String date;
+    private int date;
     private int status;
     private String country;
     private String imgPath;
@@ -31,7 +31,7 @@ public class ProductDTO implements Serializable{
     public ProductDTO() {
     }
 
-    public ProductDTO(int productID, String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, String date, int status, String country, String imgPath) {
+    public ProductDTO(int productID, String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, int date, int status, String country, String imgPath) {
         this.productID = productID;
         this.productName = productName;
         this.price = price;
@@ -46,7 +46,7 @@ public class ProductDTO implements Serializable{
         this.imgPath = imgPath;
     }
 
-    public ProductDTO(String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, String date, int status, String country, String imgPath) {
+    public ProductDTO(String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, int date, int status, String country, String imgPath) {
         this.productName = productName;
         this.price = price;
         this.quantity = quantity;
@@ -94,7 +94,7 @@ public class ProductDTO implements Serializable{
         return ageRecommendation;
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
     }
 
@@ -138,7 +138,7 @@ public class ProductDTO implements Serializable{
         this.ageRecommendation = ageRecommendation;
     }
 
-    public void setDate(String date) {
+    public void setDate(int date) {
         this.date = date;
     }
 

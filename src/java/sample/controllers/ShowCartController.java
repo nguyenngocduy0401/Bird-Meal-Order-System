@@ -7,24 +7,20 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Properties;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
+import java.util.LinkedHashMap;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author DucAnh
+ * @author Duy
  */
-@WebServlet(name = "CartServlet", urlPatterns = {"/CartServlet"})
-public class CartServlet extends HttpServlet {
-private final String ERROR_PAGE = "errorpage.html";
-private final String REMOVE_FOOD_FROM_CART = "RemoveFookFromCartServlet";
-private final String CONFIRM_CHECK_OUT_CONTROLLER = "ConfirmCheckOutServlet";
+public class ShowCartController extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,21 +33,33 @@ private final String CONFIRM_CHECK_OUT_CONTROLLER = "ConfirmCheckOutServlet";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         PrintWriter out = response.getWriter();
-                
-        String action = request.getParameter("btAction");  
-        String url = ERROR_PAGE;
-        
-        try {
-            if (action.equals("Remove Selected Foods")) {
-                url = REMOVE_FOOD_FROM_CART;
-            } else if (action.equals("Check Out Selected Foods")) {
-                url = CONFIRM_CHECK_OUT_CONTROLLER;
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession(true);
+            LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("cart")) {
+                        String cartValue = cookie.getValue();
+                        if (cartValue.equals("")) {
+                            cookie.setMaxAge(0);
+                            response.addCookie(cookie);
+                        } else {
+                            String[] items = cartValue.split(",");
+                            for (String item : items) {
+                                String[] parts = item.split(":");
+                                String productId = parts[0];
+                                int quantity = Integer.parseInt(parts[1]);
+                                cart.put(productId, quantity);
+                            }
+                        }
+                        break;
+                    }
+                }
             }
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
+            session.setAttribute("cart", cart);
+            response.sendRedirect("viewcart.jsp?check=1");
         }
     }
 
