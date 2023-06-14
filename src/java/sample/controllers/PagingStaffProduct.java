@@ -26,7 +26,7 @@ import sample.dto.ProductDTO;
  */
 @WebServlet(name = "PagingStaffProduct", urlPatterns = {"/PagingStaffProduct"})
 public class PagingStaffProduct extends HttpServlet {
-    
+
     private final int ON_PAGE_PRODUCT = 10;
 
     /**
@@ -67,11 +67,12 @@ public class PagingStaffProduct extends HttpServlet {
             }
         }
         PrintWriter out = response.getWriter();
-        
+
         try {
-            out.print(" <table border=\"1\">\n"
-                    + "                    <thead style=\"background: #7AB730; color: white\">\n"
+            out.print(" <table class=\"table table-striped table-hover\">\n"
+                    + "                    <thead class=\"bg-success text-white\">\n"
                     + "                        <tr>\n"
+                    + "                            <th>imgPath</th>\n"
                     + "                            <th>Name</th>\n"
                     + "                            <th>Price</th>\n"
                     + "                            <th>Quantity</th>\n"
@@ -88,6 +89,7 @@ public class PagingStaffProduct extends HttpServlet {
                     + "                    <tbody>");
             result.forEach((dto) -> {
                 out.print("<tr>\n"
+                        + "                                <td><img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\"></td>\n"
                         + "                                <td>" + dto.getProductName() + "</td>\n"
                         + "                                <td>" + dto.getPrice() + "</td>\n"
                         + "                                <td>" + dto.getQuantity() + "</td>\n"
@@ -99,8 +101,8 @@ public class PagingStaffProduct extends HttpServlet {
                         + "                                <td>" + dto.getStatus() + "</td>\n"
                         + "                                <td>" + dto.getCountry() + "</td>\n"
                         + "                                <td>\n"
-                        + "                                    <button>Delete</button>\n"
-                        + "                                    <button>Edit</button>\n"
+                        + "                                    <button class=\"btn btn-outline-primary\"><i class=\"bi bi-pencil\"></i> Edit</button>\n"
+                        + "                                    <button class=\"btn btn-outline-danger\"><i class=\"bi bi-trash\"></i> Delete</button>\n"
                         + "                                </td>\n"
                         + "                            </tr>");
             });
@@ -108,6 +110,7 @@ public class PagingStaffProduct extends HttpServlet {
                     + "                </table>"
                     + "<div class=\" col-centered col-md-9 mt-5 mx-auto \">");
             out.println("<div class=\"col-12 mt-5\">\n"
+                    + "         <div class=\"d-flex justify-content-center\">\n"
                     + "                            <nav aria-label=\"Page navigation\">\n"
                     + "                                <ul class=\"pagination pagination-lg m-0\">");
             if (1 < page && page <= endPage) {
@@ -127,7 +130,7 @@ public class PagingStaffProduct extends HttpServlet {
                             + "                                            <a class=\"page-link\" onclick=\"loadPage(" + i + ")\">" + i + "</a>\n"
                             + "                                        </li>");
                 }
-                
+
             }
             if (1 <= page && page < endPage) {
                 out.println("<li class=\"page-item\">\n"
@@ -136,9 +139,12 @@ public class PagingStaffProduct extends HttpServlet {
                         + "                                            </a>\n"
                         + "                                        </li>");
             }
-            out.print("</div>");
+            out.print(
+                    "</div>"
+                    + "</div>"
+            );
         } finally {
-            
+
         }
     }
 

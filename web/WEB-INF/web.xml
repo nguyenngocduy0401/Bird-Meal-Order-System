@@ -25,6 +25,7 @@
         <servlet-class>sample.controllers.ProductDetailController</servlet-class>
     </servlet>
     <servlet>
+
         <servlet-name>AddToCartController</servlet-name>
         <servlet-class>sample.controllers.AddToCartController</servlet-class>
     </servlet>
@@ -47,6 +48,12 @@
     <servlet>
         <servlet-name>SubmitCheckOutController</servlet-name>
         <servlet-class>sample.controllers.SubmitCheckOutController</servlet-class>
+        </servlet>
+
+<servlet>
+        <servlet-name>CreateNewProductServlet</servlet-name>
+        <servlet-class>sample.controllers.CreateNewProductServlet</servlet-class>
+
     </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
@@ -73,6 +80,7 @@
         <url-pattern>/ProductDetailController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
         <servlet-name>AddToCartController</servlet-name>
         <url-pattern>/AddToCartController</url-pattern>
     </servlet-mapping>
@@ -95,6 +103,11 @@
     <servlet-mapping>
         <servlet-name>SubmitCheckOutController</servlet-name>
         <url-pattern>/SubmitCheckOutController</url-pattern>
+         </servlet-mapping>
+ <servlet-mapping>
+        <servlet-name>CreateNewProductServlet</servlet-name>
+        <url-pattern>/CreateNewProductServlet</url-pattern>
+
     </servlet-mapping>
     <session-config>
         <session-timeout>

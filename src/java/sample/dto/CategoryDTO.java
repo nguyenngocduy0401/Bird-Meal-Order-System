@@ -5,36 +5,38 @@
  */
 package sample.dto;
 
+import java.util.List;
+
 /**
  *
  * @author Duy
  */
 public class CategoryDTO {
-    private int CategoryID;
-    private String CategoryName;
+    
+    private int categoryID;
+    private String categoryName;
 
     public CategoryDTO() {
     }
 
-    public CategoryDTO(int CategoryID, String CategoryName) {
-        this.CategoryID = CategoryID;
-        this.CategoryName = CategoryName;
+    public CategoryDTO(int categoryID, String categoryName) {
+        this.categoryID = categoryID;
+        this.categoryName = categoryName;
     }
 
     public int getCategoryID() {
-        return CategoryID;
+        return categoryID;
     }
 
-    public void setCategoryID(int CategoryID) {
-        this.CategoryID = CategoryID;
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 
     public String getCategoryName() {
-        return CategoryName;
+        return categoryName;
     }
 
-    public void setCategoryName(String CategoryName) {
-        this.CategoryName = CategoryName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
-    
 }

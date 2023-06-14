@@ -12,9 +12,8 @@ import java.util.Objects;
  *
  * @author Duy
  */
-public class ProductDTO implements Serializable{
-   
-    
+public class ProductDTO implements Serializable {
+
     private int productID;
     private String productName;
     private double price;
@@ -46,24 +45,13 @@ public class ProductDTO implements Serializable{
         this.imgPath = imgPath;
     }
 
-    public ProductDTO(String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, int date, int status, String country, String imgPath) {
-        this.productName = productName;
-        this.price = price;
-        this.quantity = quantity;
-        this.categoryID = categoryID;
-        this.productDetail = productDetail;
-        this.size = size;
-        this.ageRecommendation = ageRecommendation;
-        this.date = date;
-        this.status = status;
-        this.country = country;
-        this.imgPath = imgPath;
-    }
-    
-    
 
     public int getProductID() {
         return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
     public String getProductName() {
@@ -118,6 +106,7 @@ public class ProductDTO implements Serializable{
         this.price = price;
     }
 
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
@@ -130,16 +119,14 @@ public class ProductDTO implements Serializable{
         this.productDetail = productDetail;
     }
 
+
     public void setSize(String size) {
         this.size = size;
     }
 
+
     public void setAgeRecommendation(int ageRecommendation) {
         this.ageRecommendation = ageRecommendation;
-    }
-
-    public void setDate(int date) {
-        this.date = date;
     }
 
     public void setStatus(int status) {
@@ -152,6 +139,10 @@ public class ProductDTO implements Serializable{
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
     }
 
     @Override
@@ -171,7 +162,7 @@ public class ProductDTO implements Serializable{
         hash = 47 * hash + this.quantity;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

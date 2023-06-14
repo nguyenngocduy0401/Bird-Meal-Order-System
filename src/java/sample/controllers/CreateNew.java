@@ -6,34 +6,25 @@
 package sample.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.CategoriesBirdDAO;
 import sample.dao.CategoryDAO;
-import sample.dao.ProductDAO;
-import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
-import sample.dto.ProductDTO;
 
 /**
  *
- * @author Admin
+ * @author DucAnh
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
-public class HomeController extends HttpServlet {
-
-    private final String HOME_PAGE = "home.jsp";
-    private final int ON_PAGE_PRODUCT = 6;
+@WebServlet(name = "CreateNew", urlPatterns = {"/CreateNew"})
+public class CreateNew extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,41 +34,16 @@ public class HomeController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws javax.naming.NamingException
-     * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NamingException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        String indexPage = request.getParameter("index");
-        String url = HOME_PAGE;
-        if (indexPage == null) {
-            indexPage = "1";
-        }
-        int page = Integer.parseInt(indexPage);
-
         try {
-            ProductDAO dao = new ProductDAO();
-            List<ProductDTO> result = dao.pagingProductUser(page, ON_PAGE_PRODUCT, -1, "",-1,-1,"");
-            CategoryDAO cateDAO = new CategoryDAO();
-            List<CategoryDTO> cateList = cateDAO.getCatetoryList();
-            List<String> listSize = dao.getSizeList();
-            List<BirdDTO> listBird = CategoriesBirdDAO.getBirdList();
-            int amount = dao.getAmountProductUser(-1, "", -1, -1, "");
-            int endPage = amount/ON_PAGE_PRODUCT;
-            if(amount%ON_PAGE_PRODUCT!=0) endPage ++;
-            request.setAttribute("PRODUCTS", result);
-            request.setAttribute("PAGE", endPage);
-            request.setAttribute("TAGS", page);
-            request.setAttribute("CATEGORY_LIST", cateList);
-            request.setAttribute("SIZE_LIST", listSize);
-            request.setAttribute("BIRD_LIST", listBird);
-        } catch (SQLException e) {
-            log("AccountSearchServlet _ SQL _ " + e.getMessage());
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            List<CategoryDTO> categoryList = CategoryDAO.getCatetoryList();
+            request.setAttribute("categoryname", categoryList);
+        }finally{
+            request.getRequestDispatcher("createNewProduct.jsp").forward(request, response);
         }
     }
 
@@ -95,10 +61,10 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (NamingException | ClassNotFoundException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateNew.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateNew.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -115,10 +81,10 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (NamingException | ClassNotFoundException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateNew.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateNew.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
