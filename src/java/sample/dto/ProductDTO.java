@@ -45,37 +45,6 @@ public class ProductDTO implements Serializable {
         this.imgPath = imgPath;
     }
 
-<<<<<<< Updated upstream
-    public ProductDTO(String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, int date, int status, String country, String imgPath) {
-        this.productName = productName;
-        this.price = price;
-        this.quantity = quantity;
-        this.categoryID = categoryID;
-        this.productDetail = productDetail;
-        this.size = size;
-        this.ageRecommendation = ageRecommendation;
-        this.date = date;
-        this.status = status;
-        this.country = country;
-        this.imgPath = imgPath;
-    }
-    
-    
-=======
-//    public ProductDTO(String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, String date, int status, String country, String imgPath) {
-//        this.productName = productName;
-//        this.price = price;
-//        this.quantity = quantity;
-//        this.categoryID = categoryID;
-//        this.productDetail = productDetail;
-//        this.size = size;
-//        this.ageRecommendation = ageRecommendation;
-//        this.date = date;
-//        this.stfatus = status;
-//        this.country = country;
-//        this.imgPath = imgPath;
-//    }
->>>>>>> Stashed changes
 
     public int getProductID() {
         return productID;
@@ -89,7 +58,6 @@ public class ProductDTO implements Serializable {
         return productName;
     }
 
-<<<<<<< Updated upstream
     public double getPrice() {
         return price;
     }
@@ -130,96 +98,52 @@ public class ProductDTO implements Serializable {
         return imgPath;
     }
 
-=======
->>>>>>> Stashed changes
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public double getPrice() {
-        return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getCategoryID() {
-        return categoryID;
     }
 
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
     }
 
-    public String getProductDetail() {
-        return productDetail;
-    }
-
     public void setProductDetail(String productDetail) {
         this.productDetail = productDetail;
     }
 
-    public String getSize() {
-        return size;
-    }
 
     public void setSize(String size) {
         this.size = size;
     }
 
-    public int getAgeRecommendation() {
-        return ageRecommendation;
-    }
 
     public void setAgeRecommendation(int ageRecommendation) {
         this.ageRecommendation = ageRecommendation;
-    }
-
-<<<<<<< Updated upstream
-    public void setDate(int date) {
-=======
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
->>>>>>> Stashed changes
-        this.date = date;
-    }
-
-    public int getStatus() {
-        return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public String getImgPath() {
-        return imgPath;
     }
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
-    
+
+    public void setDate(int date) {
+        this.date = date;
+    }
 
     @Override
     public int hashCode() {

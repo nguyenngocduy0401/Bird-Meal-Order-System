@@ -1015,7 +1015,6 @@ public class ProductDAO {
         return listProduct;
     }
 
-<<<<<<< Updated upstream
     //lay cac san pham trong 1 oder thong qua orderid la thong tin san pham trong order khong phai o db product
     public List<ProductDTO> getProductInOrder(int OrderID)
             throws SQLException, NamingException, ClassNotFoundException {
@@ -1024,18 +1023,11 @@ public class ProductDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         List<ProductDTO> listProduct = new ArrayList<>();
-=======
-    public boolean createProduct(ProductDTO dto)
-            throws ClassNotFoundException, SQLException, NamingException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        boolean result = false;
->>>>>>> Stashed changes
 
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-<<<<<<< Updated upstream
+
                 String sql = "SELECT OrderDetail.[ProductID]\n"
                         + "      ,[ProductName]\n"
                         + "      ,OrderDetail.[Price]\n"
@@ -1077,7 +1069,27 @@ public class ProductDAO {
             if (rs != null) {
                 rs.close();
             }
-=======
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+
+        }
+        return listProduct;
+    }
+
+    public boolean createProduct(ProductDTO dto)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+
                 String sql = "INSERT INTO Product "
                         + "(ProductName, Price, Quantity, CategoryID, ProductDetail, "
                         + "Size, AgeRecommendation, Date, [Status], Country, imgPath) "
@@ -1091,7 +1103,7 @@ public class ProductDAO {
                 stm.setString(5, dto.getProductDetail());
                 stm.setString(6, dto.getSize());
                 stm.setInt(7, dto.getAgeRecommendation());
-                stm.setString(8, dto.getDate());
+                stm.setInt(8, dto.getDate());
                 stm.setInt(9, dto.getStatus());
                 stm.setString(10, dto.getCountry());
                 stm.setString(11, dto.getImgPath());
@@ -1100,17 +1112,14 @@ public class ProductDAO {
                     result = true;
                 }
             }
-
         } finally {
->>>>>>> Stashed changes
             if (stm != null) {
                 stm.close();
             }
             if (con != null) {
                 con.close();
             }
-<<<<<<< Updated upstream
-=======
+
         }
         return result;
     }
@@ -1136,7 +1145,7 @@ public class ProductDAO {
                 stm.setString(5, dto.getProductDetail());
                 stm.setString(6, dto.getSize());
                 stm.setInt(7, dto.getAgeRecommendation());
-                stm.setString(8, dto.getDate());
+                stm.setInt(8, dto.getDate());
                 stm.setInt(9, dto.getStatus());
                 stm.setString(10, dto.getCountry());
                 stm.setString(11, dto.getImgPath());
@@ -1154,27 +1163,9 @@ public class ProductDAO {
             if (con != null) {
                 con.close();
             }
+
         }
         return result;
-    }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, NamingException {
-        ProductDAO dao = new ProductDAO();
-        List<ProductDTO> listCate = dao.loadProducts();
-        List<ProductDTO> listproduct = dao.getProductInListByName(listCate, "combo");
-        for (ProductDTO string : listproduct) {
-            System.out.println(string);
->>>>>>> Stashed changes
-        }
-        return listProduct;
     }
-
-//    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
-//        ProductDAO dao = new ProductDAO();
-//        List<ProductDTO> listProduct = new ArrayList<>();
-//        listProduct = dao.pagingProductUser(1, 6, -1, "", -1, -1, "");
-//        listProduct.forEach((dto)->{
-//            System.out.println(dto);
-//        });   
-//    }
 }

@@ -5,6 +5,7 @@
  */
 package sample.controllers;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,7 +104,7 @@ public class CreateNewProductServlet extends HttpServlet {
                                 product.setAgeRecommendation(Integer.parseInt(fieldValue));
                                 break;
                             case "txtDate":
-                                product.setDate(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                product.setDate(Integer.parseInt(fieldValue));
                                 //System.out.println("Date" + fieldValue);
                                 break;
                             case "txtStatus":

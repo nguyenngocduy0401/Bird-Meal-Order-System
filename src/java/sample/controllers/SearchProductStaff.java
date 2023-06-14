@@ -39,9 +39,12 @@ public class SearchProductStaff extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws javax.naming.NamingException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         String indexPage = request.getParameter("index");
@@ -51,31 +54,24 @@ public class SearchProductStaff extends HttpServlet {
         }
         int page = Integer.parseInt(indexPage);
         String searchValue = request.getParameter("txtSearchValue");
-        try {
-            if (searchValue == null || searchValue.trim().isEmpty()) {
-                request.setAttribute("PRODUCTS", null);
-            } else {
-                ProductDAO dao = new ProductDAO();
-                List<ProductDTO> result = dao.searchListProductUser(searchValue, page, ON_PAGE_PRODUCT);
-                int amount = dao.getAmountSearchProductUser(searchValue);
-                int endPage = amount / ON_PAGE_PRODUCT;
-                if (amount % ON_PAGE_PRODUCT != 0) {
-                    endPage++;
-                }
-                request.setAttribute("PRODUCTS", result);
-                request.setAttribute("PAGE", endPage);
-                request.setAttribute("TAGS", page);
-                request.setAttribute("txtSearchValue", searchValue);
-                request.setAttribute("RESULT_AMOUNT", amount);
+        if (searchValue == null || searchValue.trim().isEmpty()) {
+            request.setAttribute("PRODUCTS", null);
+        } else {
+            ProductDAO dao = new ProductDAO();
+            List<ProductDTO> result = dao.searchListProduct(searchValue, page, ON_PAGE_PRODUCT);
+            int amount = dao.getAmountSearchProduct(searchValue);
+            int endPage = amount / ON_PAGE_PRODUCT;
+            if (amount % ON_PAGE_PRODUCT != 0) {
+                endPage++;
             }
-        } catch (SQLException e) {
-            log("AccountSearchServlet _ SQL _ " + e.getMessage());
-        } catch (NamingException e) {
-            log("AccountSearchServlet _ Naming _ " + e.getMessage());
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            request.setAttribute("PRODUCTS", result);
+            request.setAttribute("PAGE", endPage);
+            request.setAttribute("TAGS", page);
+            request.setAttribute("txtSearchValue", searchValue);
+            request.setAttribute("RESULT_AMOUNT", amount);
         }
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -94,6 +90,10 @@ public class SearchProductStaff extends HttpServlet {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SearchProductStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchProductStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(SearchProductStaff.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -111,6 +111,10 @@ public class SearchProductStaff extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SearchProductStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchProductStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
             Logger.getLogger(SearchProductStaff.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

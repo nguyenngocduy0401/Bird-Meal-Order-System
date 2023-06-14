@@ -181,7 +181,7 @@ public class UpdateProductServlet extends HttpServlet {
                             productdto.setProductDetail(productDetail);
                             productdto.setSize(fileds.get("txtSize"));
                             productdto.setAgeRecommendation(Integer.parseInt(fileds.get("txtAgeRecommendation")));
-                            productdto.setDate(fileds.get("txtDate"));
+                            productdto.setDate(Integer.parseInt("txtDate"));
                             productdto.setStatus(Integer.parseInt(fileds.get("txtStatus")));
                             productdto.setCountry(fileds.get("txtCountry"));
                             if (existingImagePath != null) {
