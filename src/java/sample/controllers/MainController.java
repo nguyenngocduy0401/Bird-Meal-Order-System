@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
+
     private final String INDEX = "index.html";
     private final String HOME_CONTROLLER = "HomeController";
     private final String SEARCH_CONTROLLER = "SearchController";
@@ -29,8 +30,11 @@ public class MainController extends HttpServlet {
     private final String CHECK_OUT_TROLLER = "CheckOutOrderServlet.jsp";
     private final String CONFIRM_CHECK_OUT = "ConfirmCheckOutServlet.jsp";
     private final String PURCHASE = "PurcharHistoryController";
-    
-    
+    private final String CREATE_NEW_PRODUCT_PAGE = "CreateNew";
+    private final String CREATE_NEW_PRODUCT_CONTROLLER = "CreateNewProductServlet";
+    private final String UPDATE_PRODUCT_CONTROLLER = "UpdateProductServlet";
+    private final String SEARCH_STAFF_CONTROLLER = "SearchProductStaff";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,28 +49,37 @@ public class MainController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = INDEX;
         String btAction = request.getParameter("btAction");
-        try{
-            if(btAction == null){
+        try {
+            if (btAction == null) {
                 url = HOME_CONTROLLER;
-            } else if (btAction.equals("Search")){
+            } else if (btAction.equals("Search")) {
                 url = SEARCH_CONTROLLER;
-            } else if (btAction.equals("Home")){
+            } else if (btAction.equals("Home")) {
                 url = HOME_CONTROLLER;
-            } else if (btAction.equals("StaffHome")){
+            } else if (btAction.equals("StaffHome")) {
                 url = STAFF_HOME_CONTROLLER;
-            } else if (btAction.equals("StaffOrderHome")){
+            } else if (btAction.equals("StaffOrderHome")) {
                 url = STAFF_ORDER_CONTROLLER;
-            }else if(btAction.equals("Add")){
+            } else if (btAction.equals("Add")) {
                 url = ADD_ITEM_TO_CART;
-            }else if(btAction.equals("Check Out Selected Books")){
+            } else if (btAction.equals("Check Out Selected Books")) {
                 url = CHECK_OUT_TROLLER;
-            }else if(btAction.equals("Check Out")){
-                url=CONFIRM_CHECK_OUT;
-            }else if(btAction.equals("Purchase")){
+            } else if (btAction.equals("Check Out")) {
+                url = CONFIRM_CHECK_OUT;
+            } else if (btAction.equals("Purchase")) {
                 url = PURCHASE;
+            } else if (btAction.equals("Create New Product")) {
+                url = CREATE_NEW_PRODUCT_PAGE;
+            } else if (btAction.equals("Create New Product servlet")) {
+                url = CREATE_NEW_PRODUCT_CONTROLLER;
+            } else if (btAction.equals("UpdateProduct")) {
+                url = UPDATE_PRODUCT_CONTROLLER;
             }
-            
-        }finally{
+//            else if (btAction.equals("SearchOfStaff")) {
+//                url = SEARCH_STAFF_CONTROLLER;
+//            }
+
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }

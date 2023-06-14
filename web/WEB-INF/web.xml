@@ -24,6 +24,10 @@
         <servlet-name>ProductDetailController</servlet-name>
         <servlet-class>sample.controllers.ProductDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateNewProductServlet</servlet-name>
+        <servlet-class>sample.controllers.CreateNewProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>ProductDetailController</servlet-name>
         <url-pattern>/ProductDetailController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateNewProductServlet</servlet-name>
+        <url-pattern>/CreateNewProductServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

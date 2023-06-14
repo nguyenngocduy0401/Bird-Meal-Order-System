@@ -5,11 +5,14 @@
  */
 package sample.dto;
 
+import java.util.List;
+
 /**
  *
  * @author Duy
  */
 public class CategoryDTO {
+    
     private int categoryID;
     private String categoryName;
 

@@ -7,23 +7,26 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.BirdDAO;
 import sample.dao.CategoryDAO;
 import sample.dao.ProductDAO;
-import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
 import sample.dto.ProductDTO;
 
 /**
  *
- * @author Duy
+ * @author DucAnh
  */
-public class ProductDetailController extends HttpServlet {
+@WebServlet(name = "updateProduct", urlPatterns = {"/updateProduct"})
+public class updateProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,19 +38,17 @@ public class ProductDetailController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            int productID = Integer.parseInt(request.getParameter("productID"));
-            ProductDTO productDTO = ProductDAO.getProductByID(productID);
-            CategoryDTO categoryDTO = CategoryDAO.getCategoryByID(productDTO.getCategoryID());
-            ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(productID);
-            if(productDTO !=null){
-                request.setAttribute("productDTO", productDTO);
-                request.setAttribute("categoryDTO", categoryDTO);
-                request.setAttribute("listBird", listBird);
-                request.getRequestDispatcher("productDetail.jsp").forward(request, response);
-            }
+        try {
+            List<CategoryDTO> categoryList = CategoryDAO.getCatetoryList();
+            request.setAttribute("categoryName", categoryList);
+//            String selectedCategoryId = request.getParameter("txtCategory");
+//            int   selectedCategoryID = Integer.parseInt(selectedCategoryId);
+            
+            request.setAttribute("categoryName", categoryList);       
+        } finally {
+            request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
         }
     }
 
@@ -63,7 +64,13 @@ public class ProductDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(updateProduct.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(updateProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -77,7 +84,13 @@ public class ProductDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(updateProduct.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(updateProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
