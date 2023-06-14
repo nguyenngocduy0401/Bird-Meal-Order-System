@@ -155,23 +155,46 @@ public class ProductDAO {
         ResultSet rs = null;
         List<ProductDTO> listProduct = new ArrayList<>();
         String and = "AND ";
+        String sql = "";
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT [Product].[ProductID]\n"
-                        + "      ,[ProductName]\n"
-                        + "      ,[Price]\n"
-                        + "      ,[Quantity]\n"
-                        + "      ,[CategoryID]\n"
-                        + "      ,[ProductDetail]\n"
-                        + "      ,[Size]\n"
-                        + "      ,[AgeRecommendation]\n"
-                        + "      ,[Date]\n"
-                        + "      ,[Status]\n"
-                        + "      ,[Country]\n"
-                        + "      ,[imgPath]\n"
-                        + "  FROM [Product] "
-                        + "WHERE ProductName like ? AND Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "	  ,[Bird].BirdName\n"
+                            + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE ProductName like ? ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "  FROM [Product] "
+                            + "WHERE ProductName like ? AND Status = 1 ";
+                }
+
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
                 }
@@ -185,9 +208,7 @@ public class ProductDAO {
                 } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
                     sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
                 }
-//                if (!birdFilter.trim().equals("")) {
-//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
-//                }
+
                 String paging = "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 sql = sql + paging;
@@ -266,13 +287,23 @@ public class ProductDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         String and = "AND ";
+        String sql = "";
 
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT COUNT (*) "
-                        + "FROM [Product] "
-                        + "WHERE ProductName like ? AND Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE ProductName like ? AND Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] "
+                            + "WHERE ProductName like ? AND Status = 1 ";
+                }
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
                 }
@@ -346,13 +377,23 @@ public class ProductDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         String and = "AND ";
+        String sql = "";
 
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT COUNT (*) "
-                        + "FROM [Product] "
-                        + "WHERE Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
                 }
@@ -398,24 +439,46 @@ public class ProductDAO {
         ResultSet rs = null;
         List<ProductDTO> listProduct = new ArrayList<>();
         String and = "AND ";
+        String sql;
 
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT [Product].[ProductID]\n"
-                        + "      ,[ProductName]\n"
-                        + "      ,[Price]\n"
-                        + "      ,[Quantity]\n"
-                        + "      ,[CategoryID]\n"
-                        + "      ,[ProductDetail]\n"
-                        + "      ,[Size]\n"
-                        + "      ,[AgeRecommendation]\n"
-                        + "      ,[Date]\n"
-                        + "      ,[Status]\n"
-                        + "      ,[Country]\n"
-                        + "      ,[imgPath]\n"
-                        + "  FROM [Product] "
-                        + "WHERE Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "	  ,[Bird].BirdName\n"
+                            + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "  FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
                 }
@@ -543,23 +606,45 @@ public class ProductDAO {
         ResultSet rs = null;
         List<ProductDTO> listProduct = new ArrayList<>();
         String and = "AND ";
+        String sql = "";
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT [Product].[ProductID]\n"
-                        + "      ,[ProductName]\n"
-                        + "      ,[Price]\n"
-                        + "      ,[Quantity]\n"
-                        + "      ,[CategoryID]\n"
-                        + "      ,[ProductDetail]\n"
-                        + "      ,[Size]\n"
-                        + "      ,[AgeRecommendation]\n"
-                        + "      ,[Date]\n"
-                        + "      ,[Status]\n"
-                        + "      ,[Country]\n"
-                        + "      ,[imgPath]\n"
-                        + "  FROM [Product] "
-                        + "WHERE Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "	  ,[Bird].BirdName\n"
+                            + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT [Product].[ProductID]\n"
+                            + "      ,[ProductName]\n"
+                            + "      ,[Price]\n"
+                            + "      ,[Quantity]\n"
+                            + "      ,[CategoryID]\n"
+                            + "      ,[ProductDetail]\n"
+                            + "      ,[Size]\n"
+                            + "      ,[AgeRecommendation]\n"
+                            + "      ,[Date]\n"
+                            + "      ,[Status]\n"
+                            + "      ,[Country]\n"
+                            + "      ,[imgPath]\n"
+                            + "  FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
 
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
@@ -625,12 +710,22 @@ public class ProductDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         String and = "AND ";
+        String sql = "";
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT COUNT (*) "
-                        + "FROM [Product] "
-                        + "WHERE Status = 1 ";
+                if (!birdFilter.trim().equals("")) {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] INNER JOIN [CategoriesBird]\n"
+                            + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
+                            + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                            + "WHERE Status = 1 ";
+                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+                } else {
+                    sql = "SELECT COUNT (*) "
+                            + "FROM [Product] "
+                            + "WHERE Status = 1 ";
+                }
 
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
@@ -982,7 +1077,7 @@ public class ProductDAO {
         }
         return listProduct;
     }
-    
+
 //    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
 //        ProductDAO dao = new ProductDAO();
 //        List<ProductDTO> listProduct = new ArrayList<>();
@@ -991,5 +1086,4 @@ public class ProductDAO {
 //            System.out.println(dto);
 //        });   
 //    }
-
 }
