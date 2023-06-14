@@ -1,19 +1,20 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
         <title>Bird Meal Order System</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-              <!-- Favicon -->
-              <link href="img/favicon.ico" rel="icon">
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
 
-              <!-- Google Web Fonts -->
-              <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">  
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -29,10 +30,46 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
 
+    <style>
+        .products{
+            margin-bottom: 100px;
+        }
+        .paging{
+            margin-bottom: 30px;
+        }
+        .product{
+            margin-bottom: 15px;
+            margin-top: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 10px;
+        }
+
+        .block{
+            width: 450px;
+            height: 400px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            margin-left: 7px;
+            margin-right:7px;
+        }
+        .price-box{
+            size: 20px;
+            width: 100px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <body>
         <c:set var="result" value="${requestScope.PRODUCTS}" />
         <c:set var="cateList" value="${requestScope.CATEGORY_LIST}"/>
         <c:set var="sizeList" value="${requestScope.SIZE_LIST}"/>
+        <c:set var="birdList" value="${requestScope.BIRD_LIST}"/>
 
         <div class="container-fluid border-bottom d-none d-lg-block">
             <div class="row gx-0">
@@ -78,7 +115,7 @@
 
 
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="index.html" class="navbar-brand ms-lg-5">
+            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -94,38 +131,73 @@
                             <button class="btn btn-primary">Search</button>
                             <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
                             <input type="hidden" value="Search" name="btAction"/>
+                            
                         </div>
                     </form>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 ">
+                        <i class="bi bi-cart  fs-1 text-primary me-1"></i>
+                    </a>
+                    <c:if test="${empty sessionScope.user}">
+                        <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
+                            Login
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </c:if>
+                    <c:if test="${not empty sessionScope.user}">
+                        <!--                        <div class="nav-item dropdown">
+                                                    <button class="nav-link pt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="bi bi-person fs-1 text-primary me-1"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu m-0 dropdown-menu-end">
+                                                        <a href="details.html" class="dropdown-item">My profile</a>
+                                                        <a href="purchase.html" class="dropdown-item">My purchase</a>
+                                                        <a href="Home.html" class="dropdown-item">Logout</a>
+                                                    </div>
+                                                </div>-->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
+                                <i class="bi bi-person fs-1 text-primary me-1"></i>
+                            </a>
+                            <div class="dropdown-menu m-0 dropdown-menu-end">
+                                <a href="details.html" class="dropdown-item">My profile</a>
+                                <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
+                                <a href="LogoutController" class="dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </nav>
 
 
-        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm mt-5 mx-auto">
-            <div class="col-md-7 container-fluid">
+        <nav class="col-9 navbar navbar-expand-lg bg-white navbar-light shadow-sm mt-5 mx-auto">
+            <div class="col-md-8 container-fluid">
                 <select id="cate" name="ddbCategory" class="text-primary bg-light border-0">
                     <option selected="selected" value=-1>Category</option>
                     <c:forEach var="cate" items="${cateList}">
                         <option value="${cate.categoryID}">${cate.categoryName}</option>
                     </c:forEach>
                 </select>
-                <c:set var="categoryselect" value="ddbCategory" />
-                <select name="ddbSize" class="text-primary bg-light border-0">
+                <select id="size" name="ddbSize" class="text-primary bg-light border-0">
                     <option value="">Size</option>
                     <c:forEach var="size" items="${sizeList}">
                         <option value="${size}">${size}</option>
                     </c:forEach>
                 </select>
-                <c:set var="sizeselect" value="ddbSize" />
-                <input type="number" name="minPrice" value="" placeholder="Min Price"/>
-                <input type="number" name="maxPrice" value="" placeholder="Max Price"/>
-                <a href="" onclick="filter()" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Filter <i class=""></i></a>
+                <select id="bird" name="ddbBird" class="text-primary bg-light border-0">
+                    <option value="">Bird</option>
+                    <c:forEach var="bird" items="${birdList}">
+                        <option value="${bird.birdName}">${bird.birdName}</option>
+                    </c:forEach>
+                </select>
+                <input id="minPrice" class="text-primary bg-light border-0 price-box" type="number" name="minPrice" value="" placeholder="Min Price"/>
+                <input id="maxPrice" class="text-primary bg-light border-0 price-box" type="number" name="maxPrice" value="" placeholder="Max Price"/>
+                <button onclick="filter()" class="btn btn-primary">Filter</button>
+
             </div>
         </nav>
 
@@ -136,22 +208,21 @@
             </c:if>
         </section>
         <c:if test="${not empty result}" >
-            <section class="col-centered col-md-9 mt-5 mx-auto">
+            <section class="col-centered col-md-9 mt-5 mx-auto products">
                 <c:if test="${not empty requestScope.RESULT_AMOUNT}">
-                    <p class="text-uppercase mb-1">Có ${requestScope.RESULT_AMOUNT} sản phẩm được tìm thấy cho <i class ="text-uppercase text-primary rounded">'${requestScope.txtSearchValue}'</i></p>
+                    <p class="text-uppercase mb-1">Kết quả tìm kiếm cho từ khóa <i class ="text-uppercase text-primary rounded">'${requestScope.txtSearchValue}'</i></p>
                 </c:if>
             </section>
-            <section class="card col-md-10 mx-auto container-fluid mt-5 mx-auto ">
+            <section class="col-md-9 container-fluid products">
                 <div id ="content" class="row product-list">
                     <c:forEach var="dto" items="${result}">
-                        <div class="product col-md-4 mt-1">
+                        <div class="card block col-md-4 mt-1">
                             <section class="panel">
                                 <div class="product-item position-relative bg-light d-flex flex-column text-center product">
                                     <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                     <h6 class="text-uppercase">${dto.productName}</h6>
-                                    <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                    <h5 class="text-primary mb-0">${dto.price} $</h5>
                                     <div class="btn-action d-flex justify-content-center">
-
                                         <div class="d-flex">
                                             <c:if test="${dto.quantity eq 0}">
                                             </c:if>
@@ -170,7 +241,7 @@
                     <c:set var="prePage" value="${TAGS - 1}" />
                     <c:set var="nextPage" value="${TAGS + 1}" />
                     <c:if test="${requestScope.PAGE != 1}">
-                        <div class="col-12 mt-5">
+                        <div class="col-12 mt-5 paging" >
                             <nav aria-label="Page navigation">
                                 <ul class="pagination pagination-lg m-0">
                                     <c:if test="${TAGS <= PAGE && TAGS > 1}">
@@ -180,7 +251,6 @@
                                             </a>
                                         </li>
                                     </c:if>
-
                                     <c:forEach begin="1" end="${PAGE}" var="i">
                                         <li class="${TAGS == i?"page-item active":"page-item"}">
                                             <a class="page-link" onclick="loadPage(${i})">${i}</a>
@@ -210,6 +280,11 @@
                                                         data: {
                                                             index: amount,
                                                             txtSearchValue: '${requestScope.txtSearchValue}',
+                                                            cateFilter: $('#cate').val(),
+                                                            sizeFilter: $('#size').val(),
+                                                            birdFilter: $('#bird').val(),
+                                                            minPrice: $('#minPrice').val(),
+                                                            maxPrice: $('#maxPrice').val()
                                                         },
                                                         success: function (data) {
                                                             var row = document.getElementById("content");
@@ -223,9 +298,10 @@
                                                         type: "post",
                                                         url: "AddItemToCartServlet",
                                                         data: {
-                                                            pk: id,
+                                                            pk: id
                                                         },
                                                         success: function () {
+                                                            alert("Add thanh cong");
                                                         }
                                                     });
                                                 }
@@ -234,8 +310,13 @@
                                                         type: "post",
                                                         url: "PagingFilter",
                                                         data: {
-                                                            cateFilter: $("#cate").val(),
-                                                            sizeFilter: '${requestScope.sizeselect}',
+                                                            index: 1,
+                                                            txtSearchValue: '${requestScope.txtSearchValue}',
+                                                            cateFilter: $('#cate').val(),
+                                                            sizeFilter: $('#size').val(),
+                                                            birdFilter: $('#bird').val(),
+                                                            minPrice: $('#minPrice').val(),
+                                                            maxPrice: $('#maxPrice').val()
                                                         },
                                                         success: function (data) {
                                                             var row = document.getElementById("content");
@@ -243,6 +324,7 @@
                                                         }
                                                     });
                                                 }
+
         </script>
     </body>
 </html>

@@ -4,14 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/dao/ProductDAO.java</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/editPassword.html</file>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/web/home.jsp</file>
-            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/viewcart.jsp</file>
-            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/HomeController.java</file>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/PagingFilter.java</file>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/PagingProduct.java</file>
-            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/dto/CategoryDTO.java</file>
-            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/dao/CategoryDAO.java</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/web/purchase.jsp</file>
             <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/SearchController.java</file>
+            <file>file:/D:/SWP391/Bird-Meal-Order-System/src/java/sample/controllers/MainController.java</file>
         </group>
     </open-files>
 </project-private>

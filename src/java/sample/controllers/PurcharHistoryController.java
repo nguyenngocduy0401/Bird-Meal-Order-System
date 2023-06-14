@@ -6,11 +6,11 @@
 package sample.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +18,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.catalina.Session;
-import sample.dao.OrderDetailsDAO;
-import sample.dto.OrderDetailDTO;
+import sample.dao.OrderDAO;
+import sample.dao.ProductDAO;
+import sample.dto.OrderDTO;
+import sample.dto.ProductDTO;
+import sample.dto.UserDTO;
 
 /**
  *
@@ -30,7 +32,7 @@ import sample.dto.OrderDetailDTO;
 public class PurcharHistoryController extends HttpServlet {
 
     private final String HOME_PAGE = "purchase.jsp";
-    private final int ON_PAGE_PRODUCT = 5;
+    private final String LOGIN_PAGE = "login.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,20 +42,31 @@ public class PurcharHistoryController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
+     * @throws javax.naming.NamingException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ClassNotFoundException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-//        String Id = (String) session.getParameter("userID");
-//        int userID = Integer.parseInt(Id);
         String url = HOME_PAGE;
+        UserDTO user = (UserDTO) session.getAttribute("user");
         try {
-            OrderDetailsDAO dao = new OrderDetailsDAO();
-            int amount = dao.getAmount(dao.getProductByUserID(3));
-            List<OrderDetailDTO> listOrder = dao.getProductByUserID(3,0,ON_PAGE_PRODUCT);
-            request.setAttribute("ORDERS", listOrder);
-            request.setAttribute("AMOUNT", amount);
+            if (user == null) {
+                url = LOGIN_PAGE;
+            } else {
+                String username = user.getUserName();
+                OrderDAO dao = new OrderDAO();
+                ProductDAO productDAO = new ProductDAO();
+                List<OrderDTO> listOrder = dao.loadOrderByUsername(username);
+                for (OrderDTO order : listOrder) {
+                    List<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
+                    order.setProductsList(productsList);
+                }
+                request.setAttribute("ORDERS", listOrder);
+                request.setAttribute("AMOUNT", 1);
+            }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
@@ -74,9 +87,7 @@ public class PurcharHistoryController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | NamingException ex) {
             Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -94,9 +105,7 @@ public class PurcharHistoryController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | NamingException ex) {
             Logger.getLogger(PurcharHistoryController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

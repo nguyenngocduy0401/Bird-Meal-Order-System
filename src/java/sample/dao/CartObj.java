@@ -165,5 +165,24 @@ public class CartObj implements Serializable {
         return list;
     }
 
+        public void addItemToCart(int productID, int quantity)
+            throws SQLException, NamingException, ClassNotFoundException {
+        //1. Checking items has existed
+
+        if (this.items == null) {
+            this.items = new HashMap<>();
+        }
+
+        //2. Checking item exited in items
+        ProductDAO dao = new ProductDAO();
+        ProductDTO dto = dao.getProductByProductID(productID);
+
+        if (this.items.containsKey(dto)) {
+            quantity = this.items.get(dto) + quantity;
+        }
+
+        //3. Update items
+        this.items.put(dto, quantity);
+    }
 
 }

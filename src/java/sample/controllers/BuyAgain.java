@@ -6,34 +6,34 @@
 package sample.controllers;
 
 import java.io.IOException;
+import static java.lang.System.out;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.CategoriesBirdDAO;
-import sample.dao.CategoryDAO;
+import javax.servlet.http.HttpSession;
+import sample.dao.CartObj;
+import sample.dao.OrderDAO;
 import sample.dao.ProductDAO;
-import sample.dto.BirdDTO;
-import sample.dto.CategoryDTO;
+import sample.dto.OrderDTO;
 import sample.dto.ProductDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
-public class HomeController extends HttpServlet {
-
-    private final String HOME_PAGE = "home.jsp";
-    private final int ON_PAGE_PRODUCT = 6;
+@WebServlet(name = "BuyAgain", urlPatterns = {"/BuyAgain"})
+public class BuyAgain extends HttpServlet {
+    
+    private final String SHOPPING_PAGE = "shopping.jsp";
+private final String ERROR_PAGE = "errorpage.html";
+private final String LIST_PRODUCT = "HomeController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,41 +43,44 @@ public class HomeController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws javax.naming.NamingException
      * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NamingException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        String indexPage = request.getParameter("index");
-        String url = HOME_PAGE;
-        if (indexPage == null) {
-            indexPage = "1";
-        }
-        int page = Integer.parseInt(indexPage);
-
+        String url = ERROR_PAGE;
         try {
-            ProductDAO dao = new ProductDAO();
-            List<ProductDTO> result = dao.pagingProductUser(page, ON_PAGE_PRODUCT, -1, "",-1,-1,"");
-            CategoryDAO cateDAO = new CategoryDAO();
-            List<CategoryDTO> cateList = cateDAO.getCatetoryList();
-            List<String> listSize = dao.getSizeList();
-            List<BirdDTO> listBird = CategoriesBirdDAO.getBirdList();
-            int amount = dao.getAmountProductUser(-1, "", -1, -1, "");
-            int endPage = amount/ON_PAGE_PRODUCT;
-            if(amount%ON_PAGE_PRODUCT!=0) endPage ++;
-            request.setAttribute("PRODUCTS", result);
-            request.setAttribute("PAGE", endPage);
-            request.setAttribute("TAGS", page);
-            request.setAttribute("CATEGORY_LIST", cateList);
-            request.setAttribute("SIZE_LIST", listSize);
-            request.setAttribute("BIRD_LIST", listBird);
-        } catch (SQLException e) {
-            log("AccountSearchServlet _ SQL _ " + e.getMessage());
+            //1. Cust goes to cart place
+            HttpSession session = request.getSession();
+            session.getAttribute("user");
+            //2. Cust takes their --> attributes
+            CartObj cart = (CartObj)session.getAttribute("CART");
+            if (cart == null) {
+                cart = new CartObj();
+            }//cart is not existed --> create cart
+            //3. Cust takes book item --> parameter
+            String orderIDString = request.getParameter("orderID");
+            int orderID = Integer.parseInt(orderIDString);
+            ProductDAO productDAO = new ProductDAO();
+            //4. Cust drops item down
+            List<ProductDTO> productList = productDAO.getProductInOrder(orderID);
+                for(ProductDTO product: productList){
+                    cart.addItemToCart(product.getProductID(), product.getQuantity());
+                }
+                    
+            
+            //5. Update to cart place
+            session.setAttribute("CART", cart);
+            //6. Cust goes to shopping
+//            url = "DispatchServlet"
+//                    + "?btAction=Buy";
+            url = LIST_PRODUCT;
+        } catch (SQLException ex) {
+            log("AddBookToCartServlet_SQL: " + ex.getMessage());
+        } catch (NamingException ex) {
+            log("AddBookToCartServlet_Naming: " + ex.getMessage());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            out.close();
         }
     }
 
@@ -95,10 +98,8 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (NamingException | ClassNotFoundException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BuyAgain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -115,10 +116,8 @@ public class HomeController extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (NamingException | ClassNotFoundException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BuyAgain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package sample.controllers;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +31,8 @@ import sample.dto.UserDTO;
  *
  * @author Admin
  */
-@WebServlet(name = "SearchInOrder", urlPatterns = {"/SearchInOrder"})
-public class SearchInOrder extends HttpServlet {
+@WebServlet(name = "LoadStatusOrder", urlPatterns = {"/LoadStatusOrder"})
+public class LoadStatusOrder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,43 +42,43 @@ public class SearchInOrder extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
-     * @throws java.lang.ClassNotFoundException
-     * @throws javax.naming.NamingException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ClassNotFoundException, NamingException {
+            throws ServletException, IOException, SQLException, NamingException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        String searchValue = request.getParameter("searchValue");
         HttpSession session = request.getSession();
         UserDTO user = (UserDTO) session.getAttribute("user");
         String username = user.getUserName();
+        String param = request.getParameter("status");
+        int status = Integer.parseInt(param);
         try {
             PrintWriter out = response.getWriter();
             OrderDAO dao = new OrderDAO();
             ProductDAO productDAO = new ProductDAO();
-            List<OrderDTO> listOrder = dao.loadOrderByUsername(username);
+            List<OrderDTO> listOrder = new ArrayList<>();
+            if (status == 5) {
+                listOrder = dao.loadOrderByUsername(username);
+            } else {
+                listOrder = dao.loadOrderByUsername(username, status);
+            }
             for (OrderDTO order : listOrder) {
                 List<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
                 order.setProductsList(productsList);
             }
-            List<OrderDTO> listOrderSearch = new ArrayList<>();
-            listOrder.forEach((order) -> {
-                boolean contains = false;
-                for (ProductDTO pro : order.getProductsList()) {
-                    if (pro.getProductName().contains(searchValue)) {
-                        contains = true;
-                    }
-                }
-                if (contains) {
-                    listOrderSearch.add(order);
-                }
-            });
-            if (listOrderSearch.isEmpty()) {
+            if (status == 5) {
+                out.print("<div class=\"search mt-2 mb-2\">\n"
+                        + "                            <input id=\"searchValue\" type=\"text\" name=\"searchValue\" value=\"\" class=\"form-control\" placeholder=\"You can search by Product name\">\n"
+                        + "                            <button onclick=\"search()\" class=\"btn btn-primary\"><i class=\"bi bi-search\"></i></button>\n"
+                        + "                            <input type=\"hidden\" name=\"searchValue\" value=\"${requestScope.searchValue}\" />\n"
+                        + "                        </div>");
+            }
+            if (listOrder.isEmpty()) {
                 out.print("<h5 class=\"text-uppercase mb-3\">Không có đơn hàng nào được tìm thấy!!</h5>");
             } else {
-                listOrderSearch.forEach((dto) -> {
-                    out.print("<div class=\"blog-item product\">\n"
+                out.print("<div id=\"content\" class=\"fr-flbox middle bg-white\" style=\"border: 1px solid rgb(224, 224, 224); padding: 10px 10px;\">");
+                listOrder.forEach((dto) -> {
+                    out.print(""
+                            + "<div class=\"blog-item product\">\n"
                             + "                                    <div class=\"row g-0 bg-light overflow-hidden\">\n"
                             + "                                        <div class=\"col-12 h-50 d-flex flex-column justify-content-center\">\n"
                             + "                                            <div class=\"p-4\">\n"
@@ -121,12 +123,13 @@ public class SearchInOrder extends HttpServlet {
                     out.print(" </div>\n"
                             + "                                            </div>\n"
                             + "                                        </div>\n"
-                            + "<button type=\"submit\" value=\"Add\" onclick=\"addToCart(${dto.orderID})\" class=\"btn btn-primary col-3 btn-buy\" type=\"button\">\n"
+                            + "<button type=\"submit\" value=\"Add\" onclick=\"addToCart(" + dto.getOrderID() + ")\" class=\"btn btn-primary col-3 btn-buy\" type=\"button\">\n"
                             + "                                                Buy again\n"
                             + "                                            </button>"
                             + "                                    </div>\n"
                             + "                                </div> ");
                 });
+                out.print("</div>");
             }
         } finally {
 
@@ -148,11 +151,11 @@ public class SearchInOrder extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(SearchInOrder.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SearchInOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoadStatusOrder.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NamingException ex) {
-            Logger.getLogger(SearchInOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoadStatusOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoadStatusOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -170,11 +173,11 @@ public class SearchInOrder extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(SearchInOrder.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SearchInOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoadStatusOrder.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NamingException ex) {
-            Logger.getLogger(SearchInOrder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoadStatusOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoadStatusOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -10,31 +10,33 @@ package sample.dto;
  * @author Duy
  */
 public class CategoriesBirdDTO {
-    private int BirdID;
-    private int ProductID;
+    private int birdID;
+    private int broductID;
 
     public CategoriesBirdDTO() {
     }
 
-    public CategoriesBirdDTO(int BirdID, int ProductID) {
-        this.BirdID = BirdID;
-        this.ProductID = ProductID;
+    public CategoriesBirdDTO(int birdID, int broductID) {
+        this.birdID = birdID;
+        this.broductID = broductID;
     }
 
     public int getBirdID() {
-        return BirdID;
+        return birdID;
     }
 
-    public void setBirdID(int BirdID) {
-        this.BirdID = BirdID;
+    public int getBroductID() {
+        return broductID;
     }
 
-    public int getProductID() {
-        return ProductID;
+    public void setBirdID(int birdID) {
+        this.birdID = birdID;
     }
 
-    public void setProductID(int ProductID) {
-        this.ProductID = ProductID;
+    public void setBroductID(int broductID) {
+        this.broductID = broductID;
     }
+
+    
     
 }

@@ -130,15 +130,14 @@
                     <div class="container">
                         <div class="row w-100">
                             <div class="col-lg-12 col-md-12 col-12">
-                                <form action="CartServlet">
+                                
                                     <table id="shoppingCart" class="table table-condensed table-responsive">
                                         <thead>
                                             <tr>
-                                                <th style="width:60%">Name</th>
-                                                <th style="width:12%">Price</th>
+                                                <th style="width:65%">Name</th>
+                                                <th style="width:15%">Price</th>
                                                 <th style="width:10%">Quantity</th>
-                                                <th style="width:16%">Remove</th>
-                                                <th style="width:16%">CheckOut</th>
+                                                <th style="width:10%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -166,18 +165,10 @@
                                                     <td class="actions" data-th="">
                                                         <div class="text-right">
                                                             <div class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                                                <input type="checkbox" name="chkItem" 
+                                                                <input on ="select(${dto.productID})" class="align-items-center" type="checkbox" name="chkItem" 
                                                                        value="${dto.productID}" />
                                                             </div>
 
-                                                        </div>
-                                                    </td>
-                                                    <td class="actions" data-th="">
-                                                        <div class="text-right">
-                                                            <div class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                                                <input type="checkbox" name="chkCheckOut" 
-                                                                       value="${dto.productID}" />
-                                                            </div>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -201,7 +192,7 @@
                                                                                                       name="btAction" /></div>
                                         </div>
                                     </div>
-                                </form>
+                               
 
                             </div>
                         </div>
@@ -224,7 +215,23 @@
             </c:if>
         </section>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+                                function select(param) {
+                                    $.ajax({
+                                        type: "get",
+                                        url: "SelectServlet",
+                                        data: {
+                                            productID: param,
+                                        },
+                                        success: function () {
+                                           alert("say somthing");
+                                        }
+                                        
+                                    });
+                                }
+        </script>
+            
     </body>
 </html>
 
