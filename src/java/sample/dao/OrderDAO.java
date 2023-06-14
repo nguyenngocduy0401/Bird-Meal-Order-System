@@ -21,7 +21,6 @@ import sample.utils.DBUtils;
  * @author Admin
  */
 public class OrderDAO {
-
     public List<OrderDTO> loadOrder()
             throws SQLException, NamingException, ClassNotFoundException {
 
@@ -33,19 +32,20 @@ public class OrderDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT OrderID, UserID, Date, "
-                        + "Status, OrderAddress "
+                String sql = "SELECT OrderID, UserID, OrderDate, "
+                        + "ShippingDate, Status, OrderAddress "
                         + "FROM [Order] ";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
                     int userID = rs.getInt("UserID");
-                    String date = rs.getString("Date");
+                    Date orderDate = rs.getDate("OrderDate");
+                    Date shippingDate = rs.getDate("ShippingDate");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
 
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
+                    OrderDTO dto =new OrderDTO(orderID, userID, orderDate, shippingDate, status, orderAddress);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -62,54 +62,7 @@ public class OrderDAO {
         }
         return list;
     }
-
-    public List<OrderDTO> loadOrderUser(String userName)
-            throws SQLException, NamingException, ClassNotFoundException {
-
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        List<OrderDTO> list = new ArrayList<>();
-
-        try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                String sql = "SELECT [OrderID]\n"
-                        + ",[Order].[UserID]\n"
-                        + ",[Order].[Date]\n"
-                        + ",[Order].[Status]\n"
-                        + ",[OrderAddress]\n"
-                        + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
-                        + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
-                        + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
-                        + "WHERE UserName  like ? ";
-                stm = con.prepareStatement(sql);
-                stm.setString(1, userName);
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    int orderID = rs.getInt("OrderID");
-                    String date = rs.getString("Date");
-                    int status = rs.getInt("Status");
-                    String orderAddress = rs.getString("OrderAddress");
-                    int userID = rs.getInt("UserID");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
-                    list.add(dto);
-                }//end while rs not null
-            }//end if con is not null
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return list;
-    }
-
+    
     public int getAmountOrder() throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -139,7 +92,7 @@ public class OrderDAO {
         }
         return 0;
     }
-
+    
     public List<OrderDTO> loadPagingOrder(int index, int onPageOrder)
             throws SQLException, NamingException, ClassNotFoundException {
 
@@ -151,23 +104,24 @@ public class OrderDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT OrderID, UserID, Date, "
-                        + "Status, OrderAddress "
+                String sql = "SELECT OrderID, UserID, OrderDate, "
+                        + "ShippingDate, Status, OrderAddress "
                         + "FROM [Order] "
                         + "ORDER BY OrderID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, (index - 1) * onPageOrder);
+                stm.setInt(1,(index - 1) * onPageOrder);
                 stm.setInt(2, onPageOrder);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
                     int userID = rs.getInt("UserID");
-                    String date = rs.getString("Date");
+                    Date orderDate = rs.getDate("OrderDate");
+                    Date shippingDate = rs.getDate("ShippingDate");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
 
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
+                    OrderDTO dto =new OrderDTO(orderID, userID, orderDate, shippingDate, status, orderAddress);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -184,103 +138,12 @@ public class OrderDAO {
         }
         return list;
     }
-
-    public List<OrderDTO> loadOrderByUsername(String userName)
-            throws SQLException, NamingException, ClassNotFoundException {
-
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        List<OrderDTO> list = new ArrayList<>();
-
-        try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                String sql = "SELECT [OrderID]\n"
-                        + ",[Order].[UserID]\n"
-                        + ",[Order].[Date]\n"
-                        + ",[Order].[Status]\n"
-                        + ",[OrderAddress]\n"
-                        + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
-                        + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
-                        + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
-                        + "WHERE UserName  like ? ";
-                stm = con.prepareStatement(sql);
-                stm.setString(1, userName);
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    int orderID = rs.getInt("OrderID");
-                    String date = rs.getString("Date");
-                    int userID = rs.getInt("UserID");
-                    int status = rs.getInt("Status");
-                    String orderAddress = rs.getString("OrderAddress");
-
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
-                    list.add(dto);
-                }//end while rs not null
-            }//end if con is not null
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return list;
-    }
-
-    public List<OrderDTO> loadOrderByUsername(String userName, int status)
-            throws SQLException, NamingException, ClassNotFoundException {
-
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        List<OrderDTO> list = new ArrayList<>();
-
-        try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                String sql = "SELECT [OrderID]\n"
-                        + ",[Order].[UserID]\n"
-                        + ",[Order].[Date]\n"
-                        + ",[Order].[Status]\n"
-                        + ",[OrderAddress]\n"
-                        + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
-                        + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
-                        + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
-                        + "WHERE UserName  like ? AND [Order].[Status] = ? ";
-                stm = con.prepareStatement(sql);
-                stm.setString(1, userName);
-                stm.setInt(2, status);
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    int orderID = rs.getInt("OrderID");
-                    String date = rs.getString("Date");
-                    String orderAddress = rs.getString("OrderAddress");
-                    int userID = rs.getInt("UserID");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
-                    list.add(dto);
-                }//end while rs not null
-            }//end if con is not null
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return list;
-    }
-
+    
     public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
-
+        OrderDAO dao = new OrderDAO();
+        List<OrderDTO> list = dao.loadPagingOrder(0,3);
+        list.forEach((o) -> {
+            System.out.println(o);
+        });
     }
 }

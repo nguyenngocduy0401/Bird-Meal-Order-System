@@ -18,11 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.CategoriesBirdDAO;
-import sample.dao.CategoryDAO;
 import sample.dao.ProductDAO;
-import sample.dto.BirdDTO;
-import sample.dto.CategoryDTO;
 import sample.dto.ProductDTO;
 
 /**
@@ -60,24 +56,15 @@ public class SearchController extends HttpServlet {
                 request.setAttribute("PRODUCTS", null);
             } else {
                 ProductDAO dao = new ProductDAO();
-                CategoryDAO cateDAO = new CategoryDAO();
-                List<CategoryDTO> cateList = cateDAO.getCatetoryList();
-                List<String> listSize = dao.getSizeList();
-                List<BirdDTO> listBird = CategoriesBirdDAO.getBirdList();
-                List<ProductDTO> result = dao.searchListProductUser(searchValue, page, ON_PAGE_PRODUCT, -1, "", -1, -1, "");
-                int amount = dao.getAmountSearchProductUser(searchValue, -1, "", -1, -1, "");
-                int endPage = amount / ON_PAGE_PRODUCT;
-                if (amount % ON_PAGE_PRODUCT != 0) {
-                    endPage++;
-                }
+                List<ProductDTO> result = dao.searchListProductUser(searchValue, page, ON_PAGE_PRODUCT);
+                int amount = dao.getAmountSearchProductUser(searchValue);
+                int endPage = amount/ON_PAGE_PRODUCT;
+                if(amount%ON_PAGE_PRODUCT!=0) endPage ++;
                 request.setAttribute("PRODUCTS", result);
                 request.setAttribute("PAGE", endPage);
                 request.setAttribute("TAGS", page);
                 request.setAttribute("txtSearchValue", searchValue);
                 request.setAttribute("RESULT_AMOUNT", amount);
-                request.setAttribute("CATEGORY_LIST", cateList);
-                request.setAttribute("SIZE_LIST", listSize);
-                request.setAttribute("BIRD_LIST", listBird);
             }
         } catch (SQLException e) {
             log("AccountSearchServlet _ SQL _ " + e.getMessage());

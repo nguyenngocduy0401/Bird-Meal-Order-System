@@ -1,18 +1,160 @@
-<%-- 
+<%--
     Document   : viewcart
     Created on : May 26, 2023, 3:46:31 PM
     Author     : DucAnh
 --%>
 <style>
-    .card{
+    .card {
         box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
     }
 </style>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="sample.dto.ProductDTO" %>
+<%@ page import="sample.dao.ProductDAO" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
 <!DOCTYPE html>
+<c:if test="${param.check ne 1}">
+    <c:redirect url="ShowCartController" />
+</c:if>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
+    var subtotal = 0;
+
+    function calculateTotal(quantity, price, checkbox) {
+        var total = quantity * price;
+        if (checkbox.checked) {
+
+            subtotal += total;
+        } else {
+            subtotal -= total;
+        }
+        document.getElementById("subtotalAmount").textContent = formatCurrency(subtotal);
+    }
+
+    function formatCurrency(amount) {
+        return amount.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+    }
+
+//    function toggleSelectAll(totalALL, checkbox) {
+//        var checkboxes = document.getElementsByName("select");
+//
+//        for (var i = 0; i < checkboxes.length; i++) {
+//            checkboxes[i].checked = checkbox.checked;
+//        }
+//        var total = totalALL;
+//        if (checkbox.checked) {
+//            subtotal = total;
+//        } else {
+//            subtotal = 0;
+//        }
+//        if (button.innerText === 'Select All') {
+//            button.innerText = 'Deselect All';
+//        } else {
+//            button.innerText = 'Select All';
+//        }
+//        document.getElementById("subtotalAmount").textContent = formatCurrency(subtotal);
+//    }
+
+    function toggleSelectAll(totalALL, button) {
+
+        var checkboxes = document.getElementsByName("select");
+        var total = totalALL;
+
+        if (button.innerText === 'Select All') {
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = true;
+            }
+            subtotal = total;
+            button.innerText = 'Deselect All';
+        } else {
+            subtotal = 0;
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = false;
+            }
+            button.innerText = 'Select All';
+        }
+
+        document.getElementById("subtotalAmount").textContent = formatCurrency(subtotal);
+    }
+
+    $(document).on("change", ".form-control", function () {
+        var quantity = $(this).val();
+        var key = $(this).data("key");
+        UpdateCart(quantity, key);
+    });
+
+    function UpdateCart(value, key) {
+        var quantity = value;
+        var id = key;
+        $.ajax({
+            type: "post",
+            url: "UpdateCartController",
+            data: {
+                pid: id,
+                qty: quantity
+            },
+            success: function () {
+                $('#reloadCalculator').load(window.location.href + ' #reloadCalculator');
+                subtotal = 0;
+            }
+        });
+    }
+    function removeSelectedProduct() {
+        var selectedProductIds = [];
+        var checkboxes = document.getElementsByName("select");
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selectedProductIds.push(checkboxes[i].value);
+            }
+        }
+
+        $.ajax({
+            type: "post",
+            url: "RemoveProductController",
+            data: {
+                selectedProductIds: selectedProductIds
+            },
+            success: function () {
+                $('#reloadCalculator').load(window.location.href + ' #reloadCalculator');
+            },
+            error: function () {
+                alert("Error occurred while removing products.");
+            }
+        });
+    }
+
+    function checkOutSelectedProduct() {
+        var selectedProductIds = [];
+        var checkboxes = document.getElementsByName("select");
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selectedProductIds.push(checkboxes[i].value);
+            }
+        }
+        if (selectedProductIds.length > 0) {
+            $.ajax({
+                type: "post",
+                url: "CheckOutProductController",
+                data: {
+                    select: selectedProductIds
+                },
+                success: function () {
+                    window.location.href = "checkOutForGuest.jsp";
+                }
+            });
+
+        } else
+        {
+            document.getElementById("checkselect").textContent = "select, please!"
+
+        }
+    }
+</script>
 <html>
     <head>
         <meta charset="utf-8">
@@ -24,7 +166,7 @@
 
               <!-- Google Web Fonts -->
               <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">  
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -94,7 +236,6 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
                 <div class="col-md-7 container-fluid">
-
                     <div class="search">
                         <i class="fa fa-search"></i>
                         <input type="text" class="form-control" placeholder="Have a question? Ask Now">
@@ -102,7 +243,7 @@
                     </div>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="Home.html" class="nav-item nav-link active">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
@@ -110,7 +251,7 @@
             </div>
         </nav>
         <!-- Navbar End -->
-        
+
         <div class="container-fluid pt-5">
             <div class="container">
                 <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
@@ -119,119 +260,114 @@
                 </div>
             </div>
         </div>
-
+        <div id="content"></div>
 
         <section class="card col-md-8 mx-auto container-fluid pt-5" >
-            <c:set var="cart" value="${sessionScope.CART}" />
+            <c:set var="cart" value="${sessionScope.cart}" />
             <c:if test="${not empty cart}">
-                <c:set var="items" value="${cart.items}" />
-                <!-- NOT EMPTY ITEMS -->
-                <c:if test="${not empty items}">
-                    <div class="container">
-                        <div class="row w-100">
-                            <div class="col-lg-12 col-md-12 col-12">
-                                
-                                    <table id="shoppingCart" class="table table-condensed table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:65%">Name</th>
-                                                <th style="width:15%">Price</th>
-                                                <th style="width:10%">Quantity</th>
-                                                <th style="width:10%"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="item" items="${items}" varStatus="counter">
-                                                <c:set var="dto" value="${item.key}" />
-                                                <c:set var="quantity" value="${item.value}" />
-                                                <c:set var="price" value="${dto.price}" />
-                                                <c:set var="total" value="${total + quantity * price}" />
-                                                <tr>
-                                                    <td data-th="Product">
-                                                        <div class="row">
-                                                            <div class="col-md-3 text-left">
-                                                                <img src=${dto.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
-                                                            </div>
-                                                            <div class="col-md-9 text-left mt-sm-2">
-                                                                <h4>${dto.productName}</h4>
-                                                                <p class="font-weight-light">${dto.productDetail}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td data-th="Price"><fmt:formatNumber value="${dto.price}" maxFractionDigits="0"/></td>
-                                                    <td data-th="Quantity">
-                                                        <input type="number" class="form-control form-control-lg text-center" value=${quantity}>
-                                                    </td>
-                                                    <td class="actions" data-th="">
-                                                        <div class="text-right">
-                                                            <div class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                                                <input on ="select(${dto.productID})" class="align-items-center" type="checkbox" name="chkItem" 
-                                                                       value="${dto.productID}" />
-                                                            </div>
+                <div class="container" id="reloadCalculator">
+                    <div class="row w-100">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <form action="MainController">
+                                <table id="shoppingCart" class="table table-condensed table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:70%">Name</th>
+                                            <th style="width:8%">Price</th>
+                                            <th style="width:8%">Quantity</th>
+                                            <th style="width: 8%">
+                                                <div class="btn btn-white bg-white btn-md mb-2">
 
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="item" items="${cart}" varStatus="counter">
+                                            <c:set var="pid" value="${item.key}" />
+                                            <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
+                                            <c:set var="quantity" value="${item.value}" />
+                                            <c:set var="price" value="${product.price}" />
+                                            <c:set var="total" value="${total + (quantity * product.price)}"/>
+                                            <tr>
+                                                <td data-th="Product">
+                                                    <div class="row">
+                                                        <div class="col-md-3 text-left">
+                                                            <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                                         </div>
-                                                    </td>
-                                                </tr>
+                                                        <div class="col-md-9 text-left mt-sm-2">
+                                                            <h4>${product.productName}</h4>
+                                                            <p class="font-weight-light">${product.productDetail}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td data-th="Price"><div style="font-weight: bold;">${price}₫</div></td>
+                                                <td data-th="Quantity">
+                                                    <input type="number" data-key="${item.key}" class="form-control form-control-lg text-center" min="1" value=${quantity} >
+                                                </td>
+                                                <td class="actions" data-th="">
+                                                    <div class="text-right">
+                                                        <div class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                                            <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                            <tr>
                                             </c:forEach>
-                                        </tbody>
-                                    </table>
-                                    <div class="float-right text-right">
-                                        <h4>Subtotal:</h4>
-                                        <h1><fmt:formatNumber value="${total}" maxFractionDigits="0"/>đ
-                                            <input type="hidden" name="txtTotal" value="${total}" /></h1>
+
+                                    </tbody>
+                                </table>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-7"></div>
+                                        <div class="col-md-1 text-left">
+                                        </div>
+                                        <div class="col-md-1 text-left">
+                                        </div>
+                                        <div class="col-md-1 text-right">
+                                        </div>
+                                        <div class="col-md-2 text-right">
+                                            <button class="btn btn-primary btn-sm" id="selectAll" type="button" onclick="toggleSelectAll(${total}, this)">Select All</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="float-right text-right">
+                                    <h4>Subtotal:</h4>
+                                    <div class="row mt-4 d-flex align-items-center">
+                                        <div class="col-sm-6 order-md-2">
+                                            <h1><span id="subtotalAmount"></span></h1>
+                                        </div>
                                     </div>
                                     <div class="row mt-4 d-flex align-items-center">
                                         <div class="col-sm-6 order-md-2 text-right">
-                                            <div class="btn btn-primary mb-4 btn-lg pl-5 pr-5"><input type="submit" class="btn"
-                                                                                                      value="Remove Selected Foods" 
-                                                                                                      name="btAction" /></div>
+                                            <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="removeSelectedProduct()">Remove Selected Product</button>
                                         </div>
                                         <div class="col-sm-6 order-md-2 text-right">
-                                            <div class="btn btn-primary mb-4 btn-lg pl-5 pr-5"><input type="submit" class="btn"
-                                                                                                      value="Check Out Selected Foods"
-                                                                                                      name="btAction" /></div>
+                                            <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5"  type="button" onclick="checkOutSelectedProduct()" value="checkOutSelectedProduct">Check Out Selected Product</button>
+                                            <div id="checkselect" style="color: red;"></div>
                                         </div>
                                     </div>
-                               
-
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </c:if>
-                <c:if test="${empty items}">
-                    <div>
-                        <h2>
-                            No item exited in your cart!
-                        </h2>
-                        <a href="HomeController">Add More Books to Your Cart</a>
-                    </div>
-                </c:if>
+                </div>
             </c:if>
             <c:if test="${empty cart}">
                 <div>
-                    <h1>No cart is existed!</h1>
+                    <h1>No item exited in your cart!</h1>
                     <a href="HomeController">Click Here To Go Shopping</a>
                 </div>
             </c:if>
         </section>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script>
-                                function select(param) {
-                                    $.ajax({
-                                        type: "get",
-                                        url: "SelectServlet",
-                                        data: {
-                                            productID: param,
-                                        },
-                                        success: function () {
-                                           alert("say somthing");
-                                        }
-                                        
-                                    });
-                                }
-        </script>
-            
     </body>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 Bird Meal Order System. All rights reserved.</p>
+        </div>
+    </footer>
 </html>
 

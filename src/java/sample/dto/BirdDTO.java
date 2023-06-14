@@ -16,10 +16,6 @@ public class BirdDTO {
     public BirdDTO() {
     }
 
-    public BirdDTO(String birdName) {
-        this.birdName = birdName;
-    }
-    
     public BirdDTO(int birdID, String birdName) {
         this.birdID = birdID;
         this.birdName = birdName;

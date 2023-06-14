@@ -9,27 +9,27 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
+    <style>  
+        table, th, td {  
+            border: 1px solid black;  
+            border-collapse: collapse;  
             margin-top: 30px;
             margin-left: 50px;
-        }
-        th, td {
-            padding: 10px;
+        }  
+        th, td {  
+            padding: 10px;  
             text-align: center;
-        }
-        table#alter tr:nth-child(even) {
-            background-color: #eee;
-        }
-        table#alter tr:nth-child(odd) {
-            background-color: #fff;
-        }
-        table#alter th {
-            color: white;
-            background-color: gray;
-        }
+        }  
+        table#alter tr:nth-child(even) {  
+            background-color: #eee;  
+        }  
+        table#alter tr:nth-child(odd) {  
+            background-color: #fff;  
+        }  
+        table#alter th {  
+            color: white;  
+            background-color: gray;  
+        }  
 
         #class{
             margin-left: 50px;
@@ -44,49 +44,6 @@
             margin-top: 30px;
             margin-left: 50px;
         }
-        .bg-success {
-            background-color: #7ab730 !important;
-        }
-        .h3 {
-            font-size: 1.75rem;
-            font-weight: 400;
-            line-height: 1.2;
-        }
-
-        .mb-4 {
-            margin-bottom: 1.5rem;
-        }
-
-        <!-- CSS-THEM -->
-        .search-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 40px;
-            background-color: #f2f2f2;
-            border-radius: 20px;
-            padding: 5px;
-        }
-
-        .search-container input[type="text"] {
-            width: 80%;
-            border: none;
-            background-color: #f2f2f2;
-            outline: none;
-            font-size: 16px;
-        }
-
-        .search-container button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            margin-left: 10px;
-            padding: 5px 15px;
-            font-size: 16px;
-        }
-
 
     </style>
 
@@ -114,17 +71,6 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        <!-- Template Stylesheet -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" 
-              integrity="sha512-ePvKjeDk8O9sig3l4+Jxstq26n4yWdbsRm8g7MUroTqMNXGf2rS6jzJFCCVipBjfYsI0wL+oNT/zKKcjjl5bGQ==" 
-              crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-        </script>
     </head>
 
     <body>
@@ -200,41 +146,26 @@
             </div>
         </nav>
         <c:set var="result" value="${requestScope.PRODUCTS}" />
-        <div class="container my-5">
-            <h1 class="h3 mb-4">Product list</h1>
+        <h1 class="h123">Product list</h1>
 
-            <div class="row">
-                <div class="col-md-6 form-inputs">
-                    <form action="MainController">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Search any product...">
-                            <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
-                        </div>
-                        <div class="col-md-11 text-end">
-                            <button class="btn btn-primary me-2 custom-button" name="btAction" value="Create New Product">Add new product</button>
-                            <button class="btn btn-success me-2 custom-button" name="btAction" value="StaffHome">List All</button>
-                        </div>
-                    </form>
-                    <div class="col-md-11 text-end">
-                        <button class="btn btn-primary me-2 custom-button" data-bs-toggle="modal" data-bs-target="#add-category-model">Add new category product</button>
-                    </div>
-                </div>
-            </div>
-            <div class="search-container">
-                <input type="text" placeholder="Tìm kiếm...">
-                <button type="submit">Tìm</button>
-            </div>
+        <div class="d-flex form-inputs" id="class">
+            <form action="MainController">
+                <input type="text" placeholder="Search any product...">
+                <i class="bx bx-search"></i>
+                <button>Search</button>
+                <button>Add new product</button>
+                <button  name="btAction" value="StaffHome">List All</button>
+            </form>
         </div>
 
-        <div id="content" class="container my-5">
+        <div>
             <c:if test="${empty result}">
                 Vui long them moi san pham!!
             </c:if>
             <c:if test="${not empty result}">
-                <table class="table table-striped table-hover">
-                    <thead class="bg-success text-white">
+                <table border="1">
+                    <thead style="background: #7AB730; color: white">
                         <tr>
-                            <th>imgPath</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -251,7 +182,6 @@
                     <tbody id = "content">
                         <c:forEach var="dto" items="${result}">
                             <tr>
-                                <td><img class="img-fluid mb-4" src="${dto.imgPath}" alt=""></td>
                                 <td>${dto.productName}</td>
                                 <td>${dto.price}</td>
                                 <td>${dto.quantity}</td>
@@ -263,50 +193,75 @@
                                 <td>${dto.status}</td>
                                 <td>${dto.country}</td>
                                 <td>
-                                    <button class="btn btn-outline-primary"><a href="UpdateProductServlet?action=edit&txtProductId=${dto.productID}" >Edit</a><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-outline-danger"><i class="bi bi-trash"></i> Delete</button>
+                                    <button>Delete</button>
+                                    <button>Edit</button>
                                 </td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
             </c:if>
-            <c:set var="prePage" value="${TAGS - 1}" />
-            <c:set var="nextPage" value="${TAGS + 1}" />
-            <div class="col-12 mt-5">
-                <c:if test="${requestScope.PAGE != 1}">
-                    <div class="d-flex justify-content-center">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination pagination-lg m-0">
-                                <c:if test="${TAGS <= PAGE && TAGS > 1}">
-                                    <li class="page-item">
-                                        <a class="page-link rounded-0" onclick="previousPage()" aria-label="Previous">
-                                            <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                                        </a>
-                                    </li>
-                                </c:if>
+        </div>
 
-                                <c:forEach begin="1" end="${PAGE}" var="i">
-                                    <li class="${TAGS == i?"page-item active":"page-item"}">
-                                        <a class="page-link" onclick="loadPage(${i})">${i}</a>
-                                    </li>
-                                </c:forEach>
-                                <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
-                                    <li class="page-item">
-                                        <a onclick="nextPage()" class="page-link rounded-0" aria-label="Next">
-                                            <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                </c:if>
-                            </ul>
-                        </nav>
-                    </div>
-                </c:if>
-            </div>
+        <div class="col-12 mt-5">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-lg m-0">
+                    <c:if test="${TAGS <= PAGE && TAGS > 1}">
+                        <li class="page-item">
+                            <a class="page-link rounded-0" onclick="previousPage()" aria-label="Previous">
+                                <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
+                            </a>
+                        </li>
+                    </c:if>
+
+                    <c:forEach begin="1" end="${PAGE}" var="i">
+                        <li class="${TAGS == i?"page-item active":"page-item"}">
+                            <a class="page-link" onclick="loadPage(${i})">${i}</a>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
+                        <li class="page-item">
+                            <a onclick="nextPage()" class="page-link rounded-0" aria-label="Next">
+                                <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script>
-<<<<<<< Updated upstream
+                                function nextPage() {
+                                    var amount = ${requestScope.TAGS};
+
+                                    $.ajax({
+                                        type: "get",
+                                        url: "PagingStaffProduct",
+                                        data: {
+                                            index: amount + 1,
+                                            txtSearchValue: '${requestScope.txtSearchValue}',
+                                        },
+                                        success: function (data) {
+                                            var row = document.getElementById("content");
+                                            row.innerHTML = data;
+                                        }
+                                    });
+                                }
+                                function previousPage() {
+                                    var amount = ${requestScope.TAGS};
+                                    $.ajax({
+                                        type: "get",
+                                        url: "PagingStaffProduct",
+                                        data: {
+                                            index: amount - 1,
+                                            txtSearchValue: '${requestScope.txtSearchValue}',
+                                        },
+                                        success: function (data) {
+                                            var row = document.getElementById("content");
+                                            row.innerHTML = data;
+                                        }
+                                    });
+                                }
                                 function loadPage(param) {
                                     var amount = param;
                                     $.ajax({
@@ -322,54 +277,6 @@
                                         }
                                     });
                                 }
-=======
-                                            function nextPage() {
-                                                var amount = ${requestScope.TAGS};
-
-                                                $.ajax({
-                                                    type: "get",
-                                                    url: "PagingStaffProduct",
-                                                    data: {
-                                                        index: amount + 1,
-                                                        txtSearchValue: '${requestScope.txtSearchValue}',
-                                                    },
-                                                    success: function (data) {
-                                                        var row = document.getElementById("content");
-                                                        row.innerHTML = data;
-                                                    }
-                                                });
-                                            }
-                                            function previousPage() {
-                                                var amount = ${requestScope.TAGS};
-                                                $.ajax({
-                                                    type: "get",
-                                                    url: "PagingStaffProduct",
-                                                    data: {
-                                                        index: amount - 1,
-                                                        txtSearchValue: '${requestScope.txtSearchValue}',
-                                                    },
-                                                    success: function (data) {
-                                                        var row = document.getElementById("content");
-                                                        row.innerHTML = data;
-                                                    }
-                                                });
-                                            }
-                                            function loadPage(param) {
-                                                var amount = param;
-                                                $.ajax({
-                                                    type: "get",
-                                                    url: "PagingStaffProduct",
-                                                    data: {
-                                                        index: amount,
-                                                        txtSearchValue: '${requestScope.txtSearchValue}',
-                                                    },
-                                                    success: function (data) {
-                                                        var row = document.getElementById("content");
-                                                        row.innerHTML = data;
-                                                    }
-                                                });
-                                            }
->>>>>>> Stashed changes
         </script>
 
 
