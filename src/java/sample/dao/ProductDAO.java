@@ -170,10 +170,7 @@ public class ProductDAO {
                         + "      ,[Status]\n"
                         + "      ,[Country]\n"
                         + "      ,[imgPath]\n"
-                        + "	  ,[Bird].BirdName\n"
-                        + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
-                        + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
-                        + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                        + "  FROM [Product] "
                         + "WHERE ProductName like ? AND Status = 1 ";
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
@@ -188,9 +185,9 @@ public class ProductDAO {
                 } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
                     sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
                 }
-                if (!birdFilter.trim().equals("")) {
-                    sql = sql + and + "BirdName like '" + birdFilter + "'";
-                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
                 String paging = "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 sql = sql + paging;
@@ -274,9 +271,7 @@ public class ProductDAO {
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "SELECT COUNT (*) "
-                        + "FROM [Product] INNER JOIN [CategoriesBird]\n"
-                        + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
-                        + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                        + "FROM [Product] "
                         + "WHERE ProductName like ? AND Status = 1 ";
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
@@ -291,9 +286,9 @@ public class ProductDAO {
                 } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
                     sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
                 }
-                if (!birdFilter.trim().equals("")) {
-                    sql = sql + and + "BirdName like '" + birdFilter + "'";
-                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
                 stm = con.prepareStatement(sql);
                 stm.setString(1, "%" + searchValue + "%");
                 rs = stm.executeQuery();
@@ -356,9 +351,7 @@ public class ProductDAO {
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "SELECT COUNT (*) "
-                        + "FROM [Product] INNER JOIN [CategoriesBird]\n"
-                        + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
-                        + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                        + "FROM [Product] "
                         + "WHERE Status = 1 ";
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
@@ -373,9 +366,9 @@ public class ProductDAO {
                 } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
                     sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
                 }
-                if (!birdFilter.trim().equals("")) {
-                    sql = sql + and + "BirdName like '" + birdFilter + "'";
-                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -421,10 +414,7 @@ public class ProductDAO {
                         + "      ,[Status]\n"
                         + "      ,[Country]\n"
                         + "      ,[imgPath]\n"
-                        + "	  ,[Bird].BirdName\n"
-                        + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
-                        + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
-                        + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                        + "  FROM [Product] "
                         + "WHERE Status = 1 ";
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
@@ -439,9 +429,9 @@ public class ProductDAO {
                 } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
                     sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
                 }
-                if (!birdFilter.trim().equals("")) {
-                    sql = sql + and + "[BirdName] like '" + birdFilter + "'";
-                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "[BirdName] like '" + birdFilter + "'";
+//                }
                 String paging = "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 sql = sql + paging;
@@ -568,10 +558,7 @@ public class ProductDAO {
                         + "      ,[Status]\n"
                         + "      ,[Country]\n"
                         + "      ,[imgPath]\n"
-                        + "	  ,[Bird].BirdName\n"
-                        + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
-                        + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
-                        + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                        + "  FROM [Product] "
                         + "WHERE Status = 1 ";
 
                 if (categoryFilter != -1) {
@@ -587,9 +574,9 @@ public class ProductDAO {
                 } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
                     sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
                 }
-                if (!birdFilter.trim().equals("")) {
-                    sql = sql + and + "BirdName like '" + birdFilter + "'";
-                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
                 String paging = "ORDER BY ProductID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 sql = sql + paging;
@@ -642,9 +629,7 @@ public class ProductDAO {
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "SELECT COUNT (*) "
-                        + "FROM [Product] INNER JOIN [CategoriesBird]\n"
-                        + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
-                        + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
+                        + "FROM [Product] "
                         + "WHERE Status = 1 ";
 
                 if (categoryFilter != -1) {
@@ -660,9 +645,9 @@ public class ProductDAO {
                 } else if (priceMinFilter >= 0 && priceMaxFilter >= 0) {
                     sql = sql + and + "Price BETWEEN " + priceMinFilter + " AND " + priceMaxFilter + " ";
                 }
-                if (!birdFilter.trim().equals("")) {
-                    sql = sql + and + "BirdName like '" + birdFilter + "'";
-                }
+//                if (!birdFilter.trim().equals("")) {
+//                    sql = sql + and + "BirdName like '" + birdFilter + "'";
+//                }
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
 
