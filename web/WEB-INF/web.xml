@@ -48,6 +48,14 @@
         <servlet-name>CheckOutProductController</servlet-name>
         <servlet-class>sample.controllers.CheckOutProductController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateNewProductServlet</servlet-name>
+        <servlet-class>sample.controllers.CreateNewProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProductServlet</servlet-name>
+        <servlet-class>sample.controllers.UpdateProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -95,6 +103,14 @@
     <servlet-mapping>
         <servlet-name>CheckOutProductController</servlet-name>
         <url-pattern>/CheckOutProductController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateNewProductServlet</servlet-name>
+        <url-pattern>/CreateNewProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProductServlet</servlet-name>
+        <url-pattern>/UpdateProductServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -66,6 +66,11 @@ public class ProductDTO implements Serializable{
         return productID;
     }
 
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+    
+
     public String getProductName() {
         return productName;
     }

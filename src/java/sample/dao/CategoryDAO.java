@@ -58,7 +58,7 @@ public class CategoryDAO {
         return category;
     }
 
-    public List<CategoryDTO> getCatetoryList() throws SQLException, ClassNotFoundException {
+    public static List<CategoryDTO> getCatetoryList() throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;

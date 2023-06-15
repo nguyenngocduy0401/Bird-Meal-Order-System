@@ -10,29 +10,54 @@
 <!DOCTYPE html>
 <html>
     <style>
+        /*edit link color*/
+        .title a:visited {
+            color: #333333;
+        }
+        .title a:hover{
+            color: #7AB730;
+        }
+        /*edit tilte position*/
+        .title a>div{
+            padding-left: 26px;
+        }
+        .title div{
+            margin-top: 7px;
+        }
+        /*dropdown hover*/
+        .dropdown:hover>.dropdown-menu {
+            display: block;
+        }
+        .dropdown>.nav-link:active {
+            pointer-events: none;
+        }
+        .dropdown-menu {
+            right: 0;
+        }
+        /*aa*/
         .content {
             margin-top: 60px;
         }
-        table, th, td {  
-            border: 1px solid black;  
-            border-collapse: collapse;  
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
             margin-top: 30px;
             margin-left: 50px;
-        }  
-        th, td {  
-            padding: 10px;  
+        }
+        th, td {
+            padding: 10px;
             text-align: center;
-        }  
-        table#alter tr:nth-child(even) {  
-            background-color: #eee;  
-        }  
-        table#alter tr:nth-child(odd) {  
-            background-color: #fff;  
-        }  
-        table#alter th {  
-            color: white;  
-            background-color: gray;  
-        }  
+        }
+        table#alter tr:nth-child(even) {
+            background-color: #eee;
+        }
+        table#alter tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        table#alter th {
+            color: white;
+            background-color: gray;
+        }
 
         #class{
             margin-left: 50px;
@@ -133,6 +158,9 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+
+        <!-- Libraries sweetalert2--> 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
     <body>
@@ -182,7 +210,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="col-md-7 container-fluid">
-                   
+
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
@@ -194,7 +222,7 @@
                             <i class="bi bi-person fs-1 text-primary me-1"></i>
                         </a>
                         <div class="dropdown-menu m-0 dropdown-menu-end">
-                            <a href="details.html" class="dropdown-item">My profile</a>
+                            <a href="details.jsp" class="dropdown-item">My profile</a>
                             <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
                             <a href="LogoutController" class="dropdown-item">Logout</a>
                         </div>
@@ -209,33 +237,51 @@
         <div class="container content">
 
             <div class="row ">
-                <div class="col-md-3">
-                    <div class="">
-                        <div class="text-primary">My account</div>
+                <div class="title col-md-3">
+                    <div class="" style="width:100% auto; color: black; font-weight: bold;">
+                        <div class="">My account</div>
                     </div>
                     <div>
-                        <div class="text-primary">Profile</div>
+                        <div>
+                            <div class="">
+                                <div style=""> <a class=""" aria-current="page" href="details.jsp">
+                                        <div class="" >Profile</div>
+                                    </a></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="">
+                                <div><a class="" href="MainController?btAction=Purchase">
+                                        <div class=""  style="color: #7AB730" >Purchase</div>
+                                    </a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" style="width: auto;  color: black; font-weight: bold;">
+                        <div class="">Profile settings</div>
                     </div>
                     <div>
-                        <a href="MainController?btAction=Purchase" class="text-dark">Purchase</a>
+                        <div>
+                            <div class=""><a class="" href="editInformation.jsp">
+                                    <div class=""> Edit profile</div>
+                                </a></div>
+                        </div>
+                        <div>
+                            <div class=""><a class="" href="addresses.jsp">
+                                    <div class="">Address book</div>
+                                </a></div>
+                        </div>
+                        <div>
+                            <div class=""><a class="til" href="editPassword.jsp">
+                                    <div class="">Change my password</div>
+                                </a></div>
+                        </div>
+                        <div>
+                            <div class=""><a class="" href="removeAccount.jsp">
+                                    <div class="">Remove account</div>
+                                </a></div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="text-primary">Profile settings</div>
-                    </div>
-                    <div>
-                        <div class="text-primary">Edit profile</div>
-                    </div>
-                    <div>
-                        <div class="text-primary">Address book</div>
-                    </div>
-
-                    <div>
-                        <div class="text-primary">Change my password</div>
-                    </div>
-                    <div>
-                        <div class="text-primary">Remove account</div>
-                    </div>      
-
                 </div>
                 <div class="col-md-9">
                     <div class="fr-flbox middle bg-white" style="border: 1px solid rgb(224, 224, 224); padding: 10px 10px;">
@@ -337,6 +383,17 @@
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
+                                                //check session user
+                                                if (${empty sessionScope.user}) {
+                                                    swal.fire({
+                                                        icon: 'warning',
+                                                        title: "Warning!",
+                                                        text: "Your need to login",
+                                                        confirmButtonText: 'Click to login'
+                                                    }).then(function () {
+                                                        window.location = "login.jsp";
+                                                    });
+                                                }
                                                 function search() {
                                                     $.ajax({
                                                         type: "POST",

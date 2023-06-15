@@ -33,6 +33,11 @@ public class MainController extends HttpServlet {
     private final String REMOVE_PRODUCT_CART = "RemoveProductController";
     private final String CHECKOUT_PRODUCT_CART = "CheckOutProductController";
     private final String SUBMIT_CHECKOUT_GUEST = "SubmitCheckOutController";
+    private final String CREATE_NEW_PRODUCT_PAGE = "CreateNew";
+    private final String CREATE_NEW_PRODUCT_CONTROLLER = "CreateNewProductServlet";
+    private final String UPDATE_PRODUCT_CONTROLLER = "UpdateProductServlet";
+    private final String UPDATE_PRODUCT_PAGE = "UpdateproductNew";
+    private final String SEARCH_STAFF_CONTROLLER = "SearchProductStaff";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,6 +78,16 @@ public class MainController extends HttpServlet {
                 url = CHECKOUT_PRODUCT_CART;
             } else if (btAction.equals("submitCheckOutGuest")) {
                 url = SUBMIT_CHECKOUT_GUEST;
+            } else if (btAction.equals("Create New Product")) {
+                url = CREATE_NEW_PRODUCT_PAGE;
+            } else if (btAction.equals("Create New Product servlet")) {
+                url = CREATE_NEW_PRODUCT_CONTROLLER;
+            } else if (btAction.equals("UpdateProduct")) {
+                url = UPDATE_PRODUCT_CONTROLLER;
+            } else if (btAction.equals("UpdateProductPage")) {
+                url = UPDATE_PRODUCT_PAGE;
+            } else if (btAction.equals("SearchOfStaff")) {
+                url = SEARCH_STAFF_CONTROLLER;
             }
 
         } finally {

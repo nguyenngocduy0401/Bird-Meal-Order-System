@@ -37,22 +37,31 @@
         .paging{
             margin-bottom: 30px;
         }
-        .row{
-            margin-bottom: 10px;
-            margin-top:5px;
-
-        }
-
         .product{
             padding-bottom: 10px;
             padding-top: 10px;
             padding-left: 5px;
             padding-right: 5px;
         }
+
+        .row{
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
         .price-box{
             size: 20px;
             width: 100px;
         }
+        /*dropdown hover*/
+            .dropdown:hover>.dropdown-menu {
+                display: block;
+            }
+            .dropdown>.nav-link:active {
+                pointer-events: none;
+            }
+            .dropdown-menu {
+                right: 0;
+            }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -124,7 +133,7 @@
                             <button class="btn btn-primary">Search</button>
                             <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
                             <input type="hidden" value="Search" name="btAction"/>
-
+                            
                         </div>
                     </form>
                 </div>
@@ -156,7 +165,7 @@
                                 <i class="bi bi-person fs-1 text-primary me-1"></i>
                             </a>
                             <div class="dropdown-menu m-0 dropdown-menu-end">
-                                <a href="details.html" class="dropdown-item">My profile</a>
+                                <a href="details.jsp" class="dropdown-item">My profile</a>
                                 <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
                                 <a href="LogoutController" class="dropdown-item">Logout</a>
                             </div>

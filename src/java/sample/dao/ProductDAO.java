@@ -1078,6 +1078,92 @@ public class ProductDAO {
         return listProduct;
     }
 
+    public boolean createProduct(ProductDTO dto)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "INSERT INTO Product "
+                        + "(ProductName, Price, Quantity, CategoryID, ProductDetail, "
+                        + "Size, AgeRecommendation, Date, [Status], Country, imgPath) "
+                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                //3 create
+                stm = con.prepareStatement(sql);
+                stm.setString(1, dto.getProductName());
+                stm.setDouble(2, dto.getPrice());
+                stm.setInt(3, dto.getQuantity());
+                stm.setInt(4, dto.getCategoryID());
+                stm.setString(5, dto.getProductDetail());
+                stm.setString(6, dto.getSize());
+                stm.setInt(7, dto.getAgeRecommendation());
+                stm.setInt(8, dto.getDate());
+                stm.setInt(9, dto.getStatus());
+                stm.setString(10, dto.getCountry());
+                stm.setString(11, dto.getImgPath());
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
+    public boolean updateProduct(ProductDTO dto)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "UPDATE Product set ProductName = ?, Price = ?, Quantity = ?, CategoryID = ?, \n"
+                        + "ProductDetail = ?, Size = ?, AgeRecommendation = ?, Date = ?, \n"
+                        + "[Status] = ?, Country = ?, imgPath = ? WHERE ProductID = ?";
+                //3 create
+                stm = con.prepareStatement(sql);
+                stm.setString(1, dto.getProductName());
+                stm.setDouble(2, dto.getPrice());
+                stm.setInt(3, dto.getQuantity());
+                stm.setInt(4, dto.getCategoryID());
+                stm.setString(5, dto.getProductDetail());
+                stm.setString(6, dto.getSize());
+                stm.setInt(7, dto.getAgeRecommendation());
+                stm.setInt(8, dto.getDate());
+                stm.setInt(9, dto.getStatus());
+                stm.setString(10, dto.getCountry());
+                stm.setString(11, dto.getImgPath());
+                stm.setInt(12, dto.getProductID());
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
 //    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
 //        ProductDAO dao = new ProductDAO();
 //        List<ProductDTO> listProduct = new ArrayList<>();
