@@ -91,9 +91,9 @@ public class PagingProduct extends HttpServlet {
                 out.print("<p class=\"text-uppercase mb-1\">Không có sản phẩm tương tự được tìm thấy!!</p>");
             } else {
                 result.forEach((dto) -> {
-                    out.println("<div class=\"card block col-md-4 mt-1\">\n"
+                    out.println("<div class=\"block col-md-4 mt-1\">\n"
                             + "                            <section class=\"panel\">\n"
-                            + "                                <div class=\"product-item position-relative bg-light d-flex flex-column text-center product\">\n"
+                            + "                                <div class=\"card product-item position-relative bg-light d-flex flex-column text-center product\">\n"
                             + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
                             + "                                    <h6 class=\"text-uppercase\">" + dto.getProductName() + "</h6>\n"
                             + "                                    <h5 class=\"text-primary mb-0\">" + dto.getPrice() + " VND</h5>\n"

@@ -37,24 +37,17 @@
         .paging{
             margin-bottom: 30px;
         }
-        .product{
-            margin-bottom: 15px;
-            margin-top: 10px;
-            margin-left: 5px;
-            margin-right: 5px;
-            padding-bottom: 10px;
-            padding-left: 10px;
-            padding-right: 10px;
-            padding-top: 10px;
+        .row{
+            margin-bottom: 10px;
+            margin-top:5px;
+
         }
 
-        .block{
-            width: 450px;
-            height: 400px;
-            margin-bottom: 10px;
-            margin-top: 10px;
-            margin-left: 7px;
-            margin-right:7px;
+        .product{
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-left: 5px;
+            padding-right: 5px;
         }
         .price-box{
             size: 20px;
@@ -131,7 +124,7 @@
                             <button class="btn btn-primary">Search</button>
                             <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
                             <input type="hidden" value="Search" name="btAction"/>
-                            
+
                         </div>
                     </form>
                 </div>
@@ -216,9 +209,9 @@
             <section class="col-md-9 container-fluid products">
                 <div id ="content" class="row product-list">
                     <c:forEach var="dto" items="${result}">
-                        <div class="card block col-md-4 mt-1">
+                        <div class="block col-md-4 mt-1">
                             <section class="panel">
-                                <div class="product-item position-relative bg-light d-flex flex-column text-center product">
+                                <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
                                     <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                     <h6 class="text-uppercase">${dto.productName}</h6>
                                     <h5 class="text-primary mb-0">${dto.price} $</h5>
