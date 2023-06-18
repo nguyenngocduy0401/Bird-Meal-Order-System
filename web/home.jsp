@@ -133,7 +133,6 @@
                             <button class="btn btn-primary">Search</button>
                             <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
                             <input type="hidden" value="Search" name="btAction"/>
-
                         </div>
                     </form>
                 </div>
@@ -196,7 +195,6 @@
                         <option value="${size}">${size}</option>
                     </c:forEach>
                 </select>
-
                 <input id="minPrice" class="text-primary bg-light border-0 price-box" type="number" name="minPrice" value="" placeholder="Min Price"/>
                 <input id="maxPrice" class="text-primary bg-light border-0 price-box" type="number" name="maxPrice" value="" placeholder="Max Price"/>
                 <button onclick="filter()" class="btn btn-primary">Filter</button>
