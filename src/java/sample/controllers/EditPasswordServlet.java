@@ -23,8 +23,10 @@ import sample.dto.UserDTO;
  */
 @WebServlet(name = "EditPasswordServlet", urlPatterns = {"/EditPasswordServlet"})
 public class EditPasswordServlet extends HttpServlet {
-private final String LOGIN_PAGE = "errorRegistration.html";
+
+    private final String ERROR_PAGE = "errorRegistration.html";
     private final String EDIT_PASSWORD = "editPassword.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,19 +39,17 @@ private final String LOGIN_PAGE = "errorRegistration.html";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String currentPassword = request.getParameter("currentPassword").trim();
-        String newPassword = request.getParameter("newPassword").trim();
-        String confirmPassword = request.getParameter("confirmPassword").trim();
+        String currentPassword = request.getParameter("txtCurrentPassword");
+        String newPassword = request.getParameter("txtNewPassword");
+        String confirmPassword = request.getParameter("txtConfirmPassword");
         String url = EDIT_PASSWORD;
         InformationCreateError errors = new InformationCreateError();
         boolean foundError = false;
         try {
             HttpSession session = request.getSession(false);
             if (session.getAttribute("user") != null) {
-               
             UserDAO dao = new UserDAO();
             UserDTO dto = (UserDTO)session.getAttribute("user");
-            if (dto != null) {
                 if (!currentPassword.equals(dto.getPassword())) {
                     foundError = true;
                     errors.setPasswordOldWrong("The current password isn't right!");
@@ -58,11 +58,12 @@ private final String LOGIN_PAGE = "errorRegistration.html";
                         || newPassword.trim().length() > 30) {
                     foundError = true;
                     errors.setPasswordLengthError("Password is required input from 8 to 30 characters");
-                } else if (!confirmPassword.trim().equals(newPassword.trim())) {
+                }
+                if (!confirmPassword.trim().equals(newPassword.trim())) {
                     foundError = true;
                     errors.setConfirmNotMatched("Confirm must match password");
                 }
-            }
+            
             if (foundError) {
                 request.setAttribute("UPDATE_PASSWORD_ERROR", errors);
             } else {
@@ -72,7 +73,7 @@ private final String LOGIN_PAGE = "errorRegistration.html";
                 }
             }}
             else {
-                url = LOGIN_PAGE;
+                url = ERROR_PAGE;
             }
         } catch (ClassNotFoundException ex) {
             log("EditPasswordServlet_ClassNotFoundException" + ex.getMessage());

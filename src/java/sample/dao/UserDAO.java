@@ -24,7 +24,7 @@ public class UserDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String s = "select UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
+                String s = "select UserID,UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
                         + "from [User]\n"
                         + "where  UserName=? and Password=? ";
                 PreparedStatement pst = cn.prepareStatement(s);
@@ -33,7 +33,7 @@ public class UserDAO {
                 ResultSet kq = pst.executeQuery();
                 if (kq != null) {
                     while (kq.next()) {
-                        
+                        int userID = kq.getInt("UserID");
                         String userName = kq.getString("UserName");
                         String password = kq.getString("Password");
                         String email = kq.getString("Email");
@@ -44,7 +44,7 @@ public class UserDAO {
                         String phoneNumber = kq.getString("PhoneNumber");
                         boolean gender = kq.getBoolean("Gender");
                         int numberReport = kq.getInt("NumberReport");
-                        user = new UserDTO(role, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
+                        user = new UserDTO(userID, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
 
                     }
                     cn.close();
@@ -282,6 +282,68 @@ public class UserDAO {
             }
         }
 
+        return result;
+    }
+    public boolean removeAccount(String username)
+                throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null; 
+        boolean result = false; 
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "Delete From [User] "
+                        + "Where username = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, username);
+
+                int effectRow = stm.executeUpdate();
+                //5. Preocess result
+                if (effectRow > 0) {
+                    result = true;
+                }
+            } //end connection has existed 
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result; 
+    }
+     public boolean updateAccount(String username, String fullName, String address, String phoneNumber, Boolean gender)
+            throws SQLException, ClassNotFoundException{
+        Connection con = null;
+        PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
+        boolean result = false; //thong qua bien trung gian
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "Update [User] "
+                        + "Set Fullname = ?, Address = ?, PhoneNumber = ?, Gender = ? "
+                        + "Where username = ?";
+                stm = con.prepareStatement(sql);
+                stm.setNString(1, fullName);
+                stm.setString(2, address);
+                stm.setString(3, phoneNumber);
+                stm.setBoolean(4, gender);
+                stm.setString(5, username);
+                        
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            } //end connection has existed 
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
         return result;
     }
 

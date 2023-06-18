@@ -27,9 +27,17 @@ public class MainController extends HttpServlet {
     private final String STAFF_HOME_CONTROLLER = "StaffHomeController";
     private final String STAFF_ORDER_CONTROLLER = "StaffOrderController";
     private final String ADD_ITEM_TO_CART = "AddItemToCartServlet";
+    private final String CHECK_OUT_TROLLER = "CheckOutOrderServlet.jsp";
+    private final String CONFIRM_CHECK_OUT = "ConfirmCheckOutServlet.jsp";
+    private final String PURCHASE = "PurcharHistoryController";
     private final String REMOVE_PRODUCT_CART = "RemoveProductController";
     private final String CHECKOUT_PRODUCT_CART = "CheckOutProductController";
     private final String SUBMIT_CHECKOUT_GUEST = "SubmitCheckOutController";
+    private final String CREATE_NEW_PRODUCT_PAGE = "CreateNew";
+    private final String CREATE_NEW_PRODUCT_CONTROLLER = "CreateNewProductServlet";
+    private final String UPDATE_PRODUCT_CONTROLLER = "UpdateProductServlet";
+    private final String UPDATE_PRODUCT_PAGE = "UpdateproductNew";
+    private final String SEARCH_STAFF_CONTROLLER = "SearchProductStaff";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,12 +66,28 @@ public class MainController extends HttpServlet {
                 url = STAFF_ORDER_CONTROLLER;
             } else if (btAction.equals("Add")) {
                 url = ADD_ITEM_TO_CART;
+            } else if (btAction.equals("Check Out Selected Books")) {
+                url = CHECK_OUT_TROLLER;
+            } else if (btAction.equals("Check Out")) {
+                url = CONFIRM_CHECK_OUT;
+            } else if (btAction.equals("Purchase")) {
+                url = PURCHASE;
             } else if (btAction.equals("removeSelectedProduct")) {
                 url = REMOVE_PRODUCT_CART;
             } else if (btAction.equals("checkOutSelectedProduct")) {
                 url = CHECKOUT_PRODUCT_CART;
             } else if (btAction.equals("submitCheckOutGuest")) {
                 url = SUBMIT_CHECKOUT_GUEST;
+            } else if (btAction.equals("Create New Product")) {
+                url = CREATE_NEW_PRODUCT_PAGE;
+            } else if (btAction.equals("Create New Product servlet")) {
+                url = CREATE_NEW_PRODUCT_CONTROLLER;
+            } else if (btAction.equals("UpdateProduct")) {
+                url = UPDATE_PRODUCT_CONTROLLER;
+            } else if (btAction.equals("UpdateProductPage")) {
+                url = UPDATE_PRODUCT_PAGE;
+            } else if (btAction.equals("SearchOfStaff")) {
+                url = SEARCH_STAFF_CONTROLLER;
             }
 
         } finally {

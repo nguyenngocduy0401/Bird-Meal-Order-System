@@ -52,8 +52,8 @@ public class ShowCartController extends HttpServlet {
                                 String productId = parts[0];
                                 int quantity = Integer.parseInt(parts[1]);
                                 cart.put(productId, quantity);
-                            }
-                        }
+        }
+    }
                         break;
                     }
                 }

@@ -17,7 +17,7 @@ import sample.utils.DBUtils;
  * @author Duy
  */
 public class OrderGuestDAO {
-
+    
     public static int createNewOrderForGuest(String fullName, String phoneNumber, int status, String orderAddress) throws Exception {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -45,7 +45,7 @@ public class OrderGuestDAO {
                 if (rs.next()) {
                     orderID = rs.getInt("OrderID");
                     
-                }
+}
             }
 
         } catch (Exception e) {

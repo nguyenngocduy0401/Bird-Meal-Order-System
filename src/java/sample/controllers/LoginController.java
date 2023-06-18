@@ -83,6 +83,7 @@ public class LoginController extends HttpServlet {
                             HttpSession session = request.getSession(true);
                             if (session != null) {
                                 session.setAttribute("user", user);
+                                request.setAttribute("btAction", "Home");
                                 //create a cookie and attach it to reponse object
                                 if (save != null) {
                                     String token = codeString;
@@ -91,7 +92,7 @@ public class LoginController extends HttpServlet {
                                     cookie.setMaxAge(60 * 200);
                                     response.addCookie(cookie);
                                 }
-                                response.sendRedirect("home.jsp");
+                                response.sendRedirect("MainController");
                             } else {
                                 response.sendRedirect("invalid.html");
                             }

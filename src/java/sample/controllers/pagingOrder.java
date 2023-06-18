@@ -27,7 +27,7 @@ import sample.dto.OrderDTO;
 @WebServlet(name = "pagingOrder", urlPatterns = {"/pagingOrder"})
 public class pagingOrder extends HttpServlet {
 
-    private final int ON_PAGE_PRODUCT = 6;
+    private final int ON_PAGE_PRODUCT = 10;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,8 +85,8 @@ public class pagingOrder extends HttpServlet {
             result.forEach((dto) -> {
                 out.print("<tr>\n"
                         + "                                <td>" + dto.getUserID() + "</td>\n"
-                        + "                                <td>" + dto.getOrderDate() + "</td>\n"
-                        + "                                <td>" + dto.getShippingDate() + "</td>\n"
+                        + "                                <td>" + dto.getDate() + "</td>\n"
+                        + "                                <td>" + dto.getDate()+ "</td>\n"
                         + "                                <td>" + dto.getStatus() + "</td>\n"
                         + "                                <td>" + dto.getOrderAddress() + "</td>\n"
                         + "                                <td>\n"

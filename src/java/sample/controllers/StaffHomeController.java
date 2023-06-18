@@ -28,7 +28,7 @@ import sample.dto.ProductDTO;
 @WebServlet(name = "StaffHomeController", urlPatterns = {"/StaffHomeController"})
 public class StaffHomeController extends HttpServlet {
 
-    private final String HOME_PAGE = "staff.jsp";
+    private final String HOME_PAGE = "listProductOfStaff.jsp";
     private final int ON_PAGE_PRODUCT = 10;
     
     /**

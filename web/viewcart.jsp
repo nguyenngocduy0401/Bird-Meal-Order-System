@@ -1,4 +1,4 @@
-<%--
+<%-- 
     Document   : viewcart
     Created on : May 26, 2023, 3:46:31 PM
     Author     : DucAnh
@@ -20,7 +20,9 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-
+function goBack() {
+        window.location.href = document.referrer;
+    }
     var subtotal = 0;
 
     function calculateTotal(quantity, price, checkbox) {
