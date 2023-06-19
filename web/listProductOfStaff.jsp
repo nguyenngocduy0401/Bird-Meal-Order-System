@@ -376,18 +376,21 @@
                                 <form action="MainController">
                                     <button class="btn btn-outline-primary mr-auto" name="btAction" value="Create New Product">Add new product</button>
                                 </form>
+                                <form action="MainController">
+                                    <button class="btn btn-outline-primary mr-auto" name="btAction" value="StaffHome">Show All</button>
+                                </form>
+                                <form action="MainController">
                                     <div class="form-inline navbar-search">
                                         <div class="input-group">
-                                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." name="txtSearchValue"
+                                            <input name="txtSearchValue" type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                                    aria-label="Search" aria-describedby="basic-addon2">
                                             <div class="input-group-append">
-                                                <form action="MainController">
-                                                <button class="btn btn-primary" name="btAction" value="SearchOfStaff">
+
+                                                <button class="btn btn-primary">
                                                     <i class="fas fa-search fa-sm"></i>
                                                 </button>
-                                                    </form>
                                                 <input type="hidden" name="btAction" value="SearchOfStaff" />
-                                                <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
+
                                             </div>
                                         </div>
                                     </div>

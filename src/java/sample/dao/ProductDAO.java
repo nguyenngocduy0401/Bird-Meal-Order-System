@@ -1163,6 +1163,61 @@ public class ProductDAO {
         }
         return result;
     }
+    public List<ProductDTO> searchListProductOfStaff(String searchValue, int index, int onPageProduct)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [Product].[ProductID],[ProductName],[Price],[Quantity],\n"
+                        + " [CategoryID],[ProductDetail],[Size],\n"
+                        + " [AgeRecommendation],[Date],[Status],\n"
+                        + " [Country],[imgPath] FROM [Product] \n"
+                        + " WHERE ProductName like ? ";
+                String paging = "ORDER BY ProductID "
+                        + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+                sql = sql + paging;
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + searchValue + "%");
+                stm.setInt(2, (index - 1) * onPageProduct);
+                stm.setInt(3, onPageProduct);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
 
 //    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
 //        ProductDAO dao = new ProductDAO();
