@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.CartDAO;
+import sample.dao.CartDetailDAO;
+import sample.dto.CartDTO;
+import sample.dto.UserDTO;
 
 /**
  *
@@ -37,24 +41,35 @@ public class ShowCartController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("cart")) {
-                        String cartValue = cookie.getValue();
-                        if (cartValue.equals("")) {
-                            cookie.setMaxAge(0);
-                            response.addCookie(cookie);
-                        } else {
-                            String[] items = cartValue.split(",");
-                            for (String item : items) {
-                                String[] parts = item.split(":");
-                                String productId = parts[0];
-                                int quantity = Integer.parseInt(parts[1]);
-                                cart.put(productId, quantity);
-        }
-    }
-                        break;
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
+            if (userDTO != null) {
+                if (userDTO.getRole() == 2) {
+                    CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
+                    if (cartDTO != null) {
+                        cart = CartDetailDAO.getCartDetail(cartDTO.getCartID());
+                    }
+
+                }
+            } else {
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("cart")) {
+                            String cartValue = cookie.getValue();
+                            if (cartValue.equals("")) {
+                                cookie.setMaxAge(0);
+                                response.addCookie(cookie);
+                            } else {
+                                String[] items = cartValue.split(",");
+                                for (String item : items) {
+                                    String[] parts = item.split(":");
+                                    String productId = parts[0];
+                                    int quantity = Integer.parseInt(parts[1]);
+                                    cart.put(productId, quantity);
+                                }
+                            }
+                            break;
+                        }
                     }
                 }
             }

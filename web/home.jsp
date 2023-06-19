@@ -53,20 +53,20 @@
             width: 100px;
         }
         /*dropdown hover*/
-            .dropdown:hover>.dropdown-menu {
-                display: block;
-            }
-            .dropdown>.nav-link:active {
-                pointer-events: none;
-            }
-            .dropdown-menu {
-                right: 0;
-            }
+        .dropdown:hover>.dropdown-menu {
+            display: block;
+        }
+        .dropdown>.nav-link:active {
+            pointer-events: none;
+        }
+        .dropdown-menu {
+            right: 0;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <body>
         <c:set var="result" value="${requestScope.PRODUCTS}" />
         <c:set var="cateList" value="${requestScope.CATEGORY_LIST}"/>
@@ -133,7 +133,7 @@
                             <button class="btn btn-primary">Search</button>
                             <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
                             <input type="hidden" value="Search" name="btAction"/>
-                            
+
                         </div>
                     </form>
                 </div>
@@ -303,6 +303,13 @@
                                                             pid: id,
                                                         },
                                                         success: function () {
+                                                            Swal.fire({
+                                                                
+                                                                icon: 'success',
+                                                                title: 'Successful!',
+                                                                showConfirmButton: false,
+                                                                timer: 1500
+                                                            })
                                                         }
                                                     });
                                                 }

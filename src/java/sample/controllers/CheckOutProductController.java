@@ -7,14 +7,21 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.AddressDAO;
+import sample.dao.CartDAO;
+import sample.dao.CartDetailDAO;
+import sample.dto.AddressDTO;
+import sample.dto.CartDTO;
+import sample.dto.CartDetailDTO;
+import sample.dto.UserDTO;
 
 /**
  *
@@ -40,7 +47,8 @@ public class CheckOutProductController extends HttpServlet {
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cart");
             LinkedHashMap<String, Integer> cartCheckOutForGuest = new LinkedHashMap<>();
-
+            ArrayList<AddressDTO> list = new ArrayList<>();
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
             if (cart != null) {
                 for (Map.Entry<String, Integer> entry : cart.entrySet()) {
                     String productId = entry.getKey();
@@ -49,8 +57,14 @@ public class CheckOutProductController extends HttpServlet {
                     for (String pidValue : pid) {
                         if (Integer.parseInt(pidValue) == Integer.parseInt(productId)) {
                             cartCheckOutForGuest.put(productId, quantity);
-        }
-    }
+                        }
+                    }
+                }
+            }
+            if (userDTO != null) {
+                if (userDTO.getRole() == 2) {
+                    list = AddressDAO.getAddress(userDTO.getUserID());
+                    session.setAttribute("addressList", list);
                 }
             }
 

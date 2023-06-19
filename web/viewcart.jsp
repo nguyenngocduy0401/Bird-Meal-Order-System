@@ -7,6 +7,15 @@
     .card {
         box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
     }
+    .dropdown:hover>.dropdown-menu {
+        display: block;
+    }
+    .dropdown>.nav-link:active {
+        pointer-events: none;
+    }
+    .dropdown-menu {
+        right: 0;
+    }
 </style>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -20,11 +29,17 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-function goBack() {
+    function goBack() {
         window.location.href = document.referrer;
     }
     var subtotal = 0;
-
+//    function validateInput(inputElement,quantityRepo) {
+//        if (inputElement.value < 1) {
+//            inputElement.value = 1;
+//        }else if(inputElement.value > quantityRepo){
+//            inputElement.value = quantityRepo;
+//        }
+//    }
     function calculateTotal(quantity, price, checkbox) {
         var total = quantity * price;
         if (checkbox.checked) {
@@ -40,51 +55,54 @@ function goBack() {
         return amount.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
     }
 
-//    function toggleSelectAll(totalALL, checkbox) {
-//        var checkboxes = document.getElementsByName("select");
-//
-//        for (var i = 0; i < checkboxes.length; i++) {
-//            checkboxes[i].checked = checkbox.checked;
-//        }
-//        var total = totalALL;
-//        if (checkbox.checked) {
-//            subtotal = total;
-//        } else {
-//            subtotal = 0;
-//        }
-//        if (button.innerText === 'Select All') {
-//            button.innerText = 'Deselect All';
-//        } else {
-//            button.innerText = 'Select All';
-//        }
-//        document.getElementById("subtotalAmount").textContent = formatCurrency(subtotal);
-//    }
-
-    function toggleSelectAll(totalALL, button) {
-
+    function toggleSelectAll(totalALL, checkbox) {
         var checkboxes = document.getElementsByName("select");
-        var total = totalALL;
 
-        if (button.innerText === 'Select All') {
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = true;
-            }
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = checkbox.checked;
+        }
+        var total = totalALL;
+        if (checkbox.checked) {
             subtotal = total;
-            button.innerText = 'Deselect All';
         } else {
             subtotal = 0;
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = false;
-            }
-            button.innerText = 'Select All';
         }
-
         document.getElementById("subtotalAmount").textContent = formatCurrency(subtotal);
     }
+
+//    function toggleSelectAll(totalALL, button) {
+//
+//        var checkboxes = document.getElementsByName("select");
+//        var total = totalALL;
+//
+//        if (button.innerText === 'Select All') {
+//            for (var i = 0; i < checkboxes.length; i++) {
+//                checkboxes[i].checked = true;
+//            }
+//            subtotal = total;
+//            button.innerText = 'Deselect All';
+//        } else {
+//            subtotal = 0;
+//            for (var i = 0; i < checkboxes.length; i++) {
+//                checkboxes[i].checked = false;
+//            }
+//            button.innerText = 'Select All';
+//        }
+//
+//        document.getElementById("subtotalAmount").textContent = formatCurrency(subtotal);
+//    }
 
     $(document).on("change", ".form-control", function () {
         var quantity = $(this).val();
         var key = $(this).data("key");
+        var repo = $(this).data("repo");
+
+        if (quantity < 1) {
+            quantity = 1;
+        } else if (quantity > repo) {
+            quantity = repo;
+        }
+
         UpdateCart(quantity, key);
     });
 
@@ -129,6 +147,27 @@ function goBack() {
         });
     }
 
+    function removeProduct(pid) {
+        var selectedProductIds = [];
+
+
+        selectedProductIds.push(pid);
+
+
+        $.ajax({
+            type: "post",
+            url: "RemoveProductController",
+            data: {
+                selectedProductIds: selectedProductIds
+            },
+            success: function () {
+                $('#reloadCalculator').load(window.location.href + ' #reloadCalculator');
+            },
+            error: function () {
+                alert("Error occurred while removing products.");
+            }
+        });
+    }
     function checkOutSelectedProduct() {
         var selectedProductIds = [];
         var checkboxes = document.getElementsByName("select");
@@ -248,7 +287,21 @@ function goBack() {
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                        <c:if test="${not empty sessionScope.user}">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
+                                <i class="bi bi-person fs-1 text-primary me-1"></i>
+                            </a>
+                            <div class="dropdown-menu m-0 dropdown-menu-end">
+                                <a href="details.jsp" class="dropdown-item">My profile</a>
+                                <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
+                                <a href="LogoutController" class="dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:if test="${empty sessionScope.user}">
+                        <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                        </c:if>
                 </div>
             </div>
         </nav>
@@ -264,7 +317,7 @@ function goBack() {
         </div>
         <div id="content"></div>
 
-        <section class="card col-md-8 mx-auto container-fluid pt-5" >
+        <section class="card col-md-9 mx-auto container-fluid pt-5" >
             <c:set var="cart" value="${sessionScope.cart}" />
             <c:if test="${not empty cart}">
                 <div class="container" id="reloadCalculator">
@@ -273,15 +326,23 @@ function goBack() {
                             <form action="MainController">
                                 <table id="shoppingCart" class="table table-condensed table-responsive">
                                     <thead>
+                                        <c:forEach var="item" items="${cart}" varStatus="counter">
+                                            <c:set var="pid" value="${item.key}" />
+                                            <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
+                                            <c:set var="quantity" value="${item.value}" />
+                                            <c:set var="price" value="${product.price}" />
+                                            <c:set var="total" value="${total + (quantity * product.price)}"/>
+                                        </c:forEach>
                                         <tr>
-                                            <th style="width:70%">Name</th>
-                                            <th style="width:8%">Price</th>
-                                            <th style="width:8%">Quantity</th>
-                                            <th style="width: 8%">
-                                                <div class="btn btn-white bg-white btn-md mb-2">
-
+                                            <th style="width: 7%">
+                                                <div class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                                    <input type="checkbox" id="selectAll" onclick="toggleSelectAll(${total}, this)" />
                                                 </div>
                                             </th>
+                                            <th style="width:70%">Name</th>
+                                            <th style="width:8%">Price</th>
+                                            <th style="width:10%">Quantity</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -291,7 +352,16 @@ function goBack() {
                                             <c:set var="quantity" value="${item.value}" />
                                             <c:set var="price" value="${product.price}" />
                                             <c:set var="total" value="${total + (quantity * product.price)}"/>
+                                            <c:set var="quantityRepo" value="${product.quantity}"/>
                                             <tr>
+                                                <td class="actions" data-th="">
+                                                    <div class="text-right">
+                                                        <div class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                                            <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
+                                                        </div>
+
+                                                    </div>
+                                                </td>
                                                 <td data-th="Product">
                                                     <div class="row">
                                                         <div class="col-md-3 text-left">
@@ -305,12 +375,12 @@ function goBack() {
                                                 </td>
                                                 <td data-th="Price"><div style="font-weight: bold;">${price}₫</div></td>
                                                 <td data-th="Quantity">
-                                                    <input type="number" data-key="${item.key}" class="form-control form-control-lg text-center" min="1" value=${quantity} >
+                                                    <input type="number" data-repo="${quantityRepo}" data-key="${item.key}"  class="form-control form-control-lg text-center" min="1" value=${quantity} >
                                                 </td>
                                                 <td class="actions" data-th="">
                                                     <div class="text-right">
-                                                        <div class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                                            <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
+                                                        <div class="btn btn-white  bg-white btn-md mb-2">
+                                                            <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="removeProduct(${item.key})"><span class="bi bi-trash"></span></button>
                                                         </div>
 
                                                     </div>
@@ -330,7 +400,7 @@ function goBack() {
                                         <div class="col-md-1 text-right">
                                         </div>
                                         <div class="col-md-2 text-right">
-                                            <button class="btn btn-primary btn-sm" id="selectAll" type="button" onclick="toggleSelectAll(${total}, this)">Select All</button>
+                                            <!--                                            <button class="btn btn-primary btn-sm" id="selectAll" type="button" onclick="toggleSelectAll($total, this)">Select All</button>-->
 
                                         </div>
                                     </div>

@@ -40,10 +40,11 @@ public class SubmitCheckOutController extends HttpServlet {
             String name = request.getParameter("txtName");
             String phone = request.getParameter("txtPhoneNumber");
             String address = request.getParameter("txtAddress");
+            String notes = request.getParameter("txtNotes");
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cartCheckOutForGuest");
             try {
-                int oderID = OrderGuestDAO.createNewOrderForGuest(name, phone, 1, address);
+                int oderID = OrderGuestDAO.createNewOrderForGuest(name, phone, 1, address, notes);
                 if (oderID != -1) {
                     boolean finishCheckOut = OrderDetailGuestDAO.createOrderDetailsForGuest(oderID, cart);
                     if (finishCheckOut) {

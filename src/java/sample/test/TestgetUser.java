@@ -7,53 +7,29 @@ package sample.test;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import sample.dao.BirdDAO;
-import sample.dao.CategoryDAO;
-import sample.dao.ProductDAO;
-import sample.dao.UserDAO;
-import sample.dto.BirdDTO;
-import sample.dto.CategoryDTO;
-import sample.dto.ProductDTO;
-import sample.dto.UserDTO;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import sample.dao.AddressDAO;
+import sample.dao.CartDAO;
+import sample.dao.CartDetailDAO;
+import sample.dto.AddressDTO;
+import sample.dto.CartDTO;
+import sample.dto.CartDetailDTO;
 
 /**
  *
  * @author Duy
  */
 public class TestgetUser {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {
+        ArrayList<AddressDTO> list = new ArrayList<>();
+        list = AddressDAO.getAddress(10);
+        for (AddressDTO addressDTO : list) {
+           System.out.println(addressDTO.getAddressDetail()); 
+        }
         
-        boolean i = UserDAO.checkEmailExist("daclacduy1@gmail.com");
-        System.out.println(i);
-//        ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(2);
-//        for (BirdDTO birdDTO : listBird) {
-//            System.out.println(birdDTO.getBirdName());
-//        }
-        
-//        CategoryDTO i = CategoryDAO.getCategoryByID(1);
-//        System.out.println(i.getCategoryName());
-        
-        
-        
-        
-//        ProductDTO i = ProductDAO.getProductByID(1);
-//        System.out.println(i.getStatus());
-         
-//        UserDTO user = UserDAO.getUser("asdasd", "asdasd");
-//        
-//        System.out.println(user);
-//        
-        
-        
-//        boolean list = UserDAO.deleteToken("748934c5-8dc0-4019-a427-7f6195bd0b11");
-        
-//        UserDTO list = UserDAO.getToken("0be73930-1b66-4ca5-aaaa-55d7f39af14c");
-//        System.out.println(list);
-//            if (list != null) {
-//                System.out.println("haha");
-//            }else{
-//                System.out.println("nu");
-//            }
-        
+
     }
 }
+
