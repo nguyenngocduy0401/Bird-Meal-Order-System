@@ -66,7 +66,7 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <body>
         <c:set var="result" value="${requestScope.PRODUCTS}" />
         <c:set var="cateList" value="${requestScope.CATEGORY_LIST}"/>
@@ -133,7 +133,6 @@
                             <button class="btn btn-primary">Search</button>
                             <input type="hidden" name="txtSearchValue" value="${requestScope.txtSearchValue}" />
                             <input type="hidden" value="Search" name="btAction"/>
-
                         </div>
                     </form>
                 </div>
@@ -178,6 +177,12 @@
 
         <nav class="col-9 navbar navbar-expand-lg bg-white navbar-light shadow-sm mt-5 mx-auto">
             <div class="col-md-8 container-fluid">
+                <select id="bird" name="ddbBird" class="text-primary bg-light border-0">
+                    <option value="">Bird</option>
+                    <c:forEach var="bird" items="${birdList}">
+                        <option value="${bird.birdName}">${bird.birdName}</option>
+                    </c:forEach>
+                </select>
                 <select id="cate" name="ddbCategory" class="text-primary bg-light border-0">
                     <option selected="selected" value=-1>Category</option>
                     <c:forEach var="cate" items="${cateList}">
@@ -188,12 +193,6 @@
                     <option value="">Size</option>
                     <c:forEach var="size" items="${sizeList}">
                         <option value="${size}">${size}</option>
-                    </c:forEach>
-                </select>
-                <select id="bird" name="ddbBird" class="text-primary bg-light border-0">
-                    <option value="">Bird</option>
-                    <c:forEach var="bird" items="${birdList}">
-                        <option value="${bird.birdName}">${bird.birdName}</option>
                     </c:forEach>
                 </select>
                 <input id="minPrice" class="text-primary bg-light border-0 price-box" type="number" name="minPrice" value="" placeholder="Min Price"/>
@@ -303,13 +302,6 @@
                                                             pid: id,
                                                         },
                                                         success: function () {
-                                                            Swal.fire({
-                                                                
-                                                                icon: 'success',
-                                                                title: 'Successful!',
-                                                                showConfirmButton: false,
-                                                                timer: 1500
-                                                            })
                                                         }
                                                     });
                                                 }
