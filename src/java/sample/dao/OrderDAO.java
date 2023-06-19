@@ -44,8 +44,8 @@ public class OrderDAO {
                     String date = rs.getString("Date");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
-
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
+                    String note = rs.getString("Note");
+                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -79,6 +79,7 @@ public class OrderDAO {
                         + ",[Order].[Date]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
+                        + ",[Note]"
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
@@ -92,7 +93,8 @@ public class OrderDAO {
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
                     int userID = rs.getInt("UserID");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
+                    String note = rs.getString("Note");
+                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -152,7 +154,7 @@ public class OrderDAO {
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "SELECT OrderID, UserID, Date, "
-                        + "Status, OrderAddress "
+                        + "Status, OrderAddress,Notes "
                         + "FROM [Order] "
                         + "ORDER BY OrderID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
@@ -166,8 +168,8 @@ public class OrderDAO {
                     String date = rs.getString("Date");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
-
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
+                    String note = rs.getString("Notes");
+                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -201,6 +203,7 @@ public class OrderDAO {
                         + ",[Order].[Date]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
+                        + ",[Notes]\n"
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
@@ -214,8 +217,8 @@ public class OrderDAO {
                     int userID = rs.getInt("UserID");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
-
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
+                    String note = rs.getString("Notes");
+                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -249,6 +252,7 @@ public class OrderDAO {
                         + ",[Order].[Date]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
+                        + ",[Notes]\n"
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
@@ -262,7 +266,8 @@ public class OrderDAO {
                     String date = rs.getString("Date");
                     String orderAddress = rs.getString("OrderAddress");
                     int userID = rs.getInt("UserID");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress);
+                    String note = rs.getString("Notes");
+                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null

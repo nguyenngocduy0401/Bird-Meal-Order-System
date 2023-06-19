@@ -20,16 +20,18 @@ public class OrderDTO implements Serializable{
   private String date;
   private int status;
   private String orderAddress;
+  private String note;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(int orderID, int userID, String date, int status, String orderAddress) {
+    public OrderDTO(int orderID, int userID, String date, int status, String orderAddress, String note) {
         this.orderID = orderID;
         this.userID = userID;
         this.date = date;
         this.status = status;
         this.orderAddress = orderAddress;
+        this.note = note;
     }
 
     public void setDate(String date) {
@@ -72,6 +74,14 @@ public class OrderDTO implements Serializable{
         this.orderAddress = orderAddress;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+    
     public void setProductsList(List<ProductDTO> productsList) {
         this.productsList = productsList;
     }

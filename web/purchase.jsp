@@ -322,7 +322,7 @@
                                         <div class="row g-0 bg-light overflow-hidden col-12">
                                             <div class="col-12 h-50 d-flex flex-column justify-content-center">
                                                 <div class="p-4">
-                                                    <div class="d-flex mb-3 ">
+                                                    <div class="d-flex ">
                                                         <c:if test="${dto.status eq 0 }">
                                                             <small class="me-3 col-4">Canceled</small>
                                                         </c:if>
@@ -340,6 +340,9 @@
                                                         </c:if>
                                                         <small><i class="col-4 bi bi-calendar-date me-2"></i>${dto.date}</small>
                                                         <small class="add"><p >${dto.orderAddress}</p></small>
+                                                    </div>
+                                                    <div class="d-flex ">
+                                                        <small>${dto.note}</small>
                                                     </div>
                                                     <div>
                                                         <c:forEach var="product" items="${dto.productsList}" >
