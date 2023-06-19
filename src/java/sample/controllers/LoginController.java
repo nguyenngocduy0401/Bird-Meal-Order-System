@@ -59,7 +59,7 @@ public class LoginController extends HttpServlet {
                                     String token = codeString;
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("admin.jsp");
@@ -74,7 +74,7 @@ public class LoginController extends HttpServlet {
                                     String token = codeString;
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("staff.jsp");
@@ -89,7 +89,7 @@ public class LoginController extends HttpServlet {
                                     String token = codeString;
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("MainController");
