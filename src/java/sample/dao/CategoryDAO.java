@@ -92,12 +92,5 @@ public class CategoryDAO {
         return listCate;
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        CategoryDAO dao = new CategoryDAO();
-        List<CategoryDTO> listCate = dao.getCatetoryList();
-        for (CategoryDTO dto : listCate) {
-            System.out.println(dto);
-        }
-
-    }
+   
 }

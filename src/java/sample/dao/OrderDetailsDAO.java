@@ -147,11 +147,4 @@ public class OrderDetailsDAO {
         return amount;
     }
     
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        OrderDetailsDAO dao= new OrderDetailsDAO();
-        List<OrderDetailDTO> listOrder = dao.getProductByUserID(3);
-        for (OrderDetailDTO string : listOrder) {
-            System.out.println(string.getStatus());
-        }
-    }
 }

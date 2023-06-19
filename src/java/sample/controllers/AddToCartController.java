@@ -15,6 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.CartDAO;
+import sample.dao.CartDetailDAO;
+import sample.dao.ProductDAO;
+import sample.dto.CartDTO;
+import sample.dto.CartDetailDTO;
+import sample.dto.ProductDTO;
+import sample.dto.UserDTO;
 
 /**
  *
@@ -41,49 +48,83 @@ public class AddToCartController extends HttpServlet {
 
             // Get the existing cart from cookies
             LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("cart")) {
-                        String[] items = cookie.getValue().split(",");
-                        for (String item : items) {
-                            String[] parts = item.split(":");
-                            String productId = parts[0];
-                            int quantity = Integer.parseInt(parts[1]);
-                            cart.put(productId, quantity);
-        }
-                        break;
-    }
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
+            //kiem tra co phai customer hay khong?
+            if (userDTO != null) {
+                if (userDTO.getRole() == 2) {
+                    CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
+                    try {
+                        //kiem tra su ton tai cua cart
+                        if (cartDTO != null) {
+                            CartDetailDTO cartDetailDTO = CartDetailDAO.getNumberProductInCart(cartDTO.getCartID(), Integer.parseInt(pid));
+                            //kiem tra trong cart da co san pham nay hay chua
+                            if (cartDetailDTO != null) {
+                                ProductDTO productDTO = ProductDAO.getProductByID(Integer.parseInt(pid));
+                                //kiem tra so luong san pham con lai trong kho co it hon san pham khach hang muon mua
+                                if(cartDetailDTO.getQuantity() <= productDTO.getQuantity()){
+                                int newQuantity = cartDetailDTO.getQuantity() + 1;
+                                CartDetailDAO.updateProductCart(cartDetailDTO.getCartID(), Integer.parseInt(pid),newQuantity);
+                                }
+                            } else {
+                                CartDetailDAO.insertNewProductCart(cartDTO.getCartID(), Integer.parseInt(pid));
+
+                            }
+                        } else {
+
+                            CartDAO.createNewCart(userDTO.getUserID());
+                            cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
+                            CartDetailDAO.insertNewProductCart(cartDTO.getCartID(), Integer.parseInt(pid));
+
+                        }
+                    } catch (Exception e) {
+                    }
+
                 }
-            }
-
-            // Update the cart
-            if (cart.containsKey(pid)) {
-                Integer tmp = cart.get(pid);
-                tmp++;
-                cart.put(pid, tmp);
             } else {
-                LinkedHashMap<String, Integer> carttmp = new LinkedHashMap<>();
-                carttmp.put(pid, 1);
-                carttmp.putAll(cart);
-                cart = carttmp;
-            }
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("cart")) {
+                            String[] items = cookie.getValue().split(",");
+                            for (String item : items) {
+                                String[] parts = item.split(":");
+                                String productId = parts[0];
+                                int quantity = Integer.parseInt(parts[1]);
+                                cart.put(productId, quantity);
+                            }
+                            break;
+                        }
+                    }
+                }
 
-            // Store the updated cart in cookies
-            StringBuilder sb = new StringBuilder();
-            for (Map.Entry<String, Integer> entry : cart.entrySet()) {
-                String productId = entry.getKey();
-                int quantity = entry.getValue();
-                sb.append(productId).append(":").append(quantity).append(",");
-            }
-            // Remove the trailing comma
-            if (sb.length() > 0) {
-                sb.setLength(sb.length() - 1);
-            }
+                // Update the cart
+                if (cart.containsKey(pid)) {
+                    Integer tmp = cart.get(pid);
+                    tmp++;
+                    cart.put(pid, tmp);
+                } else {
+                    LinkedHashMap<String, Integer> carttmp = new LinkedHashMap<>();
+                    carttmp.put(pid, 1);
+                    carttmp.putAll(cart);
+                    cart = carttmp;
+                }
 
-            Cookie cartCookie = new Cookie("cart", sb.toString());
-            cartCookie.setMaxAge(7 * 24 * 60 * 60); // Set the cookie expiration time (e.g., 7 days)
-            response.addCookie(cartCookie);
+                // Store the updated cart in cookies
+                StringBuilder sb = new StringBuilder();
+                for (Map.Entry<String, Integer> entry : cart.entrySet()) {
+                    String productId = entry.getKey();
+                    int quantity = entry.getValue();
+                    sb.append(productId).append(":").append(quantity).append(",");
+                }
+                // Remove the trailing comma
+                if (sb.length() > 0) {
+                    sb.setLength(sb.length() - 1);
+                }
+
+                Cookie cartCookie = new Cookie("cart", sb.toString());
+                cartCookie.setMaxAge(7 * 24 * 60 * 60); // Set the cookie expiration time (e.g., 7 days)
+                response.addCookie(cartCookie);
+            }
             session.setAttribute("cart", cart);
 
         }

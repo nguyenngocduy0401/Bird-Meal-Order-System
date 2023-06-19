@@ -129,21 +129,51 @@
                                 <form action="MainController">
 
                                     <div class="row g-3">
-                                        <div class="col-12">
-                                            Name * 
-                                            <input type="text" class="form-control bg-light border-0 px-4" name="txtName" 
-                                                   style="height: 55px;" value="" required="">
-                                        </div>
-                                        <div class="col-12">
-                                            Address *
-                                            <input type="text" class="form-control bg-light border-0 px-4" name="txtAddress"
-                                                   style="height: 55px;" value="" required="">
-                                        </div>
-                                        <div class="col-12">
-                                            Phone Number *
-                                            <input type="text" class="form-control bg-light border-0 px-4" name="txtPhoneNumber" pattern="[0-9]{10}"
-                                                   title="Please enter a 10-digit phone number" style="height: 55px;" value="">
-                                        </div>
+                                        <c:if test="${sessionScope.user != null}">
+                                            <c:forEach var="address" items="${addressList}" >
+                                                <c:set var="fullName" value="${address.fullName}"/>
+                                                <c:set var="addressDetail" value="${address.addressDetail}"/>
+                                                <c:set var="phoneNumber" value="${address.phoneNumber}"/>
+                                                <div class="text-right">
+                                                    <div class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                                        <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
+                                                    </div>
+
+                                                </div>
+                                                <div>${fullName}</div>
+                                                <div>${addressDetail}</div>
+                                                <div>${phoneNumber}</div>
+
+                                            </c:forEach>
+                                            <div class="col-12">
+                                                Notes *
+                                                <textarea class="form-control bg-light border-0 px-4" name="txtNotes"
+                                                          style="height: 100px;"></textarea>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user == null}">
+                                            <div class="col-12">
+                                                Name * 
+                                                <input type="text" class="form-control bg-light border-0 px-4" name="txtName" 
+                                                       style="height: 55px;" value="" required="">
+                                            </div>
+                                            <div class="col-12">
+                                                Address *
+                                                <input type="text" class="form-control bg-light border-0 px-4" name="txtAddress"
+                                                       style="height: 55px;" value="" required="">
+                                            </div>
+                                            <div class="col-12">
+                                                Phone Number *
+                                                <input type="text" class="form-control bg-light border-0 px-4" name="txtPhoneNumber" pattern="[0-9]{10}"
+                                                       title="Please enter a 10-digit phone number" style="height: 55px;" value="">
+                                            </div>
+                                            <div class="col-12">
+                                                Notes *
+                                                <textarea class="form-control bg-light border-0 px-4" name="txtNotes"
+                                                          style="height: 100px;"></textarea>
+                                            </div>
+                                        </c:if>
+
 
                                     </div>
                                     <c:forEach var="item" items="${cartCheckOutForGuest}" varStatus="counter">

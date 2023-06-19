@@ -26,7 +26,7 @@ public class UserDAO {
             if (cn != null) {
                 String s = "select UserID,UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
                         + "from [User]\n"
-                        + "where  UserName=? and Password=? ";
+                        + "where  UserName=? and Password=? COLLATE Latin1_General_CS_AS ";
                 PreparedStatement pst = cn.prepareStatement(s);
                 pst.setString(1, getUsername);
                 pst.setString(2, getPassword);

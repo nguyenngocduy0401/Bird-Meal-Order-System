@@ -285,7 +285,5 @@ public class OrderDAO {
         return list;
     }
 
-    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
-
-    }
+    
 }

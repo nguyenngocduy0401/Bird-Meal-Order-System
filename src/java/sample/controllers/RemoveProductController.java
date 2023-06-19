@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.CartDAO;
+import sample.dao.CartDetailDAO;
+import sample.dto.CartDTO;
+import sample.dto.UserDTO;
 
 /**
  *
@@ -39,47 +43,62 @@ public class RemoveProductController extends HttpServlet {
             String[] pid = request.getParameterValues("selectedProductIds[]");
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("cart")) {
-                        String[] items = cookie.getValue().split(",");
-                        for (String item : items) {
-                            String[] parts = item.split(":");
-                            String productId = parts[0];
-                            int quantity = Integer.parseInt(parts[1]);
-                            boolean shouldKeepProduct = true;
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
+            if (userDTO != null) {
+                if (userDTO.getRole() == 2) {
+                    try {
+                        CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
+                        for (String pidpart : pid) {
+                            CartDetailDAO.deleteCartDetail(cartDTO.getCartID(), Integer.parseInt(pidpart));
+                            cart = CartDetailDAO.getCartDetail(cartDTO.getCartID());
+                        }
+                    } catch (Exception e) {
+                    }
 
-                            for (String pidpart : pid) {
-                                if (productId.equals(pidpart)) {
-                                    shouldKeepProduct = false;
-                                    break;
+                }
+            } else {
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("cart")) {
+                            String[] items = cookie.getValue().split(",");
+                            for (String item : items) {
+                                String[] parts = item.split(":");
+                                String productId = parts[0];
+                                int quantity = Integer.parseInt(parts[1]);
+                                boolean shouldKeepProduct = true;
+
+                                for (String pidpart : pid) {
+                                    if (productId.equals(pidpart)) {
+                                        shouldKeepProduct = false;
+                                        break;
+                                    }
+                                }
+
+                                if (shouldKeepProduct) {
+                                    cart.put(productId, quantity);
                                 }
                             }
-
-                            if (shouldKeepProduct) {
-                                cart.put(productId, quantity);
-                            }
                         }
+                    }//Integer.parseInt(productId) != Integer.parseInt(pid)
+                    StringBuilder sb = new StringBuilder();
+                    for (Map.Entry<String, Integer> entry : cart.entrySet()) {
+                        String productId = entry.getKey();
+                        int quantity = entry.getValue();
+                        sb.append(productId).append(":").append(quantity).append(",");
                     }
-                }//Integer.parseInt(productId) != Integer.parseInt(pid)
-                StringBuilder sb = new StringBuilder();
-                for (Map.Entry<String, Integer> entry : cart.entrySet()) {
-                    String productId = entry.getKey();
-                    int quantity = entry.getValue();
-                    sb.append(productId).append(":").append(quantity).append(",");
-                }
-                // Remove the trailing comma
-                if (sb.length() > 0) {
-                    sb.setLength(sb.length() - 1);
+                    // Remove the trailing comma
+                    if (sb.length() > 0) {
+                        sb.setLength(sb.length() - 1);
+                    }
+
+                    Cookie cartCookie = new Cookie("cart", sb.toString());
+                    cartCookie.setMaxAge(7 * 24 * 60 * 60); // Set the cookie expiration time (e.g., 7 days)
+                    response.addCookie(cartCookie);
                 }
 
-                Cookie cartCookie = new Cookie("cart", sb.toString());
-                cartCookie.setMaxAge(7 * 24 * 60 * 60); // Set the cookie expiration time (e.g., 7 days)
-                response.addCookie(cartCookie);
-                session.setAttribute("cart", cart);
-                
             }
+            session.setAttribute("cart", cart);
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

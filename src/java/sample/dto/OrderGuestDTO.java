@@ -21,14 +21,13 @@ public class OrderGuestDTO implements Serializable{
     private int status;
     private String orderAddress;
     private String token;
-
+    private String notes;
    
-
     public OrderGuestDTO() {
 
     }
 
-    public OrderGuestDTO(int orderID, String fullName, String phoneNumber, String orderDate, String shippingDate, int status, String orderAddress, String token) {
+    public OrderGuestDTO(int orderID, String fullName, String phoneNumber, String orderDate, String shippingDate, int status, String orderAddress, String token, String notes) {
         this.orderID = orderID;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
@@ -37,6 +36,7 @@ public class OrderGuestDTO implements Serializable{
         this.status = status;
         this.orderAddress = orderAddress;
         this.token = token;
+        this.notes = notes;
     }
 
     
@@ -105,7 +105,13 @@ public class OrderGuestDTO implements Serializable{
         return token;
     }
 
-    
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
 
     
 
