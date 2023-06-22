@@ -1,0 +1,407 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sample.controllers;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author Admin
+ */
+@WebServlet(name = "ViewDashboard", urlPatterns = {"/ViewDashboard"})
+public class ViewDashboard extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!-- Begin Page Content -->\n"
+                    + "                <div class=\"container-fluid\">\n"
+                    + "                    <!-- Page Heading -->\n"
+                    + "                    <div class=\"d-sm-flex align-items-center justify-content-between mb-4 topbar\">\n"
+                    + "                        <h1 class=\"h3 mb-0 text-gray-800\">Dashboard</h1>\n"
+                    + "                    </div>\n"
+                    + "\n"
+                    + "                    <!-- Content Row -->\n"
+                    + "                    <div class=\"row\">\n"
+                    + "\n"
+                    + "                        <!-- Earnings (Monthly) Card Example -->\n"
+                    + "                        <div class=\"col-xl-3 col-md-6 mb-4\">\n"
+                    + "                            <div class=\"card border-left-primary shadow h-100 py-2\">\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <div class=\"row no-gutters align-items-center\">\n"
+                    + "                                        <div class=\"col mr-2\">\n"
+                    + "                                            <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">\n"
+                    + "                                                Earnings (Monthly)</div>\n"
+                    + "                                            <div class=\"h5 mb-0 font-weight-bold text-gray-800\">$40,000</div>\n"
+                    + "                                        </div>\n"
+                    + "                                        <div class=\"col-auto\">\n"
+                    + "                                            <i class=\"fas fa-calendar fa-2x text-gray-300\"></i>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "                        </div>\n"
+                    + "\n"
+                    + "                        <!-- Earnings (Monthly) Card Example -->\n"
+                    + "                        <div class=\"col-xl-3 col-md-6 mb-4\">\n"
+                    + "                            <div class=\"card border-left-success shadow h-100 py-2\">\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <div class=\"row no-gutters align-items-center\">\n"
+                    + "                                        <div class=\"col mr-2\">\n"
+                    + "                                            <div class=\"text-xs font-weight-bold text-success text-uppercase mb-1\">\n"
+                    + "                                                Earnings (Annual)</div>\n"
+                    + "                                            <div class=\"h5 mb-0 font-weight-bold text-gray-800\">$215,000</div>\n"
+                    + "                                        </div>\n"
+                    + "                                        <div class=\"col-auto\">\n"
+                    + "                                            <i class=\"fas fa-dollar-sign fa-2x text-gray-300\"></i>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "                        </div>\n"
+                    + "\n"
+                    + "                        <!-- Earnings (Monthly) Card Example -->\n"
+                    + "                        <div class=\"col-xl-3 col-md-6 mb-4\">\n"
+                    + "                            <div class=\"card border-left-info shadow h-100 py-2\">\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <div class=\"row no-gutters align-items-center\">\n"
+                    + "                                        <div class=\"col mr-2\">\n"
+                    + "                                            <div class=\"text-xs font-weight-bold text-info text-uppercase mb-1\">Tasks\n"
+                    + "                                            </div>\n"
+                    + "                                            <div class=\"row no-gutters align-items-center\">\n"
+                    + "                                                <div class=\"col-auto\">\n"
+                    + "                                                    <div class=\"h5 mb-0 mr-3 font-weight-bold text-gray-800\">50%</div>\n"
+                    + "                                                </div>\n"
+                    + "                                                <div class=\"col\">\n"
+                    + "                                                    <div class=\"progress progress-sm mr-2\">\n"
+                    + "                                                        <div class=\"progress-bar bg-info\" role=\"progressbar\"\n"
+                    + "                                                             style=\"width: 50%\" aria-valuenow=\"50\" aria-valuemin=\"0\"\n"
+                    + "                                                             aria-valuemax=\"100\"></div>\n"
+                    + "                                                    </div>\n"
+                    + "                                                </div>\n"
+                    + "                                            </div>\n"
+                    + "                                        </div>\n"
+                    + "                                        <div class=\"col-auto\">\n"
+                    + "                                            <i class=\"fas fa-clipboard-list fa-2x text-gray-300\"></i>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "                        </div>\n"
+                    + "\n"
+                    + "                        <!-- Pending Requests Card Example -->\n"
+                    + "                        <div class=\"col-xl-3 col-md-6 mb-4\">\n"
+                    + "                            <div class=\"card border-left-warning shadow h-100 py-2\">\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <div class=\"row no-gutters align-items-center\">\n"
+                    + "                                        <div class=\"col mr-2\">\n"
+                    + "                                            <div class=\"text-xs font-weight-bold text-warning text-uppercase mb-1\">\n"
+                    + "                                                Pending Requests</div>\n"
+                    + "                                            <div class=\"h5 mb-0 font-weight-bold text-gray-800\">18</div>\n"
+                    + "                                        </div>\n"
+                    + "                                        <div class=\"col-auto\">\n"
+                    + "                                            <i class=\"fas fa-comments fa-2x text-gray-300\"></i>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "                        </div>\n"
+                    + "                    </div>\n"
+                    + "\n"
+                    + "                    <!-- Content Row -->\n"
+                    + "\n"
+                    + "                    <div class=\"row\">\n"
+                    + "\n"
+                    + "                        <!-- Area Chart -->\n"
+                    + "                        <div class=\"col-xl-8 col-lg-7\">\n"
+                    + "                            <div class=\"card shadow mb-4\">\n"
+                    + "                                <!-- Card Header - Dropdown -->\n"
+                    + "                                <div\n"
+                    + "                                    class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">\n"
+                    + "                                    <h6 class=\"m-0 font-weight-bold text-primary\">Earnings Overview</h6>\n"
+                    + "                                    <div class=\"dropdown no-arrow\">\n"
+                    + "                                        <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\"\n"
+                    + "                                            data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n"
+                    + "                                            <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i>\n"
+                    + "                                        </a>\n"
+                    + "                                        <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\"\n"
+                    + "                                            aria-labelledby=\"dropdownMenuLink\">\n"
+                    + "                                            <div class=\"dropdown-header\">Dropdown Header:</div>\n"
+                    + "                                            <a class=\"dropdown-item\" href=\"#\">Action</a>\n"
+                    + "                                            <a class=\"dropdown-item\" href=\"#\">Another action</a>\n"
+                    + "                                            <div class=\"dropdown-divider\"></div>\n"
+                    + "                                            <a class=\"dropdown-item\" href=\"#\">Something else here</a>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <!-- Card Body -->\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <div class=\"chart-area\">\n"
+                    + "                                        <canvas id=\"myAreaChart\"></canvas>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "                        </div>\n"
+                    + "\n"
+                    + "                        <!-- Pie Chart -->\n"
+                    + "                        <div class=\"col-xl-4 col-lg-5\">\n"
+                    + "                            <div class=\"card shadow mb-4\">\n"
+                    + "                                <!-- Card Header - Dropdown -->\n"
+                    + "                                <div\n"
+                    + "                                    class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">\n"
+                    + "                                    <h6 class=\"m-0 font-weight-bold text-primary\">Revenue Sources</h6>\n"
+                    + "                                    <div class=\"dropdown no-arrow\">\n"
+                    + "                                        <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\"\n"
+                    + "                                           data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n"
+                    + "                                            <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i>\n"
+                    + "                                        </a>\n"
+                    + "                                        <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\"\n"
+                    + "                                             aria-labelledby=\"dropdownMenuLink\">\n"
+                    + "                                            <div class=\"dropdown-header\">Dropdown Header:</div>\n"
+                    + "                                            <a class=\"dropdown-item\" href=\"#\">Action</a>\n"
+                    + "                                            <a class=\"dropdown-item\" href=\"#\">Another action</a>\n"
+                    + "                                            <div class=\"dropdown-divider\"></div>\n"
+                    + "                                            <a class=\"dropdown-item\" href=\"#\">Something else here</a>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <!-- Card Body -->\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <div class=\"chart-pie pt-4 pb-2\">\n"
+                    + "                                        <canvas id=\"myPieChart\"></canvas>\n"
+                    + "                                    </div>\n"
+                    + "                                    <div class=\"mt-4 text-center small\">\n"
+                    + "                                        <span class=\"mr-2\">\n"
+                    + "                                            <i class=\"fas fa-circle text-primary\"></i> Direct\n"
+                    + "                                        </span>\n"
+                    + "                                        <span class=\"mr-2\">\n"
+                    + "                                            <i class=\"fas fa-circle text-success\"></i> Social\n"
+                    + "                                        </span>\n"
+                    + "                                        <span class=\"mr-2\">\n"
+                    + "                                            <i class=\"fas fa-circle text-info\"></i> Referral\n"
+                    + "                                        </span>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "                        </div>\n"
+                    + "                    </div>\n"
+                    + "\n"
+                    + "                    <!-- Content Row -->\n"
+                    + "                    <div class=\"row\">\n"
+                    + "\n"
+                    + "                        <!-- Content Column -->\n"
+                    + "                        <div class=\"col-lg-6 mb-4\">\n"
+                    + "\n"
+                    + "                            <!-- Project Card Example -->\n"
+                    + "                            <div class=\"card shadow mb-4\">\n"
+                    + "                                <div class=\"card-header py-3\">\n"
+                    + "                                    <h6 class=\"m-0 font-weight-bold text-primary\">Projects</h6>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <h4 class=\"small font-weight-bold\">Server Migration <span\n"
+                    + "                                            class=\"float-right\">20%</span></h4>\n"
+                    + "                                    <div class=\"progress mb-4\">\n"
+                    + "                                        <div class=\"progress-bar bg-danger\" role=\"progressbar\" style=\"width: 20%\"\n"
+                    + "                                             aria-valuenow=\"20\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n"
+                    + "                                    </div>\n"
+                    + "                                    <h4 class=\"small font-weight-bold\">Sales Tracking <span\n"
+                    + "                                            class=\"float-right\">40%</span></h4>\n"
+                    + "                                    <div class=\"progress mb-4\">\n"
+                    + "                                        <div class=\"progress-bar bg-warning\" role=\"progressbar\" style=\"width: 40%\"\n"
+                    + "                                             aria-valuenow=\"40\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n"
+                    + "                                    </div>\n"
+                    + "                                    <h4 class=\"small font-weight-bold\">Customer Database <span\n"
+                    + "                                            class=\"float-right\">60%</span></h4>\n"
+                    + "                                    <div class=\"progress mb-4\">\n"
+                    + "                                        <div class=\"progress-bar\" role=\"progressbar\" style=\"width: 60%\"\n"
+                    + "                                             aria-valuenow=\"60\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n"
+                    + "                                    </div>\n"
+                    + "                                    <h4 class=\"small font-weight-bold\">Payout Details <span\n"
+                    + "                                            class=\"float-right\">80%</span></h4>\n"
+                    + "                                    <div class=\"progress mb-4\">\n"
+                    + "                                        <div class=\"progress-bar bg-info\" role=\"progressbar\" style=\"width: 80%\"\n"
+                    + "                                             aria-valuenow=\"80\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n"
+                    + "                                    </div>\n"
+                    + "                                    <h4 class=\"small font-weight-bold\">Account Setup <span\n"
+                    + "                                            class=\"float-right\">Complete!</span></h4>\n"
+                    + "                                    <div class=\"progress\">\n"
+                    + "                                        <div class=\"progress-bar bg-success\" role=\"progressbar\" style=\"width: 100%\"\n"
+                    + "                                             aria-valuenow=\"100\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "\n"
+                    + "                            <!-- Color System -->\n"
+                    + "                            <div class=\"row\">\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-primary text-white shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Primary\n"
+                    + "                                            <div class=\"text-white-50 small\">#4e73df</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-success text-white shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Success\n"
+                    + "                                            <div class=\"text-white-50 small\">#1cc88a</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-info text-white shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Info\n"
+                    + "                                            <div class=\"text-white-50 small\">#36b9cc</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-warning text-white shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Warning\n"
+                    + "                                            <div class=\"text-white-50 small\">#f6c23e</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-danger text-white shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Danger\n"
+                    + "                                            <div class=\"text-white-50 small\">#e74a3b</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-secondary text-white shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Secondary\n"
+                    + "                                            <div class=\"text-white-50 small\">#858796</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-light text-black shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Light\n"
+                    + "                                            <div class=\"text-black-50 small\">#f8f9fc</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"col-lg-6 mb-4\">\n"
+                    + "                                    <div class=\"card bg-dark text-white shadow\">\n"
+                    + "                                        <div class=\"card-body\">\n"
+                    + "                                            Dark\n"
+                    + "                                            <div class=\"text-white-50 small\">#5a5c69</div>\n"
+                    + "                                        </div>\n"
+                    + "                                    </div>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "\n"
+                    + "                        </div>\n"
+                    + "\n"
+                    + "                        <div class=\"col-lg-6 mb-4\">\n"
+                    + "\n"
+                    + "                            <!-- Illustrations -->\n"
+                    + "                            <div class=\"card shadow mb-4\">\n"
+                    + "                                <div class=\"card-header py-3\">\n"
+                    + "                                    <h6 class=\"m-0 font-weight-bold text-primary\">Illustrations</h6>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <div class=\"text-center\">\n"
+                    + "                                        <img class=\"img-fluid px-3 px-sm-4 mt-3 mb-4\" style=\"width: 25rem;\"\n"
+                    + "                                             src=\"img/undraw_posting_photo.svg\" alt=\"...\">\n"
+                    + "                                    </div>\n"
+                    + "                                    <p>Add some quality, svg illustrations to your project courtesy of <a\n"
+                    + "                                            target=\"_blank\" rel=\"nofollow\" href=\"https://undraw.co/\">unDraw</a>, a\n"
+                    + "                                        constantly updated collection of beautiful svg images that you can use\n"
+                    + "                                        completely free and without attribution!</p>\n"
+                    + "                                    <a target=\"_blank\" rel=\"nofollow\" href=\"https://undraw.co/\">Browse Illustrations on\n"
+                    + "                                        unDraw &rarr;</a>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "\n"
+                    + "                            <!-- Approach -->\n"
+                    + "                            <div class=\"card shadow mb-4\">\n"
+                    + "                                <div class=\"card-header py-3\">\n"
+                    + "                                    <h6 class=\"m-0 font-weight-bold text-primary\">Development Approach</h6>\n"
+                    + "                                </div>\n"
+                    + "                                <div class=\"card-body\">\n"
+                    + "                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce\n"
+                    + "                                        CSS bloat and poor page performance. Custom CSS classes are used to create\n"
+                    + "                                        custom components and custom utility classes.</p>\n"
+                    + "                                    <p class=\"mb-0\">Before working with this theme, you should become familiar with the\n"
+                    + "                                        Bootstrap framework, especially the utility classes.</p>\n"
+                    + "                                </div>\n"
+                    + "                            </div>\n"
+                    + "\n"
+                    + "                        </div>\n"
+                    + "                    </div>\n"
+                    + "\n"
+                    + "                </div>\n"
+                    + "                <!-- /.container-fluid -->\n"
+                    + "");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
