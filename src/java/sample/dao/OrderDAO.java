@@ -10,6 +10,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
@@ -21,6 +23,55 @@ import sample.utils.DBUtils;
  * @author Admin
  */
 public class OrderDAO {
+    public static int createNewOrderForCustomer(int userID, String fullName, String phoneNumber, int status, String orderAddress, String notes) throws Exception {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+        Connection connection = null;
+        PreparedStatement pst = null;
+        ResultSet rs ;
+        int orderID = -1;
+        try {
+            // Establish a database connection
+            connection = DBUtils.getConnection();
+            // Prepare the SQL statement
+            if (connection != null) {
+                pst = connection.prepareStatement("INSERT INTO [Order](UserID, FullName, PhoneNumber, OrderDate, Status, OrderAddress, Notes) \n"
+                        + "OUTPUT inserted.OrderID\n"
+                        + "VALUES(?,?,?,?,?,?,?);");
+                pst.setInt(1, userID);
+                pst.setString(2, fullName);
+                pst.setString(3, phoneNumber);
+                pst.setString(4, formattedDate);
+                pst.setInt(5, status);
+                pst.setString(6, orderAddress);
+                pst.setString(7, notes);
+                // Execute the SQL statement
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    orderID = rs.getInt("OrderID");
+                    
+}
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database resources
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return orderID;
+    }
+    
 
     public List<OrderDTO> loadOrder()
             throws SQLException, NamingException, ClassNotFoundException {

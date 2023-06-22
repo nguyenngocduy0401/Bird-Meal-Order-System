@@ -210,6 +210,42 @@
                                     <div class="fr-wrapper mt-m" style="width: auto;">
                                         <div class="fr-text">There is no registered shipping address.</div>
                                     </div>
+                                     <c:if test="${sessionScope.user != null}">
+                                            <c:forEach var="address" items="${addressList}" >
+                                                <c:set var="fullName" value="${address.fullName}"/>
+                                                <c:set var="addressDetail" value="${address.addressDetail}"/>
+                                                <c:set var="phoneNumber" value="${address.phoneNumber}"/>
+                                                <div class="row g-3 container border  border-secondary rounded border-dark " style="border-radius: 5px; ">
+                                                    <div class="col-md-1 ">
+                                                        <div class=" text-center py-4">
+                                                            <input type="radio" name="selectAddress"  value="${addressID}" />
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-9 ">
+                                                        <div class="row">
+                                                            <div class="col-md-7   py-1">${fullName}</div>
+                                                            <div class="col-md-5  border-start  py-1">${phoneNumber}</div>
+                                                        </div>
+                                                        <div class="">${addressDetail}</div>
+                                                    </div>
+                                                    <div class="col-md-2 ">
+                                                        <button class="btn btn-link" type="submit" name="action" value="edit">Edit</button>
+                                                        <button class="btn btn-link " style="color: red" type="button" name="action" value="delete">Delete</button>
+                                                    </div>
+
+                                                  
+
+
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                            <div class="col-12">
+                                                Notes *
+                                                <textarea class="form-control bg-light border-0 px-4" name="txtNotes"
+                                                          style="height: 100px;"></textarea>
+                                            </div>
+                                        </c:if>
                                     <!-- Button trigger modal -->
                                     <button type="fr-wrapper button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#createAddressModal">
                                         Register a new address

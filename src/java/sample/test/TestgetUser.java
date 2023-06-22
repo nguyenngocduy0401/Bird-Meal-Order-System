@@ -12,6 +12,7 @@ import java.util.Map;
 import sample.dao.AddressDAO;
 import sample.dao.CartDAO;
 import sample.dao.CartDetailDAO;
+import sample.dao.OrderDAO;
 import sample.dto.AddressDTO;
 import sample.dto.CartDTO;
 import sample.dto.CartDetailDTO;
@@ -23,13 +24,11 @@ import sample.dto.CartDetailDTO;
 public class TestgetUser {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {
-        ArrayList<AddressDTO> list = new ArrayList<>();
-        list = AddressDAO.getAddress(10);
-        for (AddressDTO addressDTO : list) {
-           System.out.println(addressDTO.getAddressDetail()); 
-        }
+        int a = OrderDAO.createNewOrderForCustomer(5, "Hoang Tran", "0935447505", 1, "123 Hoang Kim giao", "Haha");
+        System.out.println(a);
+    }
         
 
-    }
 }
+
 

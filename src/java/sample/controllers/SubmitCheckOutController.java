@@ -7,6 +7,7 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -14,8 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.AddressDAO;
+import sample.dao.OrderDAO;
 import sample.dao.OrderDetailGuestDAO;
+import sample.dao.OrderDetailsDAO;
 import sample.dao.OrderGuestDAO;
+import sample.dto.AddressDTO;
+import sample.dto.UserDTO;
 
 /**
  *
@@ -43,24 +49,46 @@ public class SubmitCheckOutController extends HttpServlet {
             String notes = request.getParameter("txtNotes");
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cartCheckOutForGuest");
+            UserDTO userDTO = (UserDTO) session.getAttribute("user");
+            ArrayList<AddressDTO> addressList = (ArrayList<AddressDTO>) session.getAttribute("addressList");
             try {
-                int oderID = OrderGuestDAO.createNewOrderForGuest(name, phone, 1, address, notes);
-                if (oderID != -1) {
-                    boolean finishCheckOut = OrderDetailGuestDAO.createOrderDetailsForGuest(oderID, cart);
-                    if (finishCheckOut) {
-                        Cookie[] cookies = request.getCookies();
-                        if (cookies != null) {
-                            for (Cookie cookie : cookies) {
-                                if (cookie.getName().equals("cart")) {
-                                    cookie.setMaxAge(0);
-                                    response.addCookie(cookie);
-                                    break;
-        }
-    }
+                if (userDTO != null) {
+                    if (addressList != null && !addressList.isEmpty()) {
+                        int addressID = Integer.parseInt(request.getParameter("selectAddress"));
+                        AddressDTO addressDTO = AddressDAO.getAddressByID(addressID);
+                        int orderID = OrderDAO.createNewOrderForCustomer(userDTO.getUserID(), addressDTO.getFullName(), addressDTO.getPhoneNumber(), 1, addressDTO.getAddressDetail(), notes);
+                        if (orderID != -1) {
+                            OrderDetailsDAO.createOrderDetailsForCustomer(orderID, cart);
+                            response.sendRedirect("MainController?btAction=Home");
                         }
-                        session.removeAttribute("cart");
-                        session.removeAttribute("cartCheckOutForGuest");
-                        response.sendRedirect("LoginCookieController");
+                    } else {
+                        AddressDAO.createNewAddress(userDTO.getUserID(), name, phone, address);
+                        int orderID = OrderDAO.createNewOrderForCustomer(userDTO.getUserID(), name, phone, 1, address, notes);
+                        if (orderID != -1) {
+                            OrderDetailsDAO.createOrderDetailsForCustomer(orderID, cart);
+                            response.sendRedirect("MainController?btAction=Home");
+                        }
+                    }
+
+                } else {
+                    int orderID = OrderGuestDAO.createNewOrderForGuest(name, phone, 1, address, notes);
+                    if (orderID != -1) {
+                        boolean finishCheckOut = OrderDetailGuestDAO.createOrderDetailsForGuest(orderID, cart);
+                        if (finishCheckOut) {
+                            Cookie[] cookies = request.getCookies();
+                            if (cookies != null) {
+                                for (Cookie cookie : cookies) {
+                                    if (cookie.getName().equals("cart")) {
+                                        cookie.setMaxAge(0);
+                                        response.addCookie(cookie);
+                                        break;
+                                    }
+                                }
+                            }
+                            session.removeAttribute("cart");
+                            session.removeAttribute("cartCheckOutForGuest");
+                            response.sendRedirect("MainController?btAction=Home");
+                        }
                     }
                 }
             } catch (Exception e) {

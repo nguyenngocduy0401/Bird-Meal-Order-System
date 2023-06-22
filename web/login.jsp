@@ -50,7 +50,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<c:if test="${sessionScope.user!=null}">
+<c:if test="${not empty sessionScope.user}">
     <c:if test="${sessionScope.user.role eq 0}">
         <c:redirect url="admin.jsp"></c:redirect>
     </c:if>

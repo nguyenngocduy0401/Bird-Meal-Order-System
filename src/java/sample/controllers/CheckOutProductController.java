@@ -46,8 +46,8 @@ public class CheckOutProductController extends HttpServlet {
             String[] pid = request.getParameterValues("select[]");
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cart");
-            LinkedHashMap<String, Integer> cartCheckOutForGuest = new LinkedHashMap<>();
-            ArrayList<AddressDTO> list = new ArrayList<>();
+            LinkedHashMap<String, Integer> cartCheckOut = new LinkedHashMap<>();
+            ArrayList<AddressDTO> list ;
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
             if (cart != null) {
                 for (Map.Entry<String, Integer> entry : cart.entrySet()) {
@@ -56,7 +56,7 @@ public class CheckOutProductController extends HttpServlet {
 
                     for (String pidValue : pid) {
                         if (Integer.parseInt(pidValue) == Integer.parseInt(productId)) {
-                            cartCheckOutForGuest.put(productId, quantity);
+                            cartCheckOut.put(productId, quantity);
                         }
                     }
                 }
@@ -67,8 +67,8 @@ public class CheckOutProductController extends HttpServlet {
                     session.setAttribute("addressList", list);
                 }
             }
-
-            session.setAttribute("cartCheckOutForGuest", cartCheckOutForGuest);
+            
+                session.setAttribute("cartCheckOutForGuest", cartCheckOut);
         }
     }
 

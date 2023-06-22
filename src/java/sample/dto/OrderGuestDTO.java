@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author DucAnh
  */
-public class OrderGuestDTO implements Serializable{
+public class OrderGuestDTO implements Serializable {
 
     private int orderID;
     private String fullName;
@@ -20,9 +20,8 @@ public class OrderGuestDTO implements Serializable{
     private String shippingDate;
     private int status;
     private String orderAddress;
-    private String token;
     private String notes;
-   
+
     public OrderGuestDTO() {
 
     }
@@ -35,11 +34,8 @@ public class OrderGuestDTO implements Serializable{
         this.shippingDate = shippingDate;
         this.status = status;
         this.orderAddress = orderAddress;
-        this.token = token;
         this.notes = notes;
     }
-
-    
 
     public int getOrderID() {
         return orderID;
@@ -97,22 +93,12 @@ public class OrderGuestDTO implements Serializable{
         this.orderAddress = orderAddress;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getToken() {
-        return token;
+    public String getNotes() {
+        return notes;
     }
 
     public void setNotes(String notes) {
         this.notes = notes;
     }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    
 
 }

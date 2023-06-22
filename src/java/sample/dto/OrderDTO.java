@@ -6,7 +6,6 @@
 package sample.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +16,8 @@ public class OrderDTO implements Serializable{
   private List<ProductDTO> productsList;
   private int orderID;
   private int userID;
+  private String fullName;
+  private String phoneNumber;
   private String date;
   private int status;
   private String orderAddress;
@@ -25,18 +26,37 @@ public class OrderDTO implements Serializable{
     public OrderDTO() {
     }
 
-    public OrderDTO(int orderID, int userID, String date, int status, String orderAddress, String note) {
+    public OrderDTO(int orderID, int userID, String fullName, String phoneNumber, String date, int status, String orderAddress, String note) {
         this.orderID = orderID;
         this.userID = userID;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
         this.date = date;
         this.status = status;
         this.orderAddress = orderAddress;
         this.note = note;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    
     public void setDate(String date) {
         this.date = date;
-    }
+}
 
     public String getDate() {
         return date;
