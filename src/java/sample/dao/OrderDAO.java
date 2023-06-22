@@ -6,7 +6,6 @@
 package sample.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,13 +22,14 @@ import sample.utils.DBUtils;
  * @author Admin
  */
 public class OrderDAO {
+
     public static int createNewOrderForCustomer(int userID, String fullName, String phoneNumber, int status, String orderAddress, String notes) throws Exception {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);
         Connection connection = null;
         PreparedStatement pst = null;
-        ResultSet rs ;
+        ResultSet rs;
         int orderID = -1;
         try {
             // Establish a database connection
@@ -50,8 +50,8 @@ public class OrderDAO {
                 rs = pst.executeQuery();
                 if (rs.next()) {
                     orderID = rs.getInt("OrderID");
-                    
-}
+
+                }
             }
 
         } catch (Exception e) {
@@ -71,7 +71,6 @@ public class OrderDAO {
         }
         return orderID;
     }
-    
 
     public List<OrderDTO> loadOrder()
             throws SQLException, NamingException, ClassNotFoundException {
@@ -84,19 +83,29 @@ public class OrderDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT OrderID, UserID, Date, "
-                        + "Status, OrderAddress "
+                String sql = "SELECT [OrderID]\n"
+                        + ",[Order].[UserID]\n"
+                        + ",[Order].[FullName]\n"
+                        + ",[Order].[PhoneNumber]\n"
+                        + ",[Order].[OrderDate]\n"
+                        + ",[Order].[ShippingDate]\n"
+                        + ",[Order].[Status]\n"
+                        + ",[OrderAddress]\n"
+                        + ",[Notes] "
                         + "FROM [Order] ";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
-                    int userID = rs.getInt("UserID");
-                    String date = rs.getString("Date");
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    String date = rs.getString("OrderDate");
+                    String shippingDate = rs.getString("ShippingDate");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
-                    String note = rs.getString("Note");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
+                    int userID = rs.getInt("UserID");
+                    String note = rs.getString("Notes");
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -127,10 +136,13 @@ public class OrderDAO {
             if (con != null) {
                 String sql = "SELECT [OrderID]\n"
                         + ",[Order].[UserID]\n"
-                        + ",[Order].[Date]\n"
+                        + ",[Order].[FullName]\n"
+                        + ",[Order].[PhoneNumber]\n"
+                        + ",[Order].[OrderDate]\n"
+                        + ",[Order].[ShippingDate]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
-                        + ",[Note]"
+                        + ",[Notes] "
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
@@ -140,12 +152,15 @@ public class OrderDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
-                    String date = rs.getString("Date");
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    String date = rs.getString("OrderDate");
+                    String shippingDate = rs.getString("ShippingDate");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
                     int userID = rs.getInt("UserID");
-                    String note = rs.getString("Note");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
+                    String note = rs.getString("Notes");
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -204,9 +219,15 @@ public class OrderDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "SELECT OrderID, UserID, Date, "
-                        + "Status, OrderAddress,Notes "
-                        + "FROM [Order] "
+                String sql = "SELECT [OrderID]\n"
+                        + ",[Order].[UserID]\n"
+                        + ",[Order].[FullName]\n"
+                        + ",[Order].[PhoneNumber]\n"
+                        + ",[Order].[OrderDate]\n"
+                        + ",[Order].[ShippingDate]\n"
+                        + ",[Order].[Status]\n"
+                        + ",[OrderAddress]\n"
+                        + ",[Notes] "
                         + "ORDER BY OrderID "
                         + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
                 stm = con.prepareStatement(sql);
@@ -215,12 +236,15 @@ public class OrderDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
-                    int userID = rs.getInt("UserID");
-                    String date = rs.getString("Date");
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    String date = rs.getString("OrderDate");
+                    String shippingDate = rs.getString("ShippingDate");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
+                    int userID = rs.getInt("UserID");
                     String note = rs.getString("Notes");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -251,10 +275,13 @@ public class OrderDAO {
             if (con != null) {
                 String sql = "SELECT [OrderID]\n"
                         + ",[Order].[UserID]\n"
-                        + ",[Order].[Date]\n"
+                        + ",[Order].[FullName]\n"
+                        + ",[Order].[PhoneNumber]\n"
+                        + ",[Order].[OrderDate]\n"
+                        + ",[Order].[ShippingDate]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
-                        + ",[Notes]\n"
+                        + ",[Notes] "
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
@@ -264,12 +291,15 @@ public class OrderDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
-                    String date = rs.getString("Date");
-                    int userID = rs.getInt("UserID");
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    String date = rs.getString("OrderDate");
+                    String shippingDate = rs.getString("ShippingDate");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
+                    int userID = rs.getInt("UserID");
                     String note = rs.getString("Notes");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -300,10 +330,13 @@ public class OrderDAO {
             if (con != null) {
                 String sql = "SELECT [OrderID]\n"
                         + ",[Order].[UserID]\n"
-                        + ",[Order].[Date]\n"
+                        + ",[Order].[FullName]\n"
+                        + ",[Order].[PhoneNumber]\n"
+                        + ",[Order].[OrderDate]\n"
+                        + ",[Order].[ShippingDate]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
-                        + ",[Notes]\n"
+                        + ",[Notes] "
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
@@ -314,11 +347,14 @@ public class OrderDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
-                    String date = rs.getString("Date");
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    String date = rs.getString("OrderDate");
+                    String shippingDate = rs.getString("ShippingDate");
                     String orderAddress = rs.getString("OrderAddress");
                     int userID = rs.getInt("UserID");
                     String note = rs.getString("Notes");
-                    OrderDTO dto = new OrderDTO(orderID, userID, date, status, orderAddress, note);
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -336,5 +372,4 @@ public class OrderDAO {
         return list;
     }
 
-    
 }

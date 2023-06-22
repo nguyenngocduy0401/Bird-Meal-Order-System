@@ -12,20 +12,34 @@ import java.util.List;
  *
  * @author Admin
  */
-public class OrderDTO implements Serializable{
-  private List<ProductDTO> productsList;
-  private int orderID;
-  private int userID;
-  private String fullName;
-  private String phoneNumber;
-  private String date;
-  private int status;
-  private String orderAddress;
-  private String note;
+public class OrderDTO implements Serializable {
+
+    private List<ProductDTO> productsList;
+    private int orderID;
+    private int userID;
+    private String fullName;
+    private String phoneNumber;
+    private String shippingDate;
+    private String date;
+    private int status;
+    private String orderAddress;
+    private String note;
 
     public OrderDTO() {
     }
 
+    public OrderDTO(int orderID, int userID, String fullName, String phoneNumber, String shippingDate, String date, int status, String orderAddress, String note) {
+        this.orderID = orderID;
+        this.userID = userID;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.shippingDate = shippingDate;
+        this.date = date;
+        this.status = status;
+        this.orderAddress = orderAddress;
+        this.note = note;
+    }
+    
     public OrderDTO(int orderID, int userID, String fullName, String phoneNumber, String date, int status, String orderAddress, String note) {
         this.orderID = orderID;
         this.userID = userID;
@@ -52,11 +66,10 @@ public class OrderDTO implements Serializable{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    
-    
+
     public void setDate(String date) {
         this.date = date;
-}
+    }
 
     public String getDate() {
         return date;
@@ -101,7 +114,7 @@ public class OrderDTO implements Serializable{
     public void setNote(String note) {
         this.note = note;
     }
-    
+
     public void setProductsList(List<ProductDTO> productsList) {
         this.productsList = productsList;
     }
@@ -109,5 +122,13 @@ public class OrderDTO implements Serializable{
     public List<ProductDTO> getProductsList() {
         return productsList;
     }
-    
+
+    public String getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(String shippingDate) {
+        this.shippingDate = shippingDate;
+    }
+
 }
