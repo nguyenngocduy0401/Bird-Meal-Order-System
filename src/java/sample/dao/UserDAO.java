@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import sample.dto.UserDTO;
 import sample.utils.DBUtils;
 
@@ -65,7 +69,7 @@ public class UserDAO {
         }
         return user;
     }
-    
+
     public static UserDTO getUserByEmail(String getEmail) {
         UserDTO user = null;
         Connection cn = null;
@@ -80,7 +84,7 @@ public class UserDAO {
                 ResultSet kq = pst.executeQuery();
                 if (kq != null) {
                     while (kq.next()) {
-                        
+
                         String userName = kq.getString("UserName");
                         String password = kq.getString("Password");
                         String email = kq.getString("Email");
@@ -112,8 +116,7 @@ public class UserDAO {
         }
         return user;
     }
-    
-    
+
     public static boolean updateToken(String token, String username) {
         Connection connection = null;
         PreparedStatement pst = null;
@@ -128,8 +131,7 @@ public class UserDAO {
                         + "WHERE UserName = ?;");
                 pst.setString(2, username);
                 pst.setString(1, token);
-               
-                
+
                 // Execute the SQL statement
                 int rowCount = pst.executeUpdate();
                 result = (rowCount == 1);
@@ -152,6 +154,7 @@ public class UserDAO {
         }
         return result;
     }
+
     //DELETE FROM Customers WHERE
     public static UserDTO getToken(String token) {
         UserDTO user = null;
@@ -168,7 +171,7 @@ public class UserDAO {
                 ResultSet kq = pst.executeQuery();
                 if (kq != null) {
                     while (kq.next()) {
-                        
+
                         String userName = kq.getString("UserName");
                         String password = kq.getString("Password");
                         String email = kq.getString("Email");
@@ -180,9 +183,9 @@ public class UserDAO {
                         boolean gender = kq.getBoolean("Gender");
                         int numberReport = kq.getInt("NumberReport");
                         user = new UserDTO(role, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
-                        
+
                     }
-                    
+
                 }
 
             }
@@ -204,6 +207,7 @@ public class UserDAO {
         }
         return user;
     }
+
     public static boolean deleteToken(String token) {
         Connection connection = null;
         PreparedStatement pst = null;
@@ -213,13 +217,12 @@ public class UserDAO {
             connection = DBUtils.getConnection();
             // Prepare the SQL statement
             if (connection != null) {
-               pst = connection.prepareStatement("UPDATE [User]\n"
+                pst = connection.prepareStatement("UPDATE [User]\n"
                         + "SET Token = ?\n"
                         + "WHERE Token = ?;");
                 pst.setString(2, token);
                 pst.setString(1, "");
-               
-                
+
                 // Execute the SQL statement
                 int rowCount = pst.executeUpdate();
                 result = (rowCount == 1);
@@ -242,7 +245,7 @@ public class UserDAO {
         }
         return result;
     }
-    
+
     public static boolean createAccount(UserDTO dto)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
@@ -284,11 +287,12 @@ public class UserDAO {
 
         return result;
     }
+
     public boolean removeAccount(String username)
-                throws SQLException, ClassNotFoundException {
+            throws SQLException, ClassNotFoundException {
         Connection con = null;
-        PreparedStatement stm = null; 
-        boolean result = false; 
+        PreparedStatement stm = null;
+        boolean result = false;
         try {
             con = DBUtils.getConnection();
             if (con != null) {
@@ -311,10 +315,11 @@ public class UserDAO {
                 con.close();
             }
         }
-        return result; 
+        return result;
     }
-     public boolean updateAccount(String username, String fullName, String address, String phoneNumber, Boolean gender)
-            throws SQLException, ClassNotFoundException{
+
+    public boolean updateAccount(String username, String fullName, String address, String phoneNumber, Boolean gender)
+            throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
         boolean result = false; //thong qua bien trung gian
@@ -330,7 +335,7 @@ public class UserDAO {
                 stm.setString(3, phoneNumber);
                 stm.setBoolean(4, gender);
                 stm.setString(5, username);
-                        
+
                 int effectRow = stm.executeUpdate();
                 if (effectRow > 0) {
                     result = true;
@@ -379,8 +384,9 @@ public class UserDAO {
         }
         return result;
     }
+
     public static boolean updateAccountCustomer(String username, String fullName, String address, String phoneNumber, Boolean gender)
-            throws SQLException, ClassNotFoundException{
+            throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
         boolean result = false; //thong qua bien trung gian
@@ -396,7 +402,7 @@ public class UserDAO {
                 stm.setString(3, phoneNumber);
                 stm.setBoolean(4, gender);
                 stm.setString(5, username);
-                        
+
                 int effectRow = stm.executeUpdate();
                 if (effectRow > 0) {
                     result = true;
@@ -412,8 +418,9 @@ public class UserDAO {
         }
         return result;
     }
+
     public static boolean updatePassword(String username, String password)
-            throws SQLException, ClassNotFoundException{
+            throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
         boolean result = false; //thong qua bien trung gian
@@ -426,7 +433,7 @@ public class UserDAO {
                 stm = con.prepareStatement(sql);
                 stm.setString(1, password);
                 stm.setString(2, username);
-                        
+
                 int effectRow = stm.executeUpdate();
                 if (effectRow > 0) {
                     result = true;
@@ -442,4 +449,122 @@ public class UserDAO {
         }
         return result;
     }
+
+    public static List<UserDTO> getAllUser() throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<UserDTO> listUser = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
+                        + "from [User]";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String userName = rs.getString("UserName");
+                    String password = rs.getString("Password");
+                    String email = rs.getString("Email");
+                    String fullName = rs.getString("Fullname");
+                    int role = rs.getInt("Role");
+                    boolean status = rs.getBoolean("Status");
+                    String address = rs.getString("Address");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    boolean gender = rs.getBoolean("Gender");
+                    int numberReport = rs.getInt("NumberReport");
+                    UserDTO user = new UserDTO(userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
+                    listUser.add(user);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listUser;
+    }
+
+    public static List<UserDTO> searchUser(String value) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<UserDTO> listUser = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
+                        + "FROM [User] "
+                        + "WHERE UserName like ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + value + "%");
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String userName = rs.getString("UserName");
+                    String password = rs.getString("Password");
+                    String email = rs.getString("Email");
+                    String fullName = rs.getString("Fullname");
+                    int role = rs.getInt("Role");
+                    boolean status = rs.getBoolean("Status");
+                    String address = rs.getString("Address");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    boolean gender = rs.getBoolean("Gender");
+                    int numberReport = rs.getInt("NumberReport");
+                    UserDTO user = new UserDTO(userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
+                    listUser.add(user);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listUser;
+    }
+
+    public static boolean banUser(String userName, boolean bool) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "UPDATE [User]\n"
+                        + "SET [Status] = ? \n"
+                        + "WHERE [UserName] like ? ";
+                stm = con.prepareStatement(sql);
+                stm.setBoolean(1, bool);
+                stm.setString(2, userName);
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+                //end while rs not null
+            }//end if con is not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
 }
