@@ -21,7 +21,7 @@ import sample.utils.DBUtils;
  */
 public class ProductDAO {
 
-    public List<ProductDTO> loadProducts()
+    public static List<ProductDTO> loadProducts()
             throws SQLException, NamingException, ClassNotFoundException {
 
         Connection con = null;
@@ -1007,7 +1007,7 @@ public class ProductDAO {
         return listProduct;
     }
 
-    public List<ProductDTO> getProductInListByName(List<ProductDTO> list, String name) throws SQLException, ClassNotFoundException {
+    public static List<ProductDTO> getProductInListByName(List<ProductDTO> list, String name) throws SQLException, ClassNotFoundException {
         List<ProductDTO> listProduct = new ArrayList<>();
         list.stream().filter((product) -> (product.getProductName().toLowerCase().contains(name.toLowerCase()))).forEachOrdered((product) -> {
             listProduct.add(product);
