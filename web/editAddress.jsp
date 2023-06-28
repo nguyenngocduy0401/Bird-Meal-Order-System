@@ -3,7 +3,7 @@
     Created on : Jun 15, 2023, 10:39:14 AM
     Author     : haong
 --%>
-
+<style></style>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -82,16 +82,16 @@
         <!-- Topbar Start -->
         <div class="container-fluid border-bottom d-none d-lg-block">
             <div class="row gx-0">
-                <div class="col-lg-4 text-center py-2">
+                <div class="col-lg-3 text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
                         <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
+                            <h6 class="text-uppercase mb-1">Our Address</h6>
                             <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center border-start border-end py-2">
+                <div class="col-lg-3 text-center border-start border-end py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
                         <div class="text-start">
@@ -101,12 +101,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center py-2">
+                <div class="col-lg-3 text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
                         <div class="text-start">
                             <h6 class="text-uppercase mb-1">Call Us</h6>
                             <span>+123454654</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-facebook fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Facebook</h6>
+                            <span><a href="https://www.facebook.com/" class="link">https://www.facebook.com/</a></span>
                         </div>
                     </div>
                 </div>
@@ -134,7 +143,7 @@
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
-                    <a href="blog.html" class="nav-item nav-link">Blog</a>
+                    <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i
                             class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <div class="nav-item dropdown">
@@ -220,18 +229,18 @@
                                         <c:choose>
                                             <c:when test="${not empty errors.fullnameLengthError}">
                                                 <input type="text" class="form-control bg is-invalid" placeholder="Full name*(2 - 50 characters)"
-                                                  pattern=".{2,50}" title="Your name must be between 2 and 50 characters." required=""   name="txtFullName" value="${param.txtFullName}">
+                                                       pattern=".{2,50}" title="Your name must be between 2 and 50 characters." required=""   name="txtFullName" value="${param.txtFullName}">
                                                 <font color ="red">
                                                 ${errors.fullnameLengthError}
                                                 </font>
                                             </c:when>
                                             <c:when test="${empty errors.fullnameLengthError && empty errors.phoneNumberFormatError}">
                                                 <input class="form-control bg" id="inputUsername" type="text" name="txtFullName"
-                                                   pattern=".{2,50}"  title="Your name must be between 2 and 50 characters."  required="" placeholder="Enter your username" value="${addressEdit.fullName}">
+                                                       pattern=".{2,50}"  title="Your name must be between 2 and 50 characters."  required="" placeholder="Enter your username" value="${addressEdit.fullName}">
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="text" class="form-control bg" placeholder="Full name*(2 - 50 characters)"
-                                                   pattern=".{2,50}"  title="Your name must be between 2 and 50 characters." required=""  name="txtFullName" value="${param.txtFullName}">
+                                                       pattern=".{2,50}"  title="Your name must be between 2 and 50 characters." required=""  name="txtFullName" value="${param.txtFullName}">
                                             </c:otherwise>
                                         </c:choose>
                                     </div>

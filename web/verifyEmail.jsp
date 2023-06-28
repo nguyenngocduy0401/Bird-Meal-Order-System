@@ -3,7 +3,7 @@
     Created on : Jun 1, 2023, 3:03:03 AM
     Author     : haong
 --%>
-
+<style></style>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -42,7 +42,7 @@
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
                         <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
+                            <h6 class="text-uppercase mb-1">Our Address</h6>
                             <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="/BirdMealOrderSystem" class="navbar-brand ms-lg-5">
+            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -95,9 +95,9 @@
                     
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="Home.html" class="nav-item nav-link active">Home</a>
-                    <a href="blog.html" class="nav-item nav-link">Blog</a>
-                    <a href="cart.html" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
