@@ -1163,6 +1163,7 @@ public class ProductDAO {
         }
         return result;
     }
+
     public List<ProductDTO> searchListProductOfStaff(String searchValue, int index, int onPageProduct)
             throws SQLException, NamingException, ClassNotFoundException {
 
@@ -1219,12 +1220,81 @@ public class ProductDAO {
         return listProduct;
     }
 
-//    public static void main(String[] args) throws SQLException, NamingException, ClassNotFoundException {
-//        ProductDAO dao = new ProductDAO();
-//        List<ProductDTO> listProduct = new ArrayList<>();
-//        listProduct = dao.pagingProductUser(1, 6, -1, "", -1, -1, "");
-//        listProduct.forEach((dto)->{
-//            System.out.println(dto);
-//        });   
-//    }
+    public static ProductDTO getProductByID(int productID, int quantity) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ProductDTO dto = new ProductDTO();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT ProductName, Price, CategoryID, ProductDetail, Size, AgeRecommendation, Date , [Status], Country, imgPath\n"
+                        + "FROM Product\n"
+                        + "WHERE ProductID = ?;";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, productID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+                    dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return dto;
+    }
+
+    public static List<ProductDTO> listTop5Product() throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT TOP (5) OrderDetail.ProductID, SUM(OrderDetail.Quantity) AS TotalSold\n"
+                        + "FROM OrderDetail INNER JOIN Product ON OrderDetail.ProductID = Product.ProductID\n"
+                        + "GROUP BY OrderDetail.ProductID\n"
+                        + "ORDER BY TotalSold DESC";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    int quantity = rs.getInt("TotalSold");
+                    ProductDTO dto = getProductByID(productID, quantity);
+                    listProduct.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
 }

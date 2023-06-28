@@ -8,29 +8,26 @@ package sample.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.BirdDAO;
-import sample.dao.CategoryDAO;
+import javax.servlet.http.HttpSession;
 import sample.dao.FeedbackDAO;
-import sample.dao.ProductDAO;
-import sample.dto.BirdDTO;
-import sample.dto.CategoryDTO;
-import sample.dto.FeedbackDTO;
-import sample.dto.ProductDTO;
+import sample.dto.UserDTO;
 
 /**
  *
- * @author Duy
+ * @author Admin
  */
-public class ProductDetailController extends HttpServlet {
-
+@WebServlet(name = "FeedbackReply", urlPatterns = {"/FeedbackReply"})
+public class FeedbackReply extends HttpServlet {
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,21 +40,15 @@ public class ProductDetailController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            int productID = Integer.parseInt(request.getParameter("productID"));
-            ProductDTO productDTO = ProductDAO.getProductByID(productID);
-            CategoryDTO categoryDTO = CategoryDAO.getCategoryByID(productID);
-            ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(productID);
-            int amountFeedback = FeedbackDAO.getAmountFeedbackByProductID(productID);
-            List<FeedbackDTO> listFeedback = FeedbackDAO.getFeedbackByProductID(productID);
-            if(productDTO !=null){
-                request.setAttribute("productDTO", productDTO);
-                request.setAttribute("categoryDTO", categoryDTO);
-                request.setAttribute("listBird", listBird);
-                request.setAttribute("amountFeedback", amountFeedback);
-                request.setAttribute("LIST_FEEDBACK", listFeedback);
-                request.getRequestDispatcher("productDetail.jsp").forward(request, response);
-            }
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        String details = request.getParameter("details");
+        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
+        String date = String.valueOf(LocalDate.now());
+        try {
+            FeedbackDAO.updateFeedback(feedbackID,user.getFullName(), details, date);
+        }finally{
+            
         }
     }
 
@@ -76,9 +67,9 @@ public class ProductDetailController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -96,9 +87,9 @@ public class ProductDetailController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

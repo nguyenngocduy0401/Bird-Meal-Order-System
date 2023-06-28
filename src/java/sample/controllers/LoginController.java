@@ -54,6 +54,7 @@ public class LoginController extends HttpServlet {
                             HttpSession session = request.getSession(true);
                             if (session != null) {
                                 session.setAttribute("user", user);
+                                request.setAttribute("btAction", "AdminHome");
                                 //create a cookie and attach it to response object
                                 if (save != null) {
                                     String token = codeString;
@@ -62,7 +63,7 @@ public class LoginController extends HttpServlet {
                                     cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
-                                response.sendRedirect("admin.jsp");
+                                response.sendRedirect("AdminPageController");
                             }
 
                         } else if (user.getRole() == 1) {//staff

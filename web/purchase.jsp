@@ -8,9 +8,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<c:if test="${empty sessionScope.user}">
-        <c:redirect url="login.jsp"></c:redirect>
-</c:if>
 <html>
     <style>
         /*edit link color*/
@@ -103,10 +100,6 @@
         .custom-button:hover {
             background-color: #3e8e41;
         }
-        .row{
-            margin-bottom: 10px;
-            padding-top: 5px;
-        }
         .product-inrow{
             background-color: #f8d7da;
         }
@@ -167,80 +160,13 @@
     </head>
 
     <body>
-        <!-- Topbar Start -->
-        <div class="container-fluid border-bottom d-none d-lg-block">
-            <div class="row gx-0">
-                <div class="col-lg-4 text-center py-2">
-                    <div class="d-inline-flex align-items-center">
-                        <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
-                        <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
-                            <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 text-center border-start border-end py-2">
-                    <div class="d-inline-flex align-items-center">
-                        <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
-                        <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Email Us</h6>
-
-                            <span>fpt@example.com</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 text-center py-2">
-                    <div class="d-inline-flex align-items-center">
-                        <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
-                        <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Call Us</h6>
-                            <span>+123454654</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Topbar End -->
-
-        <!-- Navbar Start -->
-        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
-                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store
-                </h1>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="col-md-7 container-fluid">
-
-                </div>
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
-                    <a href="blog.html" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i
-                            class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
-                            <i class="bi bi-person fs-1 text-primary me-1"></i>
-                        </a>
-                        <div class="dropdown-menu m-0 dropdown-menu-end">
-                            <a href="details.jsp" class="dropdown-item">My profile</a>
-                            <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
-                            <a href="LogoutController" class="dropdown-item">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <!-- Navbar End -->
-
+        <%@include file="header.jsp" %>
 
         <c:set var="order" value="${requestScope.ORDERS}" />
         <div class="container content">
 
             <div class="row ">
-                <div class="title col-md-3">
+                <div class="title col-md-2">
                     <div class="" style="width:100% auto; color: black; font-weight: bold;">
                         <div class="">My account</div>
                     </div>
@@ -270,7 +196,7 @@
                                 </a></div>
                         </div>
                         <div>
-                            <div class=""><a class="" href="ShowListAddressController">
+                            <div class=""><a class="" href="addresses.jsp">
                                     <div class="">Address book</div>
                                 </a></div>
                         </div>
@@ -286,7 +212,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="fr-flbox middle bg-white" style="border: 1px solid rgb(224, 224, 224); padding: 10px 10px;">
                         <div class="row">
                             <div class="col-md-2" style="text-align: center;">
@@ -321,6 +247,7 @@
                             </c:if>
                             <c:if test="${not empty order}">
                                 <c:forEach var="dto" items="${requestScope.ORDERS}">
+                                    <c:set var="orderID" value="${dto.orderID}" />
                                     <div class="blog-item product">
                                         <div class="row g-0 bg-light overflow-hidden col-12">
                                             <div class="col-12 h-50 d-flex flex-column justify-content-center">
@@ -344,16 +271,17 @@
                                                         <small><i class="col-4 bi bi-calendar-date me-2"></i>${dto.date}</small>
                                                         <small class="add"><p >${dto.orderAddress}</p></small>
                                                     </div>
-                                                    <div class="d-flex ">
+                                                    <div class="d-flex">
                                                         <small>${dto.note}</small>
                                                     </div>
                                                     <div>
                                                         <c:forEach var="product" items="${dto.productsList}" >
+                                                            <c:set var="productID" value="${product.productID}" />
                                                             <div class="row border product-inrow">
                                                                 <div class="col-md-2 img-fluid">
                                                                     <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                                                 </div>
-                                                                <div class="col-md-8 text-left mt-sm-2">
+                                                                <div class="col-md-6 text-left mt-sm-2">
                                                                     <h4>${product.productName}</h4>
                                                                     <p class="font-weight-light">${product.productDetail}</p>
                                                                 </div>
@@ -361,6 +289,19 @@
                                                                     <p > Price: ${product.price} $</p>
                                                                     <p class="font-weight-light text-right">x ${product.quantity}</p>
                                                                 </div>
+                                                                <c:if test="${dto.status eq 4 }">
+                                                                    <div class="col-md-2 text-right mt-sm-2">
+                                                                        <form action="MainController">
+                                                                            <button type="submit" value="Feedback" name="btAction" class="btn btn-primary btn-buy" type="button">
+                                                                                Feedback
+                                                                            </button>
+                                                                            <input type="hidden" name="orderID" value="${orderID}" />
+                                                                            <input type="hidden" name="productID" value="${productID}" />
+                                                                        </form>
+                                                                    </div>
+                                                                </c:if>
+
+
                                                             </div>
                                                         </c:forEach>
                                                     </div>
@@ -417,9 +358,10 @@
                                                     var id = orderID;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "BuyAgainController",
+                                                        url: "BuyAgain",
                                                         data: {
-                                                            orderID: id
+                                                            orderID: id,
+                                                            userID: '${sessionScope.user.userID}'
                                                         },
                                                         success: function () {
                                                             alert("San Pham da duoc dua vao gio hang");

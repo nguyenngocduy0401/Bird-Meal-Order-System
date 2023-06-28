@@ -566,4 +566,76 @@ public class UserDAO {
         return result;
     }
 
+    public static int getAmountUser() throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int result = 0;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT COUNT(*)\n"
+                        + "  FROM [User]";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    result = rs.getInt(1);
+                }
+                //end while rs not null
+            }//end if con is not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
+    public static UserDTO getUserByID(int userID) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        UserDTO user = new UserDTO();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT UserName,Password,Email,Fullname,Role,Status,Address,PhoneNumber,Gender,NumberReport\n"
+                        + "FROM [User] "
+                        + "WHERE userID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String userName = rs.getString("UserName");
+                    String password = rs.getString("Password");
+                    String email = rs.getString("Email");
+                    String fullName = rs.getString("Fullname");
+                    int role = rs.getInt("Role");
+                    boolean status = rs.getBoolean("Status");
+                    String address = rs.getString("Address");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    boolean gender = rs.getBoolean("Gender");
+                    int numberReport = rs.getInt("NumberReport");
+                    user = new UserDTO(userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return user;
+    }
+
 }
