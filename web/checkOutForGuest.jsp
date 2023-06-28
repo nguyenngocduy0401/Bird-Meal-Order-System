@@ -1,8 +1,3 @@
-<%-- 
-    Document   : checkOutForGuest
-    Created on : Jun 13, 2023, 11:06:21 PM
-    Author     : Duy
---%>
 
 <style>
     .card {
@@ -13,8 +8,35 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="sample.dto.ProductDTO" %>
 <%@ page import="sample.dao.ProductDAO" %>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+    <style>
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+
+
+
+        #default:hover {
+            /* Define the styles for the hover state */
+            color: #7AB730;
+            cursor: pointer;
+            /* Add any other desired styles */
+        }
+    </style>
+    <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ page import="sample.dto.ProductDTO" %>
+    <%@ page import="sample.dao.ProductDAO" %>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+
+
+
+    </script>
     <head>
         <meta charset="utf-8">
         <title>Bird Meal Order System</title>
@@ -85,9 +107,10 @@
         </div>
         <!-- Topbar End -->
 
-        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0 mb-5">
-            <a href="index.html" class="navbar-brand ms-lg-5">
-                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Pet Shop</h1>
+
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
+                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -124,53 +147,311 @@
                         <h1 class="display-5 text-uppercase mb-0">Check Out Your Cart</h1>
                     </div>
                     <div class="card container px-5 ps-5 px-lg-5 my-5 ms-5 custom-card">
-                        <div class="row px-5 ps-5 px-lg-5 my-5 ms-3">
-                            <div class="col-md-6" id="listInfo">
-                                <form action="MainController">
+                        <form action="MainController">
+                            <c:set var="errors" value="${requestScope.PLACE_ORDER_INFORMATION_ERROR}"/>
+                            <div class="row px-5 ps-5 px-lg-5 my-5 ms-3">
+                                <div class="col-md-6" id="listInfo">
 
-                                    <div class="row g-3">
-                                        <c:if test="${sessionScope.user != null}">
-                                            <c:forEach var="address" items="${addressList}" >
-                                                <c:set var="fullName" value="${address.fullName}"/>
-                                                <c:set var="addressDetail" value="${address.addressDetail}"/>
-                                                <c:set var="phoneNumber" value="${address.phoneNumber}"/>
-                                                <div class="text-right">
-                                                    <div class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                                        <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
+                                    <div class="row g-3 " id="addressCustomer" >
+
+                                        <c:if test="${not empty sessionScope.user}">
+                                            <c:if test="${not empty sessionScope.addressList}">
+                                                <c:forEach var="address" items="${addressList}" >
+                                                    <c:set var="userID" value="${address.userID}"/>
+                                                    <c:set var="addressID" value="${address.addressID}"/>
+                                                    <c:set var="fullName" value="${address.fullName}"/>
+                                                    <c:set var="addressDetail" value="${address.addressDetail}"/>
+                                                    <c:set var="phoneNumber" value="${address.phoneNumber}"/>
+                                                    <div class="row g-3 container border border-opacity-25 border-secondary rounded border-dark pb-3 " style="border-radius: 5px; ">
+                                                        <div class="col-md-1 ">
+                                                            <div class=" text-center py-4">
+                                                                <input type="radio" name="selectAddress"  value="${addressID}" required="" />
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-11 ">
+                                                            <div class="row">
+                                                                <div class="col-md-5   py-1"  >${fullName}</div>
+                                                                <div class="col-md-4  border-start  py-1">${phoneNumber}</div>
+                                                                <div class="col-md-3 "></div>
+                                                            </div>
+                                                            <div class="">${addressDetail} </div>
+                                                        </div>
+
+
+
                                                     </div>
+                                                </c:forEach>
+
+                                                <div>Notes </div>
+
+                                                <textarea class="form-control row g-3 bg-white border-1 border-dark px-5 " name="txtNotes"
+                                                          style="height: 100px; border-radius: 5px;"></textarea>
+                                                <div class="row ">
+                                                    <div class="col-md-6">
 
                                                 </div>
                                                 <div>${fullName}</div>
                                                 <div>${addressDetail}</div>
                                                 <div>${phoneNumber}</div>
 
-                                            </c:forEach>
-                                            <div class="col-12">
-                                                Notes *
-                                                <textarea class="form-control bg-light border-0 px-4" name="txtNotes"
-                                                          style="height: 100px;"></textarea>
-                                            </div>
+
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                            <c:if test="${empty sessionScope.addressList}">
+                                                <div class="mb-3">
+                                                    <label class="small mb-1" for="inputUsername">Full name*</label>
+                                                    <c:choose>
+                                                        <c:when test="${not empty errors.fullnameLengthError}">
+                                                            <input type="text" class="form-control bg is-invalid" placeholder="Full name*(2 - 50 characters)"
+                                                                   name="txtFullName" required=""  value="${param.txtFullName}"> 
+                                                            <font color ="red">
+                                                            ${errors.fullnameLengthError}
+                                                            </font>
+                                                        </c:when>
+                                                        <c:when test="${empty errors.fullnameLengthError && empty errors.phoneNumberFormatError
+                                                                        && empty errors.provinceNotSelect && empty errors.districtNotSelect && empty errors.wardNotSelect && empty errors.addressLengthError}">
+                                                                <input class="form-control bg" id="inputUsername" type="text" name="txtFullName"
+                                                                       placeholder="Enter your username" required="" value="${user.fullName}">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <input type="text" class="form-control bg" placeholder="Full name*(2 - 50 characters)"
+                                                                   name="txtFullName" required=""  value="${param.txtFullName}">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <!--                                                    <input class="form-control bg" id="inputUsername" type="text" name="txtFullName"
+                                                                                                               value="${user.fullName}" required=""  placeholder="Enter your Fullname" >-->
+
+
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="small mb-1">Address*</label>
+                                                    <div>
+                                                        <!--check empty province-->
+                                                        <c:if test="${not empty errors.provinceNotSelect}">
+                                                            <select  name="ddlProvince" rules="required" required="" class="form-control bg-white form-select mt-1 is-invalid" id="city" aria-label=".form-select-sm">
+                                                                <option value="" selected>Select your province</option>           
+                                                            </select>
+                                                            <font color ="red">
+                                                            ${errors.provinceNotSelect}
+                                                            </font>
+                                                        </c:if>
+                                                        <c:if test="${empty errors.provinceNotSelect}">
+                                                            <select  name="ddlProvince" rules="required" required="" class="form-control bg-white form-select mt-1 " id="city" aria-label=".form-select-sm">
+                                                                <option value="" selected>Select your province</option>           
+                                                            </select>
+                                                        </c:if>
+
+                                                        <!--check empty district-->    
+                                                        <c:if test="${not empty errors.districtNotSelect}">
+                                                            <select  name="ddlDistrict" rules="required" required="" class="form-control bg-white form-select mt-3 is-invalid" id="district" aria-label=".form-select-sm">
+                                                                <option value="" selected>Select your district</option> 
+                                                            </select>
+                                                            <font color ="red">
+                                                            ${errors.districtNotSelect}
+                                                            </font>
+                                                        </c:if>
+                                                        <c:if test="${empty errors.districtNotSelect}">
+                                                            <select  name="ddlDistrict" rules="required" required="" class="form-control bg-white form-select mt-3" id="district" aria-label=".form-select-sm">
+                                                                <option value="" selected>Select your district</option> 
+                                                            </select>          
+                                                        </c:if>
+                                                        <!--check empty ward-->
+                                                        <c:if test="${not empty errors.wardNotSelect}">
+                                                            <select name="ddlWard" required="" class="form-control bg-white form-select mt-3 is-invalid" id="ward" aria-label=".form-select-sm">
+                                                                <option value="" selected>Select your ward</option>
+                                                            </select>
+                                                            <font color ="red">
+                                                            ${errors.wardNotSelect}
+                                                            </font>
+                                                        </c:if>
+                                                        <c:if test="${empty errors.wardNotSelect}">
+                                                            <select name="ddlWard" required="" class="form-control bg-white form-select mt-3" id="ward" aria-label=".form-select-sm">
+                                                                <option value="" selected>Select your ward</option>
+                                                            </select>
+                                                        </c:if>
+                                                        <!--                                                        <select  name="ddlProvince" required="" class="form-control bg-white form-select mt-1 " id="city" aria-label=".form-select-sm">
+                                                                                                                    <option value="" selected>Select your province</option>           
+                                                                                                                </select>
+                                                                                                                <select  name="ddlDistrict" required="" class="form-control bg-white form-select mt-3 " id="district" aria-label=".form-select-sm">
+                                                                                                                    <option value="" selected>Select your district</option> 
+                                                                                                                </select>
+                                                        
+                                                                                                                <select name="ddlWard" required="" class="form-control bg-white form-select mt-3" id="ward" aria-label=".form-select-sm">
+                                                                                                                    <option value="" selected>Select your ward</option>
+                                                                                                                </select>-->
+                                                    </div>
+                                                    <!--check length address detail-->
+                                                    <div>
+                                                        <c:if test="${not empty errors.addressLengthError}">
+                                                            <input type="text" class="form-control bg  mt-3 mb-2 is-invalid" placeholder="Address details"
+                                                                   name="txtAddressDetails" required="" id="addressDetails"  >
+                                                            </select>
+                                                            <font color ="red">
+                                                            ${errors.addressLengthError}
+                                                            </font>
+                                                        </c:if>
+                                                        <c:if test="${empty errors.addressLengthError}">
+                                                            <input type="text" class="form-control bg  mt-3 mb-2" placeholder="Address details"
+                                                                   name="txtAddressDetails" required="" id="addressDetails"  >
+                                                        </c:if>
+                                                        <!--                                                    
+                                                                                                                <input type="text" class="form-control bg  mt-3 mb-2" placeholder="Address details"
+                                                                                                                       name="txtAddressDetails" required="" id="addressDetails"  >-->
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="small mb-1" for="phoneNumber">Phone number*</label>
+                                                    <c:choose>
+                                                        <c:when test="${not empty errors.phoneNumberFormatError}">
+                                                            <input class="form-control is-invalid" id="phoneNumber" type="text" 
+                                                                   placeholder="Enter your phone number" value="${param.txtPhoneNumber}" name="txtPhoneNumber"
+                                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))" required="">
+                                                            <font color ="red">
+                                                            ${errors.phoneNumberFormatError}
+                                                            </font>
+                                                        </c:when>
+                                                        <c:when test="${empty errors.phoneNumberFormatError && empty errors.fullnameLengthError
+                                                                        && empty errors.provinceNotSelect && empty errors.districtNotSelect && empty errors.wardNotSelect && empty errors.addressLengthError}">
+                                                                <input class="form-control" id="phoneNumber" type="text" 
+                                                                       placeholder="Enter your phone number" value="${user.phoneNumber}" name="txtPhoneNumber" 
+                                                                       onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))" required="">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <input class="form-control" id="phoneNumber" type="text" 
+                                                                   placeholder="Enter your phone number" value="${param.txtPhoneNumber}" name="txtPhoneNumber"
+                                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))" required="">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <!--                                                    <input class="form-control" id="phoneNumber" type="text" 
+                                                                                                               placeholder="Enter your phone number" value="${user.phoneNumber}" name="txtPhoneNumber" 
+                                                                                                               onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                                                                                               title="Please enter a 10-digit phone number"
+                                                                                                               required="">-->
+                                                </div>
+                                                <div class="col-12">
+                                                    Notes 
+                                                    <textarea class="form-control bg-white border-1 px-4" name="txtNotes"
+                                                              style="height: 100px;"></textarea>
+                                                </div>
+                                            </c:if>
                                         </c:if>
-                                        <c:if test="${sessionScope.user == null}">
-                                            <div class="col-12">
-                                                Name * 
-                                                <input type="text" class="form-control bg-light border-0 px-4" name="txtName" 
-                                                       style="height: 55px;" value="" required="">
+                                        <c:if test="${empty sessionScope.user}">
+                                            <div class="mb-3">
+                                                <label class="small mb-1" for="inputUsername">Full name</label>
+                                                <c:if test="${not empty errors.fullnameLengthError}">
+                                                    <input class="form-control bg is-invalid" id="inputUsername" type="text" name="txtFullName"
+                                                           placeholder="Enter your Fullname" required="" >
+                                                    </select>
+                                                    <font color ="red">
+                                                    ${errors.fullnameLengthError}
+                                                    </font>
+                                                </c:if>
+                                                <c:if test="${empty errors.fullnameLengthError}">
+                                                    <input class="form-control bg" id="inputUsername" type="text" name="txtFullName"
+                                                           placeholder="Enter your Fullname" required="" >
+                                                </c:if>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="small mb-1">Address*</label>
+                                                <div>
+                                                    <!--check empty province-->
+                                                    <c:if test="${not empty errors.provinceNotSelect}">
+                                                        <select  name="ddlProvince" rules="required" required="" class="form-control bg-white form-select mt-1 is-invalid" id="city" aria-label=".form-select-sm">
+                                                            <option value="" selected>Select your province</option>           
+                                                        </select>
+                                                        <font color ="red">
+                                                        ${errors.provinceNotSelect}
+                                                        </font>
+                                                    </c:if>
+                                                    <c:if test="${empty errors.provinceNotSelect}">
+                                                        <select  name="ddlProvince" rules="required" required="" class="form-control bg-white form-select mt-1 " id="city" aria-label=".form-select-sm">
+                                                            <option value="" selected>Select your province</option>           
+                                                        </select>
+                                                    </c:if>
+
+                                                    <!--check empty district-->    
+                                                    <c:if test="${not empty errors.districtNotSelect}">
+                                                        <select  name="ddlDistrict" rules="required" required="" class="form-control bg-white form-select mt-3 is-invalid" id="district" aria-label=".form-select-sm">
+                                                            <option value="" selected>Select your district</option> 
+                                                        </select>
+                                                        <font color ="red">
+                                                        ${errors.districtNotSelect}
+                                                        </font>
+                                                    </c:if>
+                                                    <c:if test="${empty errors.districtNotSelect}">
+                                                        <select  name="ddlDistrict" rules="required" required="" class="form-control bg-white form-select mt-3" id="district" aria-label=".form-select-sm">
+                                                            <option value="" selected>Select your district</option> 
+                                                        </select>          
+                                                    </c:if>
+                                                    <!--check empty ward-->
+                                                    <c:if test="${not empty errors.wardNotSelect}">
+                                                        <select name="ddlWard" required="" class="form-control bg-white form-select mt-3 is-invalid" id="ward" aria-label=".form-select-sm">
+                                                            <option value="" selected>Select your ward</option>
+                                                        </select>
+                                                        <font color ="red">
+                                                        ${errors.wardNotSelect}
+                                                        </font>
+                                                    </c:if>
+                                                    <c:if test="${empty errors.wardNotSelect}">
+                                                        <select name="ddlWard" required="" class="form-control bg-white form-select mt-3" id="ward" aria-label=".form-select-sm">
+                                                            <option value="" selected>Select your ward</option>
+                                                        </select>
+                                                    </c:if>
+                                                    <!--                                                        <select  name="ddlProvince" required="" class="form-control bg-white form-select mt-1 " id="city" aria-label=".form-select-sm">
+                                                                                                                <option value="" selected>Select your province</option>           
+                                                                                                            </select>
+                                                                                                            <select  name="ddlDistrict" required="" class="form-control bg-white form-select mt-3 " id="district" aria-label=".form-select-sm">
+                                                                                                                <option value="" selected>Select your district</option> 
+                                                                                                            </select>
+                                                    
+                                                                                                            <select name="ddlWard" required="" class="form-control bg-white form-select mt-3" id="ward" aria-label=".form-select-sm">
+                                                                                                                <option value="" selected>Select your ward</option>
+                                                                                                            </select>-->
+                                                </div>
+                                                <!--check length address detail-->
+                                                <div>
+                                                    <c:if test="${not empty errors.addressLengthError}">
+                                                        <input type="text" class="form-control bg  mt-3 mb-2 is-invalid" placeholder="Address details"
+                                                               name="txtAddressDetails" required="" id="addressDetails"  >
+                                                        </select>
+                                                        <font color ="red">
+                                                        ${errors.addressLengthError}
+                                                        </font>
+                                                    </c:if>
+                                                    <c:if test="${empty errors.addressLengthError}">
+                                                        <input type="text" class="form-control bg  mt-3 mb-2" placeholder="Address details"
+                                                               name="txtAddressDetails" required="" id="addressDetails"  >
+                                                    </c:if>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="phoneNumber">Phone number</label>
+                                                <c:if test="${not empty errors.phoneNumberFormatError}">
+                                                    <input class="form-control is-invalid" id="phoneNumber" type="tel" 
+                                                           placeholder="Enter your phone number" value="${param.txtPhoneNumber}" name="txtPhoneNumber"
+                                                           onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                                           title="Please enter a 10-digit phone number"
+                                                           required="">
+                                                    <font color ="red">
+                                                    ${errors.phoneNumberFormatError}
+                                                    </font>
+                                                </c:if>
+                                                <c:if test="${empty errors.phoneNumberFormatError}">
+                                                    <input class="form-control" id="phoneNumber" type="tel" 
+                                                           placeholder="Enter your phone number" value="${param.txtPhoneNumber}" name="txtPhoneNumber" 
+                                                           onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                                           title="Please enter a 10-digit phone number"
+                                                           required="">
+                                                </c:if>
                                             </div>
                                             <div class="col-12">
-                                                Address *
-                                                <input type="text" class="form-control bg-light border-0 px-4" name="txtAddress"
-                                                       style="height: 55px;" value="" required="">
-                                            </div>
-                                            <div class="col-12">
-                                                Phone Number *
-                                                <input type="text" class="form-control bg-light border-0 px-4" name="txtPhoneNumber" pattern="[0-9]{10}"
-                                                       title="Please enter a 10-digit phone number" style="height: 55px;" value="">
-                                            </div>
-                                            <div class="col-12">
-                                                Notes *
-                                                <textarea class="form-control bg-light border-0 px-4" name="txtNotes"
-                                                          style="height: 100px;"></textarea>
+                                                Notes 
+                                                <textarea class="form-control bg-white border-1 px-4" name="txtNotes" 
+                                                          style="height: 100px;" ></textarea>
                                             </div>
                                         </c:if>
 
@@ -182,69 +463,123 @@
                                         <c:set var="quantity" value="${item.value}" />
                                         <c:set var="price" value="${product.price}" />
                                         <c:set var="total" value="${total + (quantity * product.price)}"/>
+                                        <c:set var="subTotal" value="${subTotal + (quantity * product.price)}"/>
+                                        <c:set var="weight" value="${product.size}"/>
+                                        <c:set var="totalWeight" value="${totalWeight + (quantity * product.size)}"/>
+
                                     </c:forEach>
 
                                     <div class="float-right text-right">
-                                        <h4>Subtotal:</h4>
+                                        <input type="hidden" id="totalWeight" value="${totalWeight}" name="totalWeight"/>
+                                        <!--                                        <h4>Subtotal:</h4>
+                                                                                <div class="row mt-4 d-flex align-items-center">
+                                                                                    <div class="col-sm-6 order-md-2">
+                                                                                        <h1><span id="subtotalAmount"></span></h1>
+                                                                                    </div>
+                                                                                </div>-->
                                         <div class="row mt-4 d-flex align-items-center">
-                                            <div class="col-sm-6 order-md-2">
-                                                <h1><span id="subtotalAmount">${total}</span></h1>
+
+                                            <div class="col-sm-8   text-right">
+                                                <!--<button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="previewOrder()">previewOrder</button>-->
                                             </div>
-                                        </div>
-                                        <div class="row mt-4 d-flex align-items-center">
-                                            <div class="col-sm-9 order-md-2 text-right">
-                                            </div>
-                                            <div class="col-sm-3 order-md-2 text-right">
-                                                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="submit" name="btAction" value="submitCheckOutGuest">Submit</button>
+                                            <div class="col-sm-4   ">
+                                                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="submit" name="btAction" value="submitCheckOutGuest">Place Order</button>
                                             </div>
                                         </div>
                                     </div>
-                            </div>
-                            </form>
-                            <div id="listproduct" class="col-md-6 text-right border border-dark"> 
-                                <table id="shoppingCart" class="table table-condensed table-responsive">
-                                    <thead>
-                                        <tr>
-                                            <th style="width:70%">Name</th>
-                                            <th style="width:8%">Price</th>
-                                            <th style="width:8%">Quantity</th>
-                                            <th style="width: 8%">
+                                </div>
 
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="item" items="${cartCheckOutForGuest}" varStatus="counter">
-                                            <c:set var="pid" value="${item.key}" />
-                                            <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
-                                            <c:set var="quantity" value="${item.value}" />
-                                            <c:set var="price" value="${product.price}" />
-                                            <c:set var="total" value="${total + (quantity * product.price)}"/>
-                                            <tr>
-                                                <td data-th="Product">
-                                                    <div class="row">
-                                                        <div class="col-md-3 text-left">
-                                                            <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                <div id="listproduct" class="col-md-6 text-right border border-dark"> 
+                                    <table id="shoppingCart" class="table table-condensed table-responsive" style="margin-bottom: 7px">
+                                        <thead>
+                                            <tr>    
+                                                <th style="width:70%">Name</th>
+                                                <th style="width:8%">Price</th>
+                                                <th style="width:8%">Quantity</th>
+                                                <th style="width: 8%">
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <c:forEach var="item" items="${cartCheckOutForGuest}" varStatus="counter">
+                                                <c:set var="pid" value="${item.key}" />
+                                                <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
+                                                <c:set var="quantity" value="${item.value}" />
+                                                <c:set var="price" value="${product.price}" />
+                                                <c:set var="total" value="${total + (quantity * product.price)}"/>
+
+                                                <tr>
+                                                    <td data-th="Product">
+                                                        <div class="row">
+                                                            <div class="col-md-3 text-left">
+                                                                <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                                            </div>
+                                                            <div class="col-md-9 text-left mt-sm-2">
+                                                                <h4>${product.productName}</h4>
+                                                                <p class="font-weight-light">${product.productDetail}</p>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-9 text-left mt-sm-2">
-                                                            <h4>${product.productName}</h4>
-                                                            <p class="font-weight-light">${product.productDetail}</p>
-                                                        </div>
-                                                    </div>
+                                                    </td>
+                                                    <td data-th="Price"><div style="font-weight: bold;">${price}₫</div></td>
+                                                    <td data-th="Quantity">
+                                                        <div class="form-control bg-white form-control-lg text-center">${item.value}</div> 
+                                                    </td>
+
+                                                <tr>
+                                                </c:forEach>
+
+                                        </tbody>
+
+                                    </table>
+                                    <table width="100%" style="border-collapse: separate; border-spacing: 10px 8px; border-bottom: 1px solid black; padding-bottom: 16px;">
+                                        <tbody>
+                                            <tr class="" style="padding-top: 0">
+                                                <td class="" width="50%">Subtotal</td>
+                                                <td class="" style="text-align: right">
+                                                    <span class="" id="subtotalAmount">
+                                                    </span>
                                                 </td>
-                                                <td data-th="Price"><div style="font-weight: bold;">${price}₫</div></td>
-                                                <td data-th="Quantity">
-                                                    <div class="form-control bg-white form-control-lg text-center">${item.value}</div> 
+                                            </tr>
+
+
+                                            <tr class=""">
+                                                <td class="">Shipping fee</td>
+                                                <td class="" style="text-align: right">
+                                                    <input type="hidden" value="" id="shippingFeeValue" name="shippingFeeValue"/>
+                                                    <span class="" id="shippingFee" value="">—
+                                                    </span>
                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table width="100%" style="border-collapse: separate; border-spacing: 10px 8px; padding-top: 5px">
+                                        <tbody class="" >
+                                            <tr class="">
+                                                <td class=""  width="50%">
+                                                    <span style="font-weight: 600; font-size: large;">Total</span>
+                                                </td>
+                                                <td class="" style="text-align: right">
+                                                    <span class="" style="font-size: 0.85714em;
+                                                          vertical-align: 0.2em;
+                                                          margin-right: 0.5em;
+                                                          color: #969696;">VND</span>
 
-                                            <tr>
-                                            </c:forEach>
-
-                                    </tbody>
-
-                                </table>
+                                                    <span class="" id="total" name="total" value="" style="
+                                                          font-size: 1.71429em;
+                                                          font-weight: 500;
+                                                          letter-spacing: -0.04em;
+                                                          color: #4b4b4b;
+                                                          line-height: 1em;">
+                                                    </span>
+                                                </td>
+                                            </tr>   
+                                            </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -257,6 +592,174 @@
             </c:if>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="scripts/validator.js"></script>
+    <script>
+                                                               //filter location
+                                                               var citis = document.getElementById("city");
+                                                               var districts = document.getElementById("district");
+                                                               var wards = document.getElementById("ward");
+                                                               var myHeaders = new Headers();
+                                                               var districID = null;
+                                                               var wardCode = "";
+                                                               myHeaders.append("token", "8971acfc-10b0-11ee-bb28-f6a6bf301a4e");
+                                                               var requestOptions = {
+                                                                   method: 'GET',
+                                                                   responseType: "application/json",
+                                                                   headers: myHeaders
+//                            redirect: 'follow'
+                                                               };
+
+                                                               fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province", requestOptions)
+                                                                       .then(response => response.json())
+                                                                       .then(result => {
+                                                                           renderCity(result.data);
+//                    console.log(result.data);
+                                                                       });
+                                                               function renderCity(data) {
+                                                                   for (const x of data) {
+                                                                       var opt = document.createElement('option');
+//                                                            opt.value = x.ProvinceID;
+                                                                       opt.value = x.ProvinceName;
+                                                                       opt.text = x.ProvinceName;
+                                                                       opt.setAttribute('province_id', x.ProvinceID);
+                                                                       citis.options.add(opt);
+
+                                                                   }
+                                                                   citis.onchange = function () {
+                                                                       resetShippingFee();
+                                                                       var provinceID = this.options[this.selectedIndex].getAttribute('province_id');
+                                                                       district.length = 1;
+                                                                       ward.length = 1;
+                                                                       if (this.options[this.selectedIndex].dataset.id != "") {
+                                                                           fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + provinceID, requestOptions)
+                                                                                   .then(response => response.json())
+                                                                                   .then(result => {
+                                                                                       for (const k of result.data) {
+                                                                                           if (k.DistrictID != '3715' && k.DistrictID != '3713' && k.DistrictID != '3451') {
+                                                                                               var opt = document.createElement('option');
+//                                                                                opt.value = k.DistrictID;
+                                                                                               opt.value = k.DistrictName;
+                                                                                               opt.text = k.DistrictName;
+                                                                                               opt.setAttribute('district_id', k.DistrictID);
+                                                                                               district.options.add(opt);
+                                                                                           }
+                                                                                       }
+                                                                                   });
+                                                                       }
+                                                                   };
+                                                                   district.onchange = function () {
+                                                                       districtID = this.options[this.selectedIndex].getAttribute('district_id');
+                                                                       resetShippingFee();
+                                                                       ward.length = 1;
+//                const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
+
+                                                                       if (this.options[this.selectedIndex].dataset.id != "") {
+//                    const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
+                                                                           fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + districtID, requestOptions)
+                                                                                   .then(response => response.json())
+                                                                                   .then(result => {
+//                                console.log(result.data);
+                                                                                       for (const k of result.data) {
+                                                                                           var opt = document.createElement('option');
+//                                                                                opt.value = k.WardCode;
+                                                                                           opt.value = k.WardName;
+                                                                                           opt.text = k.WardName;
+                                                                                           opt.setAttribute('wardcode', k.WardCode);
+                                                                                           wards.options.add(opt);
+                                                                                       }
+                                                                                   });
+                                                                       }
+                                                                       ;
+                                                                   };
+                                                                   ward.onchange = function () {
+                                                                       wardCode = this.options[this.selectedIndex].getAttribute('wardcode');
+                                                                       calculateShippingFee();
+                                                                   };
+                                                               }
+                                                               //format money and calculate shipping fee
+                                                               var subTotal = ${subTotal}; // Replace with the actual total value in VND
+                                                               var subtotalElement = document.getElementById("subtotalAmount");
+                                                               subtotalElement.textContent = formatCurrency(subTotal);
+                                                               subtotalElement.value = Math.round(subTotal);
+
+                                                               var shippingFee = document.getElementById("shippingFee");
+                                                               var shippingFeeValue = document.getElementById("shippingFeeValue");
+                                                               shippingFee.value = 0;
+
+                                                               var total = document.getElementById("total");
+                                                               total.value = calculateTotal();
+
+                                                               function formatCurrency(amount) {
+                                                                   var formatter = new Intl.NumberFormat("vi-VN", {
+                                                                       style: "currency",
+                                                                       currency: "VND"
+                                                                   });
+
+                                                                   return formatter.format(amount);
+                                                               }
+                                                               //total money function
+                                                               function calculateTotal() {
+                                                                   total.value = subtotalElement.value + shippingFee.value;
+                                                                   total.textContent = formatCurrency(total.value);
+                                                               }
+
+
+                                                               //reset shiping fee
+                                                               function resetShippingFee() {
+                                                                   shippingFee.textContent = "—";
+                                                                   shippingFee.value = 0;
+                                                                   shippingFeeValue.value = 0;
+                                                                   console.log("resetShippingFeeValue: " + shippingFeeValue);
+                                                                   calculateTotal();
+                                                                   console.log("total after change" + total.value);
+                                                               }
+
+                                                               //functino calculateShippingFee()
+                                                               function calculateShippingFee() {
+                                                                   var totalWeight = Math.floor(document.getElementById("totalWeight").value);
+                                                                   var myHeaders = new Headers();
+                                                                   myHeaders.append("Content-Type", "application/json");
+                                                                   myHeaders.append("Token", "8971acfc-10b0-11ee-bb28-f6a6bf301a4e");
+                                                                   myHeaders.append("ShopId", "124806");
+                                                                   myHeaders.append("Content-Type", "text/plain");
+                                                                   var raw = JSON.stringify({
+                                                                       "service_id": 53320,
+                                                                       "service_type_id": 2,
+                                                                       "to_district_id": Math.floor(districtID),
+                                                                       "to_ward_code": wardCode,
+                                                                       "weight": totalWeight,
+                                                                       "insurance_value": null,
+                                                                       "cod_failed_amount": null,
+                                                                       "coupon": null
+                                                                   });
+                                                                   console.log("request: " + raw);
+                                                                   var requestOptions = {
+                                                                       method: 'POST',
+                                                                       headers: myHeaders,
+                                                                       body: raw,
+                                                                       redirect: 'follow'
+                                                                   };
+                                                                   fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", requestOptions)
+                                                                           .then(response => response.json())
+                                                                           .then(result => {
+                                                                               if (result.code >= 400 && result.code < 600) {
+                                                                                   alert(result.message);
+                                                                               } else {
+                                                                                   let data = result.data;
+                                                                                   shippingFee.textContent = formatCurrency(data.total);
+                                                                                   shippingFee.value = Math.round(data.total);
+                                                                                   shippingFeeValue.value = shippingFee.value;
+                                                                                   console.log(shippingFeeValue.value);
+                                                                                   calculateTotal();
+//                                                                               console.log(total.value);
+//                                                                               console.log(total.textContent);
+                                                                                   console.log(JSON.stringify(data));
+                                                                               }
+                                                                           })
+                                                                           .catch(error => console.log('error', error));
+                                                               }
+    </script>
 </body>
 </html>
-

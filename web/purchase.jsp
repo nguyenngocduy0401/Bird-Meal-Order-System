@@ -8,6 +8,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:if test="${empty sessionScope.user}">
+        <c:redirect url="login.jsp"></c:redirect>
+</c:if>
 <html>
     <style>
         /*edit link color*/
@@ -160,7 +163,41 @@
     </head>
 
     <body>
+
         <%@include file="header.jsp" %>
+
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
+                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store
+                </h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="col-md-7 container-fluid">
+
+                </div>
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="blog.html" class="nav-item nav-link">Blog</a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i
+                            class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
+                            <i class="bi bi-person fs-1 text-primary me-1"></i>
+                        </a>
+                        <div class="dropdown-menu m-0 dropdown-menu-end">
+                            <a href="details.jsp" class="dropdown-item">My profile</a>
+                            <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
+                            <a href="LogoutController" class="dropdown-item">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
 
         <c:set var="order" value="${requestScope.ORDERS}" />
         <div class="container content">
@@ -196,7 +233,7 @@
                                 </a></div>
                         </div>
                         <div>
-                            <div class=""><a class="" href="addresses.jsp">
+                            <div class=""><a class="" href="ShowListAddressController">
                                     <div class="">Address book</div>
                                 </a></div>
                         </div>
@@ -358,10 +395,9 @@
                                                     var id = orderID;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "BuyAgain",
+                                                        url: "BuyAgainController",
                                                         data: {
-                                                            orderID: id,
-                                                            userID: '${sessionScope.user.userID}'
+                                                            orderID: id
                                                         },
                                                         success: function () {
                                                             alert("San Pham da duoc dua vao gio hang");

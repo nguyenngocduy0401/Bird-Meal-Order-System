@@ -19,6 +19,80 @@ import sample.utils.DBUtils;
  * @author Admin
  */
 public class OrderDetailsDAO {
+    public static LinkedHashMap<String, Integer> getProductFromOrderDetail(int getOrderID) {
+        LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT ProductID, Quantity\n"
+                        + "FROM OrderDetail \n"
+                        + "WHERE OrderID = ?;";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, getOrderID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int ProductID = rs.getInt("ProductID");
+                        int Quantity = rs.getInt("Quantity");
+                        cart.put(Integer.toString(ProductID), Quantity);
+
+                    }
+                    cn.close();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return cart;
+    }
+    
+    public static boolean createOrderDetailsForCustomer(int orderID, LinkedHashMap<String, Integer> checkedItems)
+            throws SQLException, NamingException, ClassNotFoundException {
+        try (Connection con = DBUtils.getConnection();
+                PreparedStatement stm = con.prepareStatement("INSERT INTO OrderDetail(OrderID, ProductID, Quantity, Price) VALUES (?, ?, ?, ?)")) {
+
+            con.setAutoCommit(false);
+
+            int affectedRows = 0;
+
+            for (Map.Entry<String, Integer> entry : checkedItems.entrySet()) {
+                String productID = entry.getKey();
+                int quantity = entry.getValue();
+                ProductDTO product = ProductDAO.getProductByID(Integer.parseInt(productID)); // Retrieve the price based on the product ID
+
+                stm.setInt(1, orderID);
+                stm.setString(2, productID);
+                stm.setInt(3, quantity);
+                stm.setDouble(4, product.getPrice());
+
+                stm.addBatch();
+
+                affectedRows++;
+            }
+
+            int[] batchResults = stm.executeBatch();
+            con.commit();
+
+            if (batchResults.length == affectedRows) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            // Handle the exception or rethrow it
+        }
+
+        return false;
+    }
 
     public List<OrderDetailDTO> getProductByUserID(int userID, int amount, int onPageProduct) throws SQLException, ClassNotFoundException {
         Connection con = null;

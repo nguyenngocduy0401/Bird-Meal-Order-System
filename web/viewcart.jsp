@@ -191,7 +191,7 @@
 
         } else
         {
-            document.getElementById("checkselect").textContent = "select, please!"
+            document.getElementById("checkselect").textContent = "Please select a product for checkout."
 
         }
     }
@@ -268,7 +268,7 @@
         <!-- Topbar End -->
 
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="index.html" class="navbar-brand ms-lg-5">
+            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -277,11 +277,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
                 <div class="col-md-7 container-fluid">
-                    <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control" placeholder="Have a question? Ask Now">
-                        <button class="btn btn-primary">Search</button>
-                    </div>
+                    
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
@@ -316,8 +312,9 @@
             </div>
         </div>
         <div id="content"></div>
-
+       
         <section class="card col-md-9 mx-auto container-fluid pt-5" >
+            <div class="ps-5" id="checkselect" style="color: red;"></div>
             <c:set var="cart" value="${sessionScope.cart}" />
             <c:if test="${not empty cart}">
                 <div class="container" id="reloadCalculator">
@@ -419,7 +416,7 @@
                                         </div>
                                         <div class="col-sm-6 order-md-2 text-right">
                                             <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5"  type="button" onclick="checkOutSelectedProduct()" value="checkOutSelectedProduct">Check Out Selected Product</button>
-                                            <div id="checkselect" style="color: red;"></div>
+                       
                                         </div>
                                     </div>
                                 </div>

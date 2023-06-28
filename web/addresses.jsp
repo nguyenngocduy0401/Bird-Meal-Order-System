@@ -6,7 +6,14 @@
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
+<c:if test="${empty sessionScope.user}">
+    <c:redirect url="login.jsp"></c:redirect>
+</c:if>
+<c:if test="${param.check ne 1}">
+    <c:redirect url="ShowListAddressController" />
+</c:if>
 <html lang="en">
     <style>
         /*edit link color*/
@@ -36,6 +43,57 @@
             right: 0;
         }
     </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        function createNewAddress(txtFullName, ddlProvince, ddlDistrict, txtAddressDetails, txtPhoneNumber, ddlWard) {
+            var fullName = txtFullName;
+            var province = ddlProvince;
+            var district = ddlDistrict;
+            var addressDetails = txtAddressDetails;
+            var phoneNumber = txtPhoneNumber;
+            var ward = ddlWard;
+            if (fullName && province && district && addressDetails && phoneNumber) {
+                $.ajax({
+                    type: "post",
+                    url: "AddNewAddressController",
+                    data: {
+                        txtFullName: fullName,
+                        ddlProvince: province,
+                        ddlDistrict: district,
+                        txtAddressDetails: addressDetails,
+                        txtPhoneNumber: phoneNumber,
+                        ddlWard: ward
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            } else {
+                // Display an error message or perform any other desired action
+                alert('Please fill in all required fields');
+            }
+
+        }
+        function deleteAddress(addressId) {
+            $.ajax({
+                type: "post",
+                url: "DeleteAddressController",
+
+                data: {
+                    txtAddressID: addressId
+
+                },
+                success: function () {
+                    window.location.href = "addresses.jsp";
+                }
+            });
+
+
+        }
+
+    </script>
     <head>
         <meta charset="utf-8">
         <title>Bird Meal Order System</title>
@@ -60,12 +118,13 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        
+
         <!-- Jquery libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        
-        <!-- Libraries sweetalert2--> 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+        <!--         Libraries sweetalert2 
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
     </head>
 
     <body>
@@ -119,13 +178,11 @@
                 <div class="col-md-7 container-fluid">
 
                     <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control" placeholder="Have a question? Ask Now">
-                        <button class="btn btn-primary">Search</button>
+
                     </div>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="home.jsp" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="cart.html" class="nav-item nav-link pt-3 "><i
                             class="bi bi-cart  fs-1 text-primary me-1"></i></a>
@@ -144,11 +201,9 @@
             </div>
         </nav>
         <!-- Navbar End -->
-        <c:set var="user" value="${sessionScope.user}"/>
-        <c:if test="${not empty user}">
 
-
-            <div class="container content">
+        <section>
+            <div class="container content" id="reloadPage">
 
                 <div class="row ">
                     <div class="title col-md-3"   >
@@ -181,7 +236,7 @@
                                     </a></div>
                             </div>
                             <div>
-                                <div class=""><a class="" href="addresses.jsp">
+                                <div class=""><a class="" href="ShowListAddressController">
                                         <div class="" style="color: #7AB730" >Address book</div>
                                     </a></div>
                             </div>
@@ -266,98 +321,268 @@
                                                     <button type="submit" class="btn btn-primary">Create</button>
                                                 </div>
                                             </div>
+                    <div class="col-md-9" >
+                        <form action="MainController">
+                            <c:forEach var="address" items="${addressList}" >
+                                <c:set var="count" value="${count = count + 1}"/>
+                            </c:forEach>
+                            <div class="bg-white"
+                                 style="border: 1px solid rgb(224, 224, 224); padding: 28px 20px; box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%)">
+                                <div class="fr-contents-card full">
+                                    <c:if test="${not empty sessionScope.addressList}">
+                                        <div class="fr-wrapper mb-l mt-m" style="width: auto;">
+                                            <h3><span class="title">SHIPPING ADDRESS
+                                                    (${count})</span></h3>
+                                            <div class="mt-m">Up to 5 addresses can be stored.</div>
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                                    </c:if>
+
+                                    <c:if test="${empty sessionScope.addressList}">
+                                        <div class="fr-wrapper mt-m" style="width: auto;">
+                                            <h3><span class="title">SHIPPING ADDRESS
+                                                    (0)</span></h3>
+                                            <div class="fr-text">There is no registered shipping address.</div>
+                                        </div>
+                                    </c:if>
+
+                                    <c:if test="${not empty sessionScope.addressList}">
+                                        <c:forEach var="address" items="${addressList}">
+                                            <c:set var="fullName" value="${address.fullName}" />
+                                            <c:set var="addressDetail" value="${address.addressDetail}" />
+                                            <c:set var="phoneNumber" value="${address.phoneNumber}" />
+                                            <c:set var="addressID" value="${address.addressID}" />
+                                            <div class="row g-3 container border border-secondary rounded border-dark m-2" style="border-radius: 5px;">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="row">
+                                                        <div class="col-md-7 py-1">${fullName}</div>
+                                                        <div class="col-md-5 border-start py-1">${phoneNumber}</div>
+                                                    </div>
+                                                    <div class="">${addressDetail}</div>
+                                                    <input class="form-control bg" type="hidden" name="addressID" value="${addressID}">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-link" name="btAction" value="editListAddress">Edit</button>
+                                                    <button class="btn btn-link" style="color: red" type="button" name="action" value="delete" 
+                                                            onclick="deleteAddress(${addressID})">Delete</button>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:if>
+
+                                    
+                                    <c:set var="count1" value="0" />
+                                    <c:forEach var="address" items="${addressList}">
+                                        <c:set var="count1" value="${count + 1}" />
+                                    </c:forEach>
+                                    <c:if test="${count1 <= 5 }">
+                                        <button type="submit" class="btn btn-primary mt-2" name="btAction" value="addNewAddress">
+                                            Register a new address
+                                        </button>
+                                    </c:if>
+
+
+                                    <!-- Button trigger modal -->
+                                    <!--                                    <button type="fr-wrapper button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#createAddressModal">
+                                                                            Register a new address
+                                                                        </button>-->
+
+
+                                </div>
+                        </form>
+                        <!-- Modal -->
+                        <!--                        <form action="createNewAddressServlet"  id="createAddress-form">
+                                                    <div  class="modal fade" id="createAddressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Create new address</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label class="small mb-1" for="inputUsername">Full name</label>
+                        
+                                                                        <input class="form-control bg"  required="" id="inputUsername" type="text" name="txtFullName"
+                                                                               placeholder="Enter your Fullname" >
+                        
+                        
+                                                                    </div>
+                                                                    <div class="form-group mb-3">
+                                                                        <label class="small mb-1">Address</label>
+                                                                        <div>
+                                                                            <select  name="ddlProvince" required="" class="form-control bg-white form-select mt-1 " id="city" aria-label=".form-select-sm">
+                                                                                <option  selected>Select your province</option>           
+                                                                            </select>
+                                                                            <select name="ddlDistrict" required="" class="form-control bg-white form-select mt-3 " id="district" aria-label=".form-select-sm">
+                                                                                <option  selected>Select your district</option> 
+                                                                            </select>
+                        
+                                                                            <select name="ddlWard" required="" class="form-control bg-white form-select mt-3" id="ward" aria-label=".form-select-sm">
+                                                                                <option  selected>Select your ward</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div>
+                                                                            <input type="text" class="form-control bg  mt-3 mb-2" placeholder="Address details"
+                                                                                   name="txtAddressDetails" required="" id="addressDetails"  >
+                                                                        </div>
+                                                                    </div>
+                        
+                                                                    <div class="form-group">
+                                                                        <label class="small mb-1" for="phoneNumber">Phone number</label>
+                                                                        <input class="form-control" id="phoneNumber" type="text" 
+                                                                               placeholder="Enter your phone number"  name="txtPhoneNumber" 
+                                                                               pattern="[0-9]{10}"
+                                                                               title="Please enter a 10-digit phone number"
+                                                                               required="">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn" data-bs-dismiss="modal"
+                                                                            style="color: black; background-color: lightgray; border-color: lightgray">Close</button>
+                                                                    <button type="button" onclick="createNewAddress(
+                                            document.getElementById('inputUsername').value,
+                                            document.getElementById('city').value,
+                                            document.getElementById('district').value,
+                                            document.getElementById('addressDetails').value,
+                                            document.getElementById('phoneNumber').value,
+                                            document.getElementById('ward').value
+                                            )" class="btn btn-primary">Create</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>-->
                     </div>
                 </div>
             </div>
-        </c:if>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-        <script src="scripts/validator.js"></script>
-        <script>
-            Validator('#createAddress-form');
-            
-//$(window).on('load', function() {
-//        $('#createAddressModal').modal('show');
-//        $('#createAddressModal').removeClass('fade')
-//    });
-//                                  
-       //validator
-       
-      //check session user
-            if (${empty sessionScope.user}) {
-                swal.fire({
-                    icon: 'warning',
-                    title: "Warning!",
-                    text: "Your need to login",
-                    confirmButtonText: 'Click to login'
-                }).then(function () {
-                    window.location = "login.jsp";
-                });
-            }
-            //filter address function
-            var citis = document.getElementById("city");
-            var districts = document.getElementById("district");
-            var wards = document.getElementById("ward");
-            var Parameter = {
-                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                method: "GET",
-                responseType: "application/json",
-            };
-            var promise = axios(Parameter);
-            promise.then(function (result) {
-                renderCity(result.data);
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script type="text/javascript">
+        //check session user
+        if (${empty sessionScope.user}) {
+            swal.fire({
+                icon: 'warning',
+                title: "Warning!",
+                text: "Your need to login",
+                confirmButtonText: 'Click to login'
+            }).then(function () {
+                window.location = "login.jsp";
             });
-            function renderCity(data) {
-                for (const x of data) {
-                    var opt = document.createElement('option');
-                    opt.value = x.Name;
-                    opt.text = x.Name;
-                    opt.setAttribute('data-id', x.Id);
-                    citis.options.add(opt);
-                }
-                citis.onchange = function () {
-                    district.length = 1;
-                    ward.length = 1;
-                    if (this.options[this.selectedIndex].dataset.id != "") {
-                        const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
-
-                        for (const k of result[0].Districts) {
-                            var opt = document.createElement('option');
-                            opt.value = k.Name;
-                            opt.text = k.Name;
-                            opt.setAttribute('data-id', k.Id);
-                            district.options.add(opt);
-                        }
-                    }
-                };
-                district.onchange = function () {
-                    ward.length = 1;
-                    const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
-                    if (this.options[this.selectedIndex].dataset.id != "") {
-                        const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
-
-                        for (const w of dataWards) {
-                            var opt = document.createElement('option');
-                            opt.value = w.Name;
-                            opt.text = w.Name;
-                            opt.setAttribute('data-id', w.Id);
-                            wards.options.add(opt);
-                        }
-                    }
-                };
+        }
+        //filter address function
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
+        function renderCity(data) {
+            for (const x of data) {
+                var opt = document.createElement('option');
+                opt.value = x.Name;
+                opt.text = x.Name;
+                opt.setAttribute('data-id', x.Id);
+                citis.options.add(opt);
             }
-            
-        </script>
+            citis.onchange = function () {
+                district.length = 1;
+                ward.length = 1;
+                if (this.options[this.selectedIndex].dataset.id != "") {
+                    const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
 
+                    for (const k of result[0].Districts) {
+                        var opt = document.createElement('option');
+                        opt.value = k.Name;
+                        opt.text = k.Name;
+                        opt.setAttribute('data-id', k.Id);
+                        district.options.add(opt);
+                    }
+                }
+            };
+            district.onchange = function () {
+                ward.length = 1;
+                const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
+                if (this.options[this.selectedIndex].dataset.id != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
 
-        <!-- JavaScript Libraries -->
+                    for (const w of dataWards) {
+                        var opt = document.createElement('option');
+                        opt.value = w.Name;
+                        opt.text = w.Name;
+                        opt.setAttribute('data-id', w.Id);
+                        wards.options.add(opt);
+                    }
+                }
+            };
+        }
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        var city1 = document.getElementById("city1");
+        var district1 = document.getElementById("district1");
+        var ward1 = document.getElementById("ward1");
+        var Parameter1 = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise1 = axios(Parameter1);
+        promise1.then(function (result) {
+            renderCity1(result.data);
+        });
 
-    </body>
+        function renderCity1(data) {
+            for (const x of data) {
+                var opt = document.createElement('option');
+                opt.value = x.Name;
+                opt.text = x.Name;
+                opt.setAttribute('data-id', x.Id);
+                city1.options.add(opt);
+            }
 
+            city1.onchange = function () {
+                district1.length = 1;
+                ward1.length = 1;
+                if (this.options[this.selectedIndex].dataset.id != "") {
+                    const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
+
+                    for (const k of result[0].Districts) {
+                        var opt = document.createElement('option');
+                        opt.value = k.Name;
+                        opt.text = k.Name;
+                        opt.setAttribute('data-id', k.Id);
+                        district1.options.add(opt);
+                    }
+                }
+            };
+
+            district1.onchange = function () {
+                ward1.length = 1;
+                const dataCity = data.filter((n) => n.Id === city1.options[city1.selectedIndex].dataset.id);
+                if (this.options[this.selectedIndex].dataset.id != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
+
+                    for (const w of dataWards) {
+                        var opt = document.createElement('option');
+                        opt.value = w.Name;
+                        opt.text = w.Name;
+                        opt.setAttribute('data-id', w.Id);
+                        ward1.options.add(opt);
+                    }
+                }
+            };
+        }
+</script>
+<!-- JavaScript Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>

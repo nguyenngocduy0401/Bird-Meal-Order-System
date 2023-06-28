@@ -28,7 +28,11 @@ public class InformationCreateError implements Serializable {
     private String phoneNumberFormatError;
     private String sendEmailFailedError;
     private String passwordOldWrong;
-
+    private String provinceNotSelect;
+    private String districtNotSelect;
+    private String wardNotSelect;
+    private String addressLengthError;
+    
     public String getPasswordOldWrong() {
         return passwordOldWrong;
     }
@@ -125,4 +129,37 @@ public class InformationCreateError implements Serializable {
         this.emailFormatError = emailFormatError;
     }
 
+    public String getProvinceNotSelect() {
+        return provinceNotSelect;
+    }
+
+    public void setProvinceNotSelect(String provinceNotSelect) {
+        this.provinceNotSelect = provinceNotSelect;
+    }
+
+    public String getDistrictNotSelect() {
+        return districtNotSelect;
+    }
+
+    public void setDistrictNotSelect(String districtNotSelect) {
+        this.districtNotSelect = districtNotSelect;
+    }
+
+    public String getWardNotSelect() {
+        return wardNotSelect;
+    }
+
+    public void setWardNotSelect(String wardNotSelect) {
+        this.wardNotSelect = wardNotSelect;
+    }
+
+    public String getAddressLengthError() {
+        return addressLengthError;
+    }
+
+    public void setAddressLengthError(String addressLengthError) {
+        this.addressLengthError = addressLengthError;
+    }
+    
+    
 }

@@ -56,6 +56,30 @@
         <servlet-name>UpdateProductServlet</servlet-name>
         <servlet-class>sample.controllers.UpdateProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BuyAgainController</servlet-name>
+        <servlet-class>sample.controllers.BuyAgainController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowListAddressController</servlet-name>
+        <servlet-class>sample.controllers.ShowListAddressController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddNewAddressController</servlet-name>
+        <servlet-class>sample.controllers.AddNewAddressController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveAddressController</servlet-name>
+        <servlet-class>sample.controllers.SaveAddressController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditAddressController</servlet-name>
+        <servlet-class>sample.controllers.EditAddressController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteAddressController</servlet-name>
+        <servlet-class>sample.controllers.DeleteAddressController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -111,6 +135,30 @@
     <servlet-mapping>
         <servlet-name>UpdateProductServlet</servlet-name>
         <url-pattern>/UpdateProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BuyAgainController</servlet-name>
+        <url-pattern>/BuyAgainController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowListAddressController</servlet-name>
+        <url-pattern>/ShowListAddressController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNewAddressController</servlet-name>
+        <url-pattern>/AddNewAddressController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveAddressController</servlet-name>
+        <url-pattern>/SaveAddressController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditAddressController</servlet-name>
+        <url-pattern>/EditAddressController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteAddressController</servlet-name>
+        <url-pattern>/DeleteAddressController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

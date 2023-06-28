@@ -23,7 +23,7 @@ import sample.utils.DBUtils;
  */
 public class OrderDAO {
 
-    public static int createNewOrderForCustomer(int userID, String fullName, String phoneNumber, int status, String orderAddress, String notes) throws Exception {
+    public static int createNewOrderForCustomer(int userID, String fullName, String phoneNumber, int status, String orderAddress, String notes, double shippingFee) throws Exception {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);
@@ -36,24 +36,23 @@ public class OrderDAO {
             connection = DBUtils.getConnection();
             // Prepare the SQL statement
             if (connection != null) {
-                pst = connection.prepareStatement("INSERT INTO [Order](UserID, FullName, PhoneNumber, OrderDate, Status, OrderAddress, Notes) \n"
+                pst = connection.prepareStatement("INSERT INTO [Order](UserID, FullName, PhoneNumber, OrderDate, Status, OrderAddress, Notes, shippingFee) \n"
                         + "OUTPUT inserted.OrderID\n"
-                        + "VALUES(?,?,?,?,?,?,?);");
+                        + "VALUES(?,?,?,?,?,?,?,?);");
                 pst.setInt(1, userID);
                 pst.setString(2, fullName);
                 pst.setString(3, phoneNumber);
                 pst.setString(4, formattedDate);
                 pst.setInt(5, status);
-                pst.setString(6, orderAddress);
+                pst.setNString(6, orderAddress);
                 pst.setString(7, notes);
+                pst.setDouble(8, shippingFee);
                 // Execute the SQL statement
                 rs = pst.executeQuery();
                 if (rs.next()) {
                     orderID = rs.getInt("OrderID");
-
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

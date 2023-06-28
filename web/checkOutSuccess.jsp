@@ -1,11 +1,26 @@
-<%-- 
-    Document   : checkOutSuccess
-    Created on : May 28, 2023, 8:52:10 PM
-    Author     : DucAnh
---%>
+
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<style>
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");body{background-color: #eee;font-family: "Poppins", sans-serif;font-weight: 300}.cart{height: 100vh}.progresses{display: flex;align-items: center}.line{width: 76px;height: 6px;background: #63d19e}.steps{display: flex;background-color: #63d19e;color: #fff;font-size: 12px;width: 30px;height: 30px;align-items: center;justify-content: center;border-radius: 50%}.check1{display: flex;background-color: #63d19e;color: #fff;font-size: 17px;width: 60px;height: 60px;align-items: center;justify-content: center;border-radius: 50%;margin-bottom: 10px}.invoice-link{font-size: 15px}.order-button{height: 50px}.background-muted{background-color:#fafafc}
+
+
+    #default:hover {
+        /* Define the styles for the hover state */
+        color: #7AB730;
+        cursor: pointer;
+        /* Add any other desired styles */
+    }
+</style>
+<%@ page import="sample.dto.ProductDTO" %>
+<%@ page import="sample.dao.ProductDAO" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -86,6 +101,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="col-md-7 container-fluid">
+                </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="index.html" class="nav-item nav-link">Home</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
@@ -183,8 +200,6 @@
 
                             </form>
                         </c:if>
-
-
                     </div>
 
                 </div>
