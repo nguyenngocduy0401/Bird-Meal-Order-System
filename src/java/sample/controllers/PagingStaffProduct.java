@@ -102,7 +102,7 @@ public class PagingStaffProduct extends HttpServlet {
                         + "                                <td>" + dto.getCountry() + "</td>\n"
                         + "                                <td>\n"
                         + "                                    <button class=\"btn btn-outline-primary\"><a href=\"UpdateProductServlet?action=edit&txtProductId=" + dto.getProductID() + "\" >Edit</a><i class=\"bi bi-pencil\"></i></button>\n"
-                        + "                                    <button class=\"btn btn-outline-danger\"><i class=\"bi bi-trash\"></i> Delete</button>\n"
+                        + "                                    <button class=\"btn btn-outline-danger\"><a href=\"DeleteProduct?productID=" + dto.getProductID() + "\">Delete</a><i class=\"bi bi-trash\"></i></button>\n"
                         + "                                </td>\n"
                         + "                            </tr>");
             });

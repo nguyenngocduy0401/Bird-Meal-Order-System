@@ -43,6 +43,7 @@ public class MainController extends HttpServlet {
     private final String CREATE_STAFF_CONTROLLER = "addStaffAdmin.jsp";
     private final String ADMIN_PAGE = "AdminPageController";
     private final String FEEDBACK_PAGE = "FeedBackController";
+    private final String DELETE_STAFF_CONTROLLER = "DeleteProduct";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -97,12 +98,14 @@ public class MainController extends HttpServlet {
                 url = SAVE_ADDRESS_TO_EDIT;
             } else if (btAction.equals("addNewAddress")) {
                 url = ADD_NEW_ADDRESS;
-            }else if (btAction.equals("CreateStaff")) {
+            } else if (btAction.equals("CreateStaff")) {
                 url = CREATE_STAFF_CONTROLLER;
-            }else if (btAction.equals("AdminHome")) {
+            } else if (btAction.equals("AdminHome")) {
                 url = ADMIN_PAGE;
-            }else if (btAction.equals("Feedback")) {
+            } else if (btAction.equals("Feedback")) {
                 url = FEEDBACK_PAGE;
+            } else if (btAction.equals("deleteProduct")) {
+                url = DELETE_STAFF_CONTROLLER;
             }
 
         } finally {

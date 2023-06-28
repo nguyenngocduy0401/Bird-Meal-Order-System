@@ -40,6 +40,10 @@
                 background-color: #f8f9fa;
                 font-weight: bold;
             }
+            .product-image {
+                max-width: 100%;
+                height: auto;
+            }
         </style>
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
@@ -478,7 +482,7 @@
                                 <div class="form-group row">
                                     <label for="txtPicture" class="col-sm-3 col-form-label">Product Image</label>
                                     <div class="col-sm-9">
-                                        <img src="${updateProduct.imgPath}" alt="Product Image">
+                                        <img src="${updateProduct.imgPath}" alt="Product Image" class="product-image">
                                     </div>
                                 </div>
               
