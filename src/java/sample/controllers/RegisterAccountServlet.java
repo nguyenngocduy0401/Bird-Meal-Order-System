@@ -102,7 +102,7 @@ public class RegisterAccountServlet extends HttpServlet {
                 request.setAttribute("CREATE_ERROR", errors);
             } else {
                 UserDAO dao = new UserDAO();
-                UserDTO dto = new UserDTO(username, password, email, fullName, 2, true, address, phoneNumber, gender, 0);
+                UserDTO dto = new UserDTO(username, password, email, fullName, 1, gender, address, phoneNumber, gender, 0);
                 boolean result = dao.createAccount(dto);
                 if (result) {
                     url = LOGIN_PAGE;

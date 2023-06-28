@@ -25,9 +25,9 @@ import sample.dto.CartDetailDTO;
 public class TestgetUser {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {
-
         AddressDTO check = AddressDAO.getAddressByUserIDAndAddressID(5, 6);
         System.out.println(check);
     }
 }
+
 

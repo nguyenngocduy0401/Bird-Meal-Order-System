@@ -85,8 +85,11 @@ public class AddNewAddressController extends HttpServlet {
                 } else {
 
                     list = AddressDAO.getAddress(userDTO.getUserID());
-                    AddressDAO.createNewAddress(userDTO.getUserID(), fullName, phoneNumber, address);
-                    session.setAttribute("addressList", list);
+                    int count = list.size();
+                    if (count < 5) {
+                        AddressDAO.createNewAddress(userDTO.getUserID(), fullName, phoneNumber, address);
+                        session.setAttribute("addressList", list);
+                    }
                     response.sendRedirect("addresses.jsp");
                 }
 

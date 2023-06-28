@@ -252,75 +252,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-9">
-                        <div class="bg-white"
-                             style="border: 1px solid rgb(224, 224, 224); padding: 28px 20px; box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%)">
-                            <div class="fr-contents-card full">
-                                <div>
-                                    <div class="fr-wrapper mb-l mt-m" style="width: auto;">
-                                        <h3><span class="title">SHIPPING ADDRESS
-                                                (0)</span></h3>
-                                        <div class="mt-m">Up to 10 addresses can be stored.</div>
-                                    </div>
-                                    <div class="fr-wrapper mt-m" style="width: auto;">
-                                        <div class="fr-text">There is no registered shipping address.</div>
-                                    </div>
-                                    <!-- Button trigger modal -->
-                                    <button type="fr-wrapper button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#createAddressModal">
-                                        Register a new address
-                                    </button>
-                                    <!--                                        <div class="fr-wrapper mt-xl" style="width: 50%;">
-                                                                                <a href="createNewAddressServlet" class="btn btn-primary">Register a new</a>
-                                                                            </div>-->
-                                </div>
 
-                                <!-- Modal -->
-                                <form action="createNewAddressServlet"  id="createAddress-form">
-                                    <div  class="modal fade" id="createAddressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Create new address</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-3">
-                                                        <label class="small mb-1" for="inputUsername">Full name</label>
-                                                        <input type="text" class="form-control" placeholder="Full name*(2 - 50 characters)"
-                                                               name="txtFullName" id="FullName" rules="min:2" value="">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="small mb-1">Address</label>
-                                                        <div>
-                                                            <select  name="ddlProvince" rules="required" class="form-control bg-white form-select mt-1 " id="city" aria-label=".form-select-sm">
-                                                                <option value="" selected>Select your province</option>           
-                                                            </select>
-                                                            <select name="ddlDistrict" rules="required" class="form-control bg-white form-select mt-3 " id="district" aria-label=".form-select-sm">
-                                                                <option value="" selected>Select your district</option> 
-                                                            </select>
-
-                                                            <select name="ddlWard" rules="required" class="form-control bg-white form-select mt-3" id="ward" aria-label=".form-select-sm">
-                                                                <option value="" selected>Select your ward</option>
-                                                            </select>
-                                                        </div>
-                                                        <div>
-                                                            <input type="text" class="form-control bg  mt-3 mb-2" placeholder="Address details"
-                                                                   name="txtAddressDetails" rules="required" id="addressDetails"  value="${param.txtAddressDetails}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="small mb-1" for="phoneNumber">Phone number</label>
-                                                        <input class="form-control" id="phoneNumber" type="tel" rules="required|phone"
-                                                               placeholder="Enter your phone number" value="${user.phoneNumber}" name="txtPhoneNumber" 
-                                                               onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn" data-bs-dismiss="modal"
-                                                            style="color: black; background-color: lightgray; border-color: lightgray">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Create</button>
-                                                </div>
-                                            </div>
                     <div class="col-md-9" >
                         <form action="MainController">
                             <c:forEach var="address" items="${addressList}" >
@@ -377,9 +309,9 @@
                                         <c:set var="count1" value="${count + 1}" />
                                     </c:forEach>
                                     <c:if test="${count1 <= 5 }">
-                                        <button type="submit" class="btn btn-primary mt-2" name="btAction" value="addNewAddress">
+                                        <a href="addNewAddress.jsp"><button type="button" class="btn btn-primary mt-2" name="btAction" value="addNewAddress">
                                             Register a new address
-                                        </button>
+                                        </button></a>
                                     </c:if>
 
 

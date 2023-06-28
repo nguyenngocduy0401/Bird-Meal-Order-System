@@ -38,12 +38,8 @@ public class MainController extends HttpServlet {
     private final String UPDATE_PRODUCT_CONTROLLER = "UpdateProductServlet";
     private final String UPDATE_PRODUCT_PAGE = "UpdateproductNew";
     private final String SEARCH_STAFF_CONTROLLER = "SearchProductStaff";
-    private final String CREATE_STAFF_CONTROLLER = "addStaffAdmin.jsp";
-    private final String ADMIN_PAGE = "AdminPageController";
-    private final String FEEDBACK_PAGE = "FeedBackController";
     private final String SAVE_ADDRESS_TO_EDIT = "SaveAddressController";
     private final String ADD_NEW_ADDRESS = "addNewAddress.jsp";
-
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -94,12 +90,6 @@ public class MainController extends HttpServlet {
                 url = UPDATE_PRODUCT_PAGE;
             } else if (btAction.equals("SearchOfStaff")) {
                 url = SEARCH_STAFF_CONTROLLER;
-            } else if (btAction.equals("CreateStaff")) {
-                url = CREATE_STAFF_CONTROLLER;
-            }else if (btAction.equals("AdminHome")) {
-                url = ADMIN_PAGE;
-            }else if (btAction.equals("Feedback")) {
-                url = FEEDBACK_PAGE;
             } else if (btAction.equals("editListAddress")) {
                 url = SAVE_ADDRESS_TO_EDIT;
             }else if (btAction.equals("addNewAddress")) {

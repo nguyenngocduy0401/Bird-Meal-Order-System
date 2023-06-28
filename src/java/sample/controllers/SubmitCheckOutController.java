@@ -8,6 +8,7 @@ package sample.controllers;
 import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,12 +22,12 @@ import sample.dao.CartDAO;
 import sample.dao.CartDetailDAO;
 import sample.dao.OrderDAO;
 import sample.dao.OrderDetailGuestDAO;
+import sample.dao.OrderDetailsDAO;
 import sample.dao.OrderGuestDAO;
 import sample.dto.AddressDTO;
 import sample.dto.CartDTO;
 import sample.dto.InformationCreateError;
 import sample.dto.UserDTO;
-
 
 /**
  *
@@ -59,7 +60,6 @@ public class SubmitCheckOutController extends HttpServlet {
             String address = addressDetails + ", " + ward + ", " + district + ", " + province;
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cartCheckOutForGuest");
-
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
             ArrayList<AddressDTO> addressList = (ArrayList<AddressDTO>) session.getAttribute("addressList");
             InformationCreateError errors = new InformationCreateError();
@@ -142,9 +142,6 @@ public class SubmitCheckOutController extends HttpServlet {
                                 response.sendRedirect("checkOutSuccess.jsp");
                             }
                         }
-                        session.removeAttribute("cart");
-                        session.removeAttribute("cartCheckOutForGuest");
-                        response.sendRedirect("LoginCookieController");
                     }
                 }
             } catch (Exception e) {

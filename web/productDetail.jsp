@@ -1,25 +1,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="sample.dto.UserDTO" %>
-<%@ page import="sample.dao.UserDAO" %>
 
 <style>
     .card{
         box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
-    }
-    .reply{
-        margin-bottom: 20px;
-        margin-right: 20px; 
-        padding-top: 5px;
-        padding-bottom: 5px;
-        padding-right: 5px;
-        padding-left: 5px;
-    }
-    .fb{
-        margin-top: 5px;
-    }
-    .btn{
-        margin-top: 15px;
-        margin-bottom: 15px;
     }
 </style>
 <meta charset="utf-8">
@@ -104,9 +87,15 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
 
             <div class="col-md-7 container-fluid">
+
+                <div class="search">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Have a question? Ask Now">
+                    <button class="btn btn-primary">Search</button>
+                </div>
             </div>
             <div class="navbar-nav ms-auto py-0">
-                <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                <a href="Home.jsp" class="nav-item nav-link active">Home</a>
                 <a href="blog.html" class="nav-item nav-link">Blog</a>
                 <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                 <a href="Login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
@@ -137,25 +126,25 @@
                             <c:if test="${productDTO.status eq '1'}">
 
                             <button type="submit" value="Add" onclick="addToCart(${productDTO.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                <i class="bi bi-cart-fill me-1 "></i>
-                                Add to cart </button>
-                            </c:if>
+                                                        <i class="bi bi-cart-fill me-1 "></i>
+                                                   Add to cart </button>
+                        </c:if>
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-                        <script>
-
-                                function addToCart(param) {
-                                    var id = param;
-                                    $.ajax({
-                                        type: "post",
-                                        url: "AddItemToCartServlet",
-                                        data: {
-                                            pk: id,
-                                        },
-                                        success: function () {
-                                        }
-                                    });
-                                }
-                        </script>
+        <script>
+                                                
+                                                function addToCart(param) {
+                                                    var id = param;
+                                                    $.ajax({
+                                                        type: "post",
+                                                        url: "AddItemToCartServlet",
+                                                        data: {
+                                                            pk: id,
+                                                        },
+                                                        success: function () {
+                                                        }
+                                                    });
+                                                }
+        </script>
                     </div>
                 </div>
             </div>
@@ -189,58 +178,41 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mb-5">
-                <h3 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">${amountFeedback} Feedback</h3>
-                <c:forEach items="${requestScope.LIST_FEEDBACK}" var="fb">
-                    <c:set var="feedbackID" value="${fb.feedbackID}" />
-                    <div class="d-flex mb-4 blog-item card">
-                        <div class="ps-3 fb">
-                            <h6><a href="">${UserDAO.getUserByID(fb.userID).userName}</a> <small><i>${fb.feedbackDate}</i></small></h6>
-                            <p>Rate:  ${fb.rate} Star</p>
-                            <p>${fb.feedbackDetails}</p>
-                            <c:if test="${not empty fb.replyDetails}">
-                                <div class="ps-3 reply card">
-                                    <h6><a class="text-primary">${fb.replyStaff}</a> <small>${fb.replyDate}</small></h6>
-                                    <p>${fb.replyDetails}</p>
-                                </div>
-                            </c:if>
-                            <c:if test="${sessionScope.user.role eq 1}">
-                                <c:if test="${empty fb.replyDetails}">
-                                    <textarea name="detailsReply" id="details" class="card form-control bg-light border-0 px-4 py-3" placeholder="Details"></textarea>
-                                    <c:set var="REPLYDETAILS" value="${detailsReply}" />
-                                    <button class="btn btn-primary py-3" type="submit" onclick="replyFeedback(${feedbackID},${REPLYDETAILS})">Reply</button>
-                                </c:if>
-                            </c:if>
+                        <div class="mb-5">
+                    <h3 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">3 Comments</h3>
+                    <div class="d-flex mb-4">
+                        <img src="img/avata.jpg" class="img-fluid" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6><a href="">Customer</a> <small><i>01 Jan 2045</i></small></h6>
+                            <p>Noi dung danh gia chat luong san pham</p>
+                            <button class="btn btn-sm btn-light">Reply</button>
                         </div>
                     </div>
-                </c:forEach>
-
+                    <div class="d-flex mb-4">
+                        <img src="img/avata.jpg" class="img-fluid" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6><a href="">Customer</a> <small><i>01 Jan 2045</i></small></h6>
+                            <p>Noi dung danh gia chat luong san pham</p>
+                            <button class="btn btn-sm btn-light">Reply</button>
+                        </div>
+                    </div>
+                    <div class="d-flex ms-5 mb-4">
+                        <img src="img/avata.jpg" class="img-fluid" style="width: 45px; height: 45px;">
+                        <div class="ps-3">
+                            <h6><a href="">Staff</a> <small><i>01 Jan 2045</i></small></h6>
+                            <p>Noi dung phan hoi den tu staff</p>
+                            <button class="btn btn-sm btn-light">Reply</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Comment List End -->
             </div>
-            <!-- Comment List End -->
+
         </div>
-
     </div>
-</div>
-
+    
 </section>
-<script>
-    function replyFeedback(fbID, details) {
-        $.ajax({
-            type: "post",
-            url: "FeedbackReply",
-            data: {
-                feedbackID: fbID,
-                details: $('#details').val()
-            },
-            success: function () {
-                alert("testing");
-            }
-        });
-    }
-</script>
-</body>
-</html>
-
+                        
 
 
 

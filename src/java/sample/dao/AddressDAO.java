@@ -220,7 +220,7 @@ public class AddressDAO {
             if (cn != null) {
                 String sql = "SELECT AddressID, UserID, Fullname, AddressDetail, PhoneNumber \n"
                         + "FROM Address \n"
-                        + "WHERE UserID = ?;";
+                        + "WHERE UserID = ? ;";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 pst.setInt(1, getUserID);
                 ResultSet rs = pst.executeQuery();

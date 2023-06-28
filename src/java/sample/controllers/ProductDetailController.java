@@ -7,22 +7,16 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.dao.BirdDAO;
 import sample.dao.CategoryDAO;
-import sample.dao.FeedbackDAO;
 import sample.dao.ProductDAO;
 import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
-import sample.dto.FeedbackDTO;
 import sample.dto.ProductDTO;
 
 /**
@@ -41,21 +35,17 @@ public class ProductDetailController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ClassNotFoundException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             int productID = Integer.parseInt(request.getParameter("productID"));
             ProductDTO productDTO = ProductDAO.getProductByID(productID);
             CategoryDTO categoryDTO = CategoryDAO.getCategoryByID(productID);
             ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(productID);
-            int amountFeedback = FeedbackDAO.getAmountFeedbackByProductID(productID);
-            List<FeedbackDTO> listFeedback = FeedbackDAO.getFeedbackByProductID(productID);
             if(productDTO !=null){
                 request.setAttribute("productDTO", productDTO);
                 request.setAttribute("categoryDTO", categoryDTO);
                 request.setAttribute("listBird", listBird);
-                request.setAttribute("amountFeedback", amountFeedback);
-                request.setAttribute("LIST_FEEDBACK", listFeedback);
                 request.getRequestDispatcher("productDetail.jsp").forward(request, response);
             }
         }
@@ -73,13 +63,7 @@ public class ProductDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -93,13 +77,7 @@ public class ProductDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -216,18 +216,18 @@
                                         <c:choose>
                                             <c:when test="${not empty errors.fullnameLengthError}">
                                                 <input type="text" class="form-control bg is-invalid" placeholder="Full name*(2 - 50 characters)"
-                                                  pattern=".{2,50}" title="Your name must be between 2 and 50 characters." required=""   name="txtFullName" value="${param.txtFullName}">
+                                                       pattern=".{2,50}" title="Your name must be between 2 and 50 characters." required=""   name="txtFullName" value="${param.txtFullName}">
                                                 <font color ="red">
                                                 ${errors.fullnameLengthError}
                                                 </font>
                                             </c:when>
                                             <c:when test="${empty errors.fullnameLengthError && empty errors.phoneNumberFormatError}">
                                                 <input class="form-control bg" id="inputUsername" type="text" name="txtFullName"
-                                                   pattern=".{2,50}"  title="Your name must be between 2 and 50 characters."  required="" placeholder="Enter your username" >
+                                                       pattern=".{2,50}"  title="Your name must be between 2 and 50 characters."  required="" placeholder="Enter your username" >
                                             </c:when>
                                             <c:otherwise>
                                                 <input type="text" class="form-control bg" placeholder="Full name*(2 - 50 characters)"
-                                                   pattern=".{2,50}"  title="Your name must be between 2 and 50 characters." required=""  name="txtFullName" value="${param.txtFullName}">
+                                                       pattern=".{2,50}"  title="Your name must be between 2 and 50 characters." required=""  name="txtFullName" value="${param.txtFullName}">
                                             </c:otherwise>
                                         </c:choose>
                                     </div>

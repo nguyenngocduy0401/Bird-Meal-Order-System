@@ -1,7 +1,8 @@
-
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%-- 
+    Document   : checkOutForGuest
+    Created on : Jun 13, 2023, 11:06:21 PM
+    Author     : Duy
+--%>
 
 <style>
     .card {
@@ -19,9 +20,12 @@
         /* Add any other desired styles */
     }
 </style>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="sample.dto.ProductDTO" %>
 <%@ page import="sample.dao.ProductDAO" %>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -33,7 +37,7 @@
 
               <!-- Google Web Fonts -->
               <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">  
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -49,7 +53,7 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-
+        <!-- Topbar Start -->
         <div class="container-fluid border-bottom d-none d-lg-block">
             <div class="row gx-0">
                 <div class="col-lg-3 text-center py-2">
@@ -93,139 +97,73 @@
         </div>
         <!-- Topbar End -->
 
-        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0 mb-5">
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
             <a href="index.html" class="navbar-brand ms-lg-5">
-                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Pet Shop</h1>
+                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
+
                 <div class="col-md-7 container-fluid">
+
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="service.html" class="nav-item nav-link">Service</a>
-                    <a href="product.html" class="nav-item nav-link">Product</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="price.html" class="dropdown-item active">Pricing Plan</a>
-                            <a href="team.html" class="dropdown-item">The Team</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                            <a href="detail.html" class="dropdown-item">Blog Detail</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="blog.html" class="nav-item nav-link">Blog</a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                        <c:if test="${not empty sessionScope.user}">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
+                                <i class="bi bi-person fs-1 text-primary me-1"></i>
+                            </a>
+                            <div class="dropdown-menu m-0 dropdown-menu-end">
+                                <a href="details.jsp" class="dropdown-item">My profile</a>
+                                <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
+                                <a href="LogoutController" class="dropdown-item">Logout</a>
+                            </div>
                         </div>
-                    </div>
-                    <a href="contact.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Contact <i class="bi bi-arrow-right"></i></a>
+                    </c:if>
+                    <c:if test="${empty sessionScope.user}">
+                        <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                        </c:if>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
 
-        <div class="col-md-9">
-            <c:set var="order" value="${sessionScope.ORDER}" />
-            <div class="card-header">Account Details</div>
-            <!-- Account details card-->
-            <div class="card mb-4">
 
 
-                <c:if test="${not empty order}">
-                    <div>
-                        <h1>Check Out Success</h1>
-                    </div>
-                    <div>
-                        <h2>Your Receipt</h2>
-                    </div>
-                    <div class="card-body">
-                        <c:set var="orderDetails" value="${sessionScope.LIST_ORDER_DETAILS}" />
-                        <c:if test="${not empty orderDetails}">
-                            <form>
-                                <!-- Form Group (Full name)-->
-                                <div class="mb-3">
-                                    <label class="small mb-1" for="inputUsername">Full name</label>
-                                    Order ID: ${order.orderID} <br/>
-                                    Date: ${order.orderDate} <br/>
-                                    Date: ${order.shippingDate} <br/>
-                                    Customer Name: ${order.fullName} <br/>
-                                    Customer Phone ${order.phoneNumber} <br/>
-                                    Customer Address: ${order.orderAddress} <br/>
-                                </div>
 
-                                <div>
-                                    <table border="1">
-                                        <thead>
-                                            <tr>
-                                                <th>ProductID</th>
-                                                <th>Quantity</th>
-                                                <th>Price</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="dto" items="${orderDetails}">
-                                                <c:set var="quantity" value="${item.value}" />
-                                                <c:set var="price" value="${dto.price}" />
-                                                <c:set var="total" value="${total + quantity * price}" />
-                                                <tr>
-                                                    <td>
-                                                        ${dto.productID}
-                                                    </td>
 
-                                                    <td style="text-align: center">
-                                                        ${dto.quantity}
-                                                    </td>
-                                                    <td>
-                                                        <fmt:formatNumber value="${dto.price}" 
-                                                                          maxFractionDigits="0" />đ
-                                                    </td>
+        <section class="card col-md-7 mx-auto container-fluid p-5 m-5" >
 
-                                                </tr>
-                                            </c:forEach>
-                                            <tr>
-                                                <td colspan="4" style="text-align: right">
-                                                    Total
-                                                </td>
-                                                <td>
-                                                    <fmt:formatNumber value="${order.total}"
-                                                                      maxFractionDigits="0"/>đ
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <!-- Save changes button-->
-
-                            </form>
+            <div class="col-md-12 border-right p-5">
+                <div class="text-center order-details">
+                    <div class="d-flex justify-content-center  flex-column align-items-center"> 
+                        <span class="check1"><i class="bi bi-check"></i></span> 
+                        <span class="font-weight-bold">Order Confirmed</span> <small class="mt-2">We will contact you soon</small> 
+                        <a href="#" class="text-decoration-none invoice-link"></a> 
+                        <c:if test="${not empty sessionScope.user}">
+                            <a href="MainController?btAction=Purchase"></div> <button  class="btn btn-primary btn-block order-button">Go to your Order</button></a>
                         </c:if>
-                    </div>
-
-                </div>
-            </c:if>
-            <div>
-                <a href="HomeController">
-                    <input type="submit" value="Go Shopping" class="btn btn-primary" />
-                </a>
-                <a href="viewcart.jsp">
-                    <input type="submit" value="View Cart" class="btn btn-primary" />
-                </a>
+                        <c:if test="${empty sessionScope.user}">
+                        <a href="MainController?btAction=Home"></div> <button  class="btn btn-primary btn-block order-button">Go back HOME</button></a>
+                    </c:if>
             </div>
-            <c:if test="${empty order}">
-                <div>
-                    <h1>No invoice created!</h1>
-                </div>
-
-                <div>
-                    <a href="HomeController">
-                        <input type="submit" value="Go Shopping" class="btn btn-primary" />
-                    </a>
-                    <a href="viewcart.jsp">
-                        <input type="submit" value="View Cart" class="btn btn-primary" />
-                    </a>
-                </div>
-            </c:if>
         </div>
-    </body>
+
+    </section>
+
+
+
+
+
+
+
+
+</body>
 </html>
+

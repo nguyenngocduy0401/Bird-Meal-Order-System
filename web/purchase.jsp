@@ -103,6 +103,10 @@
         .custom-button:hover {
             background-color: #3e8e41;
         }
+        .row{
+            margin-bottom: 10px;
+            padding-top: 5px;
+        }
         .product-inrow{
             background-color: #f8d7da;
         }
@@ -163,8 +167,40 @@
     </head>
 
     <body>
+        <!-- Topbar Start -->
+        <div class="container-fluid border-bottom d-none d-lg-block">
+            <div class="row gx-0">
+                <div class="col-lg-4 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
+                            <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center border-start border-end py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Email Us</h6>
 
-        <%@include file="header.jsp" %>
+                            <span>fpt@example.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Call Us</h6>
+                            <span>+123454654</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Topbar End -->
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
@@ -199,11 +235,12 @@
         </nav>
         <!-- Navbar End -->
 
+
         <c:set var="order" value="${requestScope.ORDERS}" />
         <div class="container content">
 
             <div class="row ">
-                <div class="title col-md-2">
+                <div class="title col-md-3">
                     <div class="" style="width:100% auto; color: black; font-weight: bold;">
                         <div class="">My account</div>
                     </div>
@@ -249,7 +286,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <div class="fr-flbox middle bg-white" style="border: 1px solid rgb(224, 224, 224); padding: 10px 10px;">
                         <div class="row">
                             <div class="col-md-2" style="text-align: center;">
@@ -284,7 +321,6 @@
                             </c:if>
                             <c:if test="${not empty order}">
                                 <c:forEach var="dto" items="${requestScope.ORDERS}">
-                                    <c:set var="orderID" value="${dto.orderID}" />
                                     <div class="blog-item product">
                                         <div class="row g-0 bg-light overflow-hidden col-12">
                                             <div class="col-12 h-50 d-flex flex-column justify-content-center">
@@ -308,17 +344,16 @@
                                                         <small><i class="col-4 bi bi-calendar-date me-2"></i>${dto.date}</small>
                                                         <small class="add"><p >${dto.orderAddress}</p></small>
                                                     </div>
-                                                    <div class="d-flex">
+                                                    <div class="d-flex ">
                                                         <small>${dto.note}</small>
                                                     </div>
                                                     <div>
                                                         <c:forEach var="product" items="${dto.productsList}" >
-                                                            <c:set var="productID" value="${product.productID}" />
                                                             <div class="row border product-inrow">
                                                                 <div class="col-md-2 img-fluid">
                                                                     <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                                                 </div>
-                                                                <div class="col-md-6 text-left mt-sm-2">
+                                                                <div class="col-md-8 text-left mt-sm-2">
                                                                     <h4>${product.productName}</h4>
                                                                     <p class="font-weight-light">${product.productDetail}</p>
                                                                 </div>
@@ -326,19 +361,6 @@
                                                                     <p > Price: ${product.price} $</p>
                                                                     <p class="font-weight-light text-right">x ${product.quantity}</p>
                                                                 </div>
-                                                                <c:if test="${dto.status eq 4 }">
-                                                                    <div class="col-md-2 text-right mt-sm-2">
-                                                                        <form action="MainController">
-                                                                            <button type="submit" value="Feedback" name="btAction" class="btn btn-primary btn-buy" type="button">
-                                                                                Feedback
-                                                                            </button>
-                                                                            <input type="hidden" name="orderID" value="${orderID}" />
-                                                                            <input type="hidden" name="productID" value="${productID}" />
-                                                                        </form>
-                                                                    </div>
-                                                                </c:if>
-
-
                                                             </div>
                                                         </c:forEach>
                                                     </div>

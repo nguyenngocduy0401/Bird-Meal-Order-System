@@ -54,16 +54,15 @@ public class LoginController extends HttpServlet {
                             HttpSession session = request.getSession(true);
                             if (session != null) {
                                 session.setAttribute("user", user);
-                                request.setAttribute("btAction", "AdminHome");
                                 //create a cookie and attach it to response object
                                 if (save != null) {
                                     String token = codeString;
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
-                                response.sendRedirect("AdminPageController");
+                                response.sendRedirect("admin.jsp");
                             }
 
                         } else if (user.getRole() == 1) {//staff
@@ -75,7 +74,7 @@ public class LoginController extends HttpServlet {
                                     String token = codeString;
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("staff.jsp");
@@ -90,7 +89,7 @@ public class LoginController extends HttpServlet {
                                     String token = codeString;
                                     UserDAO.updateToken(token, username);
                                     Cookie cookie = new Cookie("selector", token);
-                                    cookie.setMaxAge(60 * 200);
+                                    cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
                                 response.sendRedirect("MainController");
