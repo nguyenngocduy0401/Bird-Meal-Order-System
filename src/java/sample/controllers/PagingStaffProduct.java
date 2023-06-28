@@ -59,7 +59,7 @@ public class PagingStaffProduct extends HttpServlet {
                 endPage++;
             }
         } else {
-            result = dao.searchListProductOfStaff(txtSearchValue, page, ON_PAGE_PRODUCT);
+            result = dao.searchListProduct(txtSearchValue, page, ON_PAGE_PRODUCT);
             int amount = dao.getAmountSearchProduct(txtSearchValue);
             endPage = amount / ON_PAGE_PRODUCT;
             if (amount % ON_PAGE_PRODUCT != 0) {

@@ -10,12 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import javax.naming.NamingException;
 import sample.dto.OrderDetailDTO;
-import sample.dto.ProductDTO;
 import sample.utils.DBUtils;
 
 /**
@@ -23,42 +19,6 @@ import sample.utils.DBUtils;
  * @author Admin
  */
 public class OrderDetailsDAO {
-    public static boolean createOrderDetailsForCustomer(int orderID, LinkedHashMap<String, Integer> checkedItems)
-            throws SQLException, NamingException, ClassNotFoundException {
-        try (Connection con = DBUtils.getConnection();
-                PreparedStatement stm = con.prepareStatement("INSERT INTO OrderDetail(OrderID, ProductID, Quantity, Price) VALUES (?, ?, ?, ?)")) {
-
-            con.setAutoCommit(false);
-
-            int affectedRows = 0;
-
-            for (Map.Entry<String, Integer> entry : checkedItems.entrySet()) {
-                String productID = entry.getKey();
-                int quantity = entry.getValue();
-                ProductDTO product = ProductDAO.getProductByID(Integer.parseInt(productID)); // Retrieve the price based on the product ID
-
-                stm.setInt(1, orderID);
-                stm.setString(2, productID);
-                stm.setInt(3, quantity);
-                stm.setDouble(4, product.getPrice());
-
-                stm.addBatch();
-
-                affectedRows++;
-            }
-
-            int[] batchResults = stm.executeBatch();
-            con.commit();
-
-            if (batchResults.length == affectedRows) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            // Handle the exception or rethrow it
-        }
-
-        return false;
-    }
 
     public List<OrderDetailDTO> getProductByUserID(int userID, int amount, int onPageProduct) throws SQLException, ClassNotFoundException {
         Connection con = null;

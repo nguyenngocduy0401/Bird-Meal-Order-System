@@ -98,7 +98,11 @@ and open the template in the editor.
 
                 <div class="col-md-7 container-fluid">
 
-                   
+                    <div class="search">
+                        <i class="fa fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Have a question? Ask Now">
+                        <button class="btn btn-primary">Search</button>
+                    </div>
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="Home.html" class="nav-item nav-link active">Home</a>

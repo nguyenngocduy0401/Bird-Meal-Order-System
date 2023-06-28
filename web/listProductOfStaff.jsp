@@ -365,39 +365,25 @@
                 <!-- Page Heading -->
                 <div class="container-fluid">
                     <h1 class="h3 mb-2 text-gray-800">PRODUCT LIST</h1>
-                    <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                                                                                   href="https://datatables.net">official DataTables documentation
-                        </a>.</p>-->
                     <div class="card shadow mb-4">
-
                         <div class="card-header py-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <form action="MainController">
-                                    <button class="btn btn-outline-primary mr-auto" name="btAction" value="Create New Product">Add new product</button>
+                                    <button class="btn btn-outline-primary mr-auto" name="btAction" value="CreateStaff">Add new staff</button>
                                 </form>
-                                <form action="MainController">
-                                    <button class="btn btn-outline-primary mr-auto" name="btAction" value="StaffHome">Show All</button>
-                                </form>
-                                <form action="MainController">
-                                    <div class="form-inline navbar-search">
-                                        <div class="input-group">
-                                            <input name="txtSearchValue" type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                                   aria-label="Search" aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-
-                                                <button class="btn btn-primary">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
-                                                <input type="hidden" name="btAction" value="SearchOfStaff" />
-
-                                            </div>
+                                <div class="form-inline navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" id="search-box" class="form-control bg-light border-0 small" placeholder="Search for..." name="txtSearchValue"
+                                               aria-label="Search" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" name="btAction" onclick="searchAccount()">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>

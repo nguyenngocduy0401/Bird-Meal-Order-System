@@ -7,22 +7,27 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.dao.OrderDetailGuestDAO;
-import sample.dao.OrderGuestDAO;
+import sample.dao.FeedbackDAO;
+import sample.dto.UserDTO;
 
 /**
  *
- * @author Duy
+ * @author Admin
  */
-public class SubmitCheckOutController extends HttpServlet {
-
+@WebServlet(name = "FeedbackReply", urlPatterns = {"/FeedbackReply"})
+public class FeedbackReply extends HttpServlet {
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,39 +38,17 @@ public class SubmitCheckOutController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String name = request.getParameter("txtName");
-            String phone = request.getParameter("txtPhoneNumber");
-            String address = request.getParameter("txtAddress");
-            String notes = request.getParameter("txtNotes");
-            HttpSession session = request.getSession(true);
-            LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cartCheckOutForGuest");
-            try {
-                int oderID = OrderGuestDAO.createNewOrderForGuest(name, phone, 1, address, notes);
-                if (oderID != -1) {
-                    boolean finishCheckOut = OrderDetailGuestDAO.createOrderDetailsForGuest(oderID, cart);
-                    if (finishCheckOut) {
-                        Cookie[] cookies = request.getCookies();
-                        if (cookies != null) {
-                            for (Cookie cookie : cookies) {
-                                if (cookie.getName().equals("cart")) {
-                                    cookie.setMaxAge(0);
-                                    response.addCookie(cookie);
-                                    break;
-        }
-    }
-                        }
-                        session.removeAttribute("cart");
-                        session.removeAttribute("cartCheckOutForGuest");
-                        response.sendRedirect("LoginCookieController");
-                    }
-                }
-            } catch (Exception e) {
-            }
-
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        String details = request.getParameter("details");
+        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
+        String date = String.valueOf(LocalDate.now());
+        try {
+            FeedbackDAO.updateFeedback(feedbackID,user.getFullName(), details, date);
+        }finally{
+            
         }
     }
 
@@ -81,7 +64,13 @@ public class SubmitCheckOutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -95,7 +84,13 @@ public class SubmitCheckOutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FeedbackReply.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

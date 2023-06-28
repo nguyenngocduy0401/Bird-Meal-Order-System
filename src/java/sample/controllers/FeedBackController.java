@@ -7,29 +7,33 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.dao.BirdDAO;
-import sample.dao.CategoryDAO;
-import sample.dao.FeedbackDAO;
+import sample.dao.OrderDAO;
 import sample.dao.ProductDAO;
-import sample.dto.BirdDTO;
-import sample.dto.CategoryDTO;
-import sample.dto.FeedbackDTO;
+import sample.dto.OrderDTO;
 import sample.dto.ProductDTO;
 
 /**
  *
- * @author Duy
+ * @author Admin
  */
-public class ProductDetailController extends HttpServlet {
+@WebServlet(name = "FeedBackController", urlPatterns = {"/FeedBackController"})
+public class FeedBackController extends HttpServlet {
+
+    private final String FEEDBACK_PAGE = "feedback.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,23 +45,21 @@ public class ProductDetailController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ClassNotFoundException {
+            throws ServletException, IOException, SQLException, NamingException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            int productID = Integer.parseInt(request.getParameter("productID"));
-            ProductDTO productDTO = ProductDAO.getProductByID(productID);
-            CategoryDTO categoryDTO = CategoryDAO.getCategoryByID(productID);
-            ArrayList<BirdDTO> listBird = BirdDAO.getBirdsByProductID(productID);
-            int amountFeedback = FeedbackDAO.getAmountFeedbackByProductID(productID);
-            List<FeedbackDTO> listFeedback = FeedbackDAO.getFeedbackByProductID(productID);
-            if(productDTO !=null){
-                request.setAttribute("productDTO", productDTO);
-                request.setAttribute("categoryDTO", categoryDTO);
-                request.setAttribute("listBird", listBird);
-                request.setAttribute("amountFeedback", amountFeedback);
-                request.setAttribute("LIST_FEEDBACK", listFeedback);
-                request.getRequestDispatcher("productDetail.jsp").forward(request, response);
-            }
+        String url = FEEDBACK_PAGE; 
+        int orderID = Integer.parseInt(request.getParameter("orderID"));
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        OrderDTO order = OrderDAO.loadOrderByOrderID(orderID);
+        Date completeDate = Date.valueOf(order.getShippingDate());
+        Date currentDate = Date.valueOf(LocalDate.now());
+        try {
+            ProductDTO product = ProductDAO.getProductByID(productID);
+            request.setAttribute("PRODUCT", product);
+            request.setAttribute("ORDERID", order.getOrderID());
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 
@@ -76,9 +78,11 @@ public class ProductDetailController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -96,9 +100,11 @@ public class ProductDetailController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ProductDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

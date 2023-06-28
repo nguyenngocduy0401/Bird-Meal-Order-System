@@ -92,7 +92,8 @@ public class OrderDAO {
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
                         + ",[Notes] "
-                        + "FROM [Order] ";
+                        + "FROM [Order] "
+                        + " ORDER BY [OrderID] DESC";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -146,7 +147,8 @@ public class OrderDAO {
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
-                        + "WHERE UserName  like ? ";
+                        + "WHERE UserName  like ? "
+                        + " ORDER BY [OrderID] DESC";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, userName);
                 rs = stm.executeQuery();
@@ -285,7 +287,8 @@ public class OrderDAO {
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
-                        + "WHERE UserName  like ? ";
+                        + "WHERE UserName  like ? "
+                        + " ORDER BY [OrderID] DESC";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, userName);
                 rs = stm.executeQuery();
@@ -330,31 +333,31 @@ public class OrderDAO {
             if (con != null) {
                 String sql = "SELECT [OrderID]\n"
                         + ",[Order].[UserID]\n"
-                        + ",[Order].[FullName]\n"
-                        + ",[Order].[PhoneNumber]\n"
                         + ",[Order].[OrderDate]\n"
                         + ",[Order].[ShippingDate]\n"
+                        + ",[Order].FullName\n"
+                        + ",[Order].PhoneNumber\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
                         + ",[Notes] "
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[User]\n"
                         + "ON [ProjectBirdMealOrderSystem].[dbo].[Order].UserID = [ProjectBirdMealOrderSystem].[dbo].[User].UserID\n"
-                        + "WHERE UserName  like ? AND [Order].[Status] = ? ";
+                        + "WHERE UserName  like ? AND [Order].[Status] = ? "
+                        + " ORDER BY [OrderID] DESC";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, userName);
                 stm.setInt(2, status);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int orderID = rs.getInt("OrderID");
-                    String fullName = rs.getString("FullName");
-                    String phoneNumber = rs.getString("PhoneNumber");
                     String date = rs.getString("OrderDate");
-                    String shippingDate = rs.getString("ShippingDate");
                     String orderAddress = rs.getString("OrderAddress");
                     int userID = rs.getInt("UserID");
                     String note = rs.getString("Notes");
-                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, date, status, orderAddress, note);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -370,6 +373,126 @@ public class OrderDAO {
             }
         }
         return list;
+    }
+
+    public static double getMonthEarning(int month, int year) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        double result = 0;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT SUM(OrderDetail.Quantity * OrderDetail.Price) AS TotalSold\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Order] INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail]\n"
+                        + "  ON [Order].OrderID = OrderDetail.OrderID\n"
+                        + "  WHERE MONTH([ShippingDate])=? AND YEAR([ShippingDate]) = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, month);
+                stm.setInt(2, year);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    result = rs.getDouble("TotalSold");
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
+    public static double getYearEarning(int year) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        double result = 0;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT SUM(OrderDetail.Quantity * OrderDetail.Price) AS TotalSold\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Order] INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail]\n"
+                        + "  ON [Order].OrderID = OrderDetail.OrderID\n"
+                        + "  WHERE YEAR([ShippingDate]) = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, year);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    result = rs.getDouble("TotalSold");
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
+    public static OrderDTO loadOrderByOrderID(int orderID)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        OrderDTO order = new OrderDTO();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [OrderID]\n"
+                        + ",[Order].[UserID]\n"
+                        + ",[Order].[OrderDate]\n"
+                        + ",[Order].[ShippingDate]\n"
+                        + ",[Order].FullName\n"
+                        + ",[Order].PhoneNumber\n"
+                        + ",[Order].[Status]\n"
+                        + ",[OrderAddress]\n"
+                        + ",[Notes] "
+                        + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
+                        + "WHERE OrderID = ? "
+                        + " ORDER BY [OrderID] DESC";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String date = rs.getString("OrderDate");
+                    String shippingDate = rs.getString("ShippingDate");
+                    String orderAddress = rs.getString("OrderAddress");
+                    int userID = rs.getInt("UserID");
+                    String note = rs.getString("Notes");
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int status = rs.getInt("Status");
+                    order = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return order;
     }
 
 }
