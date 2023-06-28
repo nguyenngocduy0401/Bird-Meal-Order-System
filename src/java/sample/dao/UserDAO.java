@@ -287,7 +287,7 @@ public class UserDAO {
         return result;
     }
 
-    public boolean removeAccount(String username)
+   public boolean removeAccount(int userID)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -295,10 +295,11 @@ public class UserDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "Delete From [User] "
-                        + "Where username = ?";
+                String sql = "Update [User] "
+                        + "SET status = 0 "
+                        + "WHERE userID = ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, username);
+                stm.setInt(1, userID);
 
                 int effectRow = stm.executeUpdate();
                 //5. Preocess result

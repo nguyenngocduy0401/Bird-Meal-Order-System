@@ -3,6 +3,7 @@
     Created on : Jun 13, 2023, 11:06:21 PM
     Author     : Duy
 --%>
+
 <!DOCTYPE html>
 <html lang="en">
     <style>
@@ -10,21 +11,23 @@
             box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
         }
 
-
-
-
-        #default:hover {
-            /* Define the styles for the hover state */
-            color: #7AB730;
-            cursor: pointer;
-            /* Add any other desired styles */
+        /*dropdown hover*/
+        .dropdown:hover>.dropdown-menu {
+            display: block;
         }
+        .dropdown>.nav-link:active {
+            pointer-events: none;
+        }
+        .dropdown-menu {
+            right: 0;
+        }
+
     </style>
     <%@ page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ page import="sample.dto.ProductDTO" %>
     <%@ page import="sample.dao.ProductDAO" %>
-
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
 
@@ -55,6 +58,9 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+
+        <!--Libraries boostrap 5.0.0-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
         <!-- Topbar Start -->
@@ -166,10 +172,16 @@
                                                     <c:set var="fullName" value="${address.fullName}"/>
                                                     <c:set var="addressDetail" value="${address.addressDetail}"/>
                                                     <c:set var="phoneNumber" value="${address.phoneNumber}"/>
+                                                    <!--split address-->
+                                                    <c:set var="addressDetails" value="${addressDetail.split(', ')[0]}" />
+                                                    <c:set var="ward" value="${addressDetail.split(', ')[1]}" />
+                                                    <c:set var="district" value="${addressDetail.split(', ')[2]}" />
+                                                    <c:set var="province" value="${addressDetail.split(', ')[3]}" />
+
                                                     <div class="row g-3 container border border-opacity-25 border-secondary rounded border-dark pb-3 " style="border-radius: 5px; ">
                                                         <div class="col-md-1 ">
                                                             <div class=" text-center py-4">
-                                                                <input type="radio" name="selectAddress"  value="${addressID}" required="" />
+                                                                <input type="radio" name="selectAddress" onclick="chooseAddress('${ward}', '${district}', '${province}')"  value="${addressID}" required="" />
                                                             </div>
 
                                                         </div>
@@ -179,7 +191,7 @@
                                                                 <div class="col-md-4  border-start  py-1">${phoneNumber}</div>
                                                                 <div class="col-md-3 "></div>
                                                             </div>
-                                                            <div class="">${addressDetail} </div>
+                                                            <div class="">${addressDetail}</div>
                                                         </div>
 
 
@@ -187,10 +199,11 @@
                                                     </div>
                                                 </c:forEach>
 
-                                                <div>Notes </div>
-
-                                                <textarea class="form-control row g-3 bg-white border-1 border-dark px-5 " name="txtNotes"
-                                                          style="height: 100px; border-radius: 5px;"></textarea>
+                                                <div class="col-12">
+                                                    Notes *
+                                                    <textarea class="form-control bg-light border-0 px-4" name="txtNotes"
+                                                              style="height: 100px;"></textarea>
+                                                </div>
                                                 <div class="row ">
                                                     <div class="col-md-6">
 
@@ -488,13 +501,13 @@
                                                 <!--<button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="previewOrder()">previewOrder</button>-->
                                             </div>
                                             <div class="col-sm-4   ">
-                                                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="submit" name="btAction" value="submitCheckOutGuest">Place Order</button>
+                                                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="submit" id="button" name="btAction" value="submitCheckOutGuest">Place Order</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div id="listproduct" class="col-md-6 text-right border border-dark"> 
+                                <div id="listproduct" class="card col-md-6 text-right border" style="border-radius: 10px;"> 
                                     <table id="shoppingCart" class="table table-condensed table-responsive" style="margin-bottom: 7px">
                                         <thead>
                                             <tr>    
@@ -514,7 +527,6 @@
                                                 <c:set var="quantity" value="${item.value}" />
                                                 <c:set var="price" value="${product.price}" />
                                                 <c:set var="total" value="${total + (quantity * product.price)}"/>
-
                                                 <tr>
                                                     <td data-th="Product">
                                                         <div class="row">
@@ -531,7 +543,6 @@
                                                     <td data-th="Quantity">
                                                         <div class="form-control bg-white form-control-lg text-center">${item.value}</div> 
                                                     </td>
-
                                                 <tr>
                                                 </c:forEach>
 
@@ -602,87 +613,131 @@
     <script src="scripts/validator.js"></script>
     <script>
                                                                //filter location
-                                                               var citis = document.getElementById("city");
-                                                               var districts = document.getElementById("district");
-                                                               var wards = document.getElementById("ward");
                                                                var myHeaders = new Headers();
-                                                               var districID = null;
-                                                               var wardCode = "";
                                                                myHeaders.append("token", "8971acfc-10b0-11ee-bb28-f6a6bf301a4e");
                                                                var requestOptions = {
                                                                    method: 'GET',
                                                                    responseType: "application/json",
                                                                    headers: myHeaders
-//                            redirect: 'follow'
                                                                };
+                                                               var districID = null;
+                                                               var wardCode = "";
+                                                               if (${empty sessionScope.addressList}) {
+                                                                   var citis = document.getElementById("city");
+                                                                   var districts = document.getElementById("district");
+                                                                   var wards = document.getElementById("ward");
 
-                                                               fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province", requestOptions)
-                                                                       .then(response => response.json())
-                                                                       .then(result => {
-                                                                           renderCity(result.data);
-//                    console.log(result.data);
-                                                                       });
-                                                               function renderCity(data) {
-                                                                   for (const x of data) {
-                                                                       var opt = document.createElement('option');
+
+
+                                                                   fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province", requestOptions)
+                                                                           .then(response => response.json())
+                                                                           .then(result => {
+                                                                               renderCity(result.data);
+                                                                           });
+                                                                   function renderCity(data) {
+                                                                       for (const x of data) {
+                                                                           var opt = document.createElement('option');
 //                                                            opt.value = x.ProvinceID;
-                                                                       opt.value = x.ProvinceName;
-                                                                       opt.text = x.ProvinceName;
-                                                                       opt.setAttribute('province_id', x.ProvinceID);
-                                                                       citis.options.add(opt);
+                                                                           opt.value = x.ProvinceName;
+                                                                           opt.text = x.ProvinceName;
+                                                                           opt.setAttribute('province_id', x.ProvinceID);
+                                                                           citis.options.add(opt);
 
-                                                                   }
-                                                                   citis.onchange = function () {
-                                                                       resetShippingFee();
-                                                                       var provinceID = this.options[this.selectedIndex].getAttribute('province_id');
-                                                                       district.length = 1;
-                                                                       ward.length = 1;
-                                                                       if (this.options[this.selectedIndex].dataset.id != "") {
-                                                                           fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + provinceID, requestOptions)
-                                                                                   .then(response => response.json())
-                                                                                   .then(result => {
-                                                                                       for (const k of result.data) {
-                                                                                           if (k.DistrictID != '3715' && k.DistrictID != '3713' && k.DistrictID != '3451') {
-                                                                                               var opt = document.createElement('option');
-//                                                                                opt.value = k.DistrictID;
-                                                                                               opt.value = k.DistrictName;
-                                                                                               opt.text = k.DistrictName;
-                                                                                               opt.setAttribute('district_id', k.DistrictID);
-                                                                                               district.options.add(opt);
-                                                                                           }
-                                                                                       }
-                                                                                   });
                                                                        }
-                                                                   };
-                                                                   district.onchange = function () {
-                                                                       districtID = this.options[this.selectedIndex].getAttribute('district_id');
-                                                                       resetShippingFee();
-                                                                       ward.length = 1;
+                                                                       citis.onchange = function () {
+                                                                           resetShippingFee();
+                                                                           var provinceID = this.options[this.selectedIndex].getAttribute('province_id');
+                                                                           district.length = 1;
+                                                                           ward.length = 1;
+                                                                           if (this.options[this.selectedIndex].dataset.id != "") {
+                                                                               fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + provinceID, requestOptions)
+                                                                                       .then(response => response.json())
+                                                                                       .then(result => {
+                                                                                           for (const k of result.data) {
+                                                                                               if (k.DistrictID != '3715' && k.DistrictID != '3713' && k.DistrictID != '3451') {
+                                                                                                   var opt = document.createElement('option');
+//                                                                                opt.value = k.DistrictID;
+                                                                                                   opt.value = k.DistrictName;
+                                                                                                   opt.text = k.DistrictName;
+                                                                                                   opt.setAttribute('district_id', k.DistrictID);
+                                                                                                   district.options.add(opt);
+                                                                                               }
+                                                                                           }
+                                                                                       });
+                                                                           }
+                                                                       };
+                                                                       district.onchange = function () {
+                                                                           districtID = this.options[this.selectedIndex].getAttribute('district_id');
+                                                                           resetShippingFee();
+                                                                           ward.length = 1;
 //                const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
 
-                                                                       if (this.options[this.selectedIndex].dataset.id != "") {
+                                                                           if (this.options[this.selectedIndex].dataset.id != "") {
 //                    const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
-                                                                           fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + districtID, requestOptions)
-                                                                                   .then(response => response.json())
-                                                                                   .then(result => {
+                                                                               fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + districtID, requestOptions)
+                                                                                       .then(response => response.json())
+                                                                                       .then(result => {
 //                                console.log(result.data);
-                                                                                       for (const k of result.data) {
-                                                                                           var opt = document.createElement('option');
+                                                                                           for (const k of result.data) {
+                                                                                               var opt = document.createElement('option');
 //                                                                                opt.value = k.WardCode;
-                                                                                           opt.value = k.WardName;
-                                                                                           opt.text = k.WardName;
-                                                                                           opt.setAttribute('wardcode', k.WardCode);
-                                                                                           wards.options.add(opt);
+                                                                                               opt.value = k.WardName;
+                                                                                               opt.text = k.WardName;
+                                                                                               opt.setAttribute('wardcode', k.WardCode);
+                                                                                               wards.options.add(opt);
+                                                                                           }
+                                                                                       });
+                                                                           }
+                                                                           ;
+                                                                       };
+                                                                       ward.onchange = function () {
+                                                                           wardCode = this.options[this.selectedIndex].getAttribute('wardcode');
+                                                                           calculateShippingFee();
+                                                                       };
+                                                                   }
+                                                               }//end if empty sessionScope.addressList
+
+                                                               //calculate shipping fee with book address
+                                                               if (${not empty sessionScope.addressList}) {
+                                                                   function chooseAddress(ward, district, province) {
+                                                                       document.getElementById("button").disabled = true;
+                                                                       var provinceID = "";
+                                                                       fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province", requestOptions)
+                                                                               .then(response => response.json())
+                                                                               .then(result => {
+                                                                                   for (const k of result.data) {
+                                                                                       if (k.ProvinceName.toLowerCase() === province.toLowerCase()) {
+                                                                                           provinceID = k.ProvinceID;
+                                                                                           break;
                                                                                        }
-                                                                                   });
-                                                                       }
-                                                                       ;
-                                                                   };
-                                                                   ward.onchange = function () {
-                                                                       wardCode = this.options[this.selectedIndex].getAttribute('wardcode');
-                                                                       calculateShippingFee();
-                                                                   };
-                                                               }
+                                                                                   }
+                                                                               });
+                                                                       fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + provinceID, requestOptions)
+                                                                               .then(response => response.json())
+                                                                               .then(result => {
+                                                                                   for (const k of result.data) {
+                                                                                       if (k.DistrictName.toLowerCase() === district.toLowerCase()) {
+                                                                                           districtID = k.DistrictID;
+                                                                                           fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + districtID, requestOptions)
+                                                                                                   .then(response => response.json())
+                                                                                                   .then(result => {
+                                                                                                       for (const k of result.data) {
+                                                                                                           if (k.WardName.toLowerCase() === ward.toLowerCase()) {
+                                                                                                               console.log(k.WardCode);
+                                                                                                               wardCode = k.WardCode;
+                                                                                                               calculateShippingFee();
+                                                                                                               break;
+                                                                                                           }
+                                                                                                       }
+                                                                                                   });
+                                                                                           break;
+                                                                                       }
+                                                                                   }
+                                                                               });
+                                                                   }
+                                                               }//end if not empty sessionScope.addressList
+
+
                                                                //format money and calculate shipping fee
                                                                var subTotal = ${subTotal}; // Replace with the actual total value in VND
                                                                var subtotalElement = document.getElementById("subtotalAmount");
@@ -758,6 +813,7 @@
                                                                                    shippingFeeValue.value = shippingFee.value;
                                                                                    console.log(shippingFeeValue.value);
                                                                                    calculateTotal();
+                                                                                   document.getElementById("button").disabled = false;
 //                                                                               console.log(total.value);
 //                                                                               console.log(total.textContent);
                                                                                    console.log(JSON.stringify(data));

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -133,9 +134,9 @@ public class SubmitCheckOutController extends HttpServlet {
 
                     } else {
 
-                        int orderID = OrderGuestDAO.createNewOrderForGuest(fullName, phoneNumber, 1, address, notes, shippingFee);
+                        int orderID = OrderDAO.createNewOrderForGuest(fullName, phoneNumber, 1, address, notes, shippingFee);
                         if (orderID != -1) {
-                            boolean finishCheckOut = OrderDetailGuestDAO.createOrderDetailsForGuest(orderID, cart);
+                            boolean finishCheckOut = OrderDetailsDAO.createOrderDetailsForCustomer(orderID, cart);
                             if (finishCheckOut) {
                                 Cookie[] cookies = request.getCookies();
                                 if (cookies != null) {
@@ -201,3 +202,4 @@ public class SubmitCheckOutController extends HttpServlet {
     }// </editor-fold>
 
 }
+

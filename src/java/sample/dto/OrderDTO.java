@@ -24,6 +24,7 @@ public class OrderDTO implements Serializable {
     private int status;
     private String orderAddress;
     private String note;
+    private double shippingFee;
 
     public OrderDTO() {
     }
@@ -50,6 +51,28 @@ public class OrderDTO implements Serializable {
         this.orderAddress = orderAddress;
         this.note = note;
     }
+
+    public OrderDTO(int orderID, int userID, String fullName, String phoneNumber, String shippingDate, String date, int status, String orderAddress, String note, double price) {
+        this.orderID = orderID;
+        this.userID = userID;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.shippingDate = shippingDate;
+        this.date = date;
+        this.status = status;
+        this.orderAddress = orderAddress;
+        this.note = note;
+        this.shippingFee = price;
+    }
+
+    public double getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(double shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+     
 
     public String getFullName() {
         return fullName;

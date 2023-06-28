@@ -70,6 +70,82 @@ public class OrderDAO {
         }
         return orderID;
     }
+public static int createNewOrderForGuest(String fullName, String phoneNumber, int status, String orderAddress, String notes, double shippingFee) throws Exception {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+        Connection connection = null;
+        PreparedStatement pst = null;
+        ResultSet rs;
+        int orderID = -1;
+        try {
+            // Establish a database connection
+            connection = DBUtils.getConnection();
+            // Prepare the SQL statement
+            if (connection != null) {
+                pst = connection.prepareStatement("INSERT INTO [Order](FullName, PhoneNumber, OrderDate, Status, OrderAddress, Notes, shippingFee) \n"
+                        + "OUTPUT inserted.OrderID\n"
+                        + "VALUES(?,?,?,?,?,?,?);");
+                pst.setString(1, fullName);
+                pst.setString(2, phoneNumber);
+                pst.setString(3, formattedDate);
+                pst.setInt(4, status);
+                pst.setNString(5, orderAddress);
+                pst.setString(6, notes);
+                pst.setDouble(7, shippingFee);
+                // Execute the SQL statement
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    orderID = rs.getInt("OrderID");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database resources
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return orderID;
+    }
+public boolean updateStatusOrder(int orderID, int status)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null; 
+        boolean result = false; 
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "Update [Order] "
+                        + "Set Status = ? "
+                        + "Where OrderID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, status);
+                stm.setInt(2, orderID);
+
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            } //end connection has existed 
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
 
     public List<OrderDTO> loadOrder()
             throws SQLException, NamingException, ClassNotFoundException {
@@ -88,11 +164,11 @@ public class OrderDAO {
                         + ",[Order].[PhoneNumber]\n"
                         + ",[Order].[OrderDate]\n"
                         + ",[Order].[ShippingDate]\n"
+                        + ",[Order].[ShippingFee]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
                         + ",[Notes] "
-                        + "FROM [Order] "
-                        + " ORDER BY [OrderID] DESC";
+                        + "FROM [Order] ";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -101,11 +177,12 @@ public class OrderDAO {
                     String phoneNumber = rs.getString("PhoneNumber");
                     String date = rs.getString("OrderDate");
                     String shippingDate = rs.getString("ShippingDate");
+                    double shippingFee = rs.getDouble("ShippingFee");
                     int status = rs.getInt("Status");
                     String orderAddress = rs.getString("OrderAddress");
                     int userID = rs.getInt("UserID");
                     String note = rs.getString("Notes");
-                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note, shippingFee);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null
@@ -492,6 +569,39 @@ public class OrderDAO {
             }
         }
         return order;
+    }
+    public boolean checkOrderInProcess(int userID)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        boolean result = false;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT orderID "
+                        + "FROM [order] "
+                        + "WHERE userid = ? "
+                        + "AND status > 0";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, userID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    result = true;
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
     }
 
 }
