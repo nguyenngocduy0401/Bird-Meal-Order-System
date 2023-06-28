@@ -4,22 +4,6 @@
     Author     : Duy
 --%>
 <style>
-</style>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<c:if test="${not empty sessionScope.user}">
-    <c:if test="${sessionScope.user.role eq 0}">
-        <c:redirect url="admin.jsp"></c:redirect>
-    </c:if>
-    <c:if test="${sessionScope.user.role eq 1}">
-        <c:redirect url="staff.jsp"></c:redirect>
-    </c:if>
-    <c:if test="${sessionScope.user.role eq 2}">
-        <c:redirect url="home.jsp"></c:redirect>
-    </c:if>
-</c:if>
-<style>
     .line-separator {
         background-color: #545454;
         flex-grow: 5;
@@ -63,18 +47,33 @@
     }
 
 </style>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<c:if test="${not empty sessionScope.user}">
+    <c:if test="${sessionScope.user.role eq 0}">
+        <c:redirect url="admin.jsp"></c:redirect>
+    </c:if>
+    <c:if test="${sessionScope.user.role eq 1}">
+        <c:redirect url="staff.jsp"></c:redirect>
+    </c:if>
+    <c:if test="${sessionScope.user.role eq 2}">
+        <c:redirect url="home.jsp"></c:redirect>
+    </c:if>
+</c:if>
+
 <html>
     <head>
         <meta charset="utf-8">
         <title>Bird Meal Order System</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport
 
-        <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
+              <!-- Favicon -->
+              <link href="img/favicon.ico" rel="icon">
 
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
+              <!-- Google Web Fonts -->
+              <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">  
 
         <!-- Icon Font Stylesheet -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -94,30 +93,40 @@
         <!-- Topbar Start -->
         <div class="container-fluid border-bottom d-none d-lg-block">
             <div class="row gx-0">
-                <div class="col-lg-4 text-center py-2">
+                <div class="col-lg-3 text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
                         <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Our Office</h6>
+                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
                             <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center border-start border-end py-2">
+                <div class="col-lg-3 text-center border-start border-end py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
                         <div class="text-start">
                             <h6 class="text-uppercase mb-1">Email Us</h6>
-                            <span>info@example.com</span>
+
+                            <span>fpt@example.com</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center py-2">
+                <div class="col-lg-3 text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
                         <div class="text-start">
                             <h6 class="text-uppercase mb-1">Call Us</h6>
-                            <span>+012 345 6789</span>
+                            <span>+123454654</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-facebook fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Facebook</h6>
+                            <span><a href="https://www.facebook.com/" class="link">https://www.facebook.com/</a></span>
                         </div>
                     </div>
                 </div>
@@ -138,13 +147,13 @@
 
                 <div class="col-md-7 container-fluid">
 
-
+                    
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="home.jsp" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <a href="verifyEmail.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
+                    <a href="verifyEmail.html" class="nav-item nav-link nav-contact bg-primary text-white px-4 ms-lg-5">
                         Register
                         <i class="bi bi-arrow-right"></i>
                     </a>
@@ -210,5 +219,4 @@
                 </div>
             </div>
         </div>
-    </body>
 </html>

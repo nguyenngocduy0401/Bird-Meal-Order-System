@@ -1,12 +1,8 @@
-<style>
-   
-</style>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-
 <html>
     <head>
         <meta charset="utf-8">
@@ -64,7 +60,7 @@
             right: 0;
         }
     </style>
-    
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -74,37 +70,47 @@
         <c:set var="sizeList" value="${requestScope.SIZE_LIST}"/>
         <c:set var="birdList" value="${requestScope.BIRD_LIST}"/>
 
-       <div class="container-fluid border-bottom d-none d-lg-block">
-        <div class="row gx-0">
-            <div class="col-lg-4 text-center py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Our Office</h6>
-                        <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
+        <div class="container-fluid border-bottom d-none d-lg-block">
+            <div class="row gx-0">
+                <div class="col-lg-3 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
+                            <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 text-center border-start border-end py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Email Us</h6>
-                        <span>info@example.com</span>
+                <div class="col-lg-3 text-center border-start border-end py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Email Us</h6>
+
+                            <span>fpt@example.com</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 text-center py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Call Us</h6>
-                        <span>+012 345 6789</span>
+                <div class="col-lg-3 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Call Us</h6>
+                            <span>+123454654</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-facebook fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Facebook</h6>
+                            <span><a href="https://www.facebook.com/" class="link">https://www.facebook.com/</a></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
@@ -118,7 +124,7 @@
 
                 <div class="col-md-7 container-fluid">
                     <form action="MainController">
-                        <div class="search" style="height: 45px">
+                        <div class="search">
                             <i class="fa fa-search"></i>
                             <input name="txtSearchValue" type="text" class="form-control" placeholder="Search any product...">
                             <button class="btn btn-primary">Search</button>
