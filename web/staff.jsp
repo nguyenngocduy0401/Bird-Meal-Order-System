@@ -228,6 +228,16 @@
                         </button>
                     </form>
                 </li>
+                
+                 <!-- Nav Item - Orders -->
+                <li class="nav-item">
+                    <form action="GetOrdersListServlet">
+                        <button type="submit" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-fw fa-clipboard"></i>
+                            <span>Order</span></a>
+                        </button>
+                    </form>
+                </li>
 
 
                 <!-- Divider -->
