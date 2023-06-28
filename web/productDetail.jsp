@@ -46,7 +46,7 @@
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid border-bottom d-none d-lg-block">
@@ -95,7 +95,7 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-        <a href="index.html" class="navbar-brand ms-lg-5">
+        <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
             <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -107,9 +107,9 @@
             </div>
             <div class="navbar-nav ms-auto py-0">
                 <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
-                <a href="blog.html" class="nav-item nav-link">Blog</a>
+                <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                 <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                <a href="Login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
             </div>
         </div>
     </nav>
@@ -152,6 +152,13 @@
                                             pk: id,
                                         },
                                         success: function () {
+                                            Swal.fire({
+
+                                                icon: 'success',
+                                                title: 'Successful!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            })
                                         }
                                     });
                                 }

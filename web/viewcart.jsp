@@ -230,7 +230,7 @@
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
                         <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
+                            <h6 class="text-uppercase mb-1">Our Address</h6>
                             <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
                         </div>
                     </div>
@@ -281,7 +281,7 @@
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
-                    <a href="blog.html" class="nav-item nav-link">Blog</a>
+                    <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                         <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">

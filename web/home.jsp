@@ -1,4 +1,4 @@
-
+<style></style>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -59,11 +59,18 @@
         .dropdown-menu {
             right: 0;
         }
+        .name{
+            margin-left: 20px;
+            margin-right: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <body>
         <c:set var="result" value="${requestScope.PRODUCTS}" />
         <c:set var="cateList" value="${requestScope.CATEGORY_LIST}"/>
@@ -76,7 +83,7 @@
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
                         <div class="text-start">
-                            <h6 class="text-uppercase mb-1">Địa Chỉ</h6>
+                            <h6 class="text-uppercase mb-1">Our Address</h6>
                             <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
                         </div>
                     </div>
@@ -124,7 +131,7 @@
 
                 <div class="col-md-7 container-fluid">
                     <form action="MainController">
-                        <div class="search">
+                        <div class="search" style="height: 45px">
                             <i class="fa fa-search"></i>
                             <input name="txtSearchValue" type="text" class="form-control" placeholder="Search any product...">
                             <button class="btn btn-primary">Search</button>
@@ -135,7 +142,7 @@
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
-                    <a href="blog.html" class="nav-item nav-link">Blog</a>
+                    <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 ">
                         <i class="bi bi-cart  fs-1 text-primary me-1"></i>
                     </a>
@@ -207,7 +214,7 @@
                             <section class="panel">
                                 <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
                                     <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
-                                    <h6 class="text-uppercase">${dto.productName}</h6>
+                                    <h6 class="name text-uppercase">${dto.productName}</h6>
                                     <h5 class="text-primary mb-0">${dto.price} $</h5>
                                     <div class="btn-action d-flex justify-content-center">
                                         <div class="d-flex">
@@ -288,6 +295,13 @@
                                                             pid: id,
                                                         },
                                                         success: function () {
+                                                            Swal.fire({
+                                                                
+                                                                icon: 'success',
+                                                                title: 'Successful!',
+                                                                showConfirmButton: false,
+                                                                timer: 1000
+                                                            })
                                                         }
                                                     });
                                                 }
