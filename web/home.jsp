@@ -1,4 +1,4 @@
-
+<style></style>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -59,11 +59,18 @@
         .dropdown-menu {
             right: 0;
         }
+        .name{
+            margin-left: 20px;
+            margin-right: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <body>
         <c:set var="result" value="${requestScope.PRODUCTS}" />
         <c:set var="cateList" value="${requestScope.CATEGORY_LIST}"/>
@@ -207,7 +214,7 @@
                             <section class="panel">
                                 <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
                                     <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
-                                    <h6 class="text-uppercase">${dto.productName}</h6>
+                                    <h6 class="name text-uppercase">${dto.productName}</h6>
                                     <h5 class="text-primary mb-0">${dto.price} $</h5>
                                     <div class="btn-action d-flex justify-content-center">
                                         <div class="d-flex">
@@ -288,6 +295,13 @@
                                                             pid: id,
                                                         },
                                                         success: function () {
+                                                            Swal.fire({
+                                                                
+                                                                icon: 'success',
+                                                                title: 'Successful!',
+                                                                showConfirmButton: false,
+                                                                timer: 1000
+                                                            })
                                                         }
                                                     });
                                                 }

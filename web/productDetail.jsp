@@ -46,7 +46,7 @@
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid border-bottom d-none d-lg-block">
@@ -152,6 +152,13 @@
                                             pk: id,
                                         },
                                         success: function () {
+                                            Swal.fire({
+
+                                                icon: 'success',
+                                                title: 'Successful!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            })
                                         }
                                     });
                                 }

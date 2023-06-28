@@ -52,7 +52,12 @@ public class SubmitCheckOutController extends HttpServlet {
             String fullName = request.getParameter("txtFullName");
             String phoneNumber = request.getParameter("txtPhoneNumber");
             String notes = request.getParameter("txtNotes");
-            double shippingFee = Double.parseDouble(request.getParameter("shippingFeeValue"));
+            double shippingFee;
+            if (request.getParameter("shippingFeeValue") != null && !request.getParameter("shippingFeeValue").isEmpty()) {
+                 shippingFee = Double.parseDouble(request.getParameter("shippingFeeValue"));
+            }else{
+             shippingFee = 0;
+            }
             String province = request.getParameter("ddlProvince");
             String district = request.getParameter("ddlDistrict");
             String ward = request.getParameter("ddlWard");
@@ -64,33 +69,38 @@ public class SubmitCheckOutController extends HttpServlet {
             ArrayList<AddressDTO> addressList = (ArrayList<AddressDTO>) session.getAttribute("addressList");
             InformationCreateError errors = new InformationCreateError();
             boolean foundError = false;
+            String selectAdd = request.getParameter("selectAddress");
             try {
                 //check input
-                if (fullName.trim().length() < 2
-                        || fullName.trim().length() > 50) {
-                    foundError = true;
-                    errors.setFullnameLengthError("Full name is required input from 2 to 50 characters");
-                }
-                if (InformationCreateError.validPhoneNumber(phoneNumber) == false) {
-                    foundError = true;
-                    errors.setPhoneNumberFormatError("Please enter a valid mobile phone number. Enter 10 digits starting from 0");
-                }
-                if (province.isEmpty()) {
-                    foundError = true;
-                    errors.setProvinceNotSelect("Please select province");
-                }
-                if (district.isEmpty()) {
-                    foundError = true;
-                    errors.setProvinceNotSelect("Please select district");
-                }
-                if (ward.isEmpty()) {
-                    foundError = true;
-                    errors.setProvinceNotSelect("Please select ward");
-                }
-                if (addressDetails.trim().length() < 2
-                        || addressDetails.trim().length() > 50) {
-                    foundError = true;
-                    errors.setFullnameLengthError("Address details is required input from 2 to 50 characters");
+                if (selectAdd == null) {
+                    if (fullName.trim().length() < 2
+                            || fullName.trim().length() > 50) {
+                        foundError = true;
+                        errors.setFullnameLengthError("Full name is required input from 2 to 50 characters");
+                    }
+                    if (InformationCreateError.validPhoneNumber(phoneNumber) == false) {
+                        foundError = true;
+                        errors.setPhoneNumberFormatError("Please enter a valid mobile phone number. Enter 10 digits starting from 0");
+                    }
+                    if (province.isEmpty()) {
+                        foundError = true;
+                        errors.setProvinceNotSelect("Please select province");
+                    }
+                    if (district.isEmpty()) {
+                        foundError = true;
+                        errors.setProvinceNotSelect("Please select district");
+                    }
+                    if (ward.isEmpty()) {
+                        foundError = true;
+                        errors.setProvinceNotSelect("Please select ward");
+                    }
+                    if (addressDetails.trim().length() < 2
+                            || addressDetails.trim().length() > 50) {
+                        foundError = true;
+                        errors.setFullnameLengthError("Address details is required input from 2 to 50 characters");
+                    }
+                } else  {
+                    foundError = false;
                 }
                 if (foundError) {
                     request.setAttribute("PLACE_ORDER_INFORMATION_ERROR", errors);
