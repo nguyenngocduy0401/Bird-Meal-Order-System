@@ -10,6 +10,7 @@
     }
 
 
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");body{background-color: #eee;font-family: "Poppins", sans-serif;font-weight: 300}.cart{height: 100vh}.progresses{display: flex;align-items: center}.line{width: 76px;height: 6px;background: #63d19e}.steps{display: flex;background-color: #63d19e;color: #fff;font-size: 12px;width: 30px;height: 30px;align-items: center;justify-content: center;border-radius: 50%}.check1{display: flex;background-color: #63d19e;color: #fff;font-size: 17px;width: 60px;height: 60px;align-items: center;justify-content: center;border-radius: 50%;margin-bottom: 10px}.invoice-link{font-size: 15px}.order-button{height: 50px}.background-muted{background-color:#fafafc}
 
 
     #default:hover {
@@ -106,11 +107,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
                 <div class="col-md-7 container-fluid">
-                    <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control" placeholder="Have a question? Ask Now">
-                        <button class="btn btn-primary">Search</button>
-                    </div>
+
                 </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
@@ -136,42 +133,37 @@
         </nav>
         <!-- Navbar End -->
 
-        <div class="container-fluid pt-5 " >
-            <c:set var="list" value="${sessionScope.cartCheckOutForGuest}" />
-            <!-- NOT EMPTY LIST OF SELECTED ITEMS FOR CHECK-OUT -->
-            <c:if test="${not empty list}">
-                <div class="container ">
-                    <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                        <h6 class="text-primary text-uppercase">Check Out</h6>
-                        <h1 class="display-5 text-uppercase mb-0">Check Out</h1>
-                    </div>
-                    <div class="card container px-5 ps-5 px-lg-5 my-5 ms-5 custom-card">
-                        <div class="row px-5 ps-5 px-lg-5 my-5 ms-3">
-                            <div class="col-md-6" id="listInfo">
-                                <form action="MainController">
-
-                                    <div class="row g-3 " id="addressCustomer" >
-
-                                        
-                                       
 
 
-                                    </div>
-                                    
 
-                                    
-                            </div>
-                            </form>
-                            
-                        </div>
-                    </div>
-                </div>
+
+
+        <section class="card col-md-7 mx-auto container-fluid p-5 m-5" >
+
+            <div class="col-md-12 border-right p-5">
+                <div class="text-center order-details">
+                    <div class="d-flex justify-content-center  flex-column align-items-center"> 
+                        <span class="check1"><i class="bi bi-check"></i></span> 
+                        <span class="font-weight-bold">Order Confirmed</span> <small class="mt-2">We will contact you soon</small> 
+                        <a href="#" class="text-decoration-none invoice-link"></a> 
+                        <c:if test="${not empty sessionScope.user}">
+                            <a href="MainController?btAction=Purchase"></div> <button  class="btn btn-primary btn-block order-button">Go to your Order</button></a>
+                        </c:if>
+                        <c:if test="${empty sessionScope.user}">
+                        <a href="MainController?btAction=Home"></div> <button  class="btn btn-primary btn-block order-button">Go back HOME</button></a>
+                    </c:if>
             </div>
-        </c:if>
-        
-            
         </div>
-    </div>
+
+    </section>
+
+
+
+
+
+
+
+
 </body>
 </html>
 

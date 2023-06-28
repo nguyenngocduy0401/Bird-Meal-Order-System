@@ -8,6 +8,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:if test="${empty sessionScope.user}">
+        <c:redirect url="login.jsp"></c:redirect>
+</c:if>
 <html>
     <style>
         /*edit link color*/
@@ -215,7 +218,7 @@
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="blog.html" class="nav-item nav-link">Blog</a>
-                    <a href="cart.html" class="nav-item nav-link pt-3 "><i
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i
                             class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
@@ -267,7 +270,7 @@
                                 </a></div>
                         </div>
                         <div>
-                            <div class=""><a class="" href="addresses.jsp">
+                            <div class=""><a class="" href="ShowListAddressController">
                                     <div class="">Address book</div>
                                 </a></div>
                         </div>
@@ -414,10 +417,9 @@
                                                     var id = orderID;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "BuyAgain",
+                                                        url: "BuyAgainController",
                                                         data: {
-                                                            orderID: id,
-                                                            userID: '${sessionScope.user.userID}'
+                                                            orderID: id
                                                         },
                                                         success: function () {
                                                             alert("San Pham da duoc dua vao gio hang");

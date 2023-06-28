@@ -23,6 +23,44 @@ import sample.utils.DBUtils;
  * @author Admin
  */
 public class OrderDetailsDAO {
+    public static LinkedHashMap<String, Integer> getProductFromOrderDetail(int getOrderID) {
+        LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT ProductID, Quantity\n"
+                        + "FROM OrderDetail \n"
+                        + "WHERE OrderID = ?;";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, getOrderID);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        int ProductID = rs.getInt("ProductID");
+                        int Quantity = rs.getInt("Quantity");
+                        cart.put(Integer.toString(ProductID), Quantity);
+
+                    }
+                    cn.close();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return cart;
+    }
+    
     public static boolean createOrderDetailsForCustomer(int orderID, LinkedHashMap<String, Integer> checkedItems)
             throws SQLException, NamingException, ClassNotFoundException {
         try (Connection con = DBUtils.getConnection();

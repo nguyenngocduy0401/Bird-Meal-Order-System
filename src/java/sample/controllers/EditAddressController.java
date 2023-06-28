@@ -5,35 +5,23 @@
  */
 package sample.controllers;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.dao.AddressDAO;
-import sample.dao.CartDAO;
-import sample.dao.CartDetailDAO;
-import sample.dao.OrderDAO;
-import sample.dao.OrderDetailGuestDAO;
-import sample.dao.OrderDetailsDAO;
-import sample.dao.OrderGuestDAO;
 import sample.dto.AddressDTO;
-import sample.dto.CartDTO;
 import sample.dto.InformationCreateError;
-import sample.dto.UserDTO;
 
 /**
  *
  * @author Duy
  */
-public class SubmitCheckOutController extends HttpServlet {
+public class EditAddressController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,21 +39,16 @@ public class SubmitCheckOutController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String fullName = request.getParameter("txtFullName");
             String phoneNumber = request.getParameter("txtPhoneNumber");
-            String notes = request.getParameter("txtNotes");
-            double shippingFee = Double.parseDouble(request.getParameter("shippingFeeValue"));
             String province = request.getParameter("ddlProvince");
             String district = request.getParameter("ddlDistrict");
             String ward = request.getParameter("ddlWard");
             String addressDetails = request.getParameter("txtAddressDetails");
             String address = addressDetails + ", " + ward + ", " + district + ", " + province;
             HttpSession session = request.getSession(true);
-            LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cartCheckOutForGuest");
-            UserDTO userDTO = (UserDTO) session.getAttribute("user");
-            ArrayList<AddressDTO> addressList = (ArrayList<AddressDTO>) session.getAttribute("addressList");
             InformationCreateError errors = new InformationCreateError();
+            AddressDTO addressDTO = (AddressDTO) session.getAttribute("addressEdit");
             boolean foundError = false;
             try {
-                //check input
                 if (fullName.trim().length() < 2
                         || fullName.trim().length() > 50) {
                     foundError = true;
@@ -94,60 +77,19 @@ public class SubmitCheckOutController extends HttpServlet {
                 }
                 if (foundError) {
                     request.setAttribute("PLACE_ORDER_INFORMATION_ERROR", errors);
-                    RequestDispatcher rd = request.getRequestDispatcher("checkOutForGuest.jsp");
+                    RequestDispatcher rd = request.getRequestDispatcher("editAddress.jsp");
                     rd.forward(request, response);
                 } else {
-                    //create order
-                    if (userDTO != null) {
-                        if (addressList != null && !addressList.isEmpty()) {
-                            int addressID = Integer.parseInt(request.getParameter("selectAddress"));
-                            AddressDTO addressDTO = AddressDAO.getAddressByID(addressID);
-                            int orderID = OrderDAO.createNewOrderForCustomer(userDTO.getUserID(), addressDTO.getFullName(), addressDTO.getPhoneNumber(), 1, addressDTO.getAddressDetail(), notes, shippingFee);
-                            if (orderID != -1) {
-                                OrderDetailsDAO.createOrderDetailsForCustomer(orderID, cart);
-                                CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
-                                CartDetailDAO.cleanCart(cartDTO.getCartID());
-                                response.sendRedirect("checkOutSuccess.jsp");
-                            }
-                        } else {
-
-                            AddressDAO.createNewAddress(userDTO.getUserID(), fullName, phoneNumber, address);
-                            int orderID = OrderDAO.createNewOrderForCustomer(userDTO.getUserID(), fullName, phoneNumber, 1, address, notes, shippingFee);
-                            if (orderID != -1) {
-                                OrderDetailsDAO.createOrderDetailsForCustomer(orderID, cart);
-                                CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
-                                CartDetailDAO.cleanCart(cartDTO.getCartID());
-                                response.sendRedirect("checkOutSuccess.jsp");
-                            }
+                    if (addressDTO != null) {
+                        boolean check = AddressDAO.updateAddress(addressDTO.getAddressID(), fullName, phoneNumber, address);
+                        if (check) {
+                            response.sendRedirect("addresses.jsp");
                         }
 
-                    } else {
-
-                        int orderID = OrderGuestDAO.createNewOrderForGuest(fullName, phoneNumber, 1, address, notes, shippingFee);
-                        if (orderID != -1) {
-                            boolean finishCheckOut = OrderDetailGuestDAO.createOrderDetailsForGuest(orderID, cart);
-                            if (finishCheckOut) {
-                                Cookie[] cookies = request.getCookies();
-                                if (cookies != null) {
-                                    for (Cookie cookie : cookies) {
-                                        if (cookie.getName().equals("cart")) {
-                                            cookie.setMaxAge(0);
-                                            response.addCookie(cookie);
-                                            break;
-                                        }
-                                    }
-                                }
-                                session.removeAttribute("cart");
-                                session.removeAttribute("cartCheckOutForGuest");
-                                response.sendRedirect("checkOutSuccess.jsp");
-                            }
-                        }
                     }
                 }
             } catch (Exception e) {
-                log("SubmitCheckOutController_Exception" + e.getMessage());
             }
-
         }
     }
 

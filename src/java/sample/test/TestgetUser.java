@@ -13,6 +13,7 @@ import sample.dao.AddressDAO;
 import sample.dao.CartDAO;
 import sample.dao.CartDetailDAO;
 import sample.dao.OrderDAO;
+import sample.dao.OrderDetailsDAO;
 import sample.dto.AddressDTO;
 import sample.dto.CartDTO;
 import sample.dto.CartDetailDTO;
@@ -24,11 +25,9 @@ import sample.dto.CartDetailDTO;
 public class TestgetUser {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, Exception {
-        int a = OrderDAO.createNewOrderForCustomer(5, "Hoang Tran", "0935447505", 1, "123 Hoang Kim giao", "Haha");
-        System.out.println(a);
+        AddressDTO check = AddressDAO.getAddressByUserIDAndAddressID(5, 6);
+        System.out.println(check);
     }
-        
-
 }
 
 

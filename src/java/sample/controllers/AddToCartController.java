@@ -61,9 +61,9 @@ public class AddToCartController extends HttpServlet {
                             if (cartDetailDTO != null) {
                                 ProductDTO productDTO = ProductDAO.getProductByID(Integer.parseInt(pid));
                                 //kiem tra so luong san pham con lai trong kho co it hon san pham khach hang muon mua
-                                if(cartDetailDTO.getQuantity() <= productDTO.getQuantity()){
-                                int newQuantity = cartDetailDTO.getQuantity() + 1;
-                                CartDetailDAO.updateProductCart(cartDetailDTO.getCartID(), Integer.parseInt(pid),newQuantity);
+                                if (cartDetailDTO.getQuantity() < productDTO.getQuantity()) {
+                                    int newQuantity = cartDetailDTO.getQuantity() + 1;
+                                    CartDetailDAO.updateProductCart(cartDetailDTO.getCartID(), Integer.parseInt(pid), newQuantity);
                                 }
                             } else {
                                 CartDetailDAO.insertNewProductCart(cartDTO.getCartID(), Integer.parseInt(pid));
@@ -100,7 +100,11 @@ public class AddToCartController extends HttpServlet {
                 // Update the cart
                 if (cart.containsKey(pid)) {
                     Integer tmp = cart.get(pid);
-                    tmp++;
+                    ProductDTO productDTO = ProductDAO.getProductByID(Integer.parseInt(pid));
+                    if (productDTO.getQuantity() > tmp) {
+                        tmp++;
+                    }
+
                     cart.put(pid, tmp);
                 } else {
                     LinkedHashMap<String, Integer> carttmp = new LinkedHashMap<>();
