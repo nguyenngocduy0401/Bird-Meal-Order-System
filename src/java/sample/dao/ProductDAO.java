@@ -1297,35 +1297,4 @@ public class ProductDAO {
         }
         return listProduct;
     }
-
-    public boolean deleteAcc(int productID)
-            throws SQLException, NamingException, ClassNotFoundException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        boolean result = false;
-        int pk = productID;
-        try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                String sql = "DELETE FROM Product\n "
-                        + "WHERE ProductID = ?";
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, pk);
-                int effectRow = stm.executeUpdate();
-                if (effectRow > 0) {
-                    result = true;
-                }
-            }
-
-        } finally {
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return result;
-
-    }
 }

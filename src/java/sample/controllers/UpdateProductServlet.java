@@ -75,7 +75,7 @@ public class UpdateProductServlet extends HttpServlet {
 
                     request.setAttribute("INFOR", p);
                     request.setAttribute("ACTION", "Save");
-                    request.getRequestDispatcher("UpdateproductNew").forward(request, response);
+                    request.getRequestDispatcher("updateProduct").forward(request, response);
                     break;
 
                 case "Save":

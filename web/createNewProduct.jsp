@@ -39,10 +39,6 @@
                 background-color: #f8f9fa;
                 font-weight: bold;
             }
-            .product-image {
-                max-width: 100%;
-                height: auto;
-            }
         </style>
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
@@ -491,24 +487,10 @@
                                 <div class="form-group row">
                                     <label for="txtPicture" class="col-sm-3 col-form-label">Product Image</label>
                                     <div class="col-sm-9">
-                                        <!-- input type="file" với id là "txtPicture" -->
+
                                         <input type="file" name="txtPicture" id="txtPicture" class="form-control-file" required="">
-                                        <!-- thẻ img để hiển thị ảnh đã chọn -->
-                                        <img id="preview" src="" alt="Preview Image" style="max-width: 100%; height: auto;">
                                     </div>
                                 </div>
-
-                                <script>
-                                    // Lắng nghe sự kiện chọn tệp hình ảnh
-                                    document.getElementById('txtPicture').addEventListener('change', function () {
-                                        if (this.files && this.files[0]) {
-                                            // Tạo ra một đường dẫn URL từ tệp hình ảnh được chọn
-                                            var imageURL = URL.createObjectURL(this.files[0]);
-                                            // Gán đường dẫn URL cho thuộc tính src của thẻ <img> tương ứng
-                                            document.getElementById('preview').setAttribute('src', imageURL);
-                                        }
-                                    });
-                                </script>
                                 <div class="form-group row">
                                     <div class="col-sm-12 text-right">
                                         <button type="submit" name="btAction" value="Create New Product servlet" class="btn btn-primary">Create</button>

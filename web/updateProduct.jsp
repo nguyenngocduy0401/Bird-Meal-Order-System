@@ -41,10 +41,6 @@
                 background-color: #f8f9fa;
                 font-weight: bold;
             }
-            .product-image {
-                max-width: 100%;
-                height: auto;
-            }
         </style>
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
@@ -505,11 +501,10 @@
                                 <div class="form-group row">
                                     <label for="txtPicture" class="col-sm-3 col-form-label">Product Image</label>
                                     <div class="col-sm-9">
-                                        <img src="${INFOR.imgPath}" alt="Product Image" class="product-image" width="200px"/> </br></br>
-                                        <input value="${INFOR.imgPath}" type="file" name="txtPicture" id="txtPicture" class="form-control-file" required="">
+                                        <img src="${INFOR.imgPath}" width="200px"/> </br></br>
+                                        <input type="file" name="txtPicture" id="txtPicture" class="form-control-file" required="">
                                     </div>
                                 </div>
-                                    
                                 <div class="form-group row">
                                     <div class="col-sm-12 text-right">
                                         <button type="submit" name="btAction" value="UpdateProduct" class="btn btn-primary">Save</button>
