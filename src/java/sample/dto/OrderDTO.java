@@ -6,6 +6,7 @@
 package sample.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class OrderDTO implements Serializable {
 
-    private List<ProductDTO> productsList;
+    private ArrayList<ProductDTO> productsList;
     private int orderID;
     private int userID;
     private String fullName;
@@ -138,13 +139,14 @@ public class OrderDTO implements Serializable {
         this.note = note;
     }
 
-    public void setProductsList(List<ProductDTO> productsList) {
-        this.productsList = productsList;
-    }
-
-    public List<ProductDTO> getProductsList() {
+    public ArrayList<ProductDTO> getProductsList() {
         return productsList;
     }
+
+    public void setProductsList(ArrayList<ProductDTO> productsList) {
+        this.productsList = productsList;
+    }
+    
 
     public String getShippingDate() {
         return shippingDate;

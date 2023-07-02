@@ -7,6 +7,7 @@ package sample.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
@@ -53,9 +54,9 @@ public class GetOrdersListServlet extends HttpServlet {
             if (userDTO.getRole() == 1) {
                 OrderDAO orderDAO = new OrderDAO();
                 ProductDAO productDAO = new ProductDAO();
-                List<OrderDTO> listOrder = orderDAO.loadOrder();
+                ArrayList<OrderDTO> listOrder = orderDAO.loadOrder();
                 for (OrderDTO order : listOrder) {
-                    List<ProductDTO> productList = productDAO.getProductByOrderID(order.getOrderID());
+                    ArrayList<ProductDTO> productList = productDAO.getProductByOrderID(order.getOrderID());
                     order.setProductsList(productList);
                 }
                 session.setAttribute("ORDERS_LIST_CUSTOMER", listOrder);

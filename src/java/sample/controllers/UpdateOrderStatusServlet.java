@@ -4,9 +4,11 @@
  */
 package sample.controllers;
 
+import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,10 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.dao.OrderDAO;
+import sample.dao.OrderDetailsDAO;
 import sample.dao.ProductDAO;
+import sample.dao.UserDAO;
 import sample.dto.OrderDTO;
 import sample.dto.ProductDTO;
 import sample.dto.UserDTO;
+import sample.utils.MailService;
 
 /**
  *
@@ -45,24 +50,49 @@ public class UpdateOrderStatusServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         int orderID = Integer.parseInt(request.getParameter("txtOrderID"));
         int status = Integer.parseInt(request.getParameter("ddlStatus"));
+        boolean sendEmail = false;
         String url = ERROR_PAGE;
+        MailService mailservice = new MailService();
         try {
             HttpSession session = request.getSession();
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
             if (userDTO.getRole() == 1) {
                 OrderDAO orderDAO = new OrderDAO();
-                boolean result = orderDAO.updateStatusOrder(orderID, status);
-                if (result) {
+                OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
+                LinkedHashMap<ProductDTO, Integer> product = orderDetailsDAO.getProductDTOFromOrderDetail(orderID);
 
+                OrderDTO orderDTO = orderDAO.loadOrderByOrderID(orderID);
+                UserDTO accountDTO = new UserDTO();
+                if (orderDTO.getUserID() != 0) {
+                    UserDAO userDAO = new UserDAO();
+                    accountDTO = userDAO.getUserByOrderID(orderID);
+                }
+                boolean result = false;
+                if (status == 4) {
+                    result = orderDAO.updateSuccessOrder(orderID);
+                    for (Map.Entry<ProductDTO, Integer> entry : product.entrySet()) {
+                        boolean minusProductQuantity = ProductDAO.minusProductQuantity(entry.getValue(), entry.getKey().getProductID());
+                    }
+                } else if (status == 2) {
+                    result = orderDAO.updateStatusOrder(orderID, 2);
+                    if (accountDTO != null) {
+                        sendEmail = mailservice.sendConfirmOrderEmail(orderDTO, accountDTO, product);
+                    }
+                } else {
+                    result = orderDAO.updateStatusOrder(orderID, status);
+                }
+                if (result) {
                     url = GET_ORDERS_LIST_SERVLET;
                     request.setAttribute("ORDER_UPDATE_STATUS", result);
-//                        url = "GetOrdersListServlet";
                 }
+
             }
         } catch (ClassNotFoundException ex) {
             log("UpdateOrderStatusServlet_ClassNotFoundException" + ex.getMessage());
         } catch (SQLException ex) {
             log("UpdateOrderStatusServlett_SQLException" + ex.getMessage());
+        } catch (NamingException ex) {
+            log("UpdateOrderStatusServlett_NamingException" + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

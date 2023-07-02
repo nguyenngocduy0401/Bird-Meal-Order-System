@@ -115,7 +115,49 @@ public class UserDAO {
         }
         return user;
     }
+        public UserDTO getUserByOrderID(int orderID) {
+        UserDTO user = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String s = "select * from [User] JOIN [order] ON [user].UserID = [Order].UserID WHERE OrderID = ?";
+                PreparedStatement pst = cn.prepareStatement(s);
+                pst.setInt(1, orderID);
+                ResultSet kq = pst.executeQuery();
+                if (kq != null) {
+                    while (kq.next()) {
+                        int userid = kq.getInt("UserID");
+                        String userName = kq.getString("UserName");
+                        String password = kq.getString("Password");
+                        String email = kq.getString("Email");
+                        String fullName = kq.getString("Fullname");
+                        int role = kq.getInt("Role");
+                        boolean status = kq.getBoolean("Status");
+                        String address = kq.getString("Address");
+                        String phoneNumber = kq.getString("PhoneNumber");
+                        boolean gender = kq.getBoolean("Gender");
+                        int numberReport = kq.getInt("NumberReport");
+                        user = new UserDTO(userid, userName, password, email, fullName, role, status, address, phoneNumber, gender, numberReport);
+                    }
+                    cn.close();
+                }
 
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return user;
+    }
     public static boolean updateToken(String token, String username) {
         Connection connection = null;
         PreparedStatement pst = null;
