@@ -7,6 +7,7 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +62,7 @@ public class PurcharHistoryController extends HttpServlet {
                 ProductDAO productDAO = new ProductDAO();
                 List<OrderDTO> listOrder = dao.loadOrderByUsername(username);
                 for (OrderDTO order : listOrder) {
-                    List<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
+                    ArrayList<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
                     order.setProductsList(productsList);
                 }
                 request.setAttribute("ORDERS", listOrder);

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
@@ -55,12 +56,14 @@ public class GetOrdersListServlet extends HttpServlet {
                 OrderDAO orderDAO = new OrderDAO();
                 ProductDAO productDAO = new ProductDAO();
                 ArrayList<OrderDTO> listOrder = orderDAO.loadOrder();
+
+                listOrder.sort(Comparator.comparing(OrderDTO::getOrderID).reversed());
                 for (OrderDTO order : listOrder) {
                     ArrayList<ProductDTO> productList = productDAO.getProductByOrderID(order.getOrderID());
                     order.setProductsList(productList);
                 }
                 session.setAttribute("ORDERS_LIST_CUSTOMER", listOrder);
-                
+
 //                OrderGuestDAO orderGuestDAO = new OrderGuestDAO();
 //                List<OrderGuestDTO> listOrderGuest = orderGuestDAO.loadOrderGuest();
 //                for(OrderGuestDTO order : listOrderGuest) {
@@ -68,7 +71,6 @@ public class GetOrdersListServlet extends HttpServlet {
 //                    order.setProductsList(productList);
 //                }
 //                session.setAttribute("ORDERS_LIST_GUEST", listOrderGuest);
-                
                 url = ORDERS_LIST_PAGE;
             }
         } catch (ClassNotFoundException ex) {

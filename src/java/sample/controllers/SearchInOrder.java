@@ -57,7 +57,7 @@ public class SearchInOrder extends HttpServlet {
             ProductDAO productDAO = new ProductDAO();
             List<OrderDTO> listOrder = dao.loadOrderByUsername(username);
             for (OrderDTO order : listOrder) {
-                List<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
+                ArrayList<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
                 order.setProductsList(productsList);
             }
             List<OrderDTO> listOrderSearch = new ArrayList<>();

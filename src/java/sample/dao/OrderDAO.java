@@ -147,13 +147,13 @@ public boolean updateStatusOrder(int orderID, int status)
         return result;
     }
 
-    public List<OrderDTO> loadOrder()
+    public ArrayList<OrderDTO> loadOrder()
             throws SQLException, NamingException, ClassNotFoundException {
 
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        List<OrderDTO> list = new ArrayList<>();
+        ArrayList<OrderDTO> list = new ArrayList<>();
 
         try {
             con = DBUtils.getConnection();
@@ -340,13 +340,13 @@ public boolean updateStatusOrder(int orderID, int status)
         return list;
     }
 
-    public List<OrderDTO> loadOrderByUsername(String userName)
+    public ArrayList<OrderDTO> loadOrderByUsername(String userName)
             throws SQLException, NamingException, ClassNotFoundException {
 
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        List<OrderDTO> list = new ArrayList<>();
+        ArrayList<OrderDTO> list = new ArrayList<>();
 
         try {
             con = DBUtils.getConnection();
@@ -396,13 +396,13 @@ public boolean updateStatusOrder(int orderID, int status)
         return list;
     }
 
-    public List<OrderDTO> loadOrderByUsername(String userName, int status)
+    public ArrayList<OrderDTO> loadOrderByUsername(String userName, int status)
             throws SQLException, NamingException, ClassNotFoundException {
 
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        List<OrderDTO> list = new ArrayList<>();
+        ArrayList<OrderDTO> list = new ArrayList<>();
 
         try {
             con = DBUtils.getConnection();

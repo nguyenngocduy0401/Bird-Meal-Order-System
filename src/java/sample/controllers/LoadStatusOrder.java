@@ -55,14 +55,14 @@ public class LoadStatusOrder extends HttpServlet {
             PrintWriter out = response.getWriter();
             OrderDAO dao = new OrderDAO();
             ProductDAO productDAO = new ProductDAO();
-            List<OrderDTO> listOrder = new ArrayList<>();
+            ArrayList<OrderDTO> listOrder = new ArrayList<>();
             if (status == 5) {
                 listOrder = dao.loadOrderByUsername(username);
             } else {
                 listOrder = dao.loadOrderByUsername(username, status);
             }
             for (OrderDTO order : listOrder) {
-                List<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
+                ArrayList<ProductDTO> productsList = productDAO.getProductInOrder(order.getOrderID());
                 order.setProductsList(productsList);
             }
             if (status == 5) {

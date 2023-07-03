@@ -889,11 +889,11 @@ public class ProductDAO {
         return listSize;
     }
 
-    public List<ProductDTO> getProductByOrderID(int orderID) throws SQLException, ClassNotFoundException {
+    public ArrayList<ProductDTO> getProductByOrderID(int orderID) throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        List<ProductDTO> listProduct = new ArrayList<>();
+        ArrayList<ProductDTO> listProduct = new ArrayList<>();
         try {
             con = DBUtils.getConnection();
             if (con != null) {
@@ -1016,13 +1016,13 @@ public class ProductDAO {
     }
 
     //lay cac san pham trong 1 oder thong qua orderid la thong tin san pham trong order khong phai o db product
-    public List<ProductDTO> getProductInOrder(int OrderID)
+    public ArrayList<ProductDTO> getProductInOrder(int OrderID)
             throws SQLException, NamingException, ClassNotFoundException {
 
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-        List<ProductDTO> listProduct = new ArrayList<>();
+        ArrayList<ProductDTO> listProduct = new ArrayList<>();
 
         try {
             con = DBUtils.getConnection();
