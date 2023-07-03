@@ -31,6 +31,14 @@
     </head>
 
     <style>
+        #categorybar {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
         .paging{
             margin-bottom: 30px;
         }
@@ -169,7 +177,7 @@
         </nav>
 
 
-        <nav class="col-9 navbar bg-white navbar-light mt-5 mx-auto">
+        <nav class="col-9 navbar card bg-white navbar-light mt-5 mx-auto" id="categorybar">
             <div class="col-md-8 container-fluid">
                 <select id="bird" name="ddbBird" class="text-primary bg-light border-0">
                     <option value="">Bird</option>
@@ -296,7 +304,7 @@
                                                         },
                                                         success: function () {
                                                             Swal.fire({
-                                                                
+
                                                                 icon: 'success',
                                                                 title: 'Successful!',
                                                                 showConfirmButton: false,
@@ -328,3 +336,13 @@
         </script>
     </body>
 </html>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
