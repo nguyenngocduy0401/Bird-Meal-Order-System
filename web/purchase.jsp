@@ -358,7 +358,7 @@
                                                     var id = orderID;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "BuyAgain",
+                                                        url: "BuyAgainController",
                                                         data: {
                                                             orderID: id,
                                                             userID: '${sessionScope.user.userID}'
