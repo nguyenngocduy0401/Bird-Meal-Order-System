@@ -461,7 +461,7 @@ public boolean updateStatusOrder(int orderID, int status)
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "SELECT SUM(OrderDetail.Quantity * OrderDetail.Price) AS TotalSold\n"
-                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Order] INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail]\n"
+                        + "  FROM [Order] INNER JOIN [OrderDetail]\n"
                         + "  ON [Order].OrderID = OrderDetail.OrderID\n"
                         + "  WHERE MONTH([ShippingDate])=? AND YEAR([ShippingDate]) = ? ";
                 stm = con.prepareStatement(sql);
@@ -602,6 +602,10 @@ public boolean updateStatusOrder(int orderID, int status)
             }
         }
         return result;
+    }
+
+    public boolean updateSuccessOrder(int orderID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

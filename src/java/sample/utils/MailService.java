@@ -32,6 +32,7 @@ public class MailService {
     //pass: kgmnxkwcfipzyyow
     private static final String FROM = "birdmealordersystem@gmail.com";
     private static final String PASSWORD = "kgmnxkwcfipzyyow";
+    String ord = "";
 
     public boolean sendVerifyEmail(String email, String link) {
         Properties props = new Properties();
@@ -160,7 +161,7 @@ public class MailService {
                     + "                                        <tbody>\n"
                     + "                                            <tr>\n"
                     + "                                                <td>\n"
-                    + "                                                    <h3>Hello "+ord",</h3>\n"
+                    + "                                                    <h3>Hello " + ord + ",</h3>\n"
                     + "                                                    <p>Your order has been received and is being processed. We\n"
                     + "                                                        will\n"
                     + "                                                        notify you\n"

@@ -4,7 +4,6 @@
  */
 package sample.controllers;
 
-import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;

@@ -110,15 +110,25 @@ public class LoadStatusOrder extends HttpServlet {
                                 + "                                                            <div class=\"col-md-2 img-fluid\">\n"
                                 + "                                                                <img src=" + product.getImgPath() + " alt=\"\" class=\"img-fluid d-none d-md-block rounded mb-2 shadow \">\n"
                                 + "                                                            </div>\n"
-                                + "                                                            <div class=\"col-md-8 text-left mt-sm-2\">\n"
+                                + "                                                            <div class=\"col-md-6 text-left mt-sm-2\">\n"
                                 + "                                                                <h4>" + product.getProductName() + "</h4>\n"
-                                + "                                                                <p class=\"font-weight-light\">" + product.getProductDetail() + "</p>\n"
                                 + "                                                            </div>\n"
                                 + "                                                            <div class=\"col-md-2 text-right mt-sm-2\">\n"
                                 + "                                                                <p > Price: " + product.getPrice() + " $</p>\n"
                                 + "                                                                <p class=\"font-weight-light text-right\">x " + product.getQuantity() + "</p>\n"
-                                + "                                                            </div>\n"
-                                + "                                                        </div>\n");
+                                + "                                                            </div>\n");
+                        if (dto.getStatus() == 4) {
+                            out.print("<div class=\"col-md-2 text-right mt-sm-2\">\n"
+                                    + "                                                                        <form action=\"MainController\">\n"
+                                    + "                                                                            <button type=\"submit\" value=\"Feedback\" name=\"btAction\" class=\"btn btn-primary btn-buy\" type=\"button\">\n"
+                                    + "                                                                                Feedback\n"
+                                    + "                                                                            </button>\n"
+                                    + "                                                                            <input type=\"hidden\" name=\"orderID\" value=\"${orderID}\" />\n"
+                                    + "                                                                            <input type=\"hidden\" name=\"productID\" value=\"${productID}\" />\n"
+                                    + "                                                                        </form>\n"
+                                    + "                                                                    </div>");
+                        }
+                        out.print("                                                        </div>\n");
                     });
                     out.print(" </div>\n"
                             + "                                            </div>\n"

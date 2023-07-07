@@ -47,7 +47,7 @@ public class SearchInOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
-        String searchValue = request.getParameter("searchValue");
+        String searchValue = request.getParameter("searchValue").toLowerCase();
         HttpSession session = request.getSession();
         UserDTO user = (UserDTO) session.getAttribute("user");
         String username = user.getUserName();
@@ -64,7 +64,7 @@ public class SearchInOrder extends HttpServlet {
             listOrder.forEach((order) -> {
                 boolean contains = false;
                 for (ProductDTO pro : order.getProductsList()) {
-                    if (pro.getProductName().contains(searchValue)) {
+                    if (pro.getProductName().toLowerCase().contains(searchValue)) {
                         contains = true;
                     }
                 }
@@ -108,15 +108,25 @@ public class SearchInOrder extends HttpServlet {
                                 + "                                                            <div class=\"col-md-2 img-fluid\">\n"
                                 + "                                                                <img src=" + product.getImgPath() + " alt=\"\" class=\"img-fluid d-none d-md-block rounded mb-2 shadow \">\n"
                                 + "                                                            </div>\n"
-                                + "                                                            <div class=\"col-md-8 text-left mt-sm-2\">\n"
+                                + "                                                            <div class=\"col-md-6 text-left mt-sm-2\">\n"
                                 + "                                                                <h4>" + product.getProductName() + "</h4>\n"
-                                + "                                                                <p class=\"font-weight-light\">" + product.getProductDetail() + "</p>\n"
                                 + "                                                            </div>\n"
                                 + "                                                            <div class=\"col-md-2 text-right mt-sm-2\">\n"
                                 + "                                                                <p > Price: " + product.getPrice() + " $</p>\n"
                                 + "                                                                <p class=\"font-weight-light text-right\">x " + product.getQuantity() + "</p>\n"
-                                + "                                                            </div>\n"
-                                + "                                                        </div>\n");
+                                + "                                                            </div>\n");
+                        if (dto.getStatus() == 4) {
+                            out.print("<div class=\"col-md-2 text-right mt-sm-2\">\n"
+                                    + "                                                                        <form action=\"MainController\">\n"
+                                    + "                                                                            <button type=\"submit\" value=\"Feedback\" name=\"btAction\" class=\"btn btn-primary btn-buy\" type=\"button\">\n"
+                                    + "                                                                                Feedback\n"
+                                    + "                                                                            </button>\n"
+                                    + "                                                                            <input type=\"hidden\" name=\"orderID\" value=\"${orderID}\" />\n"
+                                    + "                                                                            <input type=\"hidden\" name=\"productID\" value=\"${productID}\" />\n"
+                                    + "                                                                        </form>\n"
+                                    + "                                                                    </div>");
+                        }
+                        out.print("                                                        </div>\n");
                     });
                     out.print(" </div>\n"
                             + "                                            </div>\n"

@@ -240,7 +240,8 @@
                 details: $('#details').val()
             },
             success: function () {
-                alert("testing");
+                alert("Reply thanh cong!");
+                location.reload();
             }
         });
     }
