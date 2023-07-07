@@ -1328,4 +1328,36 @@ public class ProductDAO {
         return result;
 
     }
+    
+     public static boolean minusProductQuantity(int quantity, int productID)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
+        boolean result = false; //thong qua bien trung gian
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "Update [Product] "
+                        + "Set quantity = quantity - ? "
+                        + "Where ProductID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, quantity);
+                stm.setInt(2, productID);
+
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            } //end connection has existed 
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
 }

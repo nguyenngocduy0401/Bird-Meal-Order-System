@@ -362,7 +362,7 @@
                                                 <label class="small mb-1" for="inputUsername">Full name</label>
                                                 <c:if test="${not empty errors.fullnameLengthError}">
                                                     <input class="form-control bg is-invalid" id="inputUsername" type="text" name="txtFullName"
-                                                           placeholder="Enter your Fullname" required="" >
+                                                           placeholder="Enter your Fullname" value="${param.txtFullName}" required="" >
                                                     </select>
                                                     <font color ="red">
                                                     ${errors.fullnameLengthError}
@@ -446,8 +446,8 @@
                                                     </c:if>
                                                 </div>
                                             </div>
-
-                                            <div class="form-group">
+                                            <!--check phone-->
+                                            <div class="form-group mb-3">
                                                 <label class="small mb-1" for="phoneNumber">Phone number</label>
                                                 <c:if test="${not empty errors.phoneNumberFormatError}">
                                                     <input class="form-control is-invalid" id="phoneNumber" type="tel" 
@@ -465,6 +465,28 @@
                                                            onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))"
                                                            title="Please enter a 10-digit phone number"
                                                            required="">
+                                                </c:if>
+                                            </div>
+                                            <!--email-->
+                                            <div class="form-check form-switch" style="margin-left: 8px;">
+                                                <input class="form-check-input" type="checkbox"  value="ON"  onclick="switchCheck()" name="chkEmail" role="switch" id="flexSwitchCheckDefault"
+                                                       <c:if test="${param.chkEmail eq 'ON'}">
+                                                               checked="checked"
+                                                       </c:if>
+                                               >
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Send status order to my email</label>
+                                            </div>
+                                            <div class="form-group mb-3" id="email" style="display: none;">
+                                                <c:if test="${not empty errors.emailFormatError}">
+                                                    <input type="text" class="form-control is-invalid" placeholder="Enter your email" 
+                                                       name="txtEmail"value="${param.txtEmail}">
+                                                    <font color ="red">
+                                                    ${errors.emailFormatError}
+                                                    </font>
+                                                </c:if>
+                                                <c:if test="${empty errors.emailFormatError}">
+                                                    <input type="text" class="form-control " placeholder="Enter your email" 
+                                                       name="txtEmail"value="${param.txtEmail}">
                                                 </c:if>
                                             </div>
                                             <div class="col-12">
@@ -636,13 +658,13 @@
                                                                            });
                                                                    function renderCity(data) {
                                                                        for (const x of data) {
+                                                                           if(x.ProvinceID != '284') {
                                                                            var opt = document.createElement('option');
-//                                                            opt.value = x.ProvinceID;
                                                                            opt.value = x.ProvinceName;
                                                                            opt.text = x.ProvinceName;
                                                                            opt.setAttribute('province_id', x.ProvinceID);
                                                                            citis.options.add(opt);
-
+                                                                       }
                                                                        }
                                                                        citis.onchange = function () {
                                                                            resetShippingFee();
@@ -776,7 +798,7 @@
                                                                    console.log("total after change" + total.value);
                                                                }
 
-                                                               //functino calculateShippingFee()
+                                                               //function calculateShippingFee()
                                                                function calculateShippingFee() {
                                                                    var totalWeight = Math.floor(document.getElementById("totalWeight").value);
                                                                    var myHeaders = new Headers();
@@ -821,6 +843,20 @@
                                                                            })
                                                                            .catch(error => console.log('error', error));
                                                                }
+                                                               
+                                                               //function on off input email box
+                                                                function switchCheck() {
+                                                                    if (document.getElementById("flexSwitchCheckDefault").checked) {
+                                                                        document.getElementById("email").style.display = 'block';
+                                                                    } else {
+                                                                        document.getElementById("email").style.display = 'none';
+                                                                    }
+                                                                }
+                                                                if (document.getElementById("flexSwitchCheckDefault").checked) {
+                                                                        document.getElementById("email").style.display = 'block';
+                                                                    } else {
+                                                                        document.getElementById("email").style.display = 'none';
+                                                                    }
     </script>
 </body>
 </html>
