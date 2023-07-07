@@ -7,7 +7,6 @@ package sample.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -26,6 +25,7 @@ public class OrderDTO implements Serializable {
     private String orderAddress;
     private String note;
     private double shippingFee;
+    private String email;
 
     public OrderDTO() {
     }
@@ -65,7 +65,30 @@ public class OrderDTO implements Serializable {
         this.note = note;
         this.shippingFee = price;
     }
+    
+public OrderDTO(int orderID, int userID, String fullName, String phoneNumber, String shippingDate, String date, int status, String orderAddress, String note, double shippingFee, String email) {
+        this.orderID = orderID;
+        this.userID = userID;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.shippingDate = shippingDate;
+        this.date = date;
+        this.status = status;
+        this.orderAddress = orderAddress;
+        this.note = note;
+        this.shippingFee = shippingFee;
+        this.email = email;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    
     public double getShippingFee() {
         return shippingFee;
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sample.dao;
 
 import java.sql.Connection;
@@ -70,7 +65,7 @@ public class OrderDAO {
         }
         return orderID;
     }
-public static int createNewOrderForGuest(String fullName, String phoneNumber, int status, String orderAddress, String notes, double shippingFee) throws Exception {
+public static int createNewOrderForGuest(String fullName, String phoneNumber, int status, String orderAddress, String notes, double shippingFee, String Email) throws Exception {
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);
@@ -83,9 +78,9 @@ public static int createNewOrderForGuest(String fullName, String phoneNumber, in
             connection = DBUtils.getConnection();
             // Prepare the SQL statement
             if (connection != null) {
-                pst = connection.prepareStatement("INSERT INTO [Order](FullName, PhoneNumber, OrderDate, Status, OrderAddress, Notes, shippingFee) \n"
+                pst = connection.prepareStatement("INSERT INTO [Order](FullName, PhoneNumber, OrderDate, Status, OrderAddress, Notes, shippingFee, Email) \n"
                         + "OUTPUT inserted.OrderID\n"
-                        + "VALUES(?,?,?,?,?,?,?);");
+                        + "VALUES(?,?,?,?,?,?,?,?);");
                 pst.setString(1, fullName);
                 pst.setString(2, phoneNumber);
                 pst.setString(3, formattedDate);
@@ -93,6 +88,7 @@ public static int createNewOrderForGuest(String fullName, String phoneNumber, in
                 pst.setNString(5, orderAddress);
                 pst.setString(6, notes);
                 pst.setDouble(7, shippingFee);
+                pst.setString(8, Email);
                 // Execute the SQL statement
                 rs = pst.executeQuery();
                 if (rs.next()) {
@@ -116,6 +112,7 @@ public static int createNewOrderForGuest(String fullName, String phoneNumber, in
         }
         return orderID;
     }
+
 public boolean updateStatusOrder(int orderID, int status)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
@@ -129,6 +126,40 @@ public boolean updateStatusOrder(int orderID, int status)
                         + "Where OrderID = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, status);
+                stm.setInt(2, orderID);
+
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            } //end connection has existed 
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
+public boolean updateSuccessOrder(int orderID)
+            throws SQLException, ClassNotFoundException {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "Update [Order] "
+                        + "Set Status = 4, ShippingDate = ? "
+                        + "Where OrderID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, formattedDate);
                 stm.setInt(2, orderID);
 
                 int effectRow = stm.executeUpdate();
@@ -461,7 +492,7 @@ public boolean updateStatusOrder(int orderID, int status)
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "SELECT SUM(OrderDetail.Quantity * OrderDetail.Price) AS TotalSold\n"
-                        + "  FROM [Order] INNER JOIN [OrderDetail]\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Order] INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail]\n"
                         + "  ON [Order].OrderID = OrderDetail.OrderID\n"
                         + "  WHERE MONTH([ShippingDate])=? AND YEAR([ShippingDate]) = ? ";
                 stm = con.prepareStatement(sql);
@@ -538,7 +569,9 @@ public boolean updateStatusOrder(int orderID, int status)
                         + ",[Order].PhoneNumber\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
+                        + ",[Order].ShippingFee\n"
                         + ",[Notes] "
+                        + ",[Order].Email\n"
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
                         + "WHERE OrderID = ? "
                         + " ORDER BY [OrderID] DESC";
@@ -553,8 +586,10 @@ public boolean updateStatusOrder(int orderID, int status)
                     String note = rs.getString("Notes");
                     String fullName = rs.getString("FullName");
                     String phoneNumber = rs.getString("PhoneNumber");
+                    double shippingFee = rs.getDouble("ShippingFee");
                     int status = rs.getInt("Status");
-                    order = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note);
+                    String email = rs.getString("Email");
+                    order = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note, shippingFee, email);
                 }//end while rs not null
             }//end if con is not null
         } finally {
@@ -570,6 +605,7 @@ public boolean updateStatusOrder(int orderID, int status)
         }
         return order;
     }
+
     public boolean checkOrderInProcess(int userID)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
@@ -604,8 +640,5 @@ public boolean updateStatusOrder(int orderID, int status)
         return result;
     }
 
-    public boolean updateSuccessOrder(int orderID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
+

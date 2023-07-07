@@ -6,11 +6,11 @@
  */
 package sample.controllers;
 
-import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -22,13 +22,15 @@ import sample.dao.AddressDAO;
 import sample.dao.CartDAO;
 import sample.dao.CartDetailDAO;
 import sample.dao.OrderDAO;
-import sample.dao.OrderDetailGuestDAO;
 import sample.dao.OrderDetailsDAO;
-import sample.dao.OrderGuestDAO;
+import sample.dao.ProductDAO;
 import sample.dto.AddressDTO;
 import sample.dto.CartDTO;
 import sample.dto.InformationCreateError;
+import sample.dto.OrderDTO;
+import sample.dto.ProductDTO;
 import sample.dto.UserDTO;
+import sample.utils.MailService;
 
 /**
  *
@@ -53,26 +55,37 @@ public class SubmitCheckOutController extends HttpServlet {
             String fullName = request.getParameter("txtFullName");
             String phoneNumber = request.getParameter("txtPhoneNumber");
             String notes = request.getParameter("txtNotes");
+            String email = null;
             double shippingFee;
             if (request.getParameter("shippingFeeValue") != null && !request.getParameter("shippingFeeValue").isEmpty()) {
-                 shippingFee = Double.parseDouble(request.getParameter("shippingFeeValue"));
-            }else{
-             shippingFee = 0;
+                shippingFee = Double.parseDouble(request.getParameter("shippingFeeValue"));
+            } else {
+                shippingFee = 0;
             }
             String province = request.getParameter("ddlProvince");
             String district = request.getParameter("ddlDistrict");
             String ward = request.getParameter("ddlWard");
             String addressDetails = request.getParameter("txtAddressDetails");
             String address = addressDetails + ", " + ward + ", " + district + ", " + province;
+
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = (LinkedHashMap<String, Integer>) session.getAttribute("cartCheckOutForGuest");
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
             ArrayList<AddressDTO> addressList = (ArrayList<AddressDTO>) session.getAttribute("addressList");
+
             InformationCreateError errors = new InformationCreateError();
             boolean foundError = false;
+            String checkEmail = request.getParameter("chkEmail");
             String selectAdd = request.getParameter("selectAddress");
             try {
                 //check input
+                if (checkEmail != null) {
+                    email = request.getParameter("txtEmail");
+                    if (InformationCreateError.validEmail(email) == false) {
+                        foundError = true;
+                        errors.setEmailFormatError("Please enter a valid email");
+                    }
+                }
                 if (selectAdd == null) {
                     if (fullName.trim().length() < 2
                             || fullName.trim().length() > 50) {
@@ -98,9 +111,9 @@ public class SubmitCheckOutController extends HttpServlet {
                     if (addressDetails.trim().length() < 2
                             || addressDetails.trim().length() > 50) {
                         foundError = true;
-                        errors.setFullnameLengthError("Address details is required input from 2 to 50 characters");
+                        errors.setAddressLengthError("Address details is required input from 2 to 50 characters");
                     }
-                } else  {
+                } else {
                     foundError = false;
                 }
                 if (foundError) {
@@ -133,10 +146,18 @@ public class SubmitCheckOutController extends HttpServlet {
                         }
 
                     } else {
-
-                        int orderID = OrderDAO.createNewOrderForGuest(fullName, phoneNumber, 1, address, notes, shippingFee);
+                        int orderID = OrderDAO.createNewOrderForGuest(fullName, phoneNumber, 1, address, notes, shippingFee, email);
                         if (orderID != -1) {
                             boolean finishCheckOut = OrderDetailsDAO.createOrderDetailsForCustomer(orderID, cart);
+                            if (email != null) {
+                                OrderDAO orderDAO = new OrderDAO();
+                                OrderDTO orderDTO = orderDAO.loadOrderByOrderID(orderID);
+                                ProductDAO productDAO = new ProductDAO();
+                                ArrayList<ProductDTO> productList = productDAO.getProductByOrderID(orderID);
+                                orderDTO.setProductsList(productList);
+                                MailService mailService = new MailService();
+                                mailService.sendEmailGotOrderToGuest(orderDTO);
+                            }
                             if (finishCheckOut) {
                                 Cookie[] cookies = request.getCookies();
                                 if (cookies != null) {
@@ -202,4 +223,3 @@ public class SubmitCheckOutController extends HttpServlet {
     }// </editor-fold>
 
 }
-

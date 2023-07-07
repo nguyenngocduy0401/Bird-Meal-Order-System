@@ -6,8 +6,7 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.dao.OrderDAO;
-import sample.dao.OrderDetailsDAO;
 import sample.dao.ProductDAO;
 import sample.dao.UserDAO;
 import sample.dto.OrderDTO;
@@ -57,10 +55,11 @@ public class UpdateOrderStatusServlet extends HttpServlet {
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
             if (userDTO.getRole() == 1) {
                 OrderDAO orderDAO = new OrderDAO();
-                OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
-                LinkedHashMap<ProductDTO, Integer> product = orderDetailsDAO.getProductDTOFromOrderDetail(orderID);
-
+                ProductDAO productDAO = new ProductDAO();
                 OrderDTO orderDTO = orderDAO.loadOrderByOrderID(orderID);
+                ArrayList<ProductDTO> productList = productDAO.getProductByOrderID(orderID);
+                orderDTO.setProductsList(productList);
+                
                 UserDTO accountDTO = new UserDTO();
                 if (orderDTO.getUserID() != 0) {
                     UserDAO userDAO = new UserDAO();
@@ -69,13 +68,13 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                 boolean result = false;
                 if (status == 4) {
                     result = orderDAO.updateSuccessOrder(orderID);
-                    for (Map.Entry<ProductDTO, Integer> entry : product.entrySet()) {
-                        boolean minusProductQuantity = ProductDAO.minusProductQuantity(entry.getValue(), entry.getKey().getProductID());
+                    for (ProductDTO product : productList) {
+                        boolean minusProductQuantity = ProductDAO.minusProductQuantity(product.getQuantity(), product.getProductID());
                     }
                 } else if (status == 2) {
                     result = orderDAO.updateStatusOrder(orderID, 2);
                     if (accountDTO != null) {
-                        sendEmail = mailservice.sendConfirmOrderEmail(orderDTO, accountDTO, product);
+                        sendEmail = mailservice.sendEmailConfirmOrder(orderDTO, accountDTO);
                     }
                 } else {
                     result = orderDAO.updateStatusOrder(orderID, status);
