@@ -203,6 +203,7 @@ public boolean updateSuccessOrder(int orderID)
                         + ",[Order].[ShippingFee]\n"
                         + ",[Order].[Status]\n"
                         + ",[OrderAddress]\n"
+                        + ",[Order].Email\n"
                         + ",[Notes] "
                         + "FROM [Order] ";
                 stm = con.prepareStatement(sql);
@@ -218,7 +219,8 @@ public boolean updateSuccessOrder(int orderID)
                     String orderAddress = rs.getString("OrderAddress");
                     int userID = rs.getInt("UserID");
                     String note = rs.getString("Notes");
-                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note, shippingFee);
+                    String email = rs.getString("Email");
+                    OrderDTO dto = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note, shippingFee, email);
                     list.add(dto);
                 }//end while rs not null
             }//end if con is not null

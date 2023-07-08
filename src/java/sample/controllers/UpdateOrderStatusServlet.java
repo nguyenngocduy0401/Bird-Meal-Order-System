@@ -59,26 +59,54 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                 OrderDTO orderDTO = orderDAO.loadOrderByOrderID(orderID);
                 ArrayList<ProductDTO> productList = productDAO.getProductByOrderID(orderID);
                 orderDTO.setProductsList(productList);
-                
-                UserDTO accountDTO = new UserDTO();
+
+                UserDTO accountDTO = null;
                 if (orderDTO.getUserID() != 0) {
                     UserDAO userDAO = new UserDAO();
                     accountDTO = userDAO.getUserByOrderID(orderID);
                 }
                 boolean result = false;
-                if (status == 4) {
-                    result = orderDAO.updateSuccessOrder(orderID);
-                    for (ProductDTO product : productList) {
-                        boolean minusProductQuantity = ProductDAO.minusProductQuantity(product.getQuantity(), product.getProductID());
-                    }
-                } else if (status == 2) {
-                    result = orderDAO.updateStatusOrder(orderID, 2);
-                    if (accountDTO != null) {
-                        sendEmail = mailservice.sendEmailConfirmOrder(orderDTO, accountDTO);
-                    }
-                } else {
-                    result = orderDAO.updateStatusOrder(orderID, status);
+
+                switch (status) {
+                    case 2:
+                        result = orderDAO.updateStatusOrder(orderID, 2);
+                        if (accountDTO != null) {
+                            sendEmail = mailservice.sendEmailConfirmOrderToCustomer(orderDTO, accountDTO);
+                        } else if (!orderDTO.getEmail().equals(null)) {
+                            sendEmail = mailservice.sendEmailConfirmOrderToGuest(orderDTO);
+                        }
+                        break;
+                    case 3:
+                        result = orderDAO.updateStatusOrder(orderID, 3);
+                        if (accountDTO != null) {
+                            sendEmail = mailservice.sendEmailOrderIsShippedToCustomer(orderDTO, accountDTO);
+                        } else if (!orderDTO.getEmail().equals(null)) {
+                            sendEmail = mailservice.sendEmailOrderIsShippedToGuest(orderDTO);
+                        }
+                        break;
+                    case 4:
+                        result = orderDAO.updateSuccessOrder(orderID);
+                        for (ProductDTO product : productList) {
+                            boolean minusProductQuantity = ProductDAO.minusProductQuantity(product.getQuantity(), product.getProductID());
+                        }
+                        if (accountDTO != null) {
+                            sendEmail = mailservice.sendEmailOrderIsShippedSuccessfullyToCustomer(orderDTO, userDTO);
+                        } else if (orderDTO.getEmail() != null) {
+                            sendEmail = mailservice.sendEmailOrderIsShippedSuccessfullyToGuest(orderDTO);
+                        }
+                        break;
+                    case 5:
+                        result = orderDAO.updateStatusOrder(orderID, 5);
+                        if (accountDTO != null) {
+                            sendEmail = mailservice.sendEmailOrderIsShippedNotSuccessfullyToCustomer(orderDTO, accountDTO);
+                        } else if (!orderDTO.getEmail().equals(null)) {
+                            sendEmail = mailservice.sendEmailOrderIsShippedNotSuccessfullyToGuest(orderDTO);
+                        }
+                        break;
+                    default:
+                        result = orderDAO.updateStatusOrder(orderID, status);
                 }
+                
                 if (result) {
                     url = GET_ORDERS_LIST_SERVLET;
                     request.setAttribute("ORDER_UPDATE_STATUS", result);

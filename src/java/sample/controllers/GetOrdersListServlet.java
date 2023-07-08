@@ -5,11 +5,9 @@
 package sample.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,10 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.dao.OrderDAO;
-import sample.dao.OrderGuestDAO;
 import sample.dao.ProductDAO;
 import sample.dto.OrderDTO;
-import sample.dto.OrderGuestDTO;
 import sample.dto.ProductDTO;
 import sample.dto.UserDTO;
 
@@ -63,14 +59,6 @@ public class GetOrdersListServlet extends HttpServlet {
                     order.setProductsList(productList);
                 }
                 session.setAttribute("ORDERS_LIST_CUSTOMER", listOrder);
-
-//                OrderGuestDAO orderGuestDAO = new OrderGuestDAO();
-//                List<OrderGuestDTO> listOrderGuest = orderGuestDAO.loadOrderGuest();
-//                for(OrderGuestDTO order : listOrderGuest) {
-//                    List<ProductDTO> productList = productDAO.getProductByOrderID(order.getOrderID());
-//                    order.setProductsList(productList);
-//                }
-//                session.setAttribute("ORDERS_LIST_GUEST", listOrderGuest);
                 url = ORDERS_LIST_PAGE;
             }
         } catch (ClassNotFoundException ex) {

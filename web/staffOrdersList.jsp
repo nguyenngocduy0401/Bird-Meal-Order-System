@@ -6,6 +6,8 @@
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="sample.dto.UserDTO" %>
+<%@ page import="sample.dao.UserDAO" %>
 <!DOCTYPE html>
 <c:if test="${sessionScope.user==null||sessionScope.user.role ne 1}">
     <c:redirect url="login.jsp"></c:redirect>
@@ -63,90 +65,11 @@
                 <hr class="sidebar-divider my-0">
 
                 <!-- Nav Item - Dashboard -->
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Interface
-                </div>
-
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                       aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Components</span>
-                    </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Components:</h6>
-                            <a class="collapse-item" href="buttons.html">Buttons</a>
-                            <a class="collapse-item" href="cards.html">Cards</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                       aria-expanded="true" aria-controls="collapseUtilities">
-                        <i class="fas fa-fw fa-wrench"></i>
-                        <span>Utilities</span>
-                    </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="utilities-color.html">Colors</a>
-                            <a class="collapse-item" href="utilities-border.html">Borders</a>
-                            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                            <a class="collapse-item" href="utilities-other.html">Other</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Addons
-                </div>
-
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                       aria-expanded="true" aria-controls="collapsePages">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>Pages</span>
-                    </a>
-                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Login Screens:</h6>
-                            <a class="collapse-item" href="login.html">Login</a>
-                            <a class="collapse-item" href="register.html">Register</a>
-                            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                            <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Other Pages:</h6>
-                            <a class="collapse-item" href="404.html">404 Page</a>
-                            <a class="collapse-item" href="blank.html">Blank Page</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Charts -->
-                <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Charts</span></a>
-                </li>
+                <!--                <li class="nav-item">
+                                    <a class="nav-link" href="index.html">
+                                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                                        <span>Dashboard</span></a>
+                                </li>-->
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item">
@@ -170,7 +93,80 @@
                 </li>
 
                 <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <!--                <div class="sidebar-heading">
+                                    Interface
+                                </div>-->
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <!--                <li class="nav-item">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                                       aria-expanded="true" aria-controls="collapseTwo">
+                                        <i class="fas fa-fw fa-cog"></i>
+                                        <span>Components</span>
+                                    </a>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                                        <div class="bg-white py-2 collapse-inner rounded">
+                                            <h6 class="collapse-header">Custom Components:</h6>
+                                            <a class="collapse-item" href="buttons.html">Buttons</a>
+                                            <a class="collapse-item" href="cards.html">Cards</a>
+                                        </div>
+                                    </div>
+                                </li>-->
+
+                <!-- Nav Item - Utilities Collapse Menu -->
+                <!--                <li class="nav-item">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                                       aria-expanded="true" aria-controls="collapseUtilities">
+                                        <i class="fas fa-fw fa-wrench"></i>
+                                        <span>Utilities</span>
+                                    </a>
+                                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                                         data-parent="#accordionSidebar">
+                                        <div class="bg-white py-2 collapse-inner rounded">
+                                            <h6 class="collapse-header">Custom Utilities:</h6>
+                                            <a class="collapse-item" href="utilities-color.html">Colors</a>
+                                            <a class="collapse-item" href="utilities-border.html">Borders</a>
+                                            <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                                            <a class="collapse-item" href="utilities-other.html">Other</a>
+                                        </div>
+                                    </div>
+                                </li>-->
+
+                <!-- Heading -->
+                <!--                <div class="sidebar-heading">
+                                    Addons
+                                </div>-->
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <!--                <li class="nav-item">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                                       aria-expanded="true" aria-controls="collapsePages">
+                                        <i class="fas fa-fw fa-folder"></i>
+                                        <span>Pages</span>
+                                    </a>
+                                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                                        <div class="bg-white py-2 collapse-inner rounded">
+                                            <h6 class="collapse-header">Login Screens:</h6>
+                                            <a class="collapse-item" href="login.html">Login</a>
+                                            <a class="collapse-item" href="register.html">Register</a>
+                                            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                                            <div class="collapse-divider"></div>
+                                            <h6 class="collapse-header">Other Pages:</h6>
+                                            <a class="collapse-item" href="404.html">404 Page</a>
+                                            <a class="collapse-item" href="blank.html">Blank Page</a>
+                                        </div>
+                                    </div>
+                                </li>-->
+
+                <!-- Nav Item - Charts -->
+                <!--                <li class="nav-item">
+                                    <a class="nav-link" href="charts.html">
+                                        <i class="fas fa-fw fa-chart-area"></i>
+                                        <span>Charts</span></a>
+                                </li>-->
 
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">
@@ -190,11 +186,11 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-<!--                    <form class="form-inline">
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                    </form>-->
+                    <!--                    <form class="form-inline">
+                                            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                                                <i class="fa fa-bars"></i>
+                                            </button>
+                                        </form>-->
 
                     <!-- Topbar Search -->
 
@@ -203,146 +199,146 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-<!--                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                             Dropdown - Messages 
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                 aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search" action="MainController">
-                                    <div class="input-group">
-                                        <input type="text" name="txtSearchValue" class="form-control bg-light border-0 small"
-                                               placeholder="Search for..." aria-label="Search"
-                                               aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                        <input type="hidden" name="btAction" value="SearchOfStaff" />
-                                    </div>
-                                </form>
-                            </div>
-                        </li>-->
+                        <!--                        <li class="nav-item dropdown no-arrow d-sm-none">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-search fa-fw"></i>
+                                                    </a>
+                                                     Dropdown - Messages 
+                                                    <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                                         aria-labelledby="searchDropdown">
+                                                        <form class="form-inline mr-auto w-100 navbar-search" action="MainController">
+                                                            <div class="input-group">
+                                                                <input type="text" name="txtSearchValue" class="form-control bg-light border-0 small"
+                                                                       placeholder="Search for..." aria-label="Search"
+                                                                       aria-describedby="basic-addon2">
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-primary" type="button">
+                                                                        <i class="fas fa-search fa-sm"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <input type="hidden" name="btAction" value="SearchOfStaff" />
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </li>-->
 
                         <!-- Nav Item - Alerts -->
-<!--                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                 Counter - Alerts 
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                             Dropdown - Alerts 
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>-->
+                        <!--                        <li class="nav-item dropdown no-arrow mx-1">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-bell fa-fw"></i>
+                                                         Counter - Alerts 
+                                                        <span class="badge badge-danger badge-counter">3+</span>
+                                                    </a>
+                                                     Dropdown - Alerts 
+                                                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                                         aria-labelledby="alertsDropdown">
+                                                        <h6 class="dropdown-header">
+                                                            Alerts Center
+                                                        </h6>
+                                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <div class="mr-3">
+                                                                <div class="icon-circle bg-primary">
+                                                                    <i class="fas fa-file-alt text-white"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="small text-gray-500">December 12, 2019</div>
+                                                                <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                                            </div>
+                                                        </a>
+                                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <div class="mr-3">
+                                                                <div class="icon-circle bg-success">
+                                                                    <i class="fas fa-donate text-white"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="small text-gray-500">December 7, 2019</div>
+                                                                $290.29 has been deposited into your account!
+                                                            </div>
+                                                        </a>
+                                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <div class="mr-3">
+                                                                <div class="icon-circle bg-warning">
+                                                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="small text-gray-500">December 2, 2019</div>
+                                                                Spending Alert: We've noticed unusually high spending for your account.
+                                                            </div>
+                                                        </a>
+                                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                                    </div>
+                                                </li>-->
 
                         <!-- Nav Item - Messages -->
-<!--                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                 Counter - Messages 
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                             Dropdown - Messages 
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                             alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                             alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                             alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                             alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>-->
+                        <!--                        <li class="nav-item dropdown no-arrow mx-1">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-envelope fa-fw"></i>
+                                                         Counter - Messages 
+                                                        <span class="badge badge-danger badge-counter">7</span>
+                                                    </a>
+                                                     Dropdown - Messages 
+                                                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                                         aria-labelledby="messagesDropdown">
+                                                        <h6 class="dropdown-header">
+                                                            Message Center
+                                                        </h6>
+                                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <div class="dropdown-list-image mr-3">
+                                                                <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                                                     alt="...">
+                                                                <div class="status-indicator bg-success"></div>
+                                                            </div>
+                                                            <div class="font-weight-bold">
+                                                                <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                                                    problem I've been having.</div>
+                                                                <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                                            </div>
+                                                        </a>
+                                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <div class="dropdown-list-image mr-3">
+                                                                <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                                                     alt="...">
+                                                                <div class="status-indicator"></div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="text-truncate">I have the photos that you ordered last month, how
+                                                                    would you like them sent to you?</div>
+                                                                <div class="small text-gray-500">Jae Chun · 1d</div>
+                                                            </div>
+                                                        </a>
+                                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <div class="dropdown-list-image mr-3">
+                                                                <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                                                     alt="...">
+                                                                <div class="status-indicator bg-warning"></div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="text-truncate">Last month's report looks great, I am very happy with
+                                                                    the progress so far, keep up the good work!</div>
+                                                                <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                                            </div>
+                                                        </a>
+                                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <div class="dropdown-list-image mr-3">
+                                                                <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                                                     alt="...">
+                                                                <div class="status-indicator bg-success"></div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                                                    told me that people say this to all dogs, even if they aren't good...</div>
+                                                                <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                                            </div>
+                                                        </a>
+                                                        <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                                                    </div>
+                                                </li>-->
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -365,10 +361,10 @@
                                     <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Home
                                 </a>
-<!--                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>-->
+                                <!--                                <a class="dropdown-item" href="#">
+                                                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                                    Activity Log
+                                                                </a>-->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -394,9 +390,9 @@
 
                         <div class="card-header py-3">
                             <div class="d-flex justify-content-between align-items-center">
-<!--                                <form action="MainController">
-                                    <button class="btn btn-outline-primary mr-auto" name="btAction" value="Create New Product">Add new product</button>
-                                </form>-->
+                                <!--                                <form action="MainController">
+                                                                    <button class="btn btn-outline-primary mr-auto" name="btAction" value="Create New Product">Add new product</button>
+                                                                </form>-->
                                 <form action="GetOrdersListServlet">
                                     <button class="btn btn-outline-primary mr-auto" type="submit">Show All</button>
                                 </form>
@@ -444,7 +440,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>OrderID</th>
-                                                    <th>UserId</th>
+                                                    <th>Username</th>
                                                     <th>Name</th>
                                                     <th>Quantity</th>
                                                     <th>Total Price</th>
@@ -475,6 +471,7 @@
                                                             <c:set var="totalQuantity" value="${totalQuantity + product.quantity}"/>
                                                             <c:set var="subTotal" value = "${subTotal + (product.quantity * product.price)}"/>
                                                         </c:forEach>
+                                                        <c:set var="userDTO" value="${UserDAO.getUserByID(dto.userID).userName}"/>
                                                         <td>
                                                             ${dto.orderID}
                                                         </td>
@@ -483,7 +480,7 @@
                                                                 Guest
                                                             </c:if>
                                                             <c:if test="${dto.userID != 0}">
-                                                                ${dto.userID}
+                                                                ${UserDAO.getUserByID(dto.userID).userName}
                                                             </c:if>
                                                         </td>
                                                         <td>${dto.fullName}</td>
@@ -533,7 +530,7 @@
                                                             </button>
                                                             <!-- Modal For Edit Status-->
                                                             <form action="UpdateOrderStatusServlet" method="POST">
-                                                                
+
                                                                 <div  class="modal fade" id="viewOrderID${dto.orderID}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
 
                                                                     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -554,11 +551,11 @@
                                                                                                     <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
                                                                                                         <p class="text-muted mb-0">ID:${products.productID}</p>
                                                                                                     </div>
-                                                                                                    <div class="col-md-2">
+                                                                                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                                                                                         <img src="${products.imgPath}"
                                                                                                              class="img-fluid" alt="CategoryID:${products.categoryID}">
                                                                                                     </div>
-                                                                                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                                                                    <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
                                                                                                         <p class="text-muted mb-0">${products.productName}</p>
                                                                                                     </div>
                                                                                                     <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
@@ -574,8 +571,8 @@
                                                                                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                                                                                         <p class="text-muted mb-0 small">Weight: ${products.size}g</p>
                                                                                                     </div>
-                                                                                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                                                                                        <p class="text-muted mb-0 small">Qty: ${products.quantity}</p>
+                                                                                                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                                                                                        <p class="text-muted mb-0 small">Qty:&nbsp;${products.quantity}</p>
                                                                                                     </div>
                                                                                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                                                                                         <p class="price text-muted mb-0 small">${products.price}</p>
@@ -599,12 +596,12 @@
                                                                                         <p class="text-muted mb-0">Order Date: ${dto.date}</p>
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between">
-                                                                                        <p class="text-muted mb-0">UserID: 
+                                                                                        <p class="text-muted mb-0">Username: 
                                                                                             <c:if test="${dto.userID == 0}">
                                                                                                 Guest
                                                                                             </c:if>
                                                                                             <c:if test="${dto.userID != 0}">
-                                                                                                ${dto.userID}
+                                                                                                ${UserDAO.getUserByID(dto.userID).userName}
                                                                                             </c:if>
                                                                                         </p>
                                                                                         <p class="text-muted mb-0"><span class="" style="font-weight: bold; margin-right: 20px">Shipping fee</span><span class="price">${dto.shippingFee}</span></p>
@@ -633,18 +630,44 @@
                                                                                     <div class="d-flex justify-content-between">
                                                                                         <p class="text-muted mb-0">Address: ${dto.orderAddress}</p>
                                                                                     </div>
+                                                                                    <c:if test="${dto.email != null}">
+                                                                                        <div class="d-flex justify-content-between">
+                                                                                            <p class="text-muted mb-0">Email: ${dto.email}</p>
+                                                                                        </div>
+                                                                                    </c:if>
                                                                                     <div class="d-flex justify-content-between">
                                                                                         <p class="text-muted mb-0">Note: ${dto.note}</p>
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between">
                                                                                         <p class="text-muted mb-0">Status: 
-                                                                                            <select name="ddlStatus" id="status">
-                                                                                                <option value="0" ${dto.status == '0' ? 'selected hidden' : ''}>Cancelled</option>
-                                                                                                <option value="1" ${dto.status == '1' ? 'selected hidden' : ''}>Waiting</option>
-                                                                                                <option value="2" ${dto.status == '2' ? 'selected hidden' : ''}>Confirmed</option>
-                                                                                                <option value="3" ${dto.status == '3' ? 'selected hidden' : ''}>Shipping</option>
-                                                                                                <option value="4" ${dto.status == '4' ? 'selected hidden' : ''}>Complete</option>
-                                                                                            </select>
+                                                                                                <c:choose>
+                                                                                                    <c:when test="${dto.status == '1'}">
+                                                                                                        <select name="ddlStatus" id="status">
+                                                                                                            <option value="1" hidden="hidden"}>Waiting</option>
+                                                                                                            <option value="0"}>Cancelled</option>
+                                                                                                            <option value="2"}>Confirmed</option>
+                                                                                                        </select>
+                                                                                                    </c:when>
+                                                                                                    <c:when test="${dto.status == '2'}">
+                                                                                                        <select name="ddlStatus" id="status">
+                                                                                                            <option value="2" hidden="hidden"}>Confirmed</option>
+                                                                                                            <option value="3">Shipping</option>
+                                                                                                        </select>
+                                                                                                    </c:when>
+                                                                                                    <c:when test="${dto.status == '3'}">
+                                                                                                        <select name="ddlStatus" id="status">
+                                                                                                            <option value="3" hidden="hidden"}>Shipping</option>
+                                                                                                            <option value="4" >Completed</option>
+                                                                                                            <option value="5" >Incompleted</option>
+                                                                                                        </select>
+                                                                                                    </c:when>
+                                                                                                    <c:when test="${dto.status == '4'}">
+                                                                                                        Completed
+                                                                                                    </c:when>
+                                                                                                    <c:when test="${dto.status == '5'}">
+                                                                                                        Incompleted
+                                                                                                    </c:when>
+                                                                                                </c:choose>
                                                                                         </p>
                                                                                     </div>
                                                                                 </div>
@@ -657,7 +680,9 @@
                                                                             <div class="modal-footer">
                                                                                 <button type="button" class="btn" data-bs-dismiss="modal"
                                                                                         style="color: black; background-color: lightgray; border-color: lightgray">Close</button>
-                                                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                                                <c:if test="${dto.status != '4' and dto.status != '5'}">
+                                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                                </c:if>
                                                                             </div>
                                                                         </div>
                                                                     </div>
