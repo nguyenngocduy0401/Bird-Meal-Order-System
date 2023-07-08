@@ -145,6 +145,7 @@
                                         },
                                         success: function () {
                                             alert("gui feedback thanh cong");
+                                            window.location.replace("ProductDetailController?productID=${product.productID}");
                                         }
                                     });
                                 }

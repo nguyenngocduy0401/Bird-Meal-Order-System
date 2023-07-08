@@ -283,7 +283,6 @@
                                                                 </div>
                                                                 <div class="col-md-6 text-left mt-sm-2">
                                                                     <h4>${product.productName}</h4>
-                                                                    <p class="font-weight-light">${product.productDetail}</p>
                                                                 </div>
                                                                 <div class="col-md-2 text-right mt-sm-2">
                                                                     <p > Price: ${product.price} $</p>
@@ -358,7 +357,7 @@
                                                     var id = orderID;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "BuyAgainController",
+                                                        url: "BuyAgain",
                                                         data: {
                                                             orderID: id,
                                                             userID: '${sessionScope.user.userID}'

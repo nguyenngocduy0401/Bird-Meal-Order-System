@@ -92,7 +92,7 @@ public class PagingFilter extends HttpServlet {
                             + "                            <section class=\"panel\">\n"
                             + "                                <div class=\"card product-item position-relative bg-light d-flex flex-column text-center product\">\n"
                             + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
-                            + "                                    <h6 class=\"text-uppercase\">" + dto.getProductName() + "</h6>\n"
+                            + "                                    <p class=\"name text-uppercase\">" + dto.getProductName() + "</p>\n"
                             + "                                    <h5 class=\"text-primary mb-0\">" + dto.getPrice() + " VND</h5>\n"
                             + "                                    <div class=\"btn-action d-flex justify-content-center\">\n"
                             + "\n"
@@ -117,7 +117,7 @@ public class PagingFilter extends HttpServlet {
                     if (1 < page && page <= endPage) {
                         out.println("<li class=\"page-item\">\n"
                                 + "                                            <a class=\"page-link rounded-0\" onclick=\"loadPage(" + (page - 1) + ")\" aria-label=\"Previous\">\n"
-                                + "                                                <span aria-hidden=\"true\"><i class=\"bi bi-arrow-left\"></i></span>\n"
+                                + "                                                <span aria-hidden=\"true\">Previous</span>\n"
                                 + "                                            </a>\n"
                                 + "                                        </li>");
                     }
@@ -136,7 +136,7 @@ public class PagingFilter extends HttpServlet {
                     if (1 <= page && page < endPage) {
                         out.println("<li class=\"page-item\">\n"
                                 + "                                            <a onclick=\"loadPage(" + (page + 1) + ")\" class=\"page-link rounded-0\" aria-label=\"Next\">\n"
-                                + "                                                <span aria-hidden=\"true\"><i class=\"bi bi-arrow-right\"></i></span>\n"
+                                + "                                                <span aria-hidden=\"true\">Next</span>\n"
                                 + "                                            </a>\n"
                                 + "                                        </li>");
                     }

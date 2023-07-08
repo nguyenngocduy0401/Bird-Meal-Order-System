@@ -60,6 +60,8 @@ public class HomeController extends HttpServlet {
         try {
             ProductDAO dao = new ProductDAO();
             List<ProductDTO> result = dao.pagingProductUser(page, ON_PAGE_PRODUCT, -1, "",-1,-1,"");
+            List<ProductDTO> listTop5Sale = ProductDAO.listTop5Product();
+            List<ProductDTO> listTop5New = ProductDAO.list5NewProduct();
             CategoryDAO cateDAO = new CategoryDAO();
             List<CategoryDTO> cateList = cateDAO.getCatetoryList();
             List<String> listSize = dao.getSizeList();
@@ -73,6 +75,8 @@ public class HomeController extends HttpServlet {
             request.setAttribute("CATEGORY_LIST", cateList);
             request.setAttribute("SIZE_LIST", listSize);
             request.setAttribute("BIRD_LIST", listBird);
+            request.setAttribute("TOP5SALE", listTop5Sale);
+            request.setAttribute("TOP5NEW", listTop5New);
         } catch (SQLException e) {
             log("AccountSearchServlet _ SQL _ " + e.getMessage());
         } finally {

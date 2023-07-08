@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sample.dao;
 
 import java.sql.Connection;
@@ -77,6 +73,10 @@ public class ProductDAO {
             }
         }
         return listProduct;
+    }
+
+    public static boolean minusProductQuantity(Integer value, int productID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public List<ProductDTO> searchListProduct(String searchValue, int index, int onPageProduct)
@@ -1328,8 +1328,65 @@ public class ProductDAO {
         return result;
 
     }
-    
-     public static boolean minusProductQuantity(int quantity, int productID)
+
+    public static List<ProductDTO> list5NewProduct() throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT TOP (5) [ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[Price]\n"
+                        + "      ,[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[DateManufacture]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath]\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Product]\n"
+                        + "  WHERE [Status] = 1\n"
+                        + "  ORDER BY ProductID DESC";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
+
+    public static boolean minusProductQuantity(int quantity, int productID)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
@@ -1359,5 +1416,5 @@ public class ProductDAO {
         }
         return result;
     }
-
+    
 }

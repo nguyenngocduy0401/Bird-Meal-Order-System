@@ -336,7 +336,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$ ${MONTHEARN}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${MONTHEARN} VND</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -354,7 +354,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$ ${YEAREARN}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${YEAREARN} VND</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -424,7 +424,6 @@
                                         </div>
                                         <div class="col-md-8 text-left mt-sm-2">
                                             <h4>${product.productName}</h4>
-                                            <p class="font-weight-light">${product.productDetail}</p>
                                         </div>
                                         <div class="col-md-2 text-left mt-sm-2">
                                             <p class="font-weight-light text-left">Sold: ${product.quantity}</p>
@@ -457,7 +456,6 @@
 
             </div>
             <!-- End of Main Content -->
-
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -713,7 +711,7 @@
                             datasets: [{
                                     label: "Earnings",
                                     lineTension: 0.3,
-                                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                    backgroundColor: "#2653d4",
                                     borderColor: "rgba(78, 115, 223, 1)",
                                     pointRadius: 3,
                                     pointBackgroundColor: "rgba(78, 115, 223, 1)",
@@ -772,7 +770,7 @@
                             },
                             tooltips: {
                                 backgroundColor: "rgb(255,255,255)",
-                                bodyFontColor: "#858796",
+                                bodyFontColor: "#2653d4",
                                 titleMarginBottom: 10,
                                 titleFontColor: '#6e707e',
                                 titleFontSize: 14,
@@ -793,6 +791,39 @@
                             }
                         }
                     });
+
+// Pie Chart Example
+                    var ctx = document.getElementById("myPieChart");
+                    var myPieChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ["Direct", "Referral", "Social"],
+                            datasets: [{
+                                    data: [55, 30, 15],
+                                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                                }],
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            tooltips: {
+                                backgroundColor: "rgb(255,255,255)",
+                                bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                borderWidth: 1,
+                                xPadding: 15,
+                                yPadding: 15,
+                                displayColors: false,
+                                caretPadding: 10,
+                            },
+                            legend: {
+                                display: false
+                            },
+                            cutoutPercentage: 80,
+                        },
+                    });
+
     </script>
 </body>
 

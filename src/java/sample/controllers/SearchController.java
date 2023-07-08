@@ -64,6 +64,8 @@ public class SearchController extends HttpServlet {
                 List<CategoryDTO> cateList = cateDAO.getCatetoryList();
                 List<String> listSize = dao.getSizeList();
                 List<BirdDTO> listBird = CategoriesBirdDAO.getBirdList();
+            List<ProductDTO> listTop5Sale = ProductDAO.listTop5Product();
+            List<ProductDTO> listTop5New = ProductDAO.list5NewProduct();
                 List<ProductDTO> result = dao.searchListProductUser(searchValue, page, ON_PAGE_PRODUCT, -1, "", -1, -1, "");
                 int amount = dao.getAmountSearchProductUser(searchValue, -1, "", -1, -1, "");
                 int endPage = amount / ON_PAGE_PRODUCT;
@@ -78,6 +80,8 @@ public class SearchController extends HttpServlet {
                 request.setAttribute("CATEGORY_LIST", cateList);
                 request.setAttribute("SIZE_LIST", listSize);
                 request.setAttribute("BIRD_LIST", listBird);
+                request.setAttribute("TOP5SALE", listTop5Sale);
+                request.setAttribute("TOP5NEW", listTop5New);
             }
         } catch (SQLException e) {
             log("AccountSearchServlet _ SQL _ " + e.getMessage());
