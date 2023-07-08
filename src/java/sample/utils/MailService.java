@@ -30,7 +30,6 @@ public class MailService {
     //pass: kgmnxkwcfipzyyow
     private static final String FROM = "birdmealordersystem@gmail.com";
     private static final String PASSWORD = "kgmnxkwcfipzyyow";
-    String ord = "";
 
     public boolean sendVerifyEmail(String email, String link) {
         Properties props = new Properties();

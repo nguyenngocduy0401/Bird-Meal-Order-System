@@ -664,9 +664,12 @@
                                                                                                     <c:when test="${dto.status == '4'}">
                                                                                                         Completed
                                                                                                     </c:when>
-                                                                                                    <c:when test="${dto.status == '5'}">
-                                                                                                        Incompleted
+                                                                                                    <c:when test="${dto.status == '4'}">
+                                                                                                        Completed
                                                                                                     </c:when>
+                                                                                                    <c:when test="${dto.status == '0'}">
+                                                                                                        Cancelled
+                                                                                                    </c:when>    
                                                                                                 </c:choose>
                                                                                         </p>
                                                                                     </div>

@@ -105,6 +105,7 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                         break;
                     default:
                         result = orderDAO.updateStatusOrder(orderID, status);
+                        break;
                 }
                 
                 if (result) {
