@@ -117,11 +117,19 @@ public class AdminAccountView extends HttpServlet {
                     out.print("<td>Unavailable</td>\n");
                 }
                 out.print("                                            <td>" + dto.getPhoneNumber() + "</td>\n");
+               if(dto.getRole() != 0){
                 if (dto.isStatus()) {
                     out.print("<td><a class=\"btn btn-outline-primary mr-auto\" onclick=\"banAccount(\'" + dto.getUserName() + "\', true)\" value=\"CreateStaff\">Ban</a></td>\n");
                 } else {
                     out.print("<td><a class=\"btn btn-outline-primary mr-auto\" onclick=\"banAccount(\'" + dto.getUserName() + "\', false)\" value=\"CreateStaff\">Unban</a></td>\n");
                 }
+               }else{
+                   if (dto.isStatus()) {
+                    out.print("<td></td>");
+                } else {
+                    out.print("<td></td>");
+                }
+               }
             });
 
             out.print("                                    </tbody>\n"

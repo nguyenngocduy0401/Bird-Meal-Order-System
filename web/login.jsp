@@ -197,6 +197,9 @@
                                 <c:if test="${param.check eq '2'}">
                                     <div style="color: red;">Your username or password is incorrect</p></div>
                                 </c:if>
+                                    <c:if test="${param.check eq '3'}">
+                                    <div style="color: red;">Your account has been restricted</p></div>
+                                </c:if>
 
                                 <div class="col-12">
                                     <tr><td colspan="2"><button class="btn-login btn btn-primary w-100 py-3" style="font-size: 18px;" type="submit" name="action" value="login">LOGIN</button></td></tr>

@@ -27,7 +27,7 @@ public class ProductDTO implements Serializable{
     private int status;
     private String country;
     private String imgPath;
-
+    private String DateManufacture;
     public ProductDTO() {
     }
 
@@ -58,6 +58,30 @@ public class ProductDTO implements Serializable{
         this.status = status;
         this.country = country;
         this.imgPath = imgPath;
+    }
+
+    public ProductDTO(int productID, String productName, double price, int quantity, int categoryID, String productDetail, String size, int ageRecommendation, int date, int status, String country, String imgPath, String DateManufacture) {
+        this.productID = productID;
+        this.productName = productName;
+        this.price = price;
+        this.quantity = quantity;
+        this.categoryID = categoryID;
+        this.productDetail = productDetail;
+        this.size = size;
+        this.ageRecommendation = ageRecommendation;
+        this.date = date;
+        this.status = status;
+        this.country = country;
+        this.imgPath = imgPath;
+        this.DateManufacture = DateManufacture;
+    }
+
+    public String getDateManufacture() {
+        return DateManufacture;
+    }
+
+    public void setDateManufacture(String DateManufacture) {
+        this.DateManufacture = DateManufacture;
     }
     
     

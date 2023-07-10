@@ -809,7 +809,54 @@ public class ProductDAO {
         }
         return null;
     }
+public static ProductDTO getProductByIDFix(int getProductID) {
+        ProductDTO product = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String s = "SELECT ProductID, ProductName, Price, Quantity, CategoryID, ProductDetail, Size, AgeRecommendation, Date , [Status], Country, imgPath,dateManufacture\n"
+                        + "FROM Product\n"
+                        + "WHERE ProductID = ?;";
+                PreparedStatement pst = cn.prepareStatement(s);
+                pst.setInt(1, getProductID);
+                ResultSet kq = pst.executeQuery();
+                if (kq != null) {
+                    while (kq.next()) {
+                        int productID = kq.getInt("ProductID");
+                        String productName = kq.getString("ProductName");
+                        double price = kq.getDouble("Price");
+                        int quantity = kq.getInt("Quantity");
+                        int categoryID = kq.getInt("CategoryID");
+                        String productDetail = kq.getString("ProductDetail");
+                        String size = kq.getString("Size");
+                        int ageRecommendation = kq.getInt("AgeRecommendation");
+                        int date = kq.getInt("Date");
+                        int status = kq.getInt("Status");
+                        String country = kq.getString("Country");
+                        String imgPath = kq.getString("imgPath");
+                        String dateManufacture = kq.getString("dateManufacture");
+                        product = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath,dateManufacture);
 
+                    }
+                    cn.close();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return product;
+    }
     public static ProductDTO getProductByID(int getProductID) {
         ProductDTO product = null;
         Connection cn = null;

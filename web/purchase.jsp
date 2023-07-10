@@ -324,6 +324,7 @@
 
 
         <!-- JavaScript Libraries -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
@@ -357,13 +358,19 @@
                                                     var id = orderID;
                                                     $.ajax({
                                                         type: "post",
-                                                        url: "BuyAgain",
+                                                        url: "BuyAgainController",
                                                         data: {
                                                             orderID: id,
                                                             userID: '${sessionScope.user.userID}'
                                                         },
                                                         success: function () {
-                                                            alert("San Pham da duoc dua vao gio hang");
+                                                            Swal.fire({
+
+                                                                icon: 'success',
+                                                                title: 'Successful!',
+                                                                showConfirmButton: false,
+                                                                timer: 1000
+                                                            })
                                                         }
                                                     });
                                                 }

@@ -212,7 +212,7 @@
                                                         <div class="col-sm-7   text-right">
                                                         </div>
                                                         <div class="col-sm-5   ">
-                                                            <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" style="font-size: 14px" type="submit" name="btAction" value="submitCheckOutGuest">Manage my address</button>
+                                                            <a href="ShowListAddressController"><button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" style="font-size: 14px" type="button" name="btAction" value="submitCheckOutGuest">Manage my address</button></a>
                                                         </div>
 
                                                     </div>

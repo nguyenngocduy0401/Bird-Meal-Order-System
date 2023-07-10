@@ -31,6 +31,7 @@
     </head>
 
     <style>
+
         #categorybar {
             position: fixed;
             display: block;
@@ -298,13 +299,24 @@
                                                 <c:if test="${dto.quantity eq 0}">
                                                 </c:if>
                                                 <c:if test="${dto.quantity ne 0}">
-                                                    <button type="submit" value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                        <i class="bi bi-cart-fill me-1 "></i>
-                                                    </button>
+                                                    <form>
+                                                        <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                            <i class="bi bi-cart-fill me-1 "></i>
+                                                        </button>
+                                                    </form>
                                                 </c:if>
                                             </div>
-                                            <a class="btn btn-primary py-2 px-3" href="ProductDetailController?productID=${dto.productID}"><i class="bi bi-eye"></i></a>
-                                        </div>
+                                            <div class="d-flex">
+
+                                                <form action="ProductDetailController" method="post" style="display: inline;">
+                                                    <input type="hidden" name="productID" value="${dto.productID}">
+                                                    <button type="submit" class="btn btn-primary py-2 px-3">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </form>
+
+
+                                            </div></div>
                                     </div>
                                 </section>
                             </div>
@@ -358,12 +370,24 @@
                                         <c:if test="${dto.quantity eq 0}">
                                         </c:if>
                                         <c:if test="${dto.quantity ne 0}">
-                                            <button type="submit" value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                <i class="bi bi-cart-fill me-1 "></i>
-                                            </button>
+                                            <form>
+                                                <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                    <i class="bi bi-cart-fill me-1 "></i>
+                                                </button>
+                                            </form>
                                         </c:if>
                                     </div>
-                                    <a class="btn btn-primary py-2 px-3" href="ProductDetailController?productID=${dto.productID}"><i class="bi bi-eye"></i></a>
+                                    <div class="d-flex">
+
+                                        <form action="ProductDetailController" method="post" style="display: inline;">
+                                            <input type="hidden" name="productID" value="${dto.productID}">
+                                            <button type="submit" class="btn btn-primary py-2 px-3">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </form>
+
+
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -387,12 +411,24 @@
                                         <c:if test="${dto.quantity eq 0}">
                                         </c:if>
                                         <c:if test="${dto.quantity ne 0}">
-                                            <button type="submit" value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                <i class="bi bi-cart-fill me-1 "></i>
-                                            </button>
+                                            <form>
+                                                <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                    <i class="bi bi-cart-fill me-1 "></i>
+                                                </button>
+                                            </form>
                                         </c:if>
                                     </div>
-                                    <a class="btn btn-primary py-2 px-3" href="ProductDetailController?productID=${dto.productID}"><i class="bi bi-eye"></i></a>
+                                    <div class="d-flex">
+
+                                        <form action="ProductDetailController" method="post" style="display: inline;">
+                                            <input type="hidden" name="productID" value="${dto.productID}">
+                                            <button type="submit" class="btn btn-primary py-2 px-3">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </form>
+
+
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -402,94 +438,106 @@
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script>
-                                                function loadPage(param) {
-                                                    var amount = param;
-                                                    $.ajax({
-                                                        type: "get",
-                                                        url: "PagingProduct",
-                                                        data: {
-                                                            index: amount,
-                                                            txtSearchValue: '${requestScope.txtSearchValue}',
-                                                            cateFilter: $('#cate').val(),
-                                                            sizeFilter: $('#size').val(),
-                                                            birdFilter: $('#bird').val(),
-                                                            minPrice: $('#minPrice').val(),
-                                                            maxPrice: $('#maxPrice').val()
-                                                        },
-                                                        success: function (data) {
-                                                            var row = document.getElementById("content");
-                                                            row.innerHTML = data;
-                                                        }
-                                                    });
-                                                }
-                                                function addToCart(param) {
-                                                    var id = param;
-                                                    $.ajax({
-                                                        type: "post",
-                                                        url: "AddToCartController",
-                                                        data: {
-                                                            pid: id,
-                                                        },
-                                                        success: function () {
-                                                            Swal.fire({
-
-                                                                icon: 'success',
-                                                                title: 'Successful!',
-                                                                showConfirmButton: false,
-                                                                timer: 1000
-                                                            })
-                                                        }
-                                                    });
-                                                }
-                                                function filter() {
-                                                    $.ajax({
-                                                        type: "post",
-                                                        url: "PagingFilter",
-                                                        data: {
-                                                            index: 1,
-                                                            txtSearchValue: '${requestScope.txtSearchValue}',
-                                                            cateFilter: $('#cate').val(),
-                                                            sizeFilter: $('#size').val(),
-                                                            birdFilter: $('#bird').val(),
-                                                            minPrice: $('#minPrice').val(),
-                                                            maxPrice: $('#maxPrice').val()
-                                                        },
-                                                        success: function (data) {
-                                                            var row = document.getElementById("content");
-                                                            row.innerHTML = data;
-                                                        }
-                                                    });
-                                                }
-
-                                                /* Thêm hoặc xóa class show ra khỏi phần tử */
-                                                function myFunction(id) {
-                                                    document.getElementById(id).classList.toggle("show");
-                                                }
-                                                //lấy tất cả các button menu
-                                                var buttons = document.getElementsByClassName('dropbtn');
-                                                //lấy tất cả các thẻ chứa menu con
-                                                var contents = document.getElementsByClassName('dropdown-content');
-                                                //lặp qua tất cả các button menu và gán sự kiện
-                                                for (var i = 0; i < buttons.length; i++) {
-                                                    buttons[i].addEventListener("click", function () {
-                                                        //lấy value của button
-                                                        var id = this.value;
-                                                        //ẩn tất cả các menu con đang được hiển thị
-                                                        for (var i = 0; i < contents.length; i++) {
-                                                            contents[i].classList.remove("show");
-                                                        }
-                                                        //hiển thị menu vừa được click
-                                                        myFunction(id);
-                                                    });
-                                                }
-                                                //nếu click ra ngoài các button thì ẩn tất cả các menu con
-                                                window.addEventListener("click", function () {
-                                                    if (!event.target.matches('#dropbtn') && !event.target.matches('.test')) {
-                                                        for (var i = 0; i < contents.length; i++) {
-                                                            contents[i].classList.remove("show");
-                                                        }
+                                                    function loadPage(param) {
+                                                        var amount = param;
+                                                        $.ajax({
+                                                            type: "get",
+                                                            url: "PagingProduct",
+                                                            data: {
+                                                                index: amount,
+                                                                txtSearchValue: '${requestScope.txtSearchValue}',
+                                                                cateFilter: $('#cate').val(),
+                                                                sizeFilter: $('#size').val(),
+                                                                birdFilter: $('#bird').val(),
+                                                                minPrice: $('#minPrice').val(),
+                                                                maxPrice: $('#maxPrice').val()
+                                                            },
+                                                            success: function (data) {
+                                                                var row = document.getElementById("content");
+                                                                row.innerHTML = data;
+                                                            }
+                                                        });
                                                     }
-                                                });
+                                                    function addToCart(param) {
+                                                        var id = param;
+                                                        $.ajax({
+                                                            type: "post",
+                                                            url: "AddToCartController",
+                                                            data: {
+                                                                pid: id,
+                                                            },
+                                                            success: function () {
+                                                                Swal.fire({
+
+                                                                    icon: 'success',
+                                                                    title: 'Successful!',
+                                                                    showConfirmButton: false,
+                                                                    timer: 1000
+                                                                })
+                                                            }
+                                                        });
+                                                    }
+                                                    function viewDetail(param) {
+                                                        var id = param;
+                                                        $.ajax({
+                                                            type: "post",
+                                                            url: "ProductDetailController",
+                                                            data: {
+                                                                productID: id,
+                                                            },
+                                                            success: function () {
+                                                            }
+                                                        });
+                                                    }
+                                                    function filter() {
+                                                        $.ajax({
+                                                            type: "post",
+                                                            url: "PagingFilter",
+                                                            data: {
+                                                                index: 1,
+                                                                txtSearchValue: '${requestScope.txtSearchValue}',
+                                                                cateFilter: $('#cate').val(),
+                                                                sizeFilter: $('#size').val(),
+                                                                birdFilter: $('#bird').val(),
+                                                                minPrice: $('#minPrice').val(),
+                                                                maxPrice: $('#maxPrice').val()
+                                                            },
+                                                            success: function (data) {
+                                                                var row = document.getElementById("content");
+                                                                row.innerHTML = data;
+                                                            }
+                                                        });
+                                                    }
+
+                                                    /* Thêm hoặc xóa class show ra khỏi phần tử */
+                                                    function myFunction(id) {
+                                                        document.getElementById(id).classList.toggle("show");
+                                                    }
+                                                    //lấy tất cả các button menu
+                                                    var buttons = document.getElementsByClassName('dropbtn');
+                                                    //lấy tất cả các thẻ chứa menu con
+                                                    var contents = document.getElementsByClassName('dropdown-content');
+                                                    //lặp qua tất cả các button menu và gán sự kiện
+                                                    for (var i = 0; i < buttons.length; i++) {
+                                                        buttons[i].addEventListener("click", function () {
+                                                            //lấy value của button
+                                                            var id = this.value;
+                                                            //ẩn tất cả các menu con đang được hiển thị
+                                                            for (var i = 0; i < contents.length; i++) {
+                                                                contents[i].classList.remove("show");
+                                                            }
+                                                            //hiển thị menu vừa được click
+                                                            myFunction(id);
+                                                        });
+                                                    }
+                                                    //nếu click ra ngoài các button thì ẩn tất cả các menu con
+                                                    window.addEventListener("click", function () {
+                                                        if (!event.target.matches('#dropbtn') && !event.target.matches('.test')) {
+                                                            for (var i = 0; i < contents.length; i++) {
+                                                                contents[i].classList.remove("show");
+                                                            }
+                                                        }
+                                                    });
         </script>
     </body>
 </html>

@@ -45,7 +45,8 @@
 
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
     <!-- Topbar Start -->
@@ -55,7 +56,7 @@
                 <div class="d-inline-flex align-items-center">
                     <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
                     <div class="text-start">
-                        <h6 class="text-uppercase mb-1">??a Ch?</h6>
+                        <h6 class="text-uppercase mb-1">Our address</h6>
                         <span>Lô E2a-7, ???ng D1, ?. D1, Long Th?nh M?, Thành Ph? Th? ??c</span>
                     </div>
                 </div>
@@ -122,7 +123,7 @@
                     <!--                        <div class="small mb-1">SKU: BST-498</div>-->
                     <h1 class="display-5 fw-bolder " >${productDTO.productName}</h1>
                     <div class="fs-5 mb-5">
-                        <span class="display-6" style="color: #7AB730;" >$${productDTO.price}</span>
+                        <span class="display-6" style="color: #7AB730;" >${productDTO.price} VND</span>
                     </div>
                     <div></div>
                     <div class="lead">${productDTO.productDetail}</div>
@@ -140,6 +141,7 @@
                                 <i class="bi bi-cart-fill me-1 "></i>
                                 Add to cart </button>
                             </c:if>
+
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                         <script>
 
@@ -147,9 +149,9 @@
                                     var id = param;
                                     $.ajax({
                                         type: "post",
-                                        url: "AddItemToCartServlet",
+                                        url: "AddToCartController",
                                         data: {
-                                            pk: id,
+                                            pid: id,
                                         },
                                         success: function () {
                                             Swal.fire({
@@ -179,7 +181,7 @@
                             <td>${categoryDTO.categoryName}</td>
                         </tr>
                         <tr>
-                            <td>Bith</td>
+                            <td>Birth</td>
                             <td><c:forEach items="${listBird}" var="bird">
                                     ${bird.birdName}
                                     <c:if test="${bird.birdName != null}"> | </c:if>
@@ -192,6 +194,14 @@
                         <tr>
                             <td>Size</td>
                             <td>${productDTO.size}</td>
+                        </tr>
+                        <tr>
+                            <td>EXP</td>
+                            <td><${productDTO.date} months</td>
+                        </tr>
+                        <tr>
+                            <td>MFG</td>
+                            <td>${productDTO.dateManufacture}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -253,12 +263,12 @@
 
 
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
