@@ -290,34 +290,37 @@
                         <c:forEach var="dto" items="${result}">
                             <div class="block col-md-4 mt-1">
                                 <section class="panel">
-                                    <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
-                                        <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
-                                        <p class="name text-uppercase">${dto.productName}</p>
-                                        <h5 class="text-primary mb-0">${dto.price} VND</h5>
-                                        <div class="btn-action d-flex justify-content-center">
-                                            <div class="d-flex">
-                                                <c:if test="${dto.quantity eq 0}">
-                                                </c:if>
-                                                <c:if test="${dto.quantity ne 0}">
-                                                    <form>
-                                                        <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                            <i class="bi bi-cart-fill me-1 "></i>
-                                                        </button>
-                                                    </form>
-                                                </c:if>
-                                            </div>
-                                            <div class="d-flex">
-
-                                                <form action="ProductDetailController" method="post" style="display: inline;">
-                                                    <input type="hidden" name="productID" value="${dto.productID}">
-                                                    <button type="submit" class="btn btn-primary py-2 px-3">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                </form>
-
-
-                                            </div></div>
+                                    <a href="#" onclick="document.getElementById('formid').submit()">
+                            <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
+                                <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
+                                <p class="name text-uppercase">${dto.productName}</p>
+                                <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                <div class="btn-action d-flex justify-content-center">
+                                    <div class="d-flex">
+                                        <c:if test="${dto.quantity eq 0}">
+                                        </c:if>
+                                        <c:if test="${dto.quantity ne 0}">
+                                            <form>
+                                                <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                    <i class="bi bi-cart-fill me-1 "></i>
+                                                </button>
+                                            </form>
+                                        </c:if>
                                     </div>
+                                    <div class="d-flex">
+
+                                        <form action="ProductDetailController" method="post" style="display: none;" id="formid">
+                                            <input type="hidden" name="productID" value="${dto.productID}">
+                                            <button type="submit" class="btn btn-primary py-2 px-3">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                           </a>
                                 </section>
                             </div>
                         </c:forEach>
@@ -361,6 +364,7 @@
                 <c:forEach var="dto" items="${top5sale}">
                     <div class="block top-product col-md-2">
                         <section class="panel">
+                            <a href="#" onclick="document.getElementById('formid').submit()">
                             <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
                                 <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                 <p class="name text-uppercase">${dto.productName}</p>
@@ -379,7 +383,7 @@
                                     </div>
                                     <div class="d-flex">
 
-                                        <form action="ProductDetailController" method="post" style="display: inline;">
+                                        <form action="ProductDetailController" method="post" style="display: none;" id="formid">
                                             <input type="hidden" name="productID" value="${dto.productID}">
                                             <button type="submit" class="btn btn-primary py-2 px-3">
                                                 <i class="bi bi-eye"></i>
@@ -390,6 +394,7 @@
                                     </div>
                                 </div>
                             </div>
+                           </a>
                         </section>
                     </div>
                 </c:forEach>
@@ -398,10 +403,11 @@
         <div class="col-9 container-fluid">
             <h5>Top New</h5>
             <div class="row products-row product-list">
-
+                
                 <c:forEach var="dto" items="${top5new}">
                     <div class="block top-product col-md-2">
                         <section class="panel">
+                            <a href="#" onclick="document.getElementById('formid').submit()">
                             <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
                                 <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                 <p class="name text-uppercase">${dto.productName}</p>
@@ -420,7 +426,7 @@
                                     </div>
                                     <div class="d-flex">
 
-                                        <form action="ProductDetailController" method="post" style="display: inline;">
+                                        <form action="ProductDetailController" method="post" style="display: none;" id="formid">
                                             <input type="hidden" name="productID" value="${dto.productID}">
                                             <button type="submit" class="btn btn-primary py-2 px-3">
                                                 <i class="bi bi-eye"></i>
@@ -431,6 +437,7 @@
                                     </div>
                                 </div>
                             </div>
+                           </a>
                         </section>
                     </div>
                 </c:forEach>
