@@ -7,24 +7,31 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.dao.ProductDAO;
+import sample.dto.ProductDTO;
 
 /**
  *
  * @author DucAnh
  */
-@WebServlet(name = "DeleteProduct", urlPatterns = {"/DeleteProduct"})
-public class DeleteProduct extends HttpServlet {
-private final String HOME_PAGE_STAFF = "staff.jsp";
+@WebServlet(name = "ListUnavailable", urlPatterns = {"/ListUnavailable"})
+public class ListUnavailable extends HttpServlet {
+
+    private final String STAFF_HOME = "staff.jsp";
+    private final String UNAVAILABLE_HOME = "ListUnavailable.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,27 +42,22 @@ private final String HOME_PAGE_STAFF = "staff.jsp";
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException {
+            throws ServletException, IOException, SQLException, NamingException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        String productId = request.getParameter("productID");
-        //String searchValue = request.getParameter("SearchValue");
-        String url = HOME_PAGE_STAFF;
+        String url = UNAVAILABLE_HOME;
         try {
-            int productID = Integer.parseInt(productId);
             ProductDAO dao = new ProductDAO();
-            boolean result = dao.deleteAcc(productID);
-            if (result) {
-                // Nếu xóa thành công, chuyển hướng đến trang danh sách sản phẩm
-                response.sendRedirect("ListUnavailable?");
-            } else {
-                // Nếu không thành công, hiển thị thông báo lỗi cho người dùng
-                response.setContentType("text/plain");
-                response.getWriter().println("Failed to delete product with ID " + productID);
-            }
+            List<ProductDTO> result = dao.loadProductsStatus();
+            request.setAttribute("listUnavailable", result);
+
         } catch (SQLException ex) {
-            log("SearchLastnameServlet_SQL: " + ex.getMessage());
+            log("BuyBookServlet_SQL: " + ex.getMessage());
         } catch (NamingException ex) {
-            log("SearchLastnameServlet_Naming: " + ex.getMessage());
+            log("BuyBookServlet_Naming: " + ex.getMessage());
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+            out.close();
         }
     }
 
@@ -71,11 +73,15 @@ private final String HOME_PAGE_STAFF = "staff.jsp";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
-        processRequest(request, response);
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(DeleteProduct.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ListUnavailable.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(ListUnavailable.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ListUnavailable.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -89,11 +95,15 @@ private final String HOME_PAGE_STAFF = "staff.jsp";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
-        processRequest(request, response);
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(DeleteProduct.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ListUnavailable.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(ListUnavailable.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ListUnavailable.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

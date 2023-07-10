@@ -126,7 +126,7 @@ public class FeedbackDAO {
                     String replyDetails = rs.getString("ReplyDetails");
                     String replyDate = rs.getString("ReplyDate");
 
-                    FeedbackDTO fb = new FeedbackDTO(feedbackID, orderID, userID, productID, details, date, rate,replyDate, replyDetails, REplyStaff);
+                    FeedbackDTO fb = new FeedbackDTO(feedbackID, orderID, userID, productID, details, date, rate, replyDate, replyDetails, REplyStaff);
                     listFeedback.add(fb);
                 }//end while rs not null
             }//end if con is not null
@@ -175,6 +175,63 @@ public class FeedbackDAO {
             }
         }
         return result;
+    }
+
+    public static List<FeedbackDTO> getFeedBack()
+            throws SQLException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<FeedbackDTO> listFeedback = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [FeedbackID]\n"
+                        + "      ,[OrderID]\n"
+                        + "      ,[UserID]\n"
+                        + "      ,[ProductID]\n"
+                        + "      ,[FeedBackDetail]\n"
+                        + "      ,[FeedbackDate]\n"
+                        + "      ,[Rate]\n"
+                        + "      ,[ReplyStaff]\n"
+                        + "      ,[ReplyDetails]\n"
+                        + "      ,[ReplyDate]"
+                        + "  FROM [Feedback]\n";
+
+                stm = con.prepareStatement(sql);
+
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int feedbackID = rs.getInt("FeedbackID");
+                    int orderID = rs.getInt("OrderID");
+                    int userID = rs.getInt("UserID");
+                    int productID = rs.getInt("ProductID");
+                    String details = rs.getString("FeedBackDetail");
+                    String date = rs.getString("FeedbackDate");
+                    int rate = rs.getInt("Rate");
+                    String REplyStaff = rs.getString("ReplyStaff");
+                    String replyDetails = rs.getString("ReplyDetails");
+                    String replyDate = rs.getString("ReplyDate");
+
+                    FeedbackDTO fb = new FeedbackDTO(feedbackID, orderID, userID, productID, details, date, rate, REplyStaff, replyDetails, replyDate);
+                    listFeedback.add(fb);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listFeedback;
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
