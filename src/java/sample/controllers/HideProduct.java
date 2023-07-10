@@ -7,10 +7,6 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,9 +18,9 @@ import sample.dao.ProductDAO;
  *
  * @author DucAnh
  */
-@WebServlet(name = "DeleteProduct", urlPatterns = {"/DeleteProduct"})
-public class DeleteProduct extends HttpServlet {
-private final String HOME_PAGE_STAFF = "staff.jsp";
+@WebServlet(name = "HideProduct", urlPatterns = {"/HideProduct"})
+public class HideProduct extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,27 +31,21 @@ private final String HOME_PAGE_STAFF = "staff.jsp";
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String productId = request.getParameter("productID");
-        //String searchValue = request.getParameter("SearchValue");
-        String url = HOME_PAGE_STAFF;
-        try {
-            int productID = Integer.parseInt(productId);
-            ProductDAO dao = new ProductDAO();
-            boolean result = dao.deleteAcc(productID);
-            if (result) {
-                // Nếu xóa thành công, chuyển hướng đến trang danh sách sản phẩm
-                response.sendRedirect("ListUnavailable?");
-            } else {
-                // Nếu không thành công, hiển thị thông báo lỗi cho người dùng
-                response.setContentType("text/plain");
-                response.getWriter().println("Failed to delete product with ID " + productID);
-            }
-        } catch (SQLException ex) {
-            log("SearchLastnameServlet_SQL: " + ex.getMessage());
-        } catch (NamingException ex) {
-            log("SearchLastnameServlet_Naming: " + ex.getMessage());
+        int productId = Integer.parseInt(request.getParameter("productID"));
+        int status = Integer.parseInt(request.getParameter("status"));
+
+        ProductDAO dao = new ProductDAO();
+        boolean result = dao.HideProduct(productId, 0); // Cập nhật trạng thái sản phẩm thành giá trị đánh dấu cho sản phẩm bị ẩn (trong đây là 0)
+        //response.sendRedirect("productList.jsp"); // Chuyển hướng về trang danh sách sản phẩm sau khi ẩn sản phẩm thành công
+        if (result) {
+            // Nếu xóa thành công, chuyển hướng đến trang danh sách sản phẩm
+            response.sendRedirect("MainController?btAction=StaffHome");
+        } else {
+            // Nếu không thành công, hiển thị thông báo lỗi cho người dùng
+            response.setContentType("text/plain");
+            response.getWriter().println("Failed to delete product with ID " + productId);
         }
     }
 
@@ -71,11 +61,7 @@ private final String HOME_PAGE_STAFF = "staff.jsp";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
         processRequest(request, response);
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(DeleteProduct.class.getName()).log(Level.SEVERE, null, ex);
-    }
     }
 
     /**
@@ -89,11 +75,7 @@ private final String HOME_PAGE_STAFF = "staff.jsp";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
         processRequest(request, response);
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(DeleteProduct.class.getName()).log(Level.SEVERE, null, ex);
-    }
     }
 
     /**

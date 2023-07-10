@@ -112,6 +112,9 @@ public class CreateNewProductServlet extends HttpServlet {
                             case "txtCountry":
                                 product.setCountry(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
                                 break;
+                            case "txtDateManufacture":
+                                product.setDateManufacture(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                break;
                         }
                     } else {
                         // Xử lý trường hợp tạo sản phẩm với ảnh đính kèm

@@ -1,4 +1,3 @@
-
 package sample.dao;
 
 import java.sql.Connection;
@@ -787,12 +786,11 @@ public class ProductDAO {
                     String size = rs.getString("size");
                     int ageRecommendation = rs.getInt("ageRecommendation");
                     int date = rs.getInt("Date");
+                    String DateManufacture = rs.getString("DateManufacture");
                     int status = rs.getInt("status");
                     String Country = rs.getString("country");
                     String ImgPath = rs.getString("imgPath");
-                    ProductDTO result = new ProductDTO(productID, productName, price,
-                            quantity, categoryID, productDetail, size, ageRecommendation,
-                            date, status, Country, ImgPath);
+                    ProductDTO result = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, Country, ImgPath, DateManufacture);
                     return result;
                 }
             }
@@ -809,7 +807,8 @@ public class ProductDAO {
         }
         return null;
     }
-public static ProductDTO getProductByIDFix(int getProductID) {
+
+    public static ProductDTO getProductByIDFix(int getProductID) {
         ProductDTO product = null;
         Connection cn = null;
         try {
@@ -836,7 +835,7 @@ public static ProductDTO getProductByIDFix(int getProductID) {
                         String country = kq.getString("Country");
                         String imgPath = kq.getString("imgPath");
                         String dateManufacture = kq.getString("dateManufacture");
-                        product = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath,dateManufacture);
+                        product = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath, dateManufacture);
 
                     }
                     cn.close();
@@ -857,6 +856,7 @@ public static ProductDTO getProductByIDFix(int getProductID) {
         }
         return product;
     }
+
     public static ProductDTO getProductByID(int getProductID) {
         ProductDTO product = null;
         Connection cn = null;
@@ -1125,7 +1125,7 @@ public static ProductDTO getProductByIDFix(int getProductID) {
         return listProduct;
     }
 
-    public boolean createProduct(ProductDTO dto)
+    public static boolean createProduct(ProductDTO dto)
             throws ClassNotFoundException, SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -1136,8 +1136,8 @@ public static ProductDTO getProductByIDFix(int getProductID) {
             if (con != null) {
                 String sql = "INSERT INTO Product "
                         + "(ProductName, Price, Quantity, CategoryID, ProductDetail, "
-                        + "Size, AgeRecommendation, Date, [Status], Country, imgPath) "
-                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                        + "Size, AgeRecommendation, Date, DateManufacture, [Status], Country, imgPath) "
+                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                 //3 create
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getProductName());
@@ -1148,9 +1148,10 @@ public static ProductDTO getProductByIDFix(int getProductID) {
                 stm.setString(6, dto.getSize());
                 stm.setInt(7, dto.getAgeRecommendation());
                 stm.setInt(8, dto.getDate());
-                stm.setInt(9, dto.getStatus());
-                stm.setString(10, dto.getCountry());
-                stm.setString(11, dto.getImgPath());
+                stm.setString(9, dto.getDateManufacture());
+                stm.setInt(10, dto.getStatus());
+                stm.setString(11, dto.getCountry());
+                stm.setString(12, dto.getImgPath());
                 int effectRow = stm.executeUpdate();
                 if (effectRow > 0) {
                     result = true;
@@ -1177,10 +1178,18 @@ public static ProductDTO getProductByIDFix(int getProductID) {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "UPDATE Product set ProductName = ?, Price = ?, Quantity = ?, CategoryID = ?, \n"
-                        + "ProductDetail = ?, Size = ?, AgeRecommendation = ?, Date = ?, \n"
+                String sql = "UPDATE Product SET ProductName = ?, Price = ?, Quantity = ?, CategoryID = ?, \n"
+                        + "ProductDetail = ?, Size = ?, AgeRecommendation = ?, Date = ?, DateManufacture = ?, \n"
                         + "[Status] = ?, Country = ?, imgPath = ? WHERE ProductID = ?";
-                //3 create
+
+                // Kiểm tra nếu không có hình mới, sử dụng lại hình hiện tại
+                String imagePath = dto.getImgPath(); // Lấy đường dẫn hình mới
+                boolean shouldUpdateImage = (imagePath != null && !imagePath.isEmpty());
+
+                if (!shouldUpdateImage) {
+                    sql = sql.replace("imgPath = ?", "imgPath = imgPath");
+                }
+
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getProductName());
                 stm.setDouble(2, dto.getPrice());
@@ -1190,10 +1199,18 @@ public static ProductDTO getProductByIDFix(int getProductID) {
                 stm.setString(6, dto.getSize());
                 stm.setInt(7, dto.getAgeRecommendation());
                 stm.setInt(8, dto.getDate());
-                stm.setInt(9, dto.getStatus());
-                stm.setString(10, dto.getCountry());
-                stm.setString(11, dto.getImgPath());
-                stm.setInt(12, dto.getProductID());
+                stm.setString(9, dto.getDateManufacture());
+                stm.setInt(10, dto.getStatus());
+                stm.setString(11, dto.getCountry());
+
+                // Chỉ thêm tham số imgPath nếu cần
+                if (shouldUpdateImage) {
+                    stm.setString(12, imagePath);
+                    stm.setInt(13, dto.getProductID());
+                } else {
+                    stm.setInt(12, dto.getProductID());
+                }
+
                 int effectRow = stm.executeUpdate();
                 if (effectRow > 0) {
                     result = true;
@@ -1463,5 +1480,103 @@ public static ProductDTO getProductByIDFix(int getProductID) {
         }
         return result;
     }
-    
+
+    public boolean HideProduct(int productId, int status) {
+        Connection con = null;
+        PreparedStatement stm = null;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "UPDATE [Product] SET [Status] = ? WHERE [ProductID] = ?";
+
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, status);
+                stm.setInt(2, productId);
+
+                int rowsAffected = stm.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Product status updated successfully");
+                    return true;
+                } else {
+                    System.out.println("Failed to update product status");
+                    return false;
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace(); // Handle or log the exception as needed
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle or log the exception as needed
+            }
+        }
+
+        return false;
+    }
+
+    public static List<ProductDTO> loadProductsStatus()
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<ProductDTO> listProduct = new ArrayList<>();
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [ProductID]\n"
+                        + "      ,[ProductName]\n"
+                        + "      ,[Price]\n"
+                        + "      ,[Quantity]\n"
+                        + "      ,[CategoryID]\n"
+                        + "      ,[ProductDetail]\n"
+                        + "      ,[Size]\n"
+                        + "      ,[AgeRecommendation]\n"
+                        + "      ,[Date]\n"
+                        + "      ,[Status]\n"
+                        + "      ,[Country]\n"
+                        + "      ,[imgPath] "
+                        + "FROM Product WHERE [Status] = 0";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    double price = rs.getDouble("Price");
+                    int quantity = rs.getInt("Quantity");
+                    int categoryID = rs.getInt("CategoryID");
+                    String productDetail = rs.getString("ProductDetail");
+                    String size = rs.getString("Size");
+                    int ageRecommendation = rs.getInt("AgeRecommendation");
+                    int date = rs.getInt("Date");
+                    int status = rs.getInt("Status");
+                    String country = rs.getString("Country");
+                    String imgPath = rs.getString("imgPath");
+
+                    ProductDTO dto = new ProductDTO(productID, productName, price, quantity, categoryID, productDetail, size, ageRecommendation, date, status, country, imgPath);
+                    listProduct.add(dto);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listProduct;
+    }
+
 }

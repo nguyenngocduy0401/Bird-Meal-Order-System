@@ -156,6 +156,7 @@ public class UpdateProductServlet extends HttpServlet {
 
                         // Lấy giá trị tiếng Việt từ trường dữ liệu "description"
                         String productDetail = new String(fileds.get("txtProductDetail").getBytes("ISO-8859-1"), "UTF-8");
+                        String DateManufacture = new String(fileds.get("txtDateManufacture").getBytes("ISO-8859-1"), "UTF-8");
 
                         productId = fileds.get("txtProductId");
                         if (productId != null && !productId.isEmpty()) {
@@ -176,6 +177,7 @@ public class UpdateProductServlet extends HttpServlet {
                             productdto.setSize(fileds.get("txtSize"));
                             productdto.setAgeRecommendation(Integer.parseInt(fileds.get("txtAgeRecommendation")));
                             productdto.setDate(Integer.parseInt(fileds.get("txtDate")));
+                            productdto.setDateManufacture(DateManufacture);
                             productdto.setStatus(Integer.parseInt(fileds.get("txtStatus")));
                             productdto.setCountry(fileds.get("txtCountry"));
                             if (existingImagePath != null) {
