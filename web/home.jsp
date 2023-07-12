@@ -31,6 +31,14 @@
     </head>
 
     <style>
+        .cards{
+
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .cards:hover{
+            transform: scale(1.05);
+        }
 
         #categorybar {
             position: fixed;
@@ -250,6 +258,7 @@
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 ">
                         <i class="bi bi-cart  fs-1 text-primary me-1"></i>
+                        <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bg-light text-danger" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
                     </a>
                     <c:if test="${empty sessionScope.user}">
                         <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
@@ -288,39 +297,41 @@
                     </c:if>
                     <div id ="content" class="row products-row product-list">
                         <c:forEach var="dto" items="${result}">
-                            <div class="block col-md-4 mt-1">
+                            <div class="cards block col-md-4 mt-1">
                                 <section class="panel">
-                                    <a href="#" onclick="document.getElementById('formid').submit()">
-                            <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
-                                <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
-                                <p class="name text-uppercase">${dto.productName}</p>
-                                <h5 class="text-primary mb-0">${dto.price} VND</h5>
-                                <div class="btn-action d-flex justify-content-center">
-                                    <div class="d-flex">
-                                        <c:if test="${dto.quantity eq 0}">
-                                        </c:if>
-                                        <c:if test="${dto.quantity ne 0}">
-                                            <form>
-                                                <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                    <i class="bi bi-cart-fill me-1 "></i>
-                                                </button>
-                                            </form>
-                                        </c:if>
+
+                                    <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
+                                        <div class="clickable" onclick="document.getElementById('formid_${dto.productID}').submit()">
+                                            <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
+                                            <p class="name text-uppercase">${dto.productName}</p>
+                                            <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                        </div>
+                                        <div class="btn-action d-flex justify-content-center">
+                                            <div class="d-flex">
+                                                <c:if test="${dto.quantity eq 0}">
+                                                </c:if>
+                                                <c:if test="${dto.quantity ne 0}">
+
+                                                    <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                        <i class="bi bi-cart-fill me-1 "></i>
+                                                    </button>
+
+                                                </c:if>
+                                            </div>
+                                            <div class="d-flex">
+
+                                                <form action="ProductDetailController" method="post" style="display: none;" id="formid_${dto.productID}">
+                                                    <input type="hidden" name="productID" value="${dto.productID}">
+                                                    <button type="submit" class="btn btn-primary py-2 px-3">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </form>
+
+
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <div class="d-flex">
-
-                                        <form action="ProductDetailController" method="post" style="display: none;" id="formid">
-                                            <input type="hidden" name="productID" value="${dto.productID}">
-                                            <button type="submit" class="btn btn-primary py-2 px-3">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </form>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                           </a>
                                 </section>
                             </div>
                         </c:forEach>
@@ -362,39 +373,37 @@
             <h5>Top Sale</h5>
             <div class="row products-row product-list">
                 <c:forEach var="dto" items="${top5sale}">
-                    <div class="block top-product col-md-2">
+                    <div class="cards block top-product col-md-2">
                         <section class="panel">
-                            <a href="#" onclick="document.getElementById('formid').submit()">
-                            <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
-                                <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
-                                <p class="name text-uppercase">${dto.productName}</p>
-                                <h5 class="text-primary mb-0">${dto.price} VND</h5>
-                                <div class="btn-action d-flex justify-content-center">
-                                    <div class="d-flex">
-                                        <c:if test="${dto.quantity eq 0}">
-                                        </c:if>
-                                        <c:if test="${dto.quantity ne 0}">
-                                            <form>
-                                                <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                    <i class="bi bi-cart-fill me-1 "></i>
+                            <div class="clickable" onclick="document.getElementById('formid_top5sale${dto.productID}').submit()">
+                                <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
+                                    <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
+                                    <p class="name text-uppercase">${dto.productName}</p>
+                                    <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                    <div class="btn-action d-flex justify-content-center">
+                                        <div class="d-flex">
+                                            <c:if test="${dto.quantity eq 0}">
+                                                <!-- Handle quantity equals 0 -->
+                                            </c:if>
+                                            <c:if test="${dto.quantity ne 0}">
+                                                <form>
+                                                    <button value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                        <i class="bi bi-cart-fill me-1"></i>
+                                                    </button>
+                                                </form>
+                                            </c:if>
+                                        </div>
+                                        <div class="d-flex">
+                                            <form action="ProductDetailController" method="post" style="display: none;" id="formid_top5sale${dto.productID}">
+                                                <input type="hidden" name="productID" value="${dto.productID}">
+                                                <button type="submit" class="btn btn-primary py-2 px-3">
+                                                    <i class="bi bi-eye"></i>
                                                 </button>
                                             </form>
-                                        </c:if>
-                                    </div>
-                                    <div class="d-flex">
-
-                                        <form action="ProductDetailController" method="post" style="display: none;" id="formid">
-                                            <input type="hidden" name="productID" value="${dto.productID}">
-                                            <button type="submit" class="btn btn-primary py-2 px-3">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </form>
-
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                           </a>
                         </section>
                     </div>
                 </c:forEach>
@@ -403,148 +412,149 @@
         <div class="col-9 container-fluid">
             <h5>Top New</h5>
             <div class="row products-row product-list">
-                
+
                 <c:forEach var="dto" items="${top5new}">
-                    <div class="block top-product col-md-2">
+                    <div class="cards block top-product col-md-2">
                         <section class="panel">
-                            <a href="#" onclick="document.getElementById('formid').submit()">
-                            <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
-                                <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
-                                <p class="name text-uppercase">${dto.productName}</p>
-                                <h5 class="text-primary mb-0">${dto.price} VND</h5>
-                                <div class="btn-action d-flex justify-content-center">
-                                    <div class="d-flex">
-                                        <c:if test="${dto.quantity eq 0}">
-                                        </c:if>
-                                        <c:if test="${dto.quantity ne 0}">
-                                            <form>
-                                                <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                    <i class="bi bi-cart-fill me-1 "></i>
+                            <div class="clickable" onclick="document.getElementById('formid_top5new${dto.productID}').submit()">
+                                <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
+                                    <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
+                                    <p class="name text-uppercase">${dto.productName}</p>
+                                    <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                    <div class="btn-action d-flex justify-content-center">
+                                        <div class="d-flex">
+                                            <c:if test="${dto.quantity eq 0}">
+                                                <!-- Handle quantity equals 0 -->
+                                            </c:if>
+                                            <c:if test="${dto.quantity ne 0}">
+                                                <form>
+                                                    <button value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
+                                                        <i class="bi bi-cart-fill me-1"></i>
+                                                    </button>
+                                                </form>
+                                            </c:if>
+                                        </div>
+                                        <div class="d-flex">
+                                            <form action="ProductDetailController" method="post" style="display: none;" id="formid_top5new${dto.productID}">
+                                                <input type="hidden" name="productID" value="${dto.productID}">
+                                                <button type="submit" class="btn btn-primary py-2 px-3">
+                                                    <i class="bi bi-eye"></i>
                                                 </button>
                                             </form>
-                                        </c:if>
-                                    </div>
-                                    <div class="d-flex">
-
-                                        <form action="ProductDetailController" method="post" style="display: none;" id="formid">
-                                            <input type="hidden" name="productID" value="${dto.productID}">
-                                            <button type="submit" class="btn btn-primary py-2 px-3">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </form>
-
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                           </a>
                         </section>
                     </div>
                 </c:forEach>
             </div>
         </div>
+                    <a href="#" class="btn btn-primary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script>
-                                                    function loadPage(param) {
-                                                        var amount = param;
-                                                        $.ajax({
-                                                            type: "get",
-                                                            url: "PagingProduct",
-                                                            data: {
-                                                                index: amount,
-                                                                txtSearchValue: '${requestScope.txtSearchValue}',
-                                                                cateFilter: $('#cate').val(),
-                                                                sizeFilter: $('#size').val(),
-                                                                birdFilter: $('#bird').val(),
-                                                                minPrice: $('#minPrice').val(),
-                                                                maxPrice: $('#maxPrice').val()
-                                                            },
-                                                            success: function (data) {
-                                                                var row = document.getElementById("content");
-                                                                row.innerHTML = data;
-                                                            }
-                                                        });
-                                                    }
-                                                    function addToCart(param) {
-                                                        var id = param;
-                                                        $.ajax({
-                                                            type: "post",
-                                                            url: "AddToCartController",
-                                                            data: {
-                                                                pid: id,
-                                                            },
-                                                            success: function () {
-                                                                Swal.fire({
-
-                                                                    icon: 'success',
-                                                                    title: 'Successful!',
-                                                                    showConfirmButton: false,
-                                                                    timer: 1000
-                                                                })
-                                                            }
-                                                        });
-                                                    }
-                                                    function viewDetail(param) {
-                                                        var id = param;
-                                                        $.ajax({
-                                                            type: "post",
-                                                            url: "ProductDetailController",
-                                                            data: {
-                                                                productID: id,
-                                                            },
-                                                            success: function () {
-                                                            }
-                                                        });
-                                                    }
-                                                    function filter() {
-                                                        $.ajax({
-                                                            type: "post",
-                                                            url: "PagingFilter",
-                                                            data: {
-                                                                index: 1,
-                                                                txtSearchValue: '${requestScope.txtSearchValue}',
-                                                                cateFilter: $('#cate').val(),
-                                                                sizeFilter: $('#size').val(),
-                                                                birdFilter: $('#bird').val(),
-                                                                minPrice: $('#minPrice').val(),
-                                                                maxPrice: $('#maxPrice').val()
-                                                            },
-                                                            success: function (data) {
-                                                                var row = document.getElementById("content");
-                                                                row.innerHTML = data;
-                                                            }
-                                                        });
-                                                    }
-
-                                                    /* Thêm hoặc xóa class show ra khỏi phần tử */
-                                                    function myFunction(id) {
-                                                        document.getElementById(id).classList.toggle("show");
-                                                    }
-                                                    //lấy tất cả các button menu
-                                                    var buttons = document.getElementsByClassName('dropbtn');
-                                                    //lấy tất cả các thẻ chứa menu con
-                                                    var contents = document.getElementsByClassName('dropdown-content');
-                                                    //lặp qua tất cả các button menu và gán sự kiện
-                                                    for (var i = 0; i < buttons.length; i++) {
-                                                        buttons[i].addEventListener("click", function () {
-                                                            //lấy value của button
-                                                            var id = this.value;
-                                                            //ẩn tất cả các menu con đang được hiển thị
-                                                            for (var i = 0; i < contents.length; i++) {
-                                                                contents[i].classList.remove("show");
-                                                            }
-                                                            //hiển thị menu vừa được click
-                                                            myFunction(id);
-                                                        });
-                                                    }
-                                                    //nếu click ra ngoài các button thì ẩn tất cả các menu con
-                                                    window.addEventListener("click", function () {
-                                                        if (!event.target.matches('#dropbtn') && !event.target.matches('.test')) {
-                                                            for (var i = 0; i < contents.length; i++) {
-                                                                contents[i].classList.remove("show");
-                                                            }
+                                                        function loadPage(param) {
+                                                            var amount = param;
+                                                            $.ajax({
+                                                                type: "get",
+                                                                url: "PagingProduct",
+                                                                data: {
+                                                                    index: amount,
+                                                                    txtSearchValue: '${requestScope.txtSearchValue}',
+                                                                    cateFilter: $('#cate').val(),
+                                                                    sizeFilter: $('#size').val(),
+                                                                    birdFilter: $('#bird').val(),
+                                                                    minPrice: $('#minPrice').val(),
+                                                                    maxPrice: $('#maxPrice').val()
+                                                                },
+                                                                success: function (data) {
+                                                                    var row = document.getElementById("content");
+                                                                    row.innerHTML = data;
+                                                                }
+                                                            });
                                                         }
-                                                    });
+                                                        function addToCart(param) {
+                                                            var id = param;
+                                                            $.ajax({
+                                                                type: "post",
+                                                                url: "AddToCartController",
+                                                                data: {
+                                                                    pid: id,
+                                                                },
+                                                                success: function () {
+                                                                    Swal.fire({
+
+                                                                        icon: 'success',
+                                                                        title: 'Successful!',
+                                                                        showConfirmButton: false,
+                                                                        timer: 1000
+                                                                    })
+
+                                                                    $('#reloadNumberCart').load(window.location.href + ' #reloadNumberCart');
+                                                                }
+                                                            });
+                                                        }
+                                                        function viewDetail(param) {
+                                                            var id = param;
+                                                            $.ajax({
+                                                                type: "post",
+                                                                url: "ProductDetailController",
+                                                                data: {
+                                                                    productID: id,
+                                                                },
+                                                                success: function () {
+                                                                }
+                                                            });
+                                                        }
+                                                        function filter() {
+                                                            $.ajax({
+                                                                type: "post",
+                                                                url: "PagingFilter",
+                                                                data: {
+                                                                    index: 1,
+                                                                    txtSearchValue: '${requestScope.txtSearchValue}',
+                                                                    cateFilter: $('#cate').val(),
+                                                                    sizeFilter: $('#size').val(),
+                                                                    birdFilter: $('#bird').val(),
+                                                                    minPrice: $('#minPrice').val(),
+                                                                    maxPrice: $('#maxPrice').val()
+                                                                },
+                                                                success: function (data) {
+                                                                    var row = document.getElementById("content");
+                                                                    row.innerHTML = data;
+                                                                }
+                                                            });
+                                                        }
+
+                                                        /* Thêm hoặc xóa class show ra khỏi phần tử */
+                                                        function myFunction(id) {
+                                                            document.getElementById(id).classList.toggle("show");
+                                                        }
+                                                        //lấy tất cả các button menu
+                                                        var buttons = document.getElementsByClassName('dropbtn');
+                                                        //lấy tất cả các thẻ chứa menu con
+                                                        var contents = document.getElementsByClassName('dropdown-content');
+                                                        //lặp qua tất cả các button menu và gán sự kiện
+                                                        for (var i = 0; i < buttons.length; i++) {
+                                                            buttons[i].addEventListener("click", function () {
+                                                                //lấy value của button
+                                                                var id = this.value;
+                                                                //ẩn tất cả các menu con đang được hiển thị
+                                                                for (var i = 0; i < contents.length; i++) {
+                                                                    contents[i].classList.remove("show");
+                                                                }
+                                                                //hiển thị menu vừa được click
+                                                                myFunction(id);
+                                                            });
+                                                        }
+                                                        //nếu click ra ngoài các button thì ẩn tất cả các menu con
+                                                        window.addEventListener("click", function () {
+                                                            if (!event.target.matches('#dropbtn') && !event.target.matches('.test')) {
+                                                                for (var i = 0; i < contents.length; i++) {
+                                                                    contents[i].classList.remove("show");
+                                                                }
+                                                            }
+                                                        });
         </script>
     </body>
 </html>

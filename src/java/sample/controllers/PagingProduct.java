@@ -46,15 +46,15 @@ public class PagingProduct extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         ProductDAO dao = new ProductDAO();
         String indexPage = request.getParameter("index");
-        if(indexPage.trim().equals("") || indexPage.isEmpty()){
+        if (indexPage.trim().equals("") || indexPage.isEmpty()) {
             indexPage = "1";
         }
         String minPriceString = request.getParameter("minPrice");
-        if(minPriceString.trim().equals("") || minPriceString.isEmpty()){
+        if (minPriceString.trim().equals("") || minPriceString.isEmpty()) {
             minPriceString = "-1";
         }
         String maxPriceString = request.getParameter("maxPrice");
-        if(maxPriceString.trim().equals("") || maxPriceString.isEmpty()){
+        if (maxPriceString.trim().equals("") || maxPriceString.isEmpty()) {
             maxPriceString = "-1";
         }
         int endPage = 0;
@@ -68,22 +68,21 @@ public class PagingProduct extends HttpServlet {
         String txtSearchValue = request.getParameter("txtSearchValue");
         List<ProductDTO> result = null;
         if (txtSearchValue == null || txtSearchValue.trim().equals("")) {
-            result = dao.pagingProductUser(page, ON_PAGE_PRODUCT,cateID, sizeFilter, minPrice, maxPrice, birdFilter);
+            result = dao.pagingProductUser(page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
             int amount = dao.getAmountProductUser(cateID, sizeFilter, minPrice, maxPrice, birdFilter);
             endPage = amount / ON_PAGE_PRODUCT;
             if (amount % ON_PAGE_PRODUCT != 0) {
                 endPage++;
             }
         } else {
-            result = dao.searchListProductUser(txtSearchValue, page, ON_PAGE_PRODUCT,cateID, sizeFilter, minPrice, maxPrice, birdFilter);
-            int amount = dao.getAmountSearchProductUser(txtSearchValue,cateID, sizeFilter, minPrice, maxPrice, birdFilter);
+            result = dao.searchListProductUser(txtSearchValue, page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
+            int amount = dao.getAmountSearchProductUser(txtSearchValue, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
             endPage = amount / ON_PAGE_PRODUCT;
             if (amount % ON_PAGE_PRODUCT != 0) {
                 endPage++;
             }
         }
-        
-        
+
         PrintWriter out = response.getWriter();
 
         try {
@@ -91,8 +90,9 @@ public class PagingProduct extends HttpServlet {
                 out.print("<p class=\"text-uppercase mb-1\">Không có sản phẩm tương tự được tìm thấy!!</p>");
             } else {
                 result.forEach((dto) -> {
-                    out.println("<div class=\"block col-md-4 mt-1\">\n"
+                    out.println("<div class=\"cards block col-md-4 mt-1\">\n"
                             + "                            <section class=\"panel\">\n"
+                            + " <div class=\"clickable\" onclick=\"document.getElementById('formid_" + dto.getProductID() + "').submit()\">\n"
                             + "                                <div class=\"card product-item position-relative bg-light d-flex flex-column text-center product\">\n"
                             + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
                             + "                                    <p class=\"name text-uppercase\">" + dto.getProductName() + "</p>\n"
@@ -107,9 +107,18 @@ public class PagingProduct extends HttpServlet {
                     }
 
                     out.print("                                        </div>\n"
-                            + "                                        <a class=\"btn btn-primary py-2 px-3\" href=\"ProductDetailController?productID=" + dto.getProductID() + "\"><i class=\"bi bi-eye\"></i></a>\n"
+                            + "                                        <div class=\"d-flex\">\n"
+                            + "\n"
+                            + "                                                    <form action=\"ProductDetailController\" method=\"post\" style=\"display: none;\" id=\"formid_"+dto.getProductID()+"\">\n"
+                            + "                                                        <input type=\"hidden\" name=\"productID\" value=\""+dto.getProductID()+"\">\n"
+                            + "                                                        <button type=\"submit\" class=\"btn btn-primary py-2 px-3\">\n"
+                            + "                                                            <i class=\"bi bi-eye\"></i>\n"
+                            + "                                                        </button>\n"
+                            + "                                                    </form>\n"
+                            + "                                     </div>\n"
                             + "                                    </div>\n"
                             + "                                </div>\n"
+                            + "                              </div>\n"
                             + "                            </section>\n"
                             + "                        </div>");
                 });
