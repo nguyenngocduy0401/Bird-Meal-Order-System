@@ -181,7 +181,7 @@
                             <td>${categoryDTO.categoryName}</td>
                         </tr>
                         <tr>
-                            <td>Birth</td>
+                            <td>Bird</td>
                             <td><c:forEach items="${listBird}" var="bird">
                                     ${bird.birdName}
                                     <c:if test="${bird.birdName != null}"> | </c:if>
