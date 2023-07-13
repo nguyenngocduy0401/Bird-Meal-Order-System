@@ -68,87 +68,103 @@
         <%@include file="header.jsp" %>
         <c:set var="product" value="${requestScope.PRODUCT}" />
         <c:set var="orderID" value="${requestScope.ORDERID}" />
-        <div class="container">
-            <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                <h6 class="text-primary text-uppercase">Feedback</h6>
-                <h1 class="display-5 text-uppercase mb-0">Give feedback</h1>
-            </div>
-            <div class="row g-0 bg-light overflow-hidden">
-                <div id="rating">
-                    <input type="radio" id="star5" name="rating" value="5" />
-                    <label class = "full " for="star5" title="Awesome - 5 stars"></label>
-
-                    <input type="radio" id="star4" name="rating" value="4" />
-                    <label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-
-                    <input type="radio" id="star3" name="rating" value="3" />
-                    <label class = "full" for="star3" title="Meh - 3 stars"></label>
-
-                    <input type="radio" id="star2" name="rating" value="2" />
-                    <label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-
-                    <input type="radio" id="star1" name="rating" value="1" />
-                    <label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+        <c:set var="fb" value="${requestScope.FEEDBACK}" />
+        <c:if test="${empty fb}">
+            <div class="container">
+                <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
+                    <h6 class="text-primary text-uppercase">Feedback</h6>
+                    <h1 class="display-5 text-uppercase mb-0">Give feedback</h1>
                 </div>
-                <div class="h-50 d-flex flex-column justify-content-center p-4">
-                    <div class="row border product-inrow">
-                        <div class="col-md-2 img-fluid">
-                            <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
-                        </div>
-                        <div class="col-md-8 text-left mt-sm-2">
-                            <h4>${product.productName}</h4>
-                            <p class="font-weight-light">${product.productDetail}</p>
-                        </div>
-                        <div class="col-md-2 text-right mt-sm-2">
-                            <p > Price: ${product.price} $</p>
-                            <p class="font-weight-light text-right">x ${product.quantity}</p>
+                <div class="row g-0 bg-light overflow-hidden">
+                    <div id="rating">
+                        <input type="radio" id="star5" name="rating" value="5" />
+                        <label class = "full " for="star5" title="Awesome - 5 stars"></label>
+
+                        <input type="radio" id="star4" name="rating" value="4" />
+                        <label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+
+                        <input type="radio" id="star3" name="rating" value="3" />
+                        <label class = "full" for="star3" title="Meh - 3 stars"></label>
+
+                        <input type="radio" id="star2" name="rating" value="2" />
+                        <label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+
+                        <input type="radio" id="star1" name="rating" value="1" />
+                        <label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                    </div>
+                    <div class="h-50 d-flex flex-column justify-content-center p-4">
+                        <div class="row border product-inrow">
+                            <div class="col-md-2 img-fluid">
+                                <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                            </div>
+                            <div class="col-md-8 text-left mt-sm-2">
+                                <h4>${product.productName}</h4>
+                                <p class="font-weight-light">${product.productDetail}</p>
+                            </div>
+                            <div class="col-md-2 text-right mt-sm-2">
+                                <p > Price: ${product.price} VND</p>
+                                <p class="font-weight-light text-right">x ${product.quantity}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div>
-                <form>
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <textarea name="details" id="details" class="card form-control bg-light border-0 px-4 py-3" rows="8" placeholder="Details"></textarea>
+                <div>
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <textarea name="details" id="details" class="card form-control bg-light border-0 px-4 py-3" rows="8" placeholder="Details"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit" onclick="giveFeedback()">Send Feedback</button>
+                            </div>
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary w-100 py-3" type="submit" onclick="giveFeedback()">Send Feedback</button>
-                        </div>
-                    </div>
+                    </form>
+                </div>
+            </div>
+        </c:if>
+        <c:if test="${not empty fb}">
+            <div class="container">
+                <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
+                    <h6 class="text-primary text-uppercase">Feedback</h6>
+                    <h1 class="display-5 text-uppercase mb-0">You have given product feedback</h1>
+                </div>
+                <form action="MainController">
+                    <button class="btn btn-primary w-100 py-3" type="submit">Back to home</button>
+                    <input type="hidden" name="btAction" value="Purchase" />
                 </form>
             </div>
-        </div>
+        </c:if>
+
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
-                                function giveFeedback() {
+                                    function giveFeedback() {
 
-                                    let elements = document.getElementsByName('rating');
-                                    let len = elements.length;
-                                    let checkValue = '';
+                                        let elements = document.getElementsByName('rating');
+                                        let len = elements.length;
+                                        let checkValue = '';
 
-                                    for (let i = 0; i < len; i++) {
-                                        if (elements.item(i).checked) {
-                                            checkValue = elements.item(i).value;
+                                        for (let i = 0; i < len; i++) {
+                                            if (elements.item(i).checked) {
+                                                checkValue = elements.item(i).value;
+                                            }
                                         }
+                                        $.ajax({
+                                            type: "get",
+                                            url: "GiveFeedback",
+                                            data: {
+                                                details: $('#details').val(),
+                                                orderID: '${orderID}',
+                                                productID: '${product.productID}',
+                                                rating: checkValue
+                                            },
+                                            success: function () {
+                                                alert("gui feedback thanh cong");
+                                                window.location.replace("MainController?btAction=Purchase");
+                                            }
+                                        });
                                     }
-                                    $.ajax({
-                                        type: "get",
-                                        url: "GiveFeedback",
-                                        data: {
-                                            details: $('#details').val(),
-                                            orderID: '${orderID}',
-                                            productID: '${product.productID}',
-                                            rating: checkValue
-                                        },
-                                        success: function () {
-                                            alert("gui feedback thanh cong");
-                                            window.location.replace("ProductDetailController?productID=${product.productID}");
-                                        }
-                                    });
-                                }
-                                
+
     </script>
 </html>

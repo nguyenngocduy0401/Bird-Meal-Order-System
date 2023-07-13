@@ -290,7 +290,7 @@
                                                                 </div>
                                                                 <c:if test="${dto.status eq 4 }">
                                                                     <div class="col-md-2 text-right mt-sm-2">
-                                                                        <form action="MainController">
+                                                                        <form action="MainController" method="post">
                                                                             <button type="submit" value="Feedback" name="btAction" class="btn btn-primary btn-buy" type="button">
                                                                                 Feedback
                                                                             </button>

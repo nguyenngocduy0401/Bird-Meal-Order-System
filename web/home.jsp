@@ -41,14 +41,15 @@
         }
 
         #categorybar {
-            position: fixed;
+            position: grid;
             display: block;
             margin-top: 50px;
-            top: 150;
-            left: 100;
+            top: 10%;
+            left: 0;
             width: 200px;
             height: 50%;
-            padding-top: 20px;
+            padding-top: 50px;
+            padding-bottom: 70px;
             transition: all 0.5s ease;
             z-index: 1;
         }
@@ -60,6 +61,10 @@
         }
         .product{
             padding-bottom: 10px;
+        }
+
+        .products{
+            margin-top: 25px;
         }
 
         .products-row{
@@ -144,6 +149,21 @@
 
         /* Hiển thị menu, ta sẽ dùng javascript để thêm class này vào các nôi dung cần được hiển thị */
         .show {display:block;}
+
+        .btn-filter{
+            height:50px;
+            width:100px;
+        }
+        .btn-cate{
+            border: none;
+            background: none;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .btn-cate:hover{
+            transform: scale(1.05);
+            background: #4CAF50;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -208,41 +228,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="col-md-1 container-fluid">
-                    <div class="containerdd">
-                        <div class="dropdown">
-                            <button value="laptrinh" class="dropbtn" id="dropbtn">Filter</button>
-                            <div id="laptrinh" class="dropdown-content">
-                                <nav class="col-3 navbar card bg-white navbar-light mt-5 test" id="categorybar">
-                                    <div class="col-md-8 container-fluid">
-                                        <select id="bird" name="ddbBird" class="text-primary bg-light border-0 price-box test">
-                                            <option value="">Bird</option>
-                                            <c:forEach var="bird" items="${birdList}">
-                                                <option value="${bird.birdName}">${bird.birdName}</option>
-                                            </c:forEach>
-                                        </select>
-                                        <select id="cate" name="ddbCategory" class="text-primary bg-light border-0 price-box test"> 
-                                            <option selected="selected" value=-1>Category</option>
-                                            <c:forEach var="cate" items="${cateList}">
-                                                <option value="${cate.categoryID}">${cate.categoryName}</option>
-                                            </c:forEach>
-                                        </select>
-                                        <select id="size" name="ddbSize" class="text-primary bg-light border-0 price-box test">
-                                            <option value="">Size</option>
-                                            <c:forEach var="size" items="${sizeList}">
-                                                <option value="${size}">${size} g</option>
-                                            </c:forEach>
-                                        </select>
-                                        <input id="minPrice" class="text-primary bg-light border-0 price-box test" type="number" name="minPrice" value="" placeholder="Min Price"/>
-                                        <input id="maxPrice" class="text-primary bg-light border-0 price-box test" type="number" name="maxPrice" value="" placeholder="Max Price"/>
-                                        <button onclick="filter()" class="btn btn-primary">Filter</button>
-                                    </div>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 container-fluid">
+                <div class="col-md-8 container-fluid">
                     <form action="MainController">
                         <div class="search" style="height: 45px">
                             <i class="fa fa-search"></i>
@@ -284,11 +270,47 @@
 
         <div class="row">
 
-            <section class="col-centered col-md-9 mt-5">
-                <c:if test="${empty result}">
+            <nav class="col-3 navbar card bg-white navbar-light mt-5" id="categorybar">
+                <div class="col-md-8 container-fluid">
+                    <div class="sidebar-heading text-primary head">
+                        Category
+                    </div>
+                    <c:forEach var="cate" items="${cateList}">
+                        <button class="btn-cate" onclick="category(${cate.categoryID})">${cate.categoryName}</button>
+                    </c:forEach>
+                    <div class="sidebar-heading text-primary head">
+                        Filter
+                    </div>
+                    <select id="bird" name="ddbBird" class="text-primary bg-light border-0 price-box test">
+                        <option value="">Bird</option>
+                        <c:forEach var="bird" items="${birdList}">
+                            <option value="${bird.birdName}">${bird.birdName}</option>
+                        </c:forEach>
+                    </select>
+                    <select id="cate" name="ddbCategory" class="text-primary bg-light border-0 price-box test"> 
+                        <option selected="selected" value=-1>Category</option>
+                        <c:forEach var="cate" items="${cateList}">
+                            <option value="${cate.categoryID}">${cate.categoryName}</option>
+                        </c:forEach>
+                    </select>
+                    <select id="size" name="ddbSize" class="text-primary bg-light border-0 price-box test">
+                        <option value="">Size</option>
+                        <c:forEach var="size" items="${sizeList}">
+                            <option value="${size}">${size} g</option>
+                        </c:forEach>
+                    </select>
+                    <input id="minPrice" class="text-primary bg-light border-0 price-box test" type="number" name="minPrice" value="" placeholder="Min Price"/>
+                    <input id="maxPrice" class="text-primary bg-light border-0 price-box test" type="number" name="maxPrice" value="" placeholder="Max Price"/>
+                    <button onclick="filter()" class="btn btn-primary btn-filter"><i class="bi bi-search"></i></button>
+                </div>
+            </nav>
+
+            <c:if test="${empty result}">
+                <section class="col-centered col-md-9 mt-5">
                     <p class="text-uppercase mb-1">Không có sản phẩm tương tự được tìm thấy!!</p>
-                </c:if>
-            </section>
+                </section>
+            </c:if>
+
             <c:if test="${not empty result}" >
                 <div class="col-9 container-fluid products">
 
@@ -443,7 +465,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>
@@ -529,35 +551,26 @@
                                                             });
                                                         }
 
-                                                        /* Thêm hoặc xóa class show ra khỏi phần tử */
-                                                        function myFunction(id) {
-                                                            document.getElementById(id).classList.toggle("show");
-                                                        }
-                                                        //lấy tất cả các button menu
-                                                        var buttons = document.getElementsByClassName('dropbtn');
-                                                        //lấy tất cả các thẻ chứa menu con
-                                                        var contents = document.getElementsByClassName('dropdown-content');
-                                                        //lặp qua tất cả các button menu và gán sự kiện
-                                                        for (var i = 0; i < buttons.length; i++) {
-                                                            buttons[i].addEventListener("click", function () {
-                                                                //lấy value của button
-                                                                var id = this.value;
-                                                                //ẩn tất cả các menu con đang được hiển thị
-                                                                for (var i = 0; i < contents.length; i++) {
-                                                                    contents[i].classList.remove("show");
+                                                         function category(param) {
+                                                            $.ajax({
+                                                                type: "post",
+                                                                url: "PagingFilter",
+                                                                data: {
+                                                                    index: 1,
+                                                                    txtSearchValue: '${requestScope.txtSearchValue}',
+                                                                    cateFilter: param,
+                                                                    sizeFilter: "",
+                                                                    birdFilter: "",
+                                                                    minPrice: "",
+                                                                    maxPrice: ""
+                                                                },
+                                                                success: function (data) {
+                                                                    var row = document.getElementById("content");
+                                                                    row.innerHTML = data;
                                                                 }
-                                                                //hiển thị menu vừa được click
-                                                                myFunction(id);
                                                             });
                                                         }
-                                                        //nếu click ra ngoài các button thì ẩn tất cả các menu con
-                                                        window.addEventListener("click", function () {
-                                                            if (!event.target.matches('#dropbtn') && !event.target.matches('.test')) {
-                                                                for (var i = 0; i < contents.length; i++) {
-                                                                    contents[i].classList.remove("show");
-                                                                }
-                                                            }
-                                                        });
+
         </script>
     </body>
 </html>

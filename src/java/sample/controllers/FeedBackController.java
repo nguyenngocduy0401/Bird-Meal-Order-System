@@ -21,10 +21,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import sample.dao.FeedbackDAO;
 import sample.dao.OrderDAO;
 import sample.dao.ProductDAO;
+import sample.dto.FeedbackDTO;
 import sample.dto.OrderDTO;
 import sample.dto.ProductDTO;
+import sample.dto.UserDTO;
 
 /**
  *
@@ -47,10 +51,18 @@ public class FeedBackController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, NamingException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = FEEDBACK_PAGE; 
+        String url = FEEDBACK_PAGE;
         int orderID = Integer.parseInt(request.getParameter("orderID"));
         int productID = Integer.parseInt(request.getParameter("productID"));
+        HttpSession session = request.getSession();
         OrderDTO order = OrderDAO.loadOrderByOrderID(orderID);
+        UserDTO user = (UserDTO) session.getAttribute("user");
+        FeedbackDTO fb = FeedbackDAO.getFeedbackUserProductOrder(productID, user.getUserID(), orderID);
+        if (fb != null) {
+            request.setAttribute("FEEDBACK", fb);
+        } else {
+            request.setAttribute("FEEDBACK", null);
+        }
         Date completeDate = Date.valueOf(order.getShippingDate());
         Date currentDate = Date.valueOf(LocalDate.now());
         try {
