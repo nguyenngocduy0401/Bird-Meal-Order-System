@@ -199,11 +199,10 @@
                                                     </div>
                                                 </c:forEach>
 
-                                                <div class="col-12">
-                                                    Notes *
-                                                    <textarea class="form-control bg-light border-0 px-4" name="txtNotes"
-                                                              style="height: 100px;"></textarea>
-                                                </div>
+                                                <div>Notes </div>
+
+                                                <textarea class="form-control row g-3 bg-white border-1 border-dark px-5 " name="txtNotes"
+                                                          style="height: 100px; border-radius: 5px;"></textarea>
                                                 <div class="row ">
                                                     <div class="col-md-6">
 
