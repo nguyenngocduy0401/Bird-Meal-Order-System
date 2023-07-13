@@ -557,7 +557,7 @@
                                                             </div>
                                                             <div class="col-md-9 text-left mt-sm-2">
                                                                 <h4>${product.productName}</h4>
-                                                                <p class="font-weight-light">${product.productDetail}</p>
+                                                                <p class="font-weight-light">Size: ${product.size}g</p>
                                                             </div>
                                                         </div>
                                                     </td>

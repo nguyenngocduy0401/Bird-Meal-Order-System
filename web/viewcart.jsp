@@ -280,9 +280,9 @@
                     
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link ">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 active "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                         <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
@@ -366,7 +366,7 @@
                                                         </div>
                                                         <div class="col-md-9 text-left mt-sm-2">
                                                             <h4>${product.productName}</h4>
-                                                            <p class="font-weight-light">${product.productDetail}</p>
+                                                            <p class="font-weight-light">Size: ${product.size}g</p>
                                                         </div>
                                                     </div>
                                                 </td>

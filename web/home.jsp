@@ -417,7 +417,7 @@
                     <div class="cards block top-product col-md-2">
                         <section class="panel">
                             <div class="clickable" onclick="document.getElementById('formid_top5new${dto.productID}').submit()">
-                                <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
+                                <div class="product-item card product-item position-relative bg-light d-flex flex-column text-center product">
                                     <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                     <p class="name text-uppercase">${dto.productName}</p>
                                     <h5 class="text-primary mb-0">${dto.price} VND</h5>
@@ -443,14 +443,17 @@
                                             </form>
                                         </div>
                                     </div>
+                                    
                                 </div>
+
                             </div>
                         </section>
                     </div>
                 </c:forEach>
             </div>
+
         </div>
-                    <a href="#" class="btn btn-primary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <a href="#" class="btn btn-primary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script>
                                                         function loadPage(param) {
