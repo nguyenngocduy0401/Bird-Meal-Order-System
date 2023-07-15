@@ -99,8 +99,10 @@ public class LoginController extends HttpServlet {
                             }
                         }
                     } else {
-                        if (user.isStatus() == false || user.getNumberReport() == 10) {
-                            response.sendRedirect("login.jsp?check=3");
+                        if (user != null) {
+                            if (user.isStatus() == false || user.getNumberReport() == 10) {
+                                response.sendRedirect("login.jsp?check=3");
+                            }
                         } else {
                             response.sendRedirect("login.jsp?check=2");
                         }
