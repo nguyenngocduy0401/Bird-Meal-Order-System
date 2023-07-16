@@ -9,7 +9,36 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <style>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>Bird Meal Order System</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="css/style_old.css" rel="stylesheet">
+
+        <!-- Libraries sweetalert2--> 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </head>
+<style>
         /*edit link color*/
         .title a:visited {
             color: #333333;
@@ -129,35 +158,6 @@
             margin-top: 20px;
         }
     </style>
-
-    <head>
-        <meta charset="utf-8">
-        <title>Bird Meal Order System</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-        <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
-
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
-
-        <!-- Icon Font Stylesheet -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-        <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
-
-        <!-- Libraries Stylesheet -->
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-
-        <!-- Libraries sweetalert2--> 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    </head>
 
     <body>
         <%@include file="header.jsp" %>
@@ -364,13 +364,7 @@
                                                             userID: '${sessionScope.user.userID}'
                                                         },
                                                         success: function () {
-                                                            Swal.fire({
-
-                                                                icon: 'success',
-                                                                title: 'Successful!',
-                                                                showConfirmButton: false,
-                                                                timer: 1000
-                                                            })
+                                                            window.location.href = "viewcart.jsp";
                                                         }
                                                     });
                                                 }
