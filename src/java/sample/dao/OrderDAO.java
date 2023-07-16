@@ -501,7 +501,7 @@ public boolean updateSuccessOrder(int orderID)
                 String sql = "SELECT SUM(OrderDetail.Quantity * OrderDetail.Price) AS TotalSold\n"
                         + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Order] INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail]\n"
                         + "  ON [Order].OrderID = OrderDetail.OrderID\n"
-                        + "  WHERE MONTH([ShippingDate])=? AND YEAR([ShippingDate]) = ? ";
+                        + "  WHERE MONTH([ShippingDate])=? AND YEAR([ShippingDate]) = ? AND [Order].[Status] = 4";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, month);
                 stm.setInt(2, year);
@@ -536,7 +536,7 @@ public boolean updateSuccessOrder(int orderID)
                 String sql = "SELECT SUM(OrderDetail.Quantity * OrderDetail.Price) AS TotalSold\n"
                         + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Order] INNER JOIN [ProjectBirdMealOrderSystem].[dbo].[OrderDetail]\n"
                         + "  ON [Order].OrderID = OrderDetail.OrderID\n"
-                        + "  WHERE YEAR([ShippingDate]) = ? ";
+                        + "  WHERE YEAR([ShippingDate]) = ? AND [Order].[Status] = 4";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, year);
                 rs = stm.executeQuery();
