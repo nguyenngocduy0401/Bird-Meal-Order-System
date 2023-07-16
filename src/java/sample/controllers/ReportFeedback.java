@@ -6,8 +6,8 @@
 package sample.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,18 +15,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import sample.dao.FeedbackDAO;
-import sample.dto.UserDTO;
+import sample.dto.FeedbackDTO;
 
 /**
  *
- * @author DucAnh
+ * @author Admin
  */
-@WebServlet(name = "ReplyFeedbackStaff", urlPatterns = {"/ReplyFeedbackStaff"})
-public class ReplyFeedbackStaff extends HttpServlet {
- private final String LIST_FEEDBACK = "ListFeedBack";
-    private final String ERROR_PAGE = "error.jsp";
+@WebServlet(name = "ReportFeedback", urlPatterns = {"/ReportFeedback"})
+public class ReportFeedback extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,28 +36,15 @@ public class ReplyFeedbackStaff extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("user");
-        String details = request.getParameter("details");
-        int feedbackID = Integer.parseInt(request.getParameter("feedbackID"));
-        String date = String.valueOf(LocalDate.now());
-        String url = ERROR_PAGE;
+         response.setContentType("text/html;charset=UTF-8");
+        int fbId = Integer.parseInt(request.getParameter("feedbackID"));
         try {
-            boolean result = FeedbackDAO.updateFeedback(feedbackID, user.getFullName(), details, date);
-            if (result) {
-                if (result) {
-                    url = LIST_FEEDBACK;
-                    System.err.println("dc");
-                    response.sendRedirect(url);
-                } else {
-                    response.setContentType("text/plain");
-                    response.getWriter().println("Failed to update product with ID " + feedbackID);
-                    System.err.println("loi");
-                }
+            FeedbackDTO feedback = FeedbackDAO.getFeedbackByID(fbId);
+            if (feedback != null) {
+                request.setAttribute("FEEDBACK", feedback);
+                request.getRequestDispatcher("reportFeedback.jsp").forward(request, response);
             }
         } finally {
-
         }
     }
 
@@ -75,13 +60,13 @@ public class ReplyFeedbackStaff extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     try {
-         processRequest(request, response);
-     } catch (SQLException ex) {
-         Logger.getLogger(ReplyFeedbackStaff.class.getName()).log(Level.SEVERE, null, ex);
-     } catch (ClassNotFoundException ex) {
-         Logger.getLogger(ReplyFeedbackStaff.class.getName()).log(Level.SEVERE, null, ex);
-     }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportFeedback.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReportFeedback.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -95,13 +80,13 @@ public class ReplyFeedbackStaff extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     try {
-         processRequest(request, response);
-     } catch (SQLException ex) {
-         Logger.getLogger(ReplyFeedbackStaff.class.getName()).log(Level.SEVERE, null, ex);
-     } catch (ClassNotFoundException ex) {
-         Logger.getLogger(ReplyFeedbackStaff.class.getName()).log(Level.SEVERE, null, ex);
-     }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportFeedback.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReportFeedback.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

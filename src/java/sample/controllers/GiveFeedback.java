@@ -6,7 +6,6 @@
 package sample.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +44,7 @@ public class GiveFeedback extends HttpServlet {
         int productID = Integer.parseInt(request.getParameter("productID"));
         String details = request.getParameter("details");
         String rating = request.getParameter("rating");
-        int rate = 0;
+        int rate = 1;
         if (!rating.trim().equals("")) {
             rate = Integer.parseInt(rating);
         }

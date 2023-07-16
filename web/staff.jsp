@@ -131,34 +131,6 @@
                 <!-- Divider -->
                 <hr class="sidebar-divider my-0">
 
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-
-
-                <!-- Nav Item - Pages Collapse Menu -->
-
-
-                <!-- Nav Item - Utilities Collapse Menu -->
-
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-
-
-                <!-- Nav Item - Pages Collapse Menu -->
-
-
                 <!-- Nav Item - Charts -->
                 <li class="nav-item">
                     <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
