@@ -241,7 +241,7 @@
 
 </section>
 <script>
-    function replyFeedback(fbID, details) {
+    function replyFeedback(fbID) {
         $.ajax({
             type: "post",
             url: "FeedbackReply",
