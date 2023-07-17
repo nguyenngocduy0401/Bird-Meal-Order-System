@@ -267,7 +267,7 @@
         <!-- Topbar End -->
 
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
+            <a href="HomePageController" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -276,16 +276,20 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
                 <div class="col-md-7 container-fluid">
-                    
+
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link ">Home</a>
+                    <a href="HomePageController" class="nav-item nav-link  ">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link ">Product</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 active "><i class="bi bi-cart  fs-1 text-primary me-1" style="line-height: 0.6"></i></a>
-                        <c:if test="${not empty sessionScope.user}">
+                    <a href="viewcart.jsp" class="nav-item nav-link active pt-3  ">
+                        <i class="bi bi-cart  fs-1 me-1" style="line-height: 0.6"></i>
+                        <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bi bg-light text-primary" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
+                    </a>
+                    <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
-                                <i class="bi bi-person fs-1 text-primary me-1"></i>
+                                <i class="bi bi-person fs-1 me-1" style="line-height: 0.6"></i>
                             </a>
                             <div class="dropdown-menu m-0 dropdown-menu-end">
                                 <a href="details.jsp" class="dropdown-item">My profile</a>
@@ -311,7 +315,7 @@
             </div>
         </div>
         <div id="content"></div>
-       
+
         <section class="card col-md-9 mx-auto container-fluid pt-5" >
             <div class="ps-5" id="checkselect" style="color: red;"></div>
             <c:set var="cart" value="${sessionScope.cart}" />
@@ -415,7 +419,7 @@
                                         </div>
                                         <div class="col-sm-6 order-md-2 text-right">
                                             <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5"  type="button" onclick="checkOutSelectedProduct()" value="checkOutSelectedProduct">Check Out Selected Product</button>
-                       
+
                                         </div>
                                     </div>
                                 </div>
@@ -440,12 +444,12 @@
 </html>
 
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+<!-- Template Javascript -->
+<script src="js/main.js"></script>

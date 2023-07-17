@@ -58,7 +58,7 @@ public class LoginCookieController extends HttpServlet {
                     response.sendRedirect("homePage.jsp");
                 }
             } else {
-                response.sendRedirect("homePage.jsp");
+                response.sendRedirect("HomePageController");
             }
         }
     }

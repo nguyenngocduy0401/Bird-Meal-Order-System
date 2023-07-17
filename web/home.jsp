@@ -221,7 +221,7 @@
 
 
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
+            <a href="HomePageController" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -256,7 +256,7 @@
                     <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
-                                <i class="bi bi-person fs-1  me-1"></i>
+                                <i class="bi bi-person fs-1  me-1" style="line-height: 0.6"></i>
                             </a>
                             <div class="dropdown-menu m-0 dropdown-menu-end">
                                 <a href="details.jsp" class="dropdown-item">My profile</a>
@@ -394,7 +394,7 @@
                 </c:if>
             </div>
         </div>
-        <div class="col-9 container-fluid">
+<!--        <div class="col-9 container-fluid">
             <h5>Top Sale</h5>
             <div class="row products-row product-list">
                 <c:forEach var="dto" items="${top5sale}">
@@ -408,7 +408,7 @@
                                     <div class="btn-action d-flex justify-content-center">
                                         <div class="d-flex">
                                             <c:if test="${dto.quantity eq 0}">
-                                                <!-- Handle quantity equals 0 -->
+                                                 Handle quantity equals 0 
                                             </c:if>
                                             <c:if test="${dto.quantity ne 0}">
                                                 <form>
@@ -449,7 +449,7 @@
                                     <div class="btn-action d-flex justify-content-center">
                                         <div class="d-flex">
                                             <c:if test="${dto.quantity eq 0}">
-                                                <!-- Handle quantity equals 0 -->
+                                                 Handle quantity equals 0 
                                             </c:if>
                                             <c:if test="${dto.quantity ne 0}">
                                                 <form>
@@ -477,7 +477,7 @@
                 </c:forEach>
             </div>
 
-        </div>
+        </div>-->
         <a href="#" class="btn btn-primary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script>

@@ -93,7 +93,7 @@ public class LoginController extends HttpServlet {
                                     cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
-                                response.sendRedirect("MainController");
+                                response.sendRedirect("HomePageController");
                             } else {
                                 response.sendRedirect("invalid.html");
                             }
