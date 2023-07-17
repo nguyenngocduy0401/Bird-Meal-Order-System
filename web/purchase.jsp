@@ -9,7 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    
+
     <head>
         <meta charset="utf-8">
         <title>Bird Meal Order System</title>
@@ -38,7 +38,7 @@
         <!-- Libraries sweetalert2--> 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
-<style>
+    <style>
         /*edit link color*/
         .title a:visited {
             color: #333333;
@@ -157,6 +157,8 @@
         #status{
             margin-top: 20px;
         }
+
+        
     </style>
 
     <body>
@@ -322,7 +324,7 @@
 
 
 
-
+<a href="#" class="btn btn-primary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
         <!-- JavaScript Libraries -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

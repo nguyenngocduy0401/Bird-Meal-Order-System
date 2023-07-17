@@ -26,7 +26,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
+        <link href="css/style_old.css" rel="stylesheet">
     </head>
     <body>
         <div class="container-fluid border-bottom d-none d-lg-block">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 text-center py-2">
+                <div class="col-lg-3 border-start text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-facebook fs-1 text-primary me-3"></i>
                         <div class="text-start">
@@ -79,10 +79,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link ">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 ">
-                        <i class="bi bi-cart  fs-1 text-primary me-1"></i>
+                        <i class="bi bi-cart  fs-1  me-1"></i>
                     </a>
                     <c:if test="${empty sessionScope.user}">
                         <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
@@ -92,8 +92,8 @@
                     </c:if>
                     <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
-                                <i class="bi bi-person fs-1 text-primary me-1"></i>
+                            <a href="#" class="nav-link pt-3 active" data-bs-toggle="dropdown">
+                                <i class="bi bi-person fs-1  me-1"></i>
                             </a>
                             <div class="dropdown-menu m-0 dropdown-menu-end">
                                 <a href="details.jsp" class="dropdown-item">My profile</a>
@@ -107,3 +107,12 @@
         </nav>
     </body>
 </html>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>

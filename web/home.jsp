@@ -1,4 +1,4 @@
-<style></style>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -198,7 +198,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 text-center py-2">
+                <div class="col-lg-3  text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
                         <div class="text-start">
@@ -207,7 +207,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 text-center py-2">
+                <div class="col-lg-3 border-start text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-facebook fs-1 text-primary me-3"></i>
                         <div class="text-start">
@@ -228,9 +228,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="col-md-8 container-fluid">
+                <div class="col-md-7 container-fluid" >
                     <form action="MainController">
-                        <div class="search" style="height: 45px">
+                        <div class="search" >
                             <i class="fa fa-search"></i>
                             <input name="txtSearchValue" type="text" class="form-control" placeholder="Search any product...">
                             <button class="btn btn-primary">Search</button>
@@ -239,12 +239,13 @@
                         </div>
                     </form>
                 </div>
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                <div class="navbar-nav  py-0">
+                    <a href="HomePageController" class="nav-item nav-link ">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Product</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 ">
-                        <i class="bi bi-cart  fs-1 text-primary me-1"></i>
-                        <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bg-light text-danger" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
+                        <i class="bi bi-cart  fs-1  me-1" style="line-height: 0.6"></i>
+                        <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bi bg-light text-primary" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
                     </a>
                     <c:if test="${empty sessionScope.user}">
                         <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
@@ -255,7 +256,7 @@
                     <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
-                                <i class="bi bi-person fs-1 text-primary me-1"></i>
+                                <i class="bi bi-person fs-1  me-1"></i>
                             </a>
                             <div class="dropdown-menu m-0 dropdown-menu-end">
                                 <a href="details.jsp" class="dropdown-item">My profile</a>
@@ -268,128 +269,130 @@
             </div>
         </nav>
 
-        <div class="row">
+        <div class="container1 content">
+            <div class="row">
 
-            <nav class="col-3 navbar card bg-white navbar-light mt-5" id="categorybar">
-                <div class="col-md-8 container-fluid">
-                    <div class="sidebar-heading text-primary head">
-                        Category
-                    </div>
-                    <c:forEach var="cate" items="${cateList}">
-                        <button class="btn-cate" onclick="category(${cate.categoryID})">${cate.categoryName}</button>
-                    </c:forEach>
-                    <div class="sidebar-heading text-primary head">
-                        Filter
-                    </div>
-                    <select id="bird" name="ddbBird" class="text-primary bg-light border-0 price-box test">
-                        <option value="">Bird</option>
-                        <c:forEach var="bird" items="${birdList}">
-                            <option value="${bird.birdName}">${bird.birdName}</option>
-                        </c:forEach>
-                    </select>
-                    <select id="cate" name="ddbCategory" class="text-primary bg-light border-0 price-box test"> 
-                        <option selected="selected" value=-1>Category</option>
+                <nav class="col-3 navbar card bg-white navbar-light mt-5" id="categorybar">
+                    <div class="col-md-8 container-fluid">
+                        <div class="sidebar-heading text-primary head">
+                            Category
+                        </div>
                         <c:forEach var="cate" items="${cateList}">
-                            <option value="${cate.categoryID}">${cate.categoryName}</option>
+                            <button class="btn-cate" onclick="category(${cate.categoryID})">${cate.categoryName}</button>
                         </c:forEach>
-                    </select>
-                    <select id="size" name="ddbSize" class="text-primary bg-light border-0 price-box test">
-                        <option value="">Size</option>
-                        <c:forEach var="size" items="${sizeList}">
-                            <option value="${size}">${size} g</option>
-                        </c:forEach>
-                    </select>
-                    <input id="minPrice" class="text-primary bg-light border-0 price-box test" type="number" name="minPrice" value="" placeholder="Min Price"/>
-                    <input id="maxPrice" class="text-primary bg-light border-0 price-box test" type="number" name="maxPrice" value="" placeholder="Max Price"/>
-                    <button onclick="filter()" class="btn btn-primary btn-filter"><i class="bi bi-search"></i></button>
-                </div>
-            </nav>
-
-            <c:if test="${empty result}">
-                <section class="col-centered col-md-9 mt-5">
-                    <p class="text-uppercase mb-1">Không có sản phẩm tương tự được tìm thấy!!</p>
-                </section>
-            </c:if>
-
-            <c:if test="${not empty result}" >
-                <div class="col-9 container-fluid products">
-
-                    <c:if test="${not empty requestScope.RESULT_AMOUNT}">
-                        <p class="text-uppercase mb-1">Kết quả tìm kiếm cho từ khóa <i class ="text-uppercase text-primary rounded">'${requestScope.txtSearchValue}'</i></p>
-                    </c:if>
-                    <div id ="content" class="row products-row product-list">
-                        <c:forEach var="dto" items="${result}">
-                            <div class="cards block col-md-4 mt-1">
-                                <section class="panel">
-
-                                    <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
-                                        <div class="clickable" onclick="document.getElementById('formid_${dto.productID}').submit()">
-                                            <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
-                                            <p class="name text-uppercase">${dto.productName}</p>
-                                            <h5 class="text-primary mb-0">${dto.price} VND</h5>
-                                        </div>
-                                        <div class="btn-action d-flex justify-content-center">
-                                            <div class="d-flex">
-                                                <c:if test="${dto.quantity eq 0}">
-                                                </c:if>
-                                                <c:if test="${dto.quantity ne 0}">
-
-                                                    <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-primary py-2 px-3" type="button">
-                                                        <i class="bi bi-cart-fill me-1 "></i>
-                                                    </button>
-
-                                                </c:if>
-                                            </div>
-                                            <div class="d-flex">
-
-                                                <form action="ProductDetailController" method="post" style="display: none;" id="formid_${dto.productID}">
-                                                    <input type="hidden" name="productID" value="${dto.productID}">
-                                                    <button type="submit" class="btn btn-primary py-2 px-3">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                </form>
-
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </section>
-                            </div>
-                        </c:forEach>
-                        <c:set var="prePage" value="${TAGS - 1}" />
-                        <c:set var="nextPage" value="${TAGS + 1}" />
-                        <c:if test="${requestScope.PAGE != 1}">
-                            <div class="col-12 mt-5 paging" >
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination pagination-lg m-0">
-                                        <c:if test="${TAGS <= PAGE && TAGS > 1}">
-                                            <li class="page-item">
-                                                <a class="page-link rounded-0" onclick="loadPage(${prePage})" aria-label="Previous">
-                                                    <span aria-hidden="true">Previous</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
-                                        <c:forEach begin="1" end="${PAGE}" var="i">
-                                            <li class="${TAGS == i?"page-item active":"page-item"}">
-                                                <a class="page-link" onclick="loadPage(${i})">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
-                                            <li class="page-item">
-                                                <a onclick="loadPage(${nextPage})" class="page-link rounded-0" aria-label="Next">
-                                                    <span aria-hidden="true">Next</span>
-                                                </a>
-                                            </li>
-                                        </c:if>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </c:if>
+                        <div class="sidebar-heading text-primary head">
+                            Filter
+                        </div>
+                        <select id="bird" name="ddbBird" class="text-primary bg-light border-0 price-box test">
+                            <option value="">Bird</option>
+                            <c:forEach var="bird" items="${birdList}">
+                                <option value="${bird.birdName}">${bird.birdName}</option>
+                            </c:forEach>
+                        </select>
+                        <select id="cate" name="ddbCategory" class="text-primary bg-light border-0 price-box test"> 
+                            <option selected="selected" value=-1>Category</option>
+                            <c:forEach var="cate" items="${cateList}">
+                                <option value="${cate.categoryID}">${cate.categoryName}</option>
+                            </c:forEach>
+                        </select>
+                            <select id="size" name="ddbSize" class="text-primary bg-light border-0 price-box test" >
+                            <option value="">Size</option>
+                            <c:forEach var="size" items="${sizeList}">
+                                <option value="${size}">${size} g</option>
+                            </c:forEach>
+                        </select>
+                        <input id="minPrice" class="text-primary bg-light border-0 price-box test" type="number" name="minPrice" value="" placeholder="Min Price"/>
+                        <input id="maxPrice" class="text-primary bg-light border-0 price-box test" type="number" name="maxPrice" value="" placeholder="Max Price"/>
+                        <button onclick="filter()" class="btn btn-primary btn-filter"><i class="bi bi-search"></i></button>
                     </div>
-                </div>
+                </nav>
 
-            </c:if>
+                <c:if test="${empty result}">
+                    <section class="col-centered col-md-9 mt-5">
+                        <p class="text-uppercase mb-1">"No similar products found!"</p>
+                    </section>
+                </c:if>
+
+                <c:if test="${not empty result}" >
+                    <div class="col-9 container-fluid products">
+
+                        <c:if test="${not empty requestScope.RESULT_AMOUNT}">
+                            <p class="text-uppercase mb-1">Search results for the keyword<i class ="text-uppercase text-primary rounded">'${requestScope.txtSearchValue}'</i></p>
+                        </c:if>
+                        <div id ="content" class="row products-row product-list">
+                            <c:forEach var="dto" items="${result}">
+                                <div class="cards block col-md-4 mt-1">
+                                    <section class="panel">
+
+                                        <div class="card product-item position-relative bg-light d-flex flex-column text-center product">
+                                            <div class="clickable" onclick="document.getElementById('formid_${dto.productID}').submit()">
+                                                <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
+                                                <p class="name text-uppercase">${dto.productName}</p>
+                                                <h5 class="text-primary mb-0">${dto.price} VND</h5>
+                                            </div>
+                                            <div class="btn-action d-flex justify-content-center">
+                                                <div class="d-flex">
+                                                    <c:if test="${dto.quantity eq 0}">
+                                                    </c:if>
+                                                    <c:if test="${dto.quantity ne 0}">
+
+                                                        <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-cart btn-primary py-2 px-3" type="button">
+                                                            <i class="bi bi-cart-fill fa-2x "  style="font-size: 25px;"></i>
+                                                        </button>
+
+                                                    </c:if>
+                                                </div>
+                                                <div class="d-flex">
+
+                                                    <form action="ProductDetailController" method="post" style="display: none;" id="formid_${dto.productID}">
+                                                        <input type="hidden" name="productID" value="${dto.productID}">
+                                                        <button type="submit" class="btn btn-primary py-2 px-3">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                    </form>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </section>
+                                </div>
+                            </c:forEach>
+                            <c:set var="prePage" value="${TAGS - 1}" />
+                            <c:set var="nextPage" value="${TAGS + 1}" />
+                            <c:if test="${requestScope.PAGE != 1}">
+                                <div class="col-12 mt-5 paging" >
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination pagination-lg m-0">
+                                            <c:if test="${TAGS <= PAGE && TAGS > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link rounded-0" onclick="loadPage(${prePage})" aria-label="Previous">
+                                                        <span aria-hidden="true">Previous</span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach begin="1" end="${PAGE}" var="i">
+                                                <li class="${TAGS == i?"page-item active":"page-item"}">
+                                                    <a class="page-link" onclick="loadPage(${i})">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
+                                                <li class="page-item">
+                                                    <a onclick="loadPage(${nextPage})" class="page-link rounded-0" aria-label="Next">
+                                                        <span aria-hidden="true">Next</span>
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+
+                </c:if>
+            </div>
         </div>
         <div class="col-9 container-fluid">
             <h5>Top Sale</h5>
@@ -551,7 +554,7 @@
                                                             });
                                                         }
 
-                                                         function category(param) {
+                                                        function category(param) {
                                                             $.ajax({
                                                                 type: "post",
                                                                 url: "PagingFilter",

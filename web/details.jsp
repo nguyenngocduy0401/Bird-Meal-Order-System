@@ -129,15 +129,15 @@
 
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
                     <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i
                             class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown"><i
-                                class="bi bi-person fs-1 text-primary me-1"></i>
+                        <a href="#" class="nav-link pt-3 active" data-bs-toggle="dropdown"><i
+                                class="bi bi-person  fs-1  me-1"></i>
                         </a>
-                        <div class="dropdown-menu m-0 dropdown-menu-end">
+                        <div class="dropdown-menu m-0 dropdown-menu-end ">
                             <a href="details.jsp" class="dropdown-item">My profile</a>
                             <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
                             <a href="LogoutController" class="dropdown-item">Logout</a>

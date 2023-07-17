@@ -3,6 +3,15 @@
     Created on : May 26, 2023, 3:46:31 PM
     Author     : DucAnh
 --%>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="sample.dto.ProductDTO" %>
+<%@ page import="sample.dao.ProductDAO" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<!DOCTYPE html>
+<c:if test="${param.check ne 1}">
+    <c:redirect url="ShowCartController" />
+</c:if>
 <style>
     .card {
         box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
@@ -17,16 +26,6 @@
         right: 0;
     }
 </style>
-<%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="sample.dto.ProductDTO" %>
-<%@ page import="sample.dao.ProductDAO" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<c:if test="${param.check ne 1}">
-    <c:redirect url="ShowCartController" />
-</c:if>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     function goBack() {
@@ -254,7 +253,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 text-center py-2">
+                <div class="col-lg-3 border-start text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-facebook fs-1 text-primary me-3"></i>
                         <div class="text-start">
@@ -282,7 +281,7 @@
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link ">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 active "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 active "><i class="bi bi-cart  fs-1 text-primary me-1" style="line-height: 0.6"></i></a>
                         <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
@@ -332,7 +331,7 @@
                                         </c:forEach>
                                         <tr>
                                             <th style="width: 7%">
-                                                <div class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                                <div class="btn btn-white  bg-white btn-md mb-2" >
                                                     <input type="checkbox" id="selectAll" onclick="toggleSelectAll(${total}, this)" />
                                                 </div>
                                             </th>
@@ -353,7 +352,7 @@
                                             <tr>
                                                 <td class="actions" data-th="">
                                                     <div class="text-right">
-                                                        <div class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                                        <div class="btn btn-white  bg-white btn-md mb-2">
                                                             <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
                                                         </div>
 

@@ -1,4 +1,12 @@
+.btn-cart{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
 
+.cartBar {
+    line-height: 1;
+}
 .navbar-light .navbar-nav .nav-link {
     font-family: 'Roboto', sans-serif;
     position: relative;
@@ -118,7 +126,7 @@ body{
 
 
 body{
-     background:#FFFFFF;
+    background:#FFFFFF;
 }
 
 /*panel*/
@@ -540,25 +548,25 @@ img{
 
 
 .product-item {
-   
+
 }
 
 .product-item .btn-action {
     position: absolute;
     width: 100%;
-    bottom: -40px;
+    bottom: 60px;
     left: 0;
     opacity: 0;
     transition: .5s;
 }
 
 .product-item:hover .btn-action {
-    bottom: 20px;
-    opacity: 50%;
+    bottom: 100px;
+    opacity: 90%;
 }
 
 .product-item:hover .btn-action:hover {
-   
+
     opacity: 100%;
 }
 
@@ -765,3 +773,42 @@ img{
 .blog-item a:hover i::after {
     width: 50px;
 }
+
+.container1 {
+    width: 100%;
+    padding-right: var(--bs-gutter-x, .75rem);
+    padding-left: var(--bs-gutter-x, .75rem);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 576px) {
+    .container1{
+        max-width:540px
+    }
+}
+
+@media (min-width: 768px) {
+    .container1{
+        max-width:720px
+    }
+}
+
+@media (min-width: 992px) {
+    .container1 {
+        max-width:960px
+    }
+}
+
+@media (min-width: 1200px) {
+    .container1 {
+        max-width:1140px
+    }
+}
+
+@media (min-width: 1300px) {
+    .container1 {
+        max-width: 2000px;
+    }
+}
+

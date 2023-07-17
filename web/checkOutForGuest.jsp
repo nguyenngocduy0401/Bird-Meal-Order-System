@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 text-center py-2">
+                <div class="col-lg-3 border-start text-center py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-facebook fs-1 text-primary me-3"></i>
                         <div class="text-start">
@@ -117,16 +117,12 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
                 <div class="col-md-7 container-fluid">
-                    <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control" placeholder="Have a question? Ask Now">
-                        <button class="btn btn-primary">Search</button>
-                    </div>
+                    
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link ">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 active "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
                         <c:if test="${not empty sessionScope.user}">
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">

@@ -55,10 +55,10 @@ public class LoginCookieController extends HttpServlet {
                     Cookie resetCookie = new Cookie("selector", "0");
                     resetCookie.setMaxAge(0); 
                     response.addCookie(resetCookie);
-                    response.sendRedirect("HomeController");
+                    response.sendRedirect("homePage.jsp");
                 }
             } else {
-                response.sendRedirect("HomeController");
+                response.sendRedirect("homePage.jsp");
             }
         }
     }

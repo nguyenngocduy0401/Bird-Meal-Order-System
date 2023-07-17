@@ -80,6 +80,10 @@
         <servlet-name>DeleteAddressController</servlet-name>
         <servlet-class>sample.controllers.DeleteAddressController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomePageController</servlet-name>
+        <servlet-class>sample.controllers.HomePageController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>DeleteAddressController</servlet-name>
         <url-pattern>/DeleteAddressController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomePageController</servlet-name>
+        <url-pattern>/HomePageController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

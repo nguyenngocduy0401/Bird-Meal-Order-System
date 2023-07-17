@@ -3,6 +3,21 @@
     Created on : May 26, 2023, 6:16:36 PM
     Author     : Duy
 --%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<c:if test="${not empty sessionScope.user}">
+    <c:if test="${sessionScope.user.role eq 0}">
+        <c:redirect url="admin.jsp"></c:redirect>
+    </c:if>
+    <c:if test="${sessionScope.user.role eq 1}">
+        <c:redirect url="staff.jsp"></c:redirect>
+    </c:if>
+    <c:if test="${sessionScope.user.role eq 2}">
+        <c:redirect url="home.jsp"></c:redirect>
+    </c:if>
+</c:if>
 <style>
     .line-separator {
         background-color: #545454;
@@ -47,21 +62,6 @@
     }
 
 </style>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<c:if test="${not empty sessionScope.user}">
-    <c:if test="${sessionScope.user.role eq 0}">
-        <c:redirect url="admin.jsp"></c:redirect>
-    </c:if>
-    <c:if test="${sessionScope.user.role eq 1}">
-        <c:redirect url="staff.jsp"></c:redirect>
-    </c:if>
-    <c:if test="${sessionScope.user.role eq 2}">
-        <c:redirect url="home.jsp"></c:redirect>
-    </c:if>
-</c:if>
-
 <html>
     <head>
         <meta charset="utf-8">
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 text-center py-2">
+                <div class="col-lg-3 text-center border-start py-2">
                     <div class="d-inline-flex align-items-center">
                         <i class="bi bi-facebook fs-1 text-primary me-3"></i>
                         <div class="text-start">
@@ -149,11 +149,11 @@
 
                     
                 </div>
-                <div class="navbar-nav ms-auto py-0">
+                <div class="navbar-nav ms-auto py-0" >
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                    <a href="verifyEmail.html" class="nav-item nav-link nav-contact bg-primary text-white px-4 ms-lg-5">
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart cartBar  fs-1 text-primary me-1" style="line-height:0.6"> </i></a>
+                    <a href="verifyEmail.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
                         Register
                         <i class="bi bi-arrow-right"></i>
                     </a>
