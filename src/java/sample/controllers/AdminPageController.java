@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,12 +6,9 @@
 package sample.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,10 +29,10 @@ import sample.dto.ProductDTO;
  */
 @WebServlet(name = "AdminPageController", urlPatterns = {"/AdminPageController"})
 public class AdminPageController extends HttpServlet {
+
     private final String ADMIN_PAGE = "admin.jsp";
     private final String ERROR_PAGE = "error.jsp";
-    
- 
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -86,9 +83,12 @@ public class AdminPageController extends HttpServlet {
             request.setAttribute("MONTH10", earning10);
             request.setAttribute("MONTH11", earning11);
             request.setAttribute("MONTH12", earning12);
-        }finally{
+        } catch (SQLException ex) {
+            log("Servlet_SQL: " + ex.getMessage());
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
+            out.close();
         }
     }
 

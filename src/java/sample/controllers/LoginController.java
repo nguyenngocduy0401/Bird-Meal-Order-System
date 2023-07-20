@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet {
                                     cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
-                                response.sendRedirect("staff.jsp");
+                                response.sendRedirect("StaffHomeController");
                             }
                         } else if (user.getRole() == 2) {//customer
                             HttpSession session = request.getSession(true);
@@ -93,7 +93,7 @@ public class LoginController extends HttpServlet {
                                     cookie.setMaxAge(365 * 24 * 60 * 60);
                                     response.addCookie(cookie);
                                 }
-                                response.sendRedirect("HomePageController");
+                                response.sendRedirect("MainController");
                             } else {
                                 response.sendRedirect("invalid.html");
                             }

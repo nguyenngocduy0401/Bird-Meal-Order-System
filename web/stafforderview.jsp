@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Bird Meal Order System</title>
+        <title>Staff</title>
     </head>
     <style>  
         table, th, td {  
@@ -46,7 +46,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Bird Meal Order System</title>
+        <title>Staff</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
               <!-- Favicon -->

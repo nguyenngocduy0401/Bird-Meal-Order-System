@@ -115,7 +115,8 @@ public class UserDAO {
         }
         return user;
     }
-        public UserDTO getUserByOrderID(int orderID) {
+
+    public UserDTO getUserByOrderID(int orderID) {
         UserDTO user = null;
         Connection cn = null;
         try {
@@ -158,6 +159,7 @@ public class UserDAO {
         }
         return user;
     }
+
     public static boolean updateToken(String token, String username) {
         Connection connection = null;
         PreparedStatement pst = null;
@@ -329,7 +331,7 @@ public class UserDAO {
         return result;
     }
 
-   public boolean removeAccount(int userID)
+    public boolean removeAccount(int userID)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -587,8 +589,11 @@ public class UserDAO {
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "UPDATE [User]\n"
-                        + "SET [Status] = ? \n"
-                        + "WHERE [UserName] like ? ";
+                        + "SET [Status] = ? \n";
+                if (bool) {
+                    sql += ",[NumberReport] = 0\n";
+                }
+                sql += "WHERE [UserName] like ? ";
                 stm = con.prepareStatement(sql);
                 stm.setBoolean(1, bool);
                 stm.setString(2, userName);
@@ -681,4 +686,33 @@ public class UserDAO {
         return user;
     }
 
+    public static boolean updateNumberOfReport(int userID, int rate) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "    UPDATE [User]\n"
+                        + "  SET [NumberReport] = ?\n"
+                        + "  WHERE [UserID] = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, rate);
+                stm.setInt(2, userID);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    result = true;
+                }
+            }//end if con is not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
 }
