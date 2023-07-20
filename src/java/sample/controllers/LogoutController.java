@@ -63,7 +63,7 @@ public class LogoutController extends HttpServlet {
             } catch (Exception e) {
                 log("Error at LogoutController" + e.toString());
             } finally {
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("HomePageController");
             }
         }
     }
