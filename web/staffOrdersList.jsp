@@ -16,14 +16,11 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Staff orders controller</title>
+        <title>Staff</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-
-        <title>SB Staff - Orders</title>
-
         <!-- Custom fonts for this template -->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link
@@ -74,16 +71,17 @@
                     </form>
                 </li>
 
-
-                <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Blog</span></a>
+                    <form action="ListCategory">
+
+                        <button type="submit" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Category</span>
+                        </button>
+                    </form>
                 </li>
-
-
-                <li class="nav-item">
+                
+                                <li class="nav-item">
                     <form action="ListUnavailable">
 
                         <button type="submit" class="nav-link" style="border: none; background: none;">
@@ -91,6 +89,13 @@
                             <span>Trash</span>
                         </button>
                     </form>
+                </li>
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Blog</span></a>
                 </li>
 
                 <li class="nav-item">

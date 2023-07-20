@@ -46,19 +46,21 @@ public class AdminProductView extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, NamingException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         List<ProductDTO> listProduct = ProductDAO.loadProducts();
-        
+
         try (PrintWriter out = response.getWriter()) {
             out.println("<div class=\"container-fluid\">\n"
                     + "\n"
                     + "                    <!-- Page Heading -->\n"
-                    + "                    <h1 class=\"h3 mb-2 text-gray-800\">Account Manager</h1>\n"
+                    + "                         <div class=\"d-sm-flex align-items-center justify-content-between mb-4 topbar\">\n"
+                    + "                            <h1 class=\"h3 mb-0 text-gray-800\">Product Manager</h1>\n"
+                    + "                        </div>"
                     + "\n"
                     + "                    <!-- DataTales Example -->\n"
                     + "                    <div class=\"card shadow mb-4\">\n"
                     + "                        <div class=\"card-header py-3\">\n"
-                    + "                            <h6 class=\"m-0 font-weight-bold text-primary\">Account Table</h6>\n"
+                    + "                            <h6 class=\"m-0 font-weight-bold text-primary\">Product Table</h6>\n"
                     + "                        </div>\n"
                     + "<div class=\"card shadow mb-4\">\n"
                     + "                        <div class=\"card-header py-3\">\n"

@@ -24,62 +24,54 @@
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
-
         <!-- Custom styles for this template -->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
         <!-- Custom styles for this page -->
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <style>
             .updateButton {
                 background-color: #51a351;
                 color: #fff;
                 border: none;
+                border-radius: 16px;
                 padding: 5px 10px;
                 cursor: pointer;
                 transition: background-color 0.3s;
+                width: 50px;
             }
 
             .updateButton:hover {
                 background-color: #387038;
             }
-            .details{
-                padding-left: 50px;
-                padding-top: 30px;
-                padding-right: 30px;
-                margin-left: 30px;
-                margin-right: 30px;
-                margin-top: 30px;
-            }
-            #content h1{
-                margin-left: 30px;
-                margin-right: 30px;
-            }
-            .btn-reply{
-                background: #51a351;
+            .btn-add{
+                display: block;
+                background-color: #51a351;
+                color: #fff;
                 border: none;
                 border-radius: 16px;
-                width: 100px;
-                height: 50px;
-                margin-top: 20px;
-                margin-left: 10px;
-                margin-bottom: 20px;
-                color: white;
+                padding: 5px 10px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                width: 50px;
+                margin-bottom: 10px;
             }
-            .btn-back{
-                background: none;
-                border: none;
-                border-radius: 16px;
-                width: 70px;
-                height: 30px;
-                margin-left: 50px;
-                margin-top: 30px;
+            .btn-add:hover {
+                background-color: #387038;
+            }
+            .tetx-box{
+                margin-left: 30px;
+                margin-right: 30px;
+                margin-bottom: 10px;
             }
         </style>
     </head>
 
     <body id="page-top">
-
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -217,67 +209,87 @@
                     <!-- End of Topbar -->
 
                     <!-- Begin Page Content -->
-                    <div class="container-fluid" id="content">
-                        <!-- DataTales Example -->
-                        <div class="card shadow mb-4">
-                            <c:set var="result" value="${requestScope.ListFeedback}"/>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <c:if test="${not empty result}">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>User</th>
-                                                    <th>Product</th>
-                                                    <th>FeedBack Detail</th>
-                                                    <th>Feedback Date</th>
-                                                    <th>Rate</th>
-                                                    <th>Action</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="dto" items="${result}">
-                                                    <c:if test="${empty dto.feedbackDetails}">
+                    <div class="container-fluid row">
+                        <div class="container-fluid col-md-6" id="content">
+                            <button class="btn-add" data-toggle="modal" data-target="#AddNewCategoryModal">+</button>
+                            <!-- DataTales Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Category</h6>
+                                </div>
+                                <c:set var="categoryList" value="${requestScope.ListCategory}"/>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <c:if test="${not empty categoryList}">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    </tr>
+                                                    <c:forEach var="category" items="${categoryList}">
                                                         <tr>
                                                             <td>
-                                                                ${UserDAO.getUserByID(dto.userID).userName}
+                                                                ${category.categoryName}
                                                             </td>
                                                             <td>
-                                                                ${ProductDAO.getProductByID(dto.productID).productName}
-                                                            </td>
-                                                            <td>
-                                                                ${dto.feedbackDetails}
-                                                            </td>
-                                                            <td>
-                                                                ${dto.feedbackDate}
-                                                            </td>
-                                                            <td>
-                                                                ${dto.rate}
-                                                            </td>
-                                                            <td>
-                                                                <c:set var="report" value="${ReportDAO.getReportByFeedbackID(dto.feedbackID)}"/>
-                                                                <button class="updateButton" data-feedbackid="${dto.feedbackID}" onclick="feedbackDetails(${dto.feedbackID})">
-                                                                    <i class="fa">Details</i>
+                                                                <button class="updateButton" onclick="removeCategory(${category.categoryID})">
+                                                                    <i class="fa fa-trash"></i>
                                                                 </button>
-                                                                <c:if test="${report eq 1}">
-                                                                    <button class="updateButton" onclick="reportFeedback(${dto.feedbackID})">
-                                                                        <i class="fa">Report</i>
-                                                                    </button>
-                                                                </c:if>
                                                             </td>
+
+
                                                         </tr>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </c:if>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:if>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.container-fluid -->
 
+                        <div class="container-fluid col-md-6" id="content">
+                            <button class="btn-add" data-toggle="modal" data-target="#AddNewBirdModal">+</button>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Bird</h6>
+                                </div>
+                                <c:set var="listBird" value="${requestScope.ListBird}"/>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <c:if test="${not empty listBird}">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="bird" items="${listBird}">
+                                                        <tr>
+                                                            <td>
+                                                                ${bird.birdName}
+                                                            </td>
+                                                            <td>
+                                                                <button class="updateButton" onclick="removeBird(${bird.birdID})">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </c:if>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.container-fluid -->
+                    </div>
                 </div>
                 <!-- End of Main Content -->
 
@@ -322,22 +334,43 @@
             </div>
         </div>
 
-        <!-- Report Modal-->
-        <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <!-- New Bird Modal-->
+        <div class="modal fade" id="AddNewBirdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Give report to Admin</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Create New Bird</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Make sure you want to give report to Admin</div>
-                    <div class="modal-body">Click "Yes" to give report to Admin</div>
+                    <div class="modal-body">Enter bird name</div>
+                    <input id="birdName" class="tetx-box" type="text" name="birdName" value="" placeholder="Enter bird name"/>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" onclick="reportFeedback()">Yes</a>
+                        <a class="btn btn-primary" onclick="addNewBird(${birdName})">Create</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Category Modal-->
+        <div class="modal fade" id="AddNewCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create New Bird</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Enter bird name</div>
+                    <input id="cateName" class="tetx-box" type="text" name="cateName" value="" placeholder="Enter category name"/>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" onclick="addNewCategory()">Create</a>
                     </div>
                 </div>
             </div>
@@ -364,110 +397,71 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-                            $(document).ready(function () {
-                                // Xử lý sự kiện khi nhấn nút cập nhật
-                                $('.updateButton').click(function () {
-                                    var feedbackID = $(this).data('feedbackid');
-                                    var details = $(this).closest('tr').find('.detailsInput').val();
-
-                                    updateFeedback(feedbackID, details);
-                                });
-                            });
-
-                            function updateFeedback(feedbackID, details) {
+                            function removeBird(birdID) {
                                 $.ajax({
-                                    url: 'ReplyFeedbackStaff',
-                                    type: 'GET',
+                                    type: "POST",
+                                    url: "RemoveBird",
                                     data: {
-                                        feedbackID: feedbackID,
-                                        details: details
-                                    },
-                                    dataType: 'json',
-                                    success: function (response) {
-                                        // Cập nhật danh sách phản hồi trên trang
-                                        if (response) {
-                                            // Thực hiện các hành động sau khi cập nhật thành công
-                                            alert('Cập nhật thành công!');
-                                        } else {
-                                            // Thông báo lỗi khi cập nhật không thành công
-                                            alert('Cập nhật không thành công!');
-                                        }
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.log(error);
-                                    }
-                                });
-                            }
-                            function feedbackDetails(param) {
-                                $.ajax({
-                                    type: "post",
-                                    url: "FeedbackDetails",
-                                    data: {
-                                        feedbackID: param
-                                    },
-                                    success: function (data) {
-                                        var row = document.getElementById("content");
-                                        row.innerHTML = data;
-                                        $('#details').load(window.location.href + ' #details');
-                                    }
-                                });
-                            }
-                            function reportFeedback(fbID) {
-                                $.ajax({
-                                    type: "get",
-                                    url: "ReportFeedback",
-                                    data: {
-                                        feedbackID: fbID
-                                    },
-                                    success: function (data) {
-                                        var row = document.getElementById("content");
-                                        row.innerHTML = data;
-                                    }
-                                });
-                            }
-                            function replyFeedback(fbID) {
-                                $.ajax({
-                                    type: "post",
-                                    url: "FeedbackReply",
-                                    data: {
-                                        feedbackID: fbID,
-                                        details: $('#details').val()
+                                        birdID: birdID
                                     },
                                     success: function () {
-                                        alert("Reply thanh cong!");
+                                        alert("Thanh cong");
                                         location.reload();
                                     },
                                     error: function () {
                                         alert("Reply that bai!");
                                         location.reload();
-                                    },
-
+                                    }
                                 });
                             }
-                            function giveReportFeedback(fbID) {
-                                let elements = document.getElementsByName('rating');
-                                let len = elements.length;
-                                let checkValue = '';
-
-                                for (let i = 0; i < len; i++) {
-                                    if (elements.item(i).checked) {
-                                        checkValue = elements.item(i).value;
-                                    }
-                                }
+                            function addNewBird() {
                                 $.ajax({
-                                    type: "post",
-                                    url: "GiveReportFeedback",
+                                    type: "POST",
+                                    url: "AddNewBird",
                                     data: {
-                                        feedbackID: fbID,
-                                        details: $('#details').val(),
-                                        rating: checkValue
+                                        BIRDNAME: $('#birdName').val()
                                     },
                                     success: function () {
-                                        alert("Your report have been send to Admin");
+                                        alert("Thanh cong");
                                         location.reload();
                                     },
                                     error: function () {
-                                        alert("Something went wrong!");
+                                        alert("Reply that bai!");
+                                        location.reload();
+                                    }
+                                });
+                            }
+                            function removeCategory(cateID) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "RemoveCategory",
+                                    data: {
+                                        categoryID: cateID
+                                    },
+                                    success: function () {
+                                        alert("Thanh cong");
+                                        location.reload();
+                                    },
+                                    error: function () {
+                                        alert("Reply that bai!");
+                                        location.reload();
+                                    }
+                                });
+                            }
+
+                            function addNewCategory() {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "AddNewCategory",
+                                    data: {
+                                        CATEGORYNAME: $('#cateName').val()
+                                    },
+                                    success: function () {
+                                        alert("Thanh cong");
+                                        location.reload();
+                                    },
+                                    error: function () {
+                                        alert("Reply that bai!");
                                         location.reload();
                                     }
                                 });

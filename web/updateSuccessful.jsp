@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Staff</title>
         <style>
             .content {
                 margin-top: 60px;
@@ -98,27 +98,6 @@
                     <!-- Divider -->
                     <hr class="sidebar-divider my-0">
 
-                    <!-- Nav Item - Dashboard -->
-
-
-                    <!-- Divider -->
-
-                    <!-- Heading -->
-
-
-                    <!-- Nav Item - Pages Collapse Menu -->
-
-
-                    <!-- Nav Item - Utilities Collapse Menu -->
-               
-                <!-- Nav Item - Charts -->
-                <li class="nav-item">
-                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Blog</span></a>
-                </li>
-
-                <!-- Nav Item - Tables -->
                 <li class="nav-item">
                     <form action="MainController">
                         <input type="hidden" name="btAction" value="StaffHome" />
@@ -128,6 +107,17 @@
                         </button>
                     </form>
                 </li>
+
+                <li class="nav-item">
+                    <form action="ListCategory">
+
+                        <button type="submit" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Category</span>
+                        </button>
+                    </form>
+                </li>
+
                 <li class="nav-item">
                     <form action="ListUnavailable">
 
@@ -138,6 +128,12 @@
                     </form>
                 </li>
 
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Blog</span></a>
+                </li>
 
                 <!-- Nav Item - Orders -->
                 <li class="nav-item">

@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.naming.NamingException;
+import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
 import sample.utils.DBUtils;
 
@@ -74,7 +76,7 @@ public class CategoryDAO {
                 while (rs.next()) {
                     int cateID = rs.getInt("CategoryID");
                     String cateName = rs.getString("CategoryName");
-                    
+
                     listCate.add(new CategoryDTO(cateID, cateName));
                 }
             }
@@ -92,5 +94,70 @@ public class CategoryDAO {
         return listCate;
     }
 
-   
+    public static boolean createCategory(CategoryDTO category)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "INSERT INTO [Category] "
+                        + "([CategoryName]) "
+                        + "VALUES (?)";
+                //3 create
+                stm = con.prepareStatement(sql);
+                stm.setString(1, category.getCategoryName());
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    
+     public static boolean removeCategoryByID(int cateID)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "  DELETE Category\n"
+                        + "  WHERE [CategoryID] = ? ";
+                //3 create
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, cateID);
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+
+        }catch (ClassNotFoundException | SQLException e){
+            result = false;
+        }
+        finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
 }

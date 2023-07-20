@@ -1,21 +1,15 @@
-<%-- 
-    Document   : ListUnavailable
-    Created on : Jul 10, 2023, 10:33:40 PM
-    Author     : DucAnh
---%>
+
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-
-        <title>SB Admin 2 - Tables</title>
+        <title>Staff</title>
 
         <!-- Custom fonts for this template -->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -29,8 +23,25 @@
         <!-- Custom styles for this page -->
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     </head>
-    <body id="page-top">
 
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+    <body id="page-top">
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -58,14 +69,15 @@
                     </form>
                 </li>
 
-
-                <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Blog</span></a>
-                </li>
+                    <form action="ListCategory">
 
+                        <button type="submit" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Category</span>
+                        </button>
+                    </form>
+                </li>
 
                 <li class="nav-item">
                     <form action="ListUnavailable">
@@ -75,6 +87,13 @@
                             <span>Trash</span>
                         </button>
                     </form>
+                </li>
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Blog</span></a>
                 </li>
 
                 <li class="nav-item">
@@ -140,19 +159,6 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Settings
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>
-                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Logout
@@ -167,15 +173,9 @@
 
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
-                        <!-- Page Heading -->
-
-
-
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -308,23 +308,5 @@
                 </div>
             </div>
         </div>
-
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
-
-        <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
-
     </body>
 </html>

@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Staff</title>
         <style>
             .content {
                 margin-top: 60px;
@@ -96,19 +96,6 @@
                 </a>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-                <!-- Nav Item - Charts -->
-                <li class="nav-item">
-                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Blog</span></a>
-                </li>
-
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
                     <form action="MainController">
                         <input type="hidden" name="btAction" value="StaffHome" />
                         <button type="submit" class="nav-link" style="border: none; background: none;">
@@ -117,6 +104,36 @@
                         </button>
                     </form>
                 </li>
+
+                <li class="nav-item">
+                    <form action="ListCategory">
+
+                        <button type="submit" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Category</span>
+                        </button>
+                    </form>
+                </li>
+
+                <li class="nav-item">
+                    <form action="ListUnavailable">
+
+                        <button type="submit" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-fw fa-trash"></i>
+                            <span>Trash</span>
+                        </button>
+                    </form>
+                </li>
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Blog</span></a>
+                </li>
+
+                <!-- Nav Item - Tables -->
+
                 <li class="nav-item">
                     <form action="ListUnavailable">
 

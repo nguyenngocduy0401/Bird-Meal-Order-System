@@ -46,14 +46,16 @@ public class AdminAccountView extends HttpServlet {
             out.println("<div class=\"container-fluid\">\n"
                     + "\n"
                     + "                    <!-- Page Heading -->\n"
-                    + "                    <h1 class=\"h3 mb-2 text-gray-800\">Account Manager</h1>\n"
+                    + "                        <div class=\"d-sm-flex align-items-center justify-content-between mb-4 topbar\">\n"
+                    + "                            <h1 class=\"h3 mb-0 text-gray-800\">Account Manager</h1>\n"
+                    + "                        </div>"
                     + "\n"
                     + "                    <!-- DataTales Example -->\n"
                     + "                    <div class=\"card shadow mb-4\">\n"
                     + "                        <div class=\"card-header py-3\">\n"
                     + "                            <h6 class=\"m-0 font-weight-bold text-primary\">Account Table</h6>\n"
                     + "                        </div>\n"
-                    + "<div class=\"card shadow mb-4\">\n"
+                    + "                    <div class=\"card shadow mb-4\">\n"
                     + "                        <div class=\"card-header py-3\">\n"
                     + "                            <div class=\"d-flex justify-content-between align-items-center\">\n"
                     + "                                <form action=\"MainController\">\n"
@@ -117,19 +119,19 @@ public class AdminAccountView extends HttpServlet {
                     out.print("<td>Unavailable</td>\n");
                 }
                 out.print("                                            <td>" + dto.getPhoneNumber() + "</td>\n");
-               if(dto.getRole() != 0){
-                if (dto.isStatus()) {
-                    out.print("<td><a class=\"btn btn-outline-primary mr-auto\" onclick=\"banAccount(\'" + dto.getUserName() + "\', true)\" value=\"CreateStaff\">Ban</a></td>\n");
+                if (dto.getRole() != 0) {
+                    if (dto.isStatus()) {
+                        out.print("<td><a class=\"btn btn-outline-primary mr-auto\" onclick=\"banAccount(\'" + dto.getUserName() + "\', true)\" value=\"CreateStaff\">Ban</a></td>\n");
+                    } else {
+                        out.print("<td><a class=\"btn btn-outline-primary mr-auto\" onclick=\"banAccount(\'" + dto.getUserName() + "\', false)\" value=\"CreateStaff\">Unban</a></td>\n");
+                    }
                 } else {
-                    out.print("<td><a class=\"btn btn-outline-primary mr-auto\" onclick=\"banAccount(\'" + dto.getUserName() + "\', false)\" value=\"CreateStaff\">Unban</a></td>\n");
+                    if (dto.isStatus()) {
+                        out.print("<td></td>");
+                    } else {
+                        out.print("<td></td>");
+                    }
                 }
-               }else{
-                   if (dto.isStatus()) {
-                    out.print("<td></td>");
-                } else {
-                    out.print("<td></td>");
-                }
-               }
             });
 
             out.print("                                    </tbody>\n"
@@ -139,8 +141,8 @@ public class AdminAccountView extends HttpServlet {
                     + "                    </div>\n"
                     + "\n"
                     + "                </div>");
-        }finally{
-            
+        } finally {
+
         }
     }
 
