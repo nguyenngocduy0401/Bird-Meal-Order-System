@@ -87,30 +87,31 @@ public class PagingProduct extends HttpServlet {
 
         try {
             if (result.isEmpty()) {
-                out.print("<p class=\"text-uppercase mb-1\">Không có sản phẩm tương tự được tìm thấy!!</p>");
+                out.print("<p class=\"text-uppercase mb-1\">No similar products found!</p>");
             } else {
                 result.forEach((dto) -> {
                     out.println("<div class=\"cards block col-md-4 mt-1\">\n"
-                            + "                            <section class=\"panel\">\n"
+                            + " <section class=\"panel\">\n"
+                            + " <div class=\"card product-item position-relative bg-light d-flex flex-column text-center product\">\n"
                             + " <div class=\"clickable\" onclick=\"document.getElementById('formid_" + dto.getProductID() + "').submit()\">\n"
-                            + "                                <div class=\"card product-item position-relative bg-light d-flex flex-column text-center product\">\n"
                             + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
                             + "                                    <p class=\"name text-uppercase\">" + dto.getProductName() + "</p>\n"
                             + "                                    <h5 class=\"text-primary mb-0\">" + dto.getPrice() + " VND</h5>\n"
+                            + "                              </div>\n"
                             + "                                    <div class=\"btn-action d-flex justify-content-center\">\n"
                             + "\n"
                             + "                                        <div class=\"d-flex\">\n");
                     if (dto.getQuantity() != 0) {
-                        out.print("<button type=\"submit\" value=\"Add\" onclick=\"addToCart(" + dto.getProductID() + ")\" class=\"btn btn-primary py-2 px-3\" type=\"button\">\n"
-                                + "                                                        <i class=\"bi bi-cart-fill me-1 \"></i>\n"
+                        out.print("<button type=\"submit\" value=\"Add\" onclick=\"addToCart(" + dto.getProductID() + ")\" class=\"btn btn-cart btn-primary py-2 px-3\" type=\"button\">\n"
+                                + "                                                        <i class=\"bi bi-cart-fill fa-2x \"  style=\"font-size: 25px;\"></i>\n"
                                 + "                                                    </button>");
                     }
 
                     out.print("                                        </div>\n"
                             + "                                        <div class=\"d-flex\">\n"
                             + "\n"
-                            + "                                                    <form action=\"ProductDetailController\" method=\"post\" style=\"display: none;\" id=\"formid_"+dto.getProductID()+"\">\n"
-                            + "                                                        <input type=\"hidden\" name=\"productID\" value=\""+dto.getProductID()+"\">\n"
+                            + "                                                    <form action=\"ProductDetailController\" method=\"post\" style=\"display: none;\" id=\"formid_" + dto.getProductID() + "\">\n"
+                            + "                                                        <input type=\"hidden\" name=\"productID\" value=\"" + dto.getProductID() + "\">\n"
                             + "                                                        <button type=\"submit\" class=\"btn btn-primary py-2 px-3\">\n"
                             + "                                                            <i class=\"bi bi-eye\"></i>\n"
                             + "                                                        </button>\n"
@@ -118,7 +119,6 @@ public class PagingProduct extends HttpServlet {
                             + "                                     </div>\n"
                             + "                                    </div>\n"
                             + "                                </div>\n"
-                            + "                              </div>\n"
                             + "                            </section>\n"
                             + "                        </div>");
                 });

@@ -579,7 +579,7 @@
                 date2.textContent = post2.published;
                 author2.textContent = post2.author.displayName;
                 image2.src = extractedURL2;
-                src2.href = post.url;
+                src2.href = post2.url;
             }
         </script>
     </body>
