@@ -81,6 +81,8 @@ public class SendConfirmationEmailServlet extends HttpServlet {
                 if (!sendEmail) {
                     errors.setSendEmailFailedError("Send email is failed. Please try again!");
                     request.setAttribute("EMAIL_ERROR", errors);
+                } else {
+                    request.setAttribute("SEND_EMAIL_SUCCESS", true);
                 }
             }
 

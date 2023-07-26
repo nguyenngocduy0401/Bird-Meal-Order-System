@@ -154,7 +154,7 @@
                                         <button class="btn btn-primary w-100 py-3 mt-3" type="submit">Continue</button>
                                     </div>
                                 </c:when>
-                                <c:otherwise>
+                                    <c:when test="${not empty requestScope.SEND_EMAIL_SUCCESS}">
                                     <div class="col-12">
                                         <input type="text" class="form-control bg  px-4" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
@@ -163,6 +163,15 @@
                                     </font>
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3 mt-3" type="submit">Send link again</button>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control bg  px-4" placeholder="Email*" 
+                                               style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3 mt-3" type="submit">Send</button>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -176,12 +185,12 @@
     </body>
 </html>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
