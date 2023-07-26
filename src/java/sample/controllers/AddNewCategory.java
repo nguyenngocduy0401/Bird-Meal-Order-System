@@ -6,6 +6,7 @@
 package sample.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,13 +38,19 @@ public class AddNewCategory extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         try {
             String categoryName = request.getParameter("CATEGORYNAME");
             CategoryDTO category = new CategoryDTO();
-            category.setCategoryName(categoryName);
-            CategoryDAO.createCategory(category);
-        }finally{
-            
+            if (categoryName.trim().isEmpty()) {
+                out.print("false");
+            } else {
+                category.setCategoryName(categoryName);
+                CategoryDAO.createCategory(category);
+                out.print("true");
+            }
+        } finally {
+
         }
     }
 

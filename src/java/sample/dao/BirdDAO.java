@@ -27,7 +27,7 @@ public class BirdDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT Bird.BirdID, BirdName \n"
+                String sql = "SELECT Bird.BirdID, BirdName, Bird.[Status] \n"
                         + "FROM Product\n"
                         + "JOIN CategoriesBird ON Product.ProductID = CategoriesBird.ProductID\n"
                         + "JOIN Bird ON CategoriesBird.BirdID = Bird.BirdID\n"
@@ -39,8 +39,9 @@ public class BirdDAO {
                     while (rs.next()) {
                         String birdName = rs.getString("BirdName");
                         int birdID = rs.getInt("BirdID");
+                        int status = rs.getInt("Status");
 
-                        BirdDTO bird = new BirdDTO(birdID, birdName);
+                        BirdDTO bird = new BirdDTO(birdID, birdName, status);
                         list.add(bird);
                     }
                     cn.close();
@@ -70,6 +71,7 @@ public class BirdDAO {
             if (cn != null) {
                 String sql = "SELECT [BirdID]\n"
                         + "         ,[BirdName]\n"
+                        + "         ,[Status]\n"
                         + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird] ";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
@@ -77,8 +79,9 @@ public class BirdDAO {
                     while (rs.next()) {
                         String birdName = rs.getString("BirdName");
                         int birdID = rs.getInt("BirdID");
+                        int status = rs.getInt("Status");
 
-                        BirdDTO bird = new BirdDTO(birdID, birdName);
+                        BirdDTO bird = new BirdDTO(birdID, birdName, status);
                         list.add(bird);
                     }
                     cn.close();
@@ -109,9 +112,8 @@ public class BirdDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "INSERT INTO [Bird] "
-                        + "([BirdName]) "
-                        + "VALUES (?)";
+                String sql = "  INSERT INTO [Bird] ([BirdName],[Status])\n"
+                        + "  VALUES (?, 1)";
                 //3 create
                 stm = con.prepareStatement(sql);
                 stm.setString(1, bird.getBirdName());
@@ -148,6 +150,40 @@ public class BirdDAO {
                 //3 create
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, birdID);
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            result = false;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    
+    public static boolean updateBirdByID(int birdID, int status)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "  UPDATE [Bird]\n"
+                        + "  SET [Status] = ?\n"
+                        + "  WHERE BirdID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, status);
+                stm.setInt(2, birdID);
                 int effectRow = stm.executeUpdate();
                 if (effectRow > 0) {
                     result = true;

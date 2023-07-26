@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
-import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
 import sample.utils.DBUtils;
 
@@ -28,7 +27,7 @@ public class CategoryDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String s = "SELECT CategoryID, CategoryName\n"
+                String s = "SELECT CategoryID, CategoryName, [Status]\n"
                         + "FROM Category\n"
                         + "WHERE CategoryID = ?;";
                 PreparedStatement pst = cn.prepareStatement(s);
@@ -38,7 +37,8 @@ public class CategoryDAO {
                     while (kq.next()) {
                         int categoryID = kq.getInt("CategoryID");
                         String categoryName = kq.getString("CategoryName");
-                        category = new CategoryDTO(categoryID, categoryName);
+                        int status = kq.getInt("Status");
+                        category = new CategoryDTO(categoryID, categoryName, status);
 
                     }
                     cn.close();
@@ -70,14 +70,15 @@ public class CategoryDAO {
             if (con != null) {
                 String sql = "SELECT [ProjectBirdMealOrderSystem].[dbo].Category.CategoryID,\n"
                         + "[ProjectBirdMealOrderSystem].[dbo].Category.CategoryName\n"
+                        + ",[Status]"
                         + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Category]";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int cateID = rs.getInt("CategoryID");
                     String cateName = rs.getString("CategoryName");
-
-                    listCate.add(new CategoryDTO(cateID, cateName));
+                    int status = rs.getInt("Status");
+                    listCate.add(new CategoryDTO(cateID, cateName, status));
                 }
             }
         } finally {
@@ -104,8 +105,8 @@ public class CategoryDAO {
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "INSERT INTO [Category] "
-                        + "([CategoryName]) "
-                        + "VALUES (?)";
+                        + "([CategoryName], [Status]) "
+                        + "VALUES (?, 1)";
                 //3 create
                 stm = con.prepareStatement(sql);
                 stm.setString(1, category.getCategoryName());
@@ -115,6 +116,9 @@ public class CategoryDAO {
                 }
             }
 
+        } catch (ClassNotFoundException | SQLException e) {
+            result = false;
+            return result;
         } finally {
             if (stm != null) {
                 stm.close();
@@ -125,8 +129,8 @@ public class CategoryDAO {
         }
         return result;
     }
-    
-     public static boolean removeCategoryByID(int cateID)
+
+    public static boolean removeCategoryByID(int cateID)
             throws ClassNotFoundException, SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -146,10 +150,44 @@ public class CategoryDAO {
                 }
             }
 
-        }catch (ClassNotFoundException | SQLException e){
+        } catch (ClassNotFoundException | SQLException e) {
             result = false;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
         }
-        finally {
+        return result;
+    }
+
+    public static boolean updateCategoryByID(int cateID, int status)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "  UPDATE [Category]\n"
+                        + "  SET [Status] = ?\n"
+                        + "  WHERE CategoryID = ? ";
+                //3 create
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, status);
+                stm.setInt(2, cateID);
+                int effectRow = stm.executeUpdate();
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            result = false;
+        } finally {
             if (stm != null) {
                 stm.close();
             }

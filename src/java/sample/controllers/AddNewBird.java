@@ -34,14 +34,23 @@ public class AddNewBird extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
+     * @throws javax.naming.NamingException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException, NamingException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, NamingException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         try {
             String birdName = request.getParameter("BIRDNAME");
-            BirdDTO bird = new BirdDTO(birdName);
-            BirdDAO.createBird(bird);
+            if (birdName.trim().isEmpty()) {
+                out.print("false");
+            } else {
+                BirdDTO bird = new BirdDTO(birdName);
+                BirdDAO.createBird(bird);
+                out.print("true");
+            }
         } finally {
 
         }
@@ -63,9 +72,9 @@ public class AddNewBird extends HttpServlet {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AddNewBird.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException | NamingException ex) {
             Logger.getLogger(AddNewBird.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NamingException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(AddNewBird.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -85,9 +94,9 @@ public class AddNewBird extends HttpServlet {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AddNewBird.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException | NamingException ex) {
             Logger.getLogger(AddNewBird.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NamingException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(AddNewBird.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -42,7 +42,6 @@
                 padding: 5px 10px;
                 cursor: pointer;
                 transition: background-color 0.3s;
-                width: 50px;
             }
 
             .updateButton:hover {
@@ -225,6 +224,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Category</th>
+                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -236,9 +236,25 @@
                                                                 ${category.categoryName}
                                                             </td>
                                                             <td>
-                                                                <button class="updateButton" onclick="removeCategory(${category.categoryID})">
-                                                                    <i class="fa fa-trash"></i>
-                                                                </button>
+                                                                <c:if test="${category.status eq 1}">
+                                                                    Available
+                                                                </c:if>
+                                                                <c:if test="${category.status eq 0}">
+                                                                    Unavailable
+                                                                </c:if>
+                                                            </td>
+                                                            <td>
+                                                                <c:if test="${category.status eq 1}">
+                                                                    <button class="updateButton" onclick="removeCategory(${category.categoryID},0)">
+                                                                        Unavailable
+                                                                    </button>
+                                                                </c:if>
+                                                                <c:if test="${category.status eq 0}">
+                                                                    <button class="updateButton" onclick="removeCategory(${category.categoryID},1)">
+                                                                        Available
+                                                                    </button>
+                                                                </c:if>
+
                                                             </td>
 
 
@@ -265,7 +281,8 @@
                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Category</th>
+                                                        <th>Bird</th>
+                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -276,9 +293,25 @@
                                                                 ${bird.birdName}
                                                             </td>
                                                             <td>
-                                                                <button class="updateButton" onclick="removeBird(${bird.birdID})">
-                                                                    <i class="fa fa-trash"></i>
-                                                                </button>
+                                                                <c:if test="${bird.status eq 1}">
+                                                                    Available
+                                                                </c:if>
+                                                                <c:if test="${bird.status eq 0}">
+                                                                    Unavailable
+                                                                </c:if>
+                                                            </td>
+                                                            <td>
+                                                                <c:if test="${bird.status eq 1}">
+                                                                    <button class="updateButton" onclick="removeBird(${bird.birdID},0)">
+                                                                        Unavailable
+                                                                    </button>
+                                                                </c:if>
+                                                                <c:if test="${bird.status eq 0}">
+                                                                    <button class="updateButton" onclick="removeBird(${bird.birdID},1)">
+                                                                        Available
+                                                                    </button>
+                                                                </c:if>
+
                                                             </td>
                                                         </c:forEach>
                                                 </tbody>
@@ -361,12 +394,12 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Create New Bird</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Create New Category</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Enter bird name</div>
+                    <div class="modal-body">Enter category name</div>
                     <input id="cateName" class="tetx-box" type="text" name="cateName" value="" placeholder="Enter category name"/>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -397,20 +430,24 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-                            function removeBird(birdID) {
+                            function removeBird(birdID, status) {
                                 $.ajax({
                                     type: "POST",
                                     url: "RemoveBird",
                                     data: {
-                                        birdID: birdID
+                                        birdID: birdID,
+                                        STATUS: status
                                     },
-                                    success: function () {
-                                        alert("Thanh cong");
-                                        location.reload();
+                                    success: function (data) {
+                                        if (data === "true") {
+                                            alert("Success");
+                                            location.reload();
+                                        } else {
+                                            alert("Fail");
+                                        }
                                     },
                                     error: function () {
-                                        alert("Reply that bai!");
-                                        location.reload();
+                                        alert("Fail");
                                     }
                                 });
                             }
@@ -421,30 +458,38 @@
                                     data: {
                                         BIRDNAME: $('#birdName').val()
                                     },
-                                    success: function () {
-                                        alert("Thanh cong");
-                                        location.reload();
+                                    success: function (data) {
+                                        if (data === "true") {
+                                            alert("Success");
+                                            location.reload();
+                                        } else {
+                                            alert("Fail");
+                                        }
                                     },
                                     error: function () {
-                                        alert("Reply that bai!");
-                                        location.reload();
+                                        alert("Fail");
                                     }
                                 });
                             }
-                            function removeCategory(cateID) {
+                            function removeCategory(cateID, status) {
                                 $.ajax({
                                     type: "POST",
                                     url: "RemoveCategory",
                                     data: {
-                                        categoryID: cateID
+                                        categoryID: cateID,
+                                        STATUS: status
                                     },
-                                    success: function () {
-                                        alert("Thanh cong");
-                                        location.reload();
+                                    success: function (data) {
+                                        if (data === "true") {
+                                            alert("Success");
+                                            location.reload();
+                                        } else {
+                                            alert("Fail");
+                                        }
+                                        ;
                                     },
                                     error: function () {
-                                        alert("Reply that bai!");
-                                        location.reload();
+                                        alert("Fail!");
                                     }
                                 });
                             }
@@ -456,13 +501,16 @@
                                     data: {
                                         CATEGORYNAME: $('#cateName').val()
                                     },
-                                    success: function () {
-                                        alert("Thanh cong");
-                                        location.reload();
+                                    success: function (data) {
+                                        if (data === "true") {
+                                            alert("Success");
+                                            location.reload();
+                                        } else {
+                                            alert("Fail");
+                                        }
                                     },
                                     error: function () {
-                                        alert("Reply that bai!");
-                                        location.reload();
+                                        alert("Fail");
                                     }
                                 });
                             }

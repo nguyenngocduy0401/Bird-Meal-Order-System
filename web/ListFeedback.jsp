@@ -9,6 +9,8 @@
 <%@ page import="sample.dao.UserDAO" %>
 <%@ page import="sample.dto.ProductDTO" %>
 <%@ page import="sample.dao.ProductDAO" %>
+<%@ page import="sample.dao.ReportDAO" %>
+<%@ page import="sample.dto.ReportDTO" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -223,6 +225,9 @@
                             <c:set var="result" value="${requestScope.ListFeedback}"/>
                             <div class="card-body">
                                 <div class="table-responsive">
+                                    <c:if test="${empty result}">
+                                        <h5>Không có feed back được tìm thấy</h5>
+                                        </c:if>
                                     <c:if test="${not empty result}">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
@@ -238,7 +243,7 @@
                                             </thead>
                                             <tbody>
                                                 <c:forEach var="dto" items="${result}">
-                                                    <c:if test="${empty dto.feedbackDetails}">
+                                                    <c:if test="${empty dto.replyDetails}">
                                                         <tr>
                                                             <td>
                                                                 ${UserDAO.getUserByID(dto.userID).userName}
@@ -426,6 +431,7 @@
                                 });
                             }
                             function replyFeedback(fbID) {
+
                                 $.ajax({
                                     type: "post",
                                     url: "FeedbackReply",

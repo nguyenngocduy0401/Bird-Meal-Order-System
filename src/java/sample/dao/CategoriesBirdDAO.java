@@ -72,13 +72,16 @@ public class CategoriesBirdDAO {
             if (con != null) {
                 String sql = "SELECT [BirdID]\n"
                         + "      ,[BirdName]\n"
+                        + "      ,[Status]\n"
                         + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird]";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String birdName = rs.getString("BirdName");
                     int birdID = rs.getInt("BirdID");
-                    listBird.add(new BirdDTO(birdID, birdName));
+                    int status = rs.getInt("Status");
+                    
+                    listBird.add(new BirdDTO(birdID, birdName,status));
                 }
             }
         } finally {

@@ -41,12 +41,13 @@ public class RemoveCategory extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-            result = CategoryDAO.removeCategoryByID(categoryID);
+            int status = Integer.parseInt(request.getParameter("STATUS"));
+            result = CategoryDAO.updateCategoryByID(categoryID,status);
         } finally{
             if (result) {
-               out.print("Thanh cong");
+               out.print("true");
             }else{
-                out.print("khong thanh coghg");
+                out.print("false");
             }
         }
     }

@@ -12,16 +12,18 @@ package sample.dto;
 public class BirdDTO {
     private int birdID;
     private String birdName;
+    private int status;
 
     public BirdDTO() {
     }
 
-    public BirdDTO(String birdName) {
-        this.birdName = birdName;
-    }
-    
-    public BirdDTO(int birdID, String birdName) {
+    public BirdDTO(int birdID, String birdName, int status) {
         this.birdID = birdID;
+        this.birdName = birdName;
+        this.status = status;
+    }
+
+    public BirdDTO(String birdName) {
         this.birdName = birdName;
     }
 
@@ -41,5 +43,14 @@ public class BirdDTO {
         this.birdName = birdName;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    
     
 }

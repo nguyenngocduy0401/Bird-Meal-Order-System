@@ -50,12 +50,10 @@ public class ReplyFeedbackStaff extends HttpServlet {
             if (result) {
                 if (result) {
                     url = LIST_FEEDBACK;
-                    System.err.println("dc");
                     response.sendRedirect(url);
                 } else {
                     response.setContentType("text/plain");
                     response.getWriter().println("Failed to update product with ID " + feedbackID);
-                    System.err.println("loi");
                 }
             }
         } finally {

@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -114,17 +112,17 @@ public class LoadStatusOrder extends HttpServlet {
                                 + "                                                                <h4>" + product.getProductName() + "</h4>\n"
                                 + "                                                            </div>\n"
                                 + "                                                            <div class=\"col-md-2 text-right mt-sm-2\">\n"
-                                + "                                                                <p > Price: " + product.getPrice() + " $</p>\n"
+                                + "                                                                <p > Price: " + product.getPrice() + " VND</p>\n"
                                 + "                                                                <p class=\"font-weight-light text-right\">x " + product.getQuantity() + "</p>\n"
                                 + "                                                            </div>\n");
                         if (dto.getStatus() == 4) {
                             out.print("<div class=\"col-md-2 text-right mt-sm-2\">\n"
-                                    + "                                                                        <form action=\"MainController\">\n"
+                                    + "                                                                        <form action=\"MainController\" method=\"POST\">\n"
                                     + "                                                                            <button type=\"submit\" value=\"Feedback\" name=\"btAction\" class=\"btn btn-primary btn-buy\" type=\"button\">\n"
                                     + "                                                                                Feedback\n"
                                     + "                                                                            </button>\n"
-                                    + "                                                                            <input type=\"hidden\" name=\"orderID\" value=\"${orderID}\" />\n"
-                                    + "                                                                            <input type=\"hidden\" name=\"productID\" value=\"${productID}\" />\n"
+                                    + "                                                                            <input type=\"hidden\" name=\"orderID\" value=" + dto.getOrderID() + " />\n"
+                                    + "                                                                            <input type=\"hidden\" name=\"productID\" value=" + product.getProductID() + " />\n"
                                     + "                                                                        </form>\n"
                                     + "                                                                    </div>");
                         }
