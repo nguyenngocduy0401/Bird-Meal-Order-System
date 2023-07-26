@@ -32,6 +32,40 @@ public class InformationCreateError implements Serializable {
     private String districtNotSelect;
     private String wardNotSelect;
     private String addressLengthError;
+    private String emailNotFound;
+    private String accountNotAvailable;
+    
+    private String productNameLengthError;
+    private String productPriceFormatError;
+    private String productQuantityFormatError;
+    private String productDetailLengthError;
+    private String productSizeFormatError;
+    private String productCategoriesBirdNotSelect;
+    private String productAgeRecommendationLengthError;
+    private String productDateExpireValueError;
+    private String productDateManuNotSelect;
+    private String productCountryNotSelect;
+    private String productImageNotSelect;
+
+    public String getEmailNotFound() {
+        return emailNotFound;
+    }
+
+    public void setEmailNotFound(String emailNotFound) {
+        this.emailNotFound = emailNotFound;
+    }
+
+    public String getAccountNotAvailable() {
+        return accountNotAvailable;
+    }
+
+    public void setAccountNotAvailable(String accountNotAvailable) {
+        this.accountNotAvailable = accountNotAvailable;
+    }
+    
+    
+    
+    
     
     public String getPasswordOldWrong() {
         return passwordOldWrong;
@@ -159,6 +193,94 @@ public class InformationCreateError implements Serializable {
 
     public void setAddressLengthError(String addressLengthError) {
         this.addressLengthError = addressLengthError;
+    }
+
+    public String getProductNameLengthError() {
+        return productNameLengthError;
+    }
+
+    public void setProductNameLengthError(String productNameLengthError) {
+        this.productNameLengthError = productNameLengthError;
+    }
+
+    public String getProductPriceFormatError() {
+        return productPriceFormatError;
+    }
+
+    public void setProductPriceFormatError(String productPriceFormatError) {
+        this.productPriceFormatError = productPriceFormatError;
+    }
+
+    public String getProductQuantityFormatError() {
+        return productQuantityFormatError;
+    }
+
+    public void setProductQuantityFormatError(String productQuantityFormatError) {
+        this.productQuantityFormatError = productQuantityFormatError;
+    }
+
+    public String getProductDetailLengthError() {
+        return productDetailLengthError;
+    }
+
+    public void setProductDetailLengthError(String productDetailLengthError) {
+        this.productDetailLengthError = productDetailLengthError;
+    }
+
+    public String getProductSizeFormatError() {
+        return productSizeFormatError;
+    }
+
+    public void setProductSizeFormatError(String productSizeFormatError) {
+        this.productSizeFormatError = productSizeFormatError;
+    }
+
+    public String getProductCategoriesBirdNotSelect() {
+        return productCategoriesBirdNotSelect;
+    }
+
+    public void setProductCategoriesBirdNotSelect(String productCategoriesBirdNotSelect) {
+        this.productCategoriesBirdNotSelect = productCategoriesBirdNotSelect;
+    }
+
+    public String getProductAgeRecommendationLengthError() {
+        return productAgeRecommendationLengthError;
+    }
+
+    public void setProductAgeRecommendationLengthError(String productAgeRecommendationLengthError) {
+        this.productAgeRecommendationLengthError = productAgeRecommendationLengthError;
+    }
+
+    public String getProductDateExpireValueError() {
+        return productDateExpireValueError;
+    }
+
+    public void setProductDateExpireValueError(String productDateExpireValueError) {
+        this.productDateExpireValueError = productDateExpireValueError;
+    }
+
+    public String getProductDateManuNotSelect() {
+        return productDateManuNotSelect;
+    }
+
+    public void setProductDateManuNotSelect(String productDateManuNotSelect) {
+        this.productDateManuNotSelect = productDateManuNotSelect;
+    }
+
+    public String getProductCountryNotSelect() {
+        return productCountryNotSelect;
+    }
+
+    public void setProductCountryNotSelect(String productCountryNotSelect) {
+        this.productCountryNotSelect = productCountryNotSelect;
+    }
+
+    public String getProductImageNotSelect() {
+        return productImageNotSelect;
+    }
+
+    public void setProductImageNotSelect(String productImageNotSelect) {
+        this.productImageNotSelect = productImageNotSelect;
     }
     
     

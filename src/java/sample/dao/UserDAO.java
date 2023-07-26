@@ -396,39 +396,7 @@ public class UserDAO {
         return result;
     }
 
-    public static boolean checkEmailExist(String email)
-            throws SQLException, ClassNotFoundException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        boolean result = false;
-        try {
-            con = DBUtils.getConnection();
-            if (con != null) {
-                String sql = "SELECT Email "
-                        + "FROM [User] "
-                        + "WHERE email = ?";
-                stm = con.prepareStatement(sql);
-                stm.setString(1, email);
-                rs = stm.executeQuery();
-                if (rs.next()) {
-                    result = true;
-                }
-            }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-        return result;
-    }
-
+   
     public static boolean updateAccountCustomer(String username, String fullName, String address, String phoneNumber, Boolean gender)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
@@ -463,7 +431,7 @@ public class UserDAO {
         return result;
     }
 
-    public static boolean updatePassword(String username, String password)
+    public boolean updatePasswordByEmail(String email, String password)
             throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null; //mo cuoi cung đóng đầu tiên (finally close) neu ko tk kia dong trc se bi crash
@@ -473,10 +441,10 @@ public class UserDAO {
             if (con != null) {
                 String sql = "Update [User] "
                         + "Set Password = ? "
-                        + "Where username = ?";
+                        + "Where email = ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, password);
-                stm.setString(2, username);
+                stm.setString(2, email);
 
                 int effectRow = stm.executeUpdate();
                 if (effectRow > 0) {

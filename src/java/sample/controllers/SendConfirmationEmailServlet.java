@@ -21,6 +21,7 @@ import sample.dao.TokenDAO;
 import sample.dao.UserDAO;
 import sample.dto.InformationCreateError;
 import sample.dto.TokenDTO;
+import sample.dto.UserDTO;
 import sample.utils.MailService;
 
 /**
@@ -29,6 +30,7 @@ import sample.utils.MailService;
  */
 @WebServlet(name = "SendConfirmationEmailServlet", urlPatterns = {"/SendConfirmationEmailServlet"})
 public class SendConfirmationEmailServlet extends HttpServlet {
+
     private final String VERIFY_EMAIL = "verifyEmail.jsp";
 
     /**
@@ -52,19 +54,21 @@ public class SendConfirmationEmailServlet extends HttpServlet {
         String link = "<a href='http://localhost:8080/Bird_Meal_Order_System/ConfirmationEmailServlet?token=" + token + "'>click here</a>";
         try {
             UserDAO dao = new UserDAO();
-            boolean checkExist = dao.checkEmailExist(email);
-            if (checkExist) {
+            UserDTO dto = dao.getUserByEmail(email);
+            if (dto != null && dto.isStatus() == false) {
+                errors.setAccountNotAvailable("This gmail has been locked please contact birdmealordersystem@gmail.com to unlock");
+                foundError = true;
+            } else if (dto != null ) {
                 errors.setEmailIsExisted(email + " is existed!");
                 foundError = true;
             }
             if (InformationCreateError.validEmail(email) == false) {
                 foundError = true;
-                errors.setEmailFormatError("Please enter a valid email");
+                errors.setEmailFormatError("Please enter a valid email!");
             }
             if (foundError) {
                 request.setAttribute("EMAIL_ERROR", errors);
             } else {
-
                 TokenDAO tdao = new TokenDAO();
                 TokenDTO tdto = new TokenDTO(
                         token,
@@ -74,10 +78,10 @@ public class SendConfirmationEmailServlet extends HttpServlet {
                 tdao.saveConfirmationToken(tdto);
                 MailService mailservice = new MailService();
                 sendEmail = mailservice.sendVerifyEmail(email, link);
-                if(!sendEmail) {
+                if (!sendEmail) {
                     errors.setSendEmailFailedError("Send email is failed. Please try again!");
                     request.setAttribute("EMAIL_ERROR", errors);
-                } 
+                }
             }
 
         } catch (ClassNotFoundException ex) {

@@ -1,15 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package sample.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,22 +14,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.TokenDAO;
+import sample.dao.UserDAO;
+import sample.dto.InformationCreateError;
+import sample.dto.UserDTO;
 
 /**
  *
  * @author haong
  */
-import sample.dao.TokenDAO;
-import sample.dao.UserDAO;
-import sample.dto.TokenDTO;
-import sample.dto.UserDTO;
+@WebServlet(name = "resetPasswordServlet", urlPatterns = {"/resetPasswordServlet"})
+public class resetPasswordServlet extends HttpServlet {
 
-@WebServlet(name = "ConfirmationEmailServlet", urlPatterns = {"/ConfirmationEmailServlet"})
-public class ConfirmationEmailServlet extends HttpServlet {
-
-    private final String ERROR_REGISTRATION = "errorRegistration.html";
-    private final String REGISTER_PAGE = "register.jsp";
     private final String RESET_PASSWORD_PAGE = "resetPassword.jsp";
+    private final String ERROR_PAGE = "errorRegistration.html";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,33 +41,40 @@ public class ConfirmationEmailServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String token = request.getParameter("token").trim();
-        String url = ERROR_REGISTRATION;
-        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        String email = request.getParameter("txtEmail");
+        String password = request.getParameter("txtPassword");
+        String confirmPassword = request.getParameter("txtConfirmPassword");
+        String url = ERROR_PAGE;
+        InformationCreateError errors = new InformationCreateError();
+        boolean foundError = false;
         try {
-            TokenDAO tokenDAO = new TokenDAO();
-            TokenDTO tokenDTO = tokenDAO.findByToken(token);
-            if (tokenDTO == null) {
-                return;
+            if (password.trim().length() < 8
+                    || password.trim().length() > 30) {
+                foundError = true;
+                errors.setPasswordLengthError("Password is required input from 8 to 30 characters");
+            } else if (!confirmPassword.trim().equals(password.trim())) {
+                foundError = true;
+                errors.setConfirmNotMatched("Confirm must match password");
             }
-            if (tokenDTO.getExpiresAt().before(now)) {
-                return;
-            }
-            UserDAO userDAO = new UserDAO();
-            UserDTO userDTO = userDAO.getUserByEmail(tokenDTO.getEmail());
-            HttpSession session = request.getSession();
-            if (userDTO != null && userDTO.isStatus() != false) {
-                session.setAttribute("USER_RESETPASSWORD", userDTO);
+
+            if (foundError) {
+                request.setAttribute("RESET_PASSWORD_ERROR", errors);
                 url = RESET_PASSWORD_PAGE;
-            }
-            else if (userDTO == null) {
-                session.setAttribute("REGISTRATION", tokenDTO);
-                url = REGISTER_PAGE;
+                return;
+            } else {
+                UserDAO dao = new UserDAO();
+                boolean result = dao.updatePasswordByEmail(email, password);
+                if (result) {
+                    request.setAttribute("RESET_PASSWORD_SUCCESS", result);
+                    TokenDAO tdao = new TokenDAO();
+                    tdao.DeleteTokenFromEmail(email);
+                    url = RESET_PASSWORD_PAGE;
+                }
             }
         } catch (ClassNotFoundException ex) {
-            log("ConfirmationEmailServlet_ClassNotFoundException" + ex.getMessage());
+            log("resetPasswordServlet_ClassNotFoundException" + ex.getMessage());
         } catch (SQLException ex) {
-            log("ConfirmationEmailServlet_SQLException" + ex.getMessage());
+            log("resetPasswordServlet_SQLException" + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

@@ -126,20 +126,20 @@ and open the template in the editor.
                             <div class="row g-3">
                                 <div class="col-12">
                                     <c:if test="${not empty errors.usernameLengthError}">
-                                        <input type="text" class="form-control bg px-4 is-invalid" placeholder="Username*(6 - 30 characters)"
+                                        <input type="text" class="form-control bg-light px-4 is-invalid" placeholder="Username*(6 - 30 characters)"
                                                style="height: 55px;" name="txtUsername" value="${param.txtUsername}">
                                         <font color ="red">
                                         ${errors.usernameLengthError}
                                         </font>
                                     </c:if>
                                     <c:if test="${empty errors.usernameLengthError and empty errors.usernameIsExisted}">
-                                        <input type="text" class="form-control bg  px-4" placeholder="Username*(6 - 30 characters)"
+                                        <input type="text" class="form-control bg-light px-4" placeholder="Username*(6 - 30 characters)"
                                                style="height: 55px;" name="txtUsername" value="${sessionScope.REGISTRATION.email.substring(0,REGISTRATION.email.indexOf("@"))}">
                                     </c:if>
 
 
                                     <c:if test="${not empty errors.usernameIsExisted}">
-                                        <input type="text" class="form-control  px-4 is-invalid" id="floatingInput" placeholder="Username*(6 - 30 characters)"
+                                        <input type="text" class="form-control  bg-light px-4 is-invalid" id="floatingInput" placeholder="Username*(6 - 30 characters)"
                                                style="height: 55px;" name="txtUsername" value="${param.txtUsername}">
                                         <font color ="red">
                                         ${errors.usernameIsExisted}
@@ -150,35 +150,35 @@ and open the template in the editor.
 
                                 <div class="col-12">
                                     <c:if test="${not empty errors.passwordLengthError}">
-                                        <input type="password" class="form-control bg px-4 is-invalid"  placeholder="Password*(8 - 30 characters)"
+                                        <input type="password" class="form-control bg-light px-4 is-invalid"  placeholder="Password*(8 - 30 characters)"
                                                style="height: 55px;" name="txtPassword">
                                         <font color ="red">
                                         ${errors.passwordLengthError}
                                         </font>
                                     </c:if>
                                     <c:if test="${empty errors.passwordLengthError}">
-                                        <input type="password" class="form-control bg px-4"  placeholder="Password*(8 - 30 characters)"
+                                        <input type="password" class="form-control bg-light px-4"  placeholder="Password*(8 - 30 characters)"
                                                style="height: 55px;" name="txtPassword">
                                     </c:if>    
                                 </div>
 
                                 <div class="col-12">
                                     <c:if test="${not empty errors.confirmNotMatched}">
-                                        <input type="password" class="form-control bg px-4 is-invalid" placeholder="Confirm password*"
+                                        <input type="password" class="form-control bg-light px-4 is-invalid" placeholder="Confirm password*"
                                                style="height: 55px;" name="txtConfirmPassword">
                                         <font color ="red">
                                         ${errors.confirmNotMatched}
                                         </font>
                                     </c:if>
                                     <c:if test="${empty errors.confirmNotMatched}">
-                                        <input type="password" class="form-control bg px-4" placeholder="Confirm password*"
+                                        <input type="password" class="form-control bg-light px-4" placeholder="Confirm password*"
                                                style="height: 55px;" name="txtConfirmPassword">
                                     </c:if>
                                 </div>
 
 
                                 <div class="col-12">
-                                    <input type="text" class="form-control bg border-0 px-4" placeholder="Email*"
+                                    <input type="text" class="form-control px-4" placeholder="Email*"
                                            style="height: 55px;" name="txtEmail" value="${sessionScope.REGISTRATION.email}" readonly="">
                                     <c:if test="${not empty errors.emailFormatError}">
                                         <font color ="red">
@@ -194,21 +194,21 @@ and open the template in the editor.
 
                                 <div class="col-12">
                                     <c:if test="${not empty errors.fullnameLengthError}">
-                                        <input type="text" class="form-control bg px-4 is-invalid" placeholder="Full name*(2 - 50 characters)"
+                                        <input type="text" class="form-control bg-light px-4 is-invalid" placeholder="Full name*(2 - 50 characters)"
                                                style="height: 55px;" name="txtFullName" value="${param.txtFullName}">
                                         <font color ="red">
                                         ${errors.fullnameLengthError}
                                         </font>
                                     </c:if>
                                     <c:if test="${empty errors.fullnameLengthError}">
-                                        <input type="text" class="form-control bg px-4 " placeholder="Full name*(2 - 50 characters)"
+                                        <input type="text" class="form-control bg-light px-4 " placeholder="Full name*(2 - 50 characters)"
                                                style="height: 55px;" name="txtFullName" value="${param.txtFullName}">
 
                                     </c:if>
                                 </div>
                                 <div class="col-12">
                                     <c:if test="${not empty errors.phoneNumberFormatError}">
-                                        <input type="text" class="form-control bg px-4 is-invalid" placeholder="Phone number*(10 number)"
+                                        <input type="text" class="form-control bg-light px-4 is-invalid" placeholder="Phone number*(10 number)"
                                                style="height: 55px;" name="txtPhoneNumber" value="${param.txtPhoneNumber}"
                                                onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
                                         <font color ="red">
@@ -216,7 +216,7 @@ and open the template in the editor.
                                         </font>
                                     </c:if>
                                     <c:if test="${empty errors.phoneNumberFormatError}">
-                                        <input type="text" class="form-control bg px-4" placeholder="Phone number*(10 number)"
+                                        <input type="text" class="form-control bg-light px-4" placeholder="Phone number*(10 number)"
                                                style="height: 55px;" name="txtPhoneNumber" value="${param.txtPhoneNumber}"
                                                onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
 
@@ -229,25 +229,25 @@ and open the template in the editor.
                                 <div class="col-12">
                                     <label class="col-12">Address</label>
                                     <div>
-                                        <select  name="ddlProvince"  class="form-control bg-white border-0 px-4 form-select mt-1 " id="city" aria-label=".form-select-sm" style="height: 55px;">
+                                        <select  name="ddlProvince"  class="form-control bg-light border px-4 form-select mt-1 " id="city" aria-label=".form-select-sm" style="height: 55px;">
                                             <option value="" selected>Select your province</option>           
                                         </select>
 
-                                        <select name="ddlDistrict"  class="form-control bg-white border-0 px-4 form-select mt-3 " id="district" aria-label=".form-select-sm" style="height: 55px;">
+                                        <select name="ddlDistrict"  class="form-control bg-light border px-4 form-select mt-3 " id="district" aria-label=".form-select-sm" style="height: 55px;">
                                             <option value="" selected>Select your district</option>
                                         </select>
 
-                                        <select name="ddlWard"  class="form-control bg-white border-0 px-4 form-select mt-3" id="ward" aria-label=".form-select-sm" style="height: 55px;">
+                                        <select name="ddlWard"  class="form-control bg-light border px-4 form-select mt-3" id="ward" aria-label=".form-select-sm" style="height: 55px;">
                                             <option value="" selected>Select your ward</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <input type="text" class="form-control bg border-0 px-4 mt-3 mb-2" placeholder="Address details"
+                                        <input type="text" class="form-control bg-light px-4 mt-3 mb-2" placeholder="Address details"
                                                style="height: 55px;" name="txtAddressDetails" value="${param.txtAddressDetails}">
                                     </div>
                                     <div class="col-12">
                                         <label class="col-12">Gender*</label>
-                                        <select name="ddlGender" class="form-control form-select  bg-white border-0 px-4 mb-2" style="height: 55px;">
+                                        <select name="ddlGender" class="form-control form-select  bg-light px-4 mb-2" style="height: 55px;">
                                             <option value="male">Male</option>
                                             <option value="feMale">Female</option>
                                         </select>
@@ -268,61 +268,86 @@ and open the template in the editor.
                 </div>
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-            <script>
-                                               var citis = document.getElementById("city");
-                                               var districts = document.getElementById("district");
-                                               var wards = document.getElementById("ward");
-                                               var Parameter = {
-                                                   url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                                                   method: "GET",
-                                                   responseType: "application/json",
-                                               };
-                                               var promise = axios(Parameter);
-                                               promise.then(function (result) {
-                                                   renderCity(result.data);
-                                               });
+                <script type="text/javascript">
+                                                               //check session user
+                                                               if (${empty sessionScope.user}) {
+                                                                   swal.fire({
+                                                                       icon: 'warning',
+                                                                       title: "Warning!",
+                                                                       text: "Your need to login",
+                                                                       confirmButtonText: 'Click to login'
+                                                                   }).then(function () {
+                                                                       window.location = "login.jsp";
+                                                                   });
+                                                               }
+                                                               //alert sucsess
+//                    var status = document.getElementById("status").value;
+//                    console.log(status)
+                                                               if (${requestScope.EDIT_INFORMATION_STATUS == true}) {
+                                                                   Swal.fire({
+                                                                       icon: 'success',
+                                                                       title: 'success!',
+                                                                       text: 'Update information success!',
+                                                                       showConfirmButton: false,
+                                                                       timer: 2000,
+                                                                       timerProgressBar: true
+                                                                   })
+                                                               }
+//                    
+                                                               //filter location
+                                                               var citis = document.getElementById("city");
+                                                               var districts = document.getElementById("district");
+                                                               var wards = document.getElementById("ward");
+                                                               var Parameter = {
+                                                                   url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                                                                   method: "GET",
+                                                                   responseType: "application/json",
+                                                               };
+                                                               var promise = axios(Parameter);
+                                                               promise.then(function (result) {
+                                                                   renderCity(result.data);
+                                                               });
+                                                               function renderCity(data) {
+                                                                   for (const x of data) {
+                                                                       var opt = document.createElement('option');
+                                                                       opt.value = x.Name;
+                                                                       opt.text = x.Name;
+                                                                       opt.setAttribute('data-id', x.Id);
+                                                                       citis.options.add(opt);
+                                                                   }
+                                                                   citis.onchange = function () {
+                                                                       district.length = 1;
+                                                                       ward.length = 1;
+                                                                       if (this.options[this.selectedIndex].dataset.id != "") {
+                                                                           const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
 
-                                               function renderCity(data) {
-                                                   for (const x of data) {
-                                                       var opt = document.createElement('option');
-                                                       opt.value = x.Name;
-                                                       opt.text = x.Name;
-                                                       opt.setAttribute('data-id', x.Id);
-                                                       citis.options.add(opt);
-                                                   }
-                                                   citis.onchange = function () {
-                                                       district.length = 1;
-                                                       ward.length = 1;
-                                                       if (this.options[this.selectedIndex].dataset.id != "") {
-                                                           const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
+                                                                           for (const k of result[0].Districts) {
+                                                                               var opt = document.createElement('option');
+                                                                               opt.value = k.Name;
+                                                                               opt.text = k.Name;
+                                                                               opt.setAttribute('data-id', k.Id);
+                                                                               district.options.add(opt);
+                                                                           }
+                                                                       }
+                                                                   };
+                                                                   district.onchange = function () {
+                                                                       ward.length = 1;
+                                                                       const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
+                                                                       if (this.options[this.selectedIndex].dataset.id != "") {
+                                                                           const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
 
-                                                           for (const k of result[0].Districts) {
-                                                               var opt = document.createElement('option');
-                                                               opt.value = k.Name;
-                                                               opt.text = k.Name;
-                                                               opt.setAttribute('data-id', k.Id);
-                                                               district.options.add(opt);
-                                                           }
-                                                       }
-                                                   };
-                                                   district.onchange = function () {
-                                                       ward.length = 1;
-                                                       const dataCity = data.filter((n) => n.Id === citis.options[citis.selectedIndex].dataset.id);
-                                                       if (this.options[this.selectedIndex].dataset.id != "") {
-                                                           const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
-
-                                                           for (const w of dataWards) {
-                                                               var opt = document.createElement('option');
-                                                               opt.value = w.Name;
-                                                               opt.text = w.Name;
-                                                               opt.setAttribute('data-id', w.Id);
-                                                               wards.options.add(opt);
-                                                           }
-                                                       }
-                                                   }
-            </script>
+                                                                           for (const w of dataWards) {
+                                                                               var opt = document.createElement('option');
+                                                                               opt.value = w.Name;
+                                                                               opt.text = w.Name;
+                                                                               opt.setAttribute('data-id', w.Id);
+                                                                               wards.options.add(opt);
+                                                                           }
+                                                                       }
+                                                                   };
+                                                               }
+                </script>
     </body>
-</html>
 
 
     <!-- JavaScript Libraries -->
@@ -334,3 +359,6 @@ and open the template in the editor.
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    
+    
+</html>

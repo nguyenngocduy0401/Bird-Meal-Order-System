@@ -188,11 +188,9 @@
                                     <input type="checkbox" value="savelogin" name="savelogin">Stayed signed in</td>
                                 </div>
                                 <div class="col-6 ms-auto">
-                                    <a href="verifyEmail.html" class="nav-item nav-link">Don't  have account?Register a new!</a>
-
+                                    <a href="verifyEmail.html" class="nav-item nav-link text-end">Don't  have account?Register a new!</a>
+                                    <a href="forgetPassword.jsp" class="nav-item nav-link text-end text-secondary">Forget password?</a>
                                 </div>
-
-
 
                                 <c:if test="${param.check eq '1'}">
                                     <div style="color: red;">Don't let your password or username blank</p></div>
