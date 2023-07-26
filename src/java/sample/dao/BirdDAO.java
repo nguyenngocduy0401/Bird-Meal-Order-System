@@ -80,7 +80,6 @@ public class BirdDAO {
                         String birdName = rs.getString("BirdName");
                         int birdID = rs.getInt("BirdID");
                         int status = rs.getInt("Status");
-
                         BirdDTO bird = new BirdDTO(birdID, birdName, status);
                         list.add(bird);
                     }

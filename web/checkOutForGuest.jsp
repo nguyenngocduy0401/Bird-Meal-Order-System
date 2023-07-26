@@ -369,7 +369,7 @@
                                                 </c:if>
                                                 <c:if test="${empty errors.fullnameLengthError}">
                                                     <input class="form-control bg" id="inputUsername" type="text" name="txtFullName"
-                                                           placeholder="Enter your Fullname" required="" >
+                                                           placeholder="Enter your Fullname" required="" value="${param.txtFullName}">
                                                 </c:if>
                                             </div>
                                             <div class="form-group mb-3">

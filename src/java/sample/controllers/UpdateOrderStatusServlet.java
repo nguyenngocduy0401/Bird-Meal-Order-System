@@ -68,11 +68,14 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                 boolean result = false;
 
                 switch (status) {
+                    case 0:
+                        result = orderDAO.updateStatusOrder(orderID, 0);
+                        break;
                     case 2:
                         result = orderDAO.updateStatusOrder(orderID, 2);
                         if (accountDTO != null) {
                             sendEmail = mailservice.sendEmailConfirmOrderToCustomer(orderDTO, accountDTO);
-                        } else if (!orderDTO.getEmail().equals(null)) {
+                        } else if (orderDTO.getEmail() != null) {
                             sendEmail = mailservice.sendEmailConfirmOrderToGuest(orderDTO);
                         }
                         break;
@@ -80,7 +83,7 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                         result = orderDAO.updateStatusOrder(orderID, 3);
                         if (accountDTO != null) {
                             sendEmail = mailservice.sendEmailOrderIsShippedToCustomer(orderDTO, accountDTO);
-                        } else if (!orderDTO.getEmail().equals(null)) {
+                        } else if (orderDTO.getEmail() != null) {
                             sendEmail = mailservice.sendEmailOrderIsShippedToGuest(orderDTO);
                         }
                         break;
@@ -99,20 +102,15 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                         result = orderDAO.updateStatusOrder(orderID, 5);
                         if (accountDTO != null) {
                             sendEmail = mailservice.sendEmailOrderIsShippedNotSuccessfullyToCustomer(orderDTO, accountDTO);
-                        } else if (!orderDTO.getEmail().equals(null)) {
+                        } else if (orderDTO.getEmail() != null) {
                             sendEmail = mailservice.sendEmailOrderIsShippedNotSuccessfullyToGuest(orderDTO);
                         }
                         break;
-                    default:
-                        result = orderDAO.updateStatusOrder(orderID, status);
-                        break;
                 }
-                
                 if (result) {
                     url = GET_ORDERS_LIST_SERVLET;
                     request.setAttribute("ORDER_UPDATE_STATUS", result);
                 }
-
             }
         } catch (ClassNotFoundException ex) {
             log("UpdateOrderStatusServlet_ClassNotFoundException" + ex.getMessage());
