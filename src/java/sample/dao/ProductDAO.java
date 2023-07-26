@@ -386,12 +386,12 @@ public class ProductDAO {
                             + "FROM [Product] INNER JOIN [CategoriesBird]\n"
                             + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
                             + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
-                            + "WHERE Status = 1 ";
+                            + "WHERE [Product].Status = 1 ";
                     sql = sql + and + "BirdName like '" + birdFilter + "'";
                 } else {
                     sql = "SELECT COUNT (*) "
                             + "FROM [Product] "
-                            + "WHERE Status = 1 ";
+                            + "WHERE [Product].Status = 1 ";
                 }
                 if (categoryFilter != -1) {
                     sql = sql + and + "[CategoryID] = " + categoryFilter + " ";
@@ -619,14 +619,14 @@ public class ProductDAO {
                             + "      ,[Size]\n"
                             + "      ,[AgeRecommendation]\n"
                             + "      ,[Date]\n"
-                            + "      ,[Status]\n"
+                            + "      ,[Product].[Status]\n"
                             + "      ,[Country]\n"
                             + "      ,[imgPath]\n"
                             + "	  ,[Bird].BirdName\n"
                             + "  FROM [Product] INNER JOIN [CategoriesBird]\n"
                             + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
                             + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
-                            + "WHERE Status = 1 ";
+                            + "WHERE [Product].Status = 1 ";
                     sql = sql + and + "BirdName like '" + birdFilter + "'";
                 } else {
                     sql = "SELECT [Product].[ProductID]\n"
@@ -638,11 +638,11 @@ public class ProductDAO {
                             + "      ,[Size]\n"
                             + "      ,[AgeRecommendation]\n"
                             + "      ,[Date]\n"
-                            + "      ,[Status]\n"
+                            + "      ,[Product].[Status]\n"
                             + "      ,[Country]\n"
                             + "      ,[imgPath]\n"
                             + "  FROM [Product] "
-                            + "WHERE Status = 1 ";
+                            + "WHERE [Product].Status = 1 ";
                 }
 
                 if (categoryFilter != -1) {
@@ -718,12 +718,12 @@ public class ProductDAO {
                             + "FROM [Product] INNER JOIN [CategoriesBird]\n"
                             + "  ON [Product].ProductID = [CategoriesBird].ProductID \n"
                             + "  INNER JOIN [Bird] ON [CategoriesBird].BirdID = [Bird].BirdID "
-                            + "WHERE Status = 1 ";
+                            + "WHERE [Product].Status = 1 ";
                     sql = sql + and + "BirdName like '" + birdFilter + "'";
                 } else {
                     sql = "SELECT COUNT (*) "
                             + "FROM [Product] "
-                            + "WHERE Status = 1 ";
+                            + "WHERE [Product].Status = 1 ";
                 }
 
                 if (categoryFilter != -1) {
