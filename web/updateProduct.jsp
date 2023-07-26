@@ -6,12 +6,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="sample.dao.ProductDAO"%>
-<%@page import="sample.dto.ProductDTO"%>    
+<%@page import="sample.dto.ProductDTO"%>
+<%@ page import="sample.dao.BirdDAO" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Staff</title>
+        <title>Staff - Update product</title>
         <style>
             .content {
                 margin-top: 60px;
@@ -78,6 +79,10 @@
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+        <!--multi-select scripts css-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+
     </head>
     <body id="page-top">
 
@@ -429,6 +434,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <c:set var="birds" value="${BirdDAO.getAllBird()}"/>
+                                    <c:set var="birdSelects" value="${requestScope.LISTBIRD}"/>
+                                    <label for="txtBird" class="col-sm-3 col-form-label">Bird</label>
+                                    <div class="col-sm-9">
+                                        <!--<input type="number" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control" required="">-->
+                                        <select name="txtBirds" id="birds" multiple>
+                                            <c:forEach var="bird" items="${birds}">
+                                                <option value="${bird.birdID}"
+                                                        <c:forEach var="birdSelect" items="${birdSelects}">
+                                                            <c:if test="${birdSelect.birdID == bird.birdID}"> selected </c:if>
+                                                        </c:forEach>
+                                                        >${bird.birdName}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="txtAgeRecommendation" class="col-sm-3 col-form-label">Age Recommendation</label>
                                     <div class="col-sm-9">
                                         <input type="number" name="txtAgeRecommendation" value="${INFOR.ageRecommendation}" id="txtAgeRecommendation" class="form-control" required="">
@@ -549,5 +572,11 @@
         <!-- Custom scripts for all pages-->
         <script src="js/sb-admin-2.min.js"></script>
 
+        <!--multi-select scripts js-->
+        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+        <script>
+                        //multi-select function\
+                        new MultiSelectTag('birds');
+        </script>
     </body>
 </html>

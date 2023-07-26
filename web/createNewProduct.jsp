@@ -3,13 +3,19 @@
     Created on : Jun 8, 2023, 2:37:58 AM
     Author     : DucAnh
 --%>
+<%-- 
+    Document   : createNewProduct
+    Created on : Jun 8, 2023, 2:37:58 AM
+    Author     : DucAnh
+--%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="sample.dao.BirdDAO"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Staff - Create new product</title>
         <style>
             .content {
                 margin-top: 60px;
@@ -42,6 +48,10 @@
             .product-image {
                 max-width: 100%;
                 height: auto;
+            }
+
+            label {
+                font-weight: bold;
             }
         </style>
         <!-- Favicon -->
@@ -76,6 +86,10 @@
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+        <!--        multi-select scripts css
+        --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+
     </head>
     <body id="page-top">
 
@@ -369,23 +383,62 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <form action="CreateNewProductServlet" method="post" enctype="multipart/form-data">
-
+                                <c:set var="errors" value="${requestScope.CREATE_PRODUCT_ERROR}"/>
                                 <div class="form-group row">
                                     <label for="txtProductName" class="col-sm-3 col-form-label">Product Name</label>
+
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtProductName" id="txtProductName" class="form-control" required="">
+                                        <c:if test="${empty errors.productNameLengthError}">
+                                            <input type="text" name="txtProductName" id="txtProductName" class="form-control" required=""
+                                                   placeholder="Enter product name from 3 to 500 characters" value="${param.txtProductName}">
+                                        </c:if>
+
+                                        <c:if test="${not empty errors.productNameLengthError}">
+                                            <input type="text" name="txtProductName" id="txtProductName" class="form-control is-invalid" required=""
+                                                   placeholder="Enter product name from 3 to 500 characters" value="${param.txtProductName}">
+                                            <font color ="red">
+                                            ${errors.productNameLengthError}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtPrice" class="col-sm-3 col-form-label">Price</label>
+                                    <label for="txtPrice" class="col-sm-3 col-form-label">Price(VND)</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtPrice" id="txtPrice" class="form-control" required="">
+                                        <c:if test="${empty errors.productPriceFormatError}">
+                                            <input type="text" name="txtPrice" id="txtPrice" class="form-control" required=""
+                                                   placeholder="Enter the price of product (EX: 500,000)"
+                                                   data-type="currency" id="currency-field" value="${param.txtPrice}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                        </c:if>
+
+                                        <c:if test="${not empty errors.productPriceFormatError}">
+                                            <input type="text" name="txtPrice" id="txtPrice" class="form-control is-invalid" required=""
+                                                   placeholder="Enter the price of product (EX: 500,000)"
+                                                   data-type="currency" id="currency-field" value="${param.txtPrice}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                            <font color ="red">
+                                            ${errors.productPriceFormatError}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="txtQuantity" class="col-sm-3 col-form-label">Quantity</label>
                                     <div class="col-sm-9">
-                                        <input type="number" name="txtQuantity" id="txtQuantity" class="form-control" required="">
+                                        <c:if test="${empty errors.productQuantityFormatError}">
+                                            <input type="number" name="txtQuantity" id="txtQuantity" class="form-control" required=""
+                                                   placeholder="Enter quantity of product (EX: 100)" value="${param.txtQuantity}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                        </c:if>
+                                        <c:if test="${not empty errors.productQuantityFormatError}">
+                                            <input type="number" name="txtQuantity" id="txtQuantity" class="form-control is-invalid" required=""
+                                                   placeholder="Enter quantity of product (EX: 100)" value="${param.txtQuantity}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                            <font color ="red">
+                                            ${errors.productQuantityFormatError}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -398,34 +451,120 @@
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label for="txtProductDetail" class="col-sm-3 col-form-label">Product Detail</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtProductDetail" id="txtProductDetail" class="form-control" required="">
+                                        <c:if test="${empty errors.productDetailLengthError}">
+                                            <input type="text" name="txtProductDetail" id="txtProductDetail" class="form-control"
+                                                   required="" value="${param.productDetailLengthError}"
+                                                   placeholder="Enter product detail from 5 to 2000 characters">
+                                        </c:if>
+                                        <c:if test="${not empty errors.productDetailLengthError}">
+                                            <input type="text" name="txtProductDetail" id="txtProductDetail" class="form-control is-invalid"
+                                                   required="" value="${param.productDetailLengthError}"
+                                                   placeholder="Enter product detail from 5 to 2000 characters">
+                                            <font color ="red">
+                                            ${errors.productDetailLengthError}
+                                            </font>
+                                        </c:if>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="txtSize" class="col-sm-3 col-form-label">Size(gram)</label>
+                                    <div class="col-sm-9">
+                                        <c:if test="${empty errors.productSizeFormatError}">
+                                            <input type="text" name="txtSize" id="txtSize" class="form-control" required=""
+                                                   placeholder="Enter the number grams of product (Ex: 500)" value="${param.txtSize}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                        </c:if>
+
+                                        <c:if test="${not empty errors.productSizeFormatError}">
+                                            <input type="text" name="txtSize" id="txtSize" class="form-control is-invalid" required=""
+                                                   placeholder="Enter the number grams of product (Ex: 500)" value="${param.txtSize}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                            <font color ="red">
+                                            ${errors.productSizeFormatError}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtSize" class="col-sm-3 col-form-label">Size</label>
+                                    <c:set var="birds" value="${BirdDAO.getAllBird()}"/>
+                                    <label for="txtBird" class="col-sm-3 col-form-label">Bird</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtSize" id="txtSize" class="form-control" required="">
+                                        <c:if test="${empty errors.productCategoriesBirdNotSelect}">
+                                            <select name="txtBirds" id="birds" class="form-control" multiple>
+                                                <c:forEach var="bird" items="${birds}">
+                                                    <option value="${bird.birdID}"
+                                                            
+                                                            >${bird.birdName}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </c:if>
+
+                                        <c:if test="${not empty errors.productCategoriesBirdNotSelect}">
+                                            <select name="txtBirds" id="birds" class="form-control" multiple>
+                                                <c:forEach var="bird" items="${birds}">
+                                                    <option value="${bird.birdID}"
+                                                            >${bird.birdName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <font color ="red">
+                                            ${errors.productCategoriesBirdNotSelect}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="txtAgeRecommendation" class="col-sm-3 col-form-label">Age Recommendation</label>
                                     <div class="col-sm-9">
-                                        <input type="number" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control" required="">
+                                        <c:if test="${empty errors.productAgeRecommendationLengthError}">
+                                            <input type="number" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control"
+                                                   required="" value="${param.txtAgeRecommendation}">
+                                        </c:if>
+                                        <c:if test="${not empty errors.productAgeRecommendationLengthError}">
+                                            <input type="number" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control is-invalid"
+                                                   required="" value="${param.txtAgeRecommendation}">
+                                            <font color ="red">
+                                            ${errors.productAgeRecommendationLengthError}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtDate" class="col-sm-3 col-form-label">Date</label>
+                                    <label for="txtDate" class="col-sm-3 col-form-label">Date expire</label>
                                     <div class="col-sm-9">
-                                        <input type="number" name="txtDate" id="txtDate" class="form-control" required="">
+                                        <c:if test="${empty errors.productDateExpireValueError}">
+                                            <input type="text" name="txtDate" id="txtDate" class="form-control" required=""
+                                                   placeholder="Enter number of months expire from the date manufacture (Ex: 12)" value="${param.txtDate}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                        </c:if>
+                                        <c:if test="${not empty errors.productDateExpireValueError}">
+                                            <input type="text" name="txtDate" id="txtDate" class="form-control is-invalid" required=""
+                                                   placeholder="Enter number of months expire from the date manufacture (Ex: 12)" value="${param.txtDate}"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                            <font color ="red">
+                                            ${errors.productDateExpireValueError}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtDateManufacture" class="col-sm-3 col-form-label">DateManufacture</label>
+                                    <label for="txtDateManufacture" class="col-sm-3 col-form-label">Date Manufacture</label>
                                     <div class="col-sm-9">
-                                        <input type="date" name="txtDateManufacture" id="txtDateManufacture" class="form-control" required="">
+                                        <c:if test="${empty errors.productDateManuNotSelect}">
+                                            <input type="date" name="txtDateManufacture" id="txtDateManufacture" class="form-control"
+                                                   required="" value="${param.txtDateManufacture}">
+                                        </c:if>
+                                        <c:if test="${not empty errors.productDateManuNotSelect}">
+                                            <input type="date" name="txtDateManufacture" id="txtDateManufacture" class="form-control is-invalid"
+                                                   required="" value="${param.txtDateManufacture}">
+                                            <font color ="red">
+                                            ${errors.productDateManuNotSelect}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
 
@@ -433,15 +572,26 @@
                                     <label for="txtStatus" class="col-sm-3 col-form-label">Status</label>
                                     <div class="col-sm-9">
                                         <select name="txtStatus" class="form-control">
-                                            <option value="1">ON</option>
-                                            <option value="0">OFF</option>
+                                            <option value="1">Available</option>
+                                            <option value="0">Not Available</option>
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label for="txtCountry" class="col-sm-3 col-form-label">Country</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtCountry" id="txtCountry" class="form-control" required="">
+                                        <c:if test="${empty errors.productCountryNotSelect}">
+                                            <input type="text" name="txtCountry" id="txtCountry" class="form-control" required=""
+                                                   placeholder="Enter the country made this product (EX: Viet Nam)" value="${param.txtCountry}">
+                                        </c:if>
+                                        <c:if test="${not empty errors.productCountryNotSelect}">
+                                            <input type="text" name="txtCountry" id="txtCountry" class="form-control" required=""
+                                                   placeholder="Enter the country made this product (EX: Viet Nam)" value="${param.txtCountry}">
+                                            <font color ="red">
+                                            ${errors.productCountryNotSelect}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -528,5 +678,96 @@
         <!-- Custom scripts for all pages-->
         <script src="js/sb-admin-2.min.js"></script>
 
+        <!--multi-select scripts js-->
+        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+        <script>
+                                    //multi-select function\
+                                    new MultiSelectTag('birds');
+
+                                    //auto comma in textbox price function
+                                    // Jquery Dependency
+
+                                    $("input[data-type='currency']").on({
+                                        keyup: function () {
+                                            formatCurrency($(this));
+                                        },
+                                        blur: function () {
+                                            formatCurrency($(this), "blur");
+                                        }
+                                    });
+
+
+                                    function formatNumber(n) {
+                                        // format number 1000000 to 1,234,567
+                                        return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                    }
+
+
+                                    function formatCurrency(input, blur) {
+                                        // appends $ to value, validates decimal side
+                                        // and puts cursor back in right position.
+
+                                        // get input value
+                                        var input_val = input.val();
+
+                                        // don't validate empty input
+                                        if (input_val === "") {
+                                            return;
+                                        }
+
+                                        // original length
+                                        var original_len = input_val.length;
+
+                                        // initial caret position 
+                                        var caret_pos = input.prop("selectionStart");
+
+                                        // check for decimal
+                                        if (input_val.indexOf(".") >= 0) {
+
+                                            // get position of first decimal
+                                            // this prevents multiple decimals from
+                                            // being entered
+                                            var decimal_pos = input_val.indexOf(".");
+
+                                            // split number by decimal point
+                                            var left_side = input_val.substring(0, decimal_pos);
+                                            var right_side = input_val.substring(decimal_pos);
+
+                                            // add commas to left side of number
+                                            left_side = formatNumber(left_side);
+
+                                            // validate right side
+                                            right_side = formatNumber(right_side);
+
+                                            // On blur make sure 2 numbers after decimal
+                                            if (blur === "blur") {
+                                                right_side += "00";
+                                            }
+
+                                            // Limit decimal to only 2 digits
+                                            right_side = right_side.substring(0, 2);
+
+                                            // join number by .
+                                            input_val = left_side + "." + right_side;
+
+                                        } else {
+                                            // no decimal entered
+                                            // add commas to number
+                                            // remove all non-digits
+                                            input_val = formatNumber(input_val);
+
+                                        }
+
+                                        // send updated string to input
+                                        input.val(input_val);
+
+                                        // put caret back in the right position
+                                        var updated_len = input_val.length;
+                                        caret_pos = updated_len - original_len + caret_pos;
+                                        input[0].setSelectionRange(caret_pos, caret_pos);
+                                    }
+
+        </script>
     </body>
 </html>
+

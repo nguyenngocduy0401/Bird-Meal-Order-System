@@ -1125,19 +1125,20 @@ public class ProductDAO {
         return listProduct;
     }
 
-    public static boolean createProduct(ProductDTO dto)
+    public int createProduct(ProductDTO dto)
             throws ClassNotFoundException, SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
-        boolean result = false;
-
+        ResultSet rs = null;
+        int productID = -1;
         try {
             con = DBUtils.getConnection();
             if (con != null) {
                 String sql = "INSERT INTO Product "
                         + "(ProductName, Price, Quantity, CategoryID, ProductDetail, "
                         + "Size, AgeRecommendation, Date, DateManufacture, [Status], Country, imgPath) "
-                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                        + "OUTPUT inserted.ProductID "
+                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
                 //3 create
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getProductName());
@@ -1152,13 +1153,19 @@ public class ProductDAO {
                 stm.setInt(10, dto.getStatus());
                 stm.setString(11, dto.getCountry());
                 stm.setString(12, dto.getImgPath());
-                int effectRow = stm.executeUpdate();
-                if (effectRow > 0) {
-                    result = true;
+//                int effectRow = stm.executeUpdate();
+//                if (effectRow > 0) {
+//                    result = true;
+//                }
+                rs = stm.executeQuery();
+                if(rs.next()) {
+                    productID = rs.getInt("ProductID");
                 }
-            }
-
+            }   
         } finally {
+            if (rs != null) {
+                rs.close();
+            }
             if (stm != null) {
                 stm.close();
             }
@@ -1166,7 +1173,7 @@ public class ProductDAO {
                 con.close();
             }
         }
-        return result;
+        return productID;
     }
 
     public boolean updateProduct(ProductDTO dto)
