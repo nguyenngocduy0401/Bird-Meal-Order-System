@@ -207,7 +207,7 @@ public class CreateNewProductServlet extends HttpServlet {
                 }
                 if (foundError) {
                     request.setAttribute("CREATE_PRODUCT_ERROR", errors);
-                    request.getRequestDispatcher("createNewProduct.jsp").forward(request, response);
+                    request.getRequestDispatcher("MainController?btAction=Create+New+Product").forward(request, response);
                 }
                 // Gọi phương thức DAO để tạo sản phẩm
                 ProductDAO productDAO = new ProductDAO();
