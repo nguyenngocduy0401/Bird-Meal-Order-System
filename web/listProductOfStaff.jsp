@@ -11,6 +11,7 @@
 </c:if>
 <html>
     <head>
+        <link href="img/icon.png" rel="icon">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Staff</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

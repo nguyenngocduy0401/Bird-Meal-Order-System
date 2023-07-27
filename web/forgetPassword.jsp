@@ -13,7 +13,7 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
         <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
+        <link href="img/icon.png" rel="icon">
 
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -31,6 +31,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/afb5d5fd3d.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
@@ -96,7 +97,7 @@
                 <div class="navbar-nav ms-auto py-0">
                     <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="fas fa-dove fs-1 text-primary me-3"></i></a>
                     <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>

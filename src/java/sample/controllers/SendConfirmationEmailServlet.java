@@ -51,7 +51,7 @@ public class SendConfirmationEmailServlet extends HttpServlet {
         boolean foundError = false;
         boolean sendEmail = false;
         String token = UUID.randomUUID().toString();
-        String link = "<a href='http://localhost:8080/Bird_Meal_Order_System/ConfirmationEmailServlet?token=" + token + "'>click here</a>";
+        String link = "<a href='http://localhost:8084/Bird_Meal_Order_System/ConfirmationEmailServlet?token=" + token + "'>click here</a>";
         try {
             UserDAO dao = new UserDAO();
             UserDTO dto = dao.getUserByEmail(email);

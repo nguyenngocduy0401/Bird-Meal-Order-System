@@ -48,7 +48,7 @@ public class SendEmailForgetPasswordServlet extends HttpServlet {
         InformationCreateError errors = new InformationCreateError();
         boolean foundError = false;
         String token = UUID.randomUUID().toString();
-        String link = "<a href='http://localhost:8080/Bird_Meal_Order_System/ConfirmationEmailServlet?token=" + token + "'>Click here</a>";
+        String link = "<a href='http://localhost:8084/Bird_Meal_Order_System/ConfirmationEmailServlet?token=" + token + "'>Click here</a>";
         try {
             UserDAO dao = new UserDAO();
             UserDTO dto = dao.getUserByEmail(email);

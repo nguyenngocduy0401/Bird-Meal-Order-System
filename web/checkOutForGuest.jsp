@@ -37,10 +37,10 @@
     <head>
         <meta charset="utf-8">
         <title>Bird Meal Order System</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
               <!-- Favicon -->
-              <link href="img/favicon.ico" rel="icon">
+              <link href="img/icon.png" rel="icon">
 
               <!-- Google Web Fonts -->
               <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -61,6 +61,7 @@
 
         <!--Libraries boostrap 5.0.0-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://kit.fontawesome.com/afb5d5fd3d.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <!-- Topbar Start -->
@@ -109,7 +110,7 @@
 
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
             <a href="HomePageController" class="navbar-brand ms-lg-5">
-                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
+                <h1 class="m-0 text-uppercase text-dark"><i class="fas fa-dove fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
