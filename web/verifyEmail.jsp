@@ -121,7 +121,7 @@
                             <c:choose>
                                 <c:when test="${not empty errors.emailFormatError}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4 is-invalid" placeholder="Email*" 
+                                        <input type="text" class="form-control bg-light  px-4 is-invalid" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
                                     <font color ="red">
@@ -133,7 +133,7 @@
                                 </c:when>
                                 <c:when test="${not empty errors.emailIsExisted}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4 is-invalid" placeholder="Email*" 
+                                        <input type="text" class="form-control bg-light  px-4 is-invalid" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
                                     <font color ="red">
@@ -145,7 +145,7 @@
                                 </c:when>
                                 <c:when test="${not empty errors.sendEmailFailedError}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4 is-invalid" placeholder="Email*" 
+                                        <input type="text" class="form-control bg-light  px-4 is-invalid" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
                                     <font color ="red">
@@ -157,7 +157,7 @@
                                 </c:when>
                                     <c:when test="${not empty requestScope.SEND_EMAIL_SUCCESS}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4" placeholder="Email*" 
+                                        <input type="text" class="form-control bg-light  px-4" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
                                     <font color ="green">A link confirmation email has been sent. Please check your email inbox or spam.
@@ -168,7 +168,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4" placeholder="Email*" 
+                                        <input type="text" class="form-control bg-light  px-4" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
                                     <div class="col-12">
