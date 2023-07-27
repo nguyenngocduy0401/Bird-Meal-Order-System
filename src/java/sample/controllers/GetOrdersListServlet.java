@@ -29,8 +29,8 @@ import sample.dto.UserDTO;
 @WebServlet(name = "GetOrdersListServlet", urlPatterns = {"/GetOrdersListServlet"})
 public class GetOrdersListServlet extends HttpServlet {
 
-    private String ERROR_PAGE = "errorRegistration.html";
-    private String ORDERS_LIST_PAGE = "staffOrdersList.jsp";
+    private final String ERROR_PAGE = "errorRegistration.html";
+    private final String ORDERS_LIST_PAGE = "staffOrdersList.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
