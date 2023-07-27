@@ -1,9 +1,8 @@
 <%-- 
-    Document   : verifyEmail
-    Created on : Jun 1, 2023, 3:03:03 AM
+    Document   : forgetPassword
+    Created on : Jul 14, 2023, 1:20:50 AM
     Author     : haong
 --%>
-<style></style>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -82,7 +81,7 @@
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-            <a href="HomePageController" class="navbar-brand ms-lg-5">
+            <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
                 <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -92,16 +91,13 @@
 
                 <div class="col-md-7 container-fluid">
 
+                    
                 </div>
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="HomePageController" class="nav-item nav-link  ">Home</a>
-                    <a href="MainController?btAction=Home" class="nav-item nav-link ">Product</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
                     <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                    <a href="viewcart.jsp" class="nav-item nav-link pt-3  ">
-                        <i class="bi bi-cart  fs-1 me-1" style="line-height: 0.6"></i>
-                        <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bi bg-light text-primary" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
-                    </a>
-                    <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
+                    <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </nav>
@@ -110,64 +106,72 @@
         <div class="container-fluid pt-5">
             <div class="container">
                 <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
-                    <h6 class="text-primary text-uppercase">Register a new account</h6>
-                    <h1 class="display-5 text-uppercase mb-0">Register a new account</h1>
+                    <h6 class="text-primary text-uppercase">Forget password</h6>
+                    <h1 class="display-5 text-uppercase mb-0">Forget password</h1>
                 </div>
                 <div class="row g-5">
                     <div class="col-lg-7">
-                        <form action="SendConfirmationEmailServlet" class="form-floating" >
+                        <form action="SendEmailForgetPasswordServlet" method="POST" class="form-floating" >
                             <c:set var = "errors" value="${requestScope.EMAIL_ERROR}"/> 
                             <c:choose>
                                 <c:when test="${not empty errors.emailFormatError}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4 is-invalid" placeholder="Email*" 
+                                        <input type="text" class="form-control  bg-light px-4 is-invalid" placeholder="Enter email" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
+                                    <div style="margin-top: 10px">
                                     <font color ="red">
                                     ${errors.emailFormatError}
                                     </font>
+                                    </div>
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3 mt-3" type="submit">Continue</button>
                                     </div>
                                 </c:when>
-                                <c:when test="${not empty errors.emailIsExisted}">
+                                <c:when test="${not empty errors.accountNotAvailable}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4 is-invalid" placeholder="Email*" 
+                                        <input type="text" class="form-control  bg-light   px-4 is-invalid" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
+                                    <div style="margin-top: 10px">
                                     <font color ="red">
-                                    ${errors.emailIsExisted}
+                                    ${errors.accountNotAvailable}
                                     </font>
+                                    </div>
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3 mt-3 " type="submit">Continue</button>
                                     </div>
                                 </c:when>
-                                <c:when test="${not empty errors.sendEmailFailedError}">
+                                <c:when test="${not empty errors.emailNotFound}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4 is-invalid" placeholder="Email*" 
-                                               style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
+                                        <input type="text" class="form-control bg-light  px-4 is-invalid" placeholder="Email*" 
+                                               style="height: 50px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
+                                    <div style="margin-top: 10px">
                                     <font color ="red">
-                                    ${errors.sendEmailFailedError}
+                                    ${errors.emailNotFound}
                                     </font>
+                                    <div>
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3 mt-3" type="submit">Continue</button>
                                     </div>
                                 </c:when>
                                     <c:when test="${not empty requestScope.SEND_EMAIL_SUCCESS}">
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4" placeholder="Email*" 
+                                        <input type="text" class="form-control bg-light  px-4" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
-                                    <font color ="green">A link confirmation email has been sent. Please check your email inbox or spam.
+                                    <div style="margin-top: 10px">
+                                    <font color ="green">A link reset password has been sent. Please check your email inbox or spam.
                                     </font>
+                                    </div>
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100 py-3 mt-3" type="submit">Send link again</button>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="col-12">
-                                        <input type="text" class="form-control bg  px-4" placeholder="Email*" 
+                                        <input type="text" class="form-control bg-light  px-4" placeholder="Email*" 
                                                style="height: 55px;" name="txtEmail" value="${param.txtEmail}">
                                     </div>
                                     <div class="col-12">
@@ -185,12 +189,12 @@
     </body>
 </html>
 
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-<!-- Template Javascript -->
-<script src="js/main.js"></script>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>

@@ -80,7 +80,6 @@ public class BirdDAO {
                         String birdName = rs.getString("BirdName");
                         int birdID = rs.getInt("BirdID");
                         int status = rs.getInt("Status");
-
                         BirdDTO bird = new BirdDTO(birdID, birdName, status);
                         list.add(bird);
                     }
@@ -102,6 +101,47 @@ public class BirdDAO {
         }
         return list;
     }
+    
+     public static ArrayList<BirdDTO> getAllAvailableBird() {
+        ArrayList<BirdDTO> list = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT [BirdID]\n"
+                        + "         ,[BirdName]\n"
+                        + "         ,[Status]\n"
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird] "
+                        + "Where Status = 1";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String birdName = rs.getString("BirdName");
+                        int birdID = rs.getInt("BirdID");
+                        int status = rs.getInt("Status");
+                        BirdDTO bird = new BirdDTO(birdID, birdName, status);
+                        list.add(bird);
+                    }
+                    cn.close();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
 
     public static boolean createBird(BirdDTO bird)
             throws ClassNotFoundException, SQLException, NamingException {

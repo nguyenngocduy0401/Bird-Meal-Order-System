@@ -269,6 +269,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="txtBird" class="col-sm-3 col-form-label">Bird</label>
+                                    <div class="col-sm-9">
+                                        <c:forEach items="${requestScope.LIST_BIRD}" var="bird">
+                                            ${bird.birdName}
+                                            <c:if test="${bird.birdName != null}"> | </c:if>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="txtAgeRecommendation" class="col-sm-3 col-form-label">Age Recommendation</label>
                                     <div class="col-sm-9">
                                         ${updateProduct.ageRecommendation}

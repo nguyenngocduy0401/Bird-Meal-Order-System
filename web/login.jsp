@@ -156,7 +156,7 @@
                         <i class="bi bi-cart  fs-1 me-1" style="line-height: 0.6"></i>
                         <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bi bg-light text-primary" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
                     </a>
-                    <a href="verifyEmail.html" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
+                    <a href="verifyEmail.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
                         Register
                         <i class="bi bi-arrow-right"></i>
                     </a>
@@ -188,11 +188,9 @@
                                     <input type="checkbox" value="savelogin" name="savelogin">Stayed signed in</td>
                                 </div>
                                 <div class="col-6 ms-auto">
-                                    <a href="verifyEmail.html" class="nav-item nav-link">Don't  have account?Register a new!</a>
-
+                                    <a href="verifyEmail.jsp" class="nav-item nav-link text-end">Don't  have account?Register a new!</a>
+                                    <a href="forgetPassword.jsp" class="nav-item nav-link text-end text-secondary">Forget password?</a>
                                 </div>
-
-
 
                                 <c:if test="${param.check eq '1'}">
                                     <div style="color: red;">Don't let your password or username blank</p></div>

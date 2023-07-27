@@ -67,7 +67,7 @@ public class EditPasswordServlet extends HttpServlet {
             if (foundError) {
                 request.setAttribute("UPDATE_PASSWORD_ERROR", errors);
             } else {
-                boolean result = dao.updatePassword(dto.getUserName().trim(), newPassword);
+                boolean result = dao.updatePasswordByEmail(dto.getEmail(), newPassword);
                 if (result){
                     request.setAttribute("UPDATE_PASSWORD_SUCCESS", result);
                 }

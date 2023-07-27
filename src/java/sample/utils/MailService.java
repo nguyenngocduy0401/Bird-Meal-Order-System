@@ -73,6 +73,54 @@ public class MailService {
         }
     }
 
+    public boolean sendResetPasswordEmail(String email, String link) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com"); //SMPT HOST
+        props.put("mail.smtp.port", "587"); //TLS 587 SSL465
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Create authenticator
+        Authenticator auth = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(FROM, PASSWORD);
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            //Kiểu nội dung
+            msg.addHeader("Content-type", "text/html; charset=UTF-8");
+            //Ng gửi
+            msg.setFrom(FROM);
+
+            //Ng nhận
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
+
+            //Tiêu đề
+            msg.setSubject("Password Reset Request");
+
+            //Quy định email nhận phản hồi
+            //msg.setReplyTo()
+            //Nội dung
+            msg.setText("<div>Hello,</div>"
+                    + "<br>"
+                    + "<div>You recently requested to reset your password. " + link + " to change your password. The link will expire in 15 minutes</div>"
+                    + "<br>"
+                    + "<div>If you did not make the request to reset your password or if you are in need of further assistance, please contact our Customer Service Team at birdmealordersystem@gmail.com</div>"
+                    + "<br>"
+                    + "<div>Thanks!</div>"
+                    + "<div>Bird Meal Order Shop</div>", "UTF-8", "html");
+            //Gửi email
+            Transport.send(msg);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean sendEmailConfirmOrderToCustomer(OrderDTO orderDTO, UserDTO userDTO) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); //SMPT HOST
@@ -1463,7 +1511,7 @@ public class MailService {
             return false;
         }
     }
-    
+
     public boolean sendEmailConfirmOrderToGuest(OrderDTO orderDTO) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); //SMPT HOST

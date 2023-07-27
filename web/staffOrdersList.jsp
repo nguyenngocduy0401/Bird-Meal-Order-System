@@ -51,7 +51,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="MainController?btAction=StaffHome">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="StaffHomeController">
                     <div class="sidebar-brand-icon">
                         <i class="fas fa-dove"></i>
                     </div>
@@ -469,8 +469,13 @@
                                                                         Shipping
                                                                     </span>
                                                                 </c:when>
+                                                                <c:when test="${dto.status == 5}">
+                                                                    <span class="p-2 rounded " style="background-color: #E1D1D1; color: #803535; font-weight: bold">
+                                                                        Incomplete
+                                                                    </span>
+                                                                </c:when>
                                                                 <c:otherwise>
-                                                                    <span class="p-2 rounded " style="background-color: #B6F596; color: #45B20F; font-weight: bold">
+                                                                    <span class="p-2 rounded " style="background-color: #D0F1C0; color: #45B20F; font-weight: bold">
                                                                         Complete
                                                                     </span>
                                                                 </c:otherwise>

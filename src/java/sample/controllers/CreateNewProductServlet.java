@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -22,8 +23,11 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import sample.dao.CategoryDAO;
+import sample.dao.BirdDAO;
+import sample.dao.CategoriesBirdDAO;
 import sample.dao.ProductDAO;
+import sample.dto.BirdDTO;
+import sample.dto.InformationCreateError;
 import sample.dto.ProductDTO;
 
 /**
@@ -52,16 +56,18 @@ public class CreateNewProductServlet extends HttpServlet {
             DiskFileItemFactory factory = new DiskFileItemFactory();
             ServletFileUpload fileUpload = new ServletFileUpload(factory);
 
-            String existingImagePath = null;
-            String imagepath = null;
+//            String existingImagePath = null;
+//            String imagepath = null;
+            InformationCreateError errors = new InformationCreateError();
 
             try {
                 // Phân tích các trường dữ liệu và tệp tin đính kèm từ request
                 //List<FileItem> items = (List<FileItem>) fileUpload.getItemIterator(request);
                 List<FileItem> items = fileUpload.parseRequest(request);
+                List<String> birds = new ArrayList<>();
                 // Tạo đối tượng ProductDTO để lưu trữ thông tin sản phẩm
                 ProductDTO product = new ProductDTO();
-
+                boolean foundError = false;
                 // Lặp qua các trường dữ liệu và xử lý tương ứng
                 for (FileItem item : items) {
                     if (item.isFormField()) {
@@ -78,42 +84,95 @@ public class CreateNewProductServlet extends HttpServlet {
 //                                System.out.println("Field Value: " + fieldValue);
 //                                break;
                             case "txtProductName":
-                                product.setProductName(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                if (fieldValue.trim().length() < 3 || fieldValue.trim().length() > 500) {
+                                    errors.setProductNameLengthError("Product name is required input from 3 to 500 characters");
+                                    foundError = true;
+                                } else {
+                                    product.setProductName(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                }
                                 break;
-                            case "txtPrice":
-                                product.setPrice(Double.parseDouble(fieldValue));
-                                break;
+                            case "txtPrice":    
+                                try {
+                                String price = fieldValue.replaceAll(",", "");
+                                product.setPrice(Double.parseDouble(price));
+                                if (product.getPrice() <= 0) {
+                                    foundError = true;
+                                    errors.setProductPriceFormatError("Price is required input number only and greater than 0");
+                                }
+                            } catch (NumberFormatException e) {
+                                foundError = true;
+                                errors.setProductPriceFormatError("Price is required input number only and greater than 0");
+                            }
+                            break;
                             case "txtQuantity":
+                                try {
                                 product.setQuantity(Integer.parseInt(fieldValue));
-                                break;
+                            } catch (NumberFormatException e) {
+                                foundError = true;
+                                errors.setProductQuantityFormatError("The quantity of product is required input an integer number");
+                            }
+                            break;
                             case "txtCatory":
                                 product.setCategoryID(Integer.parseInt(fieldValue));
 //                                System.out.println("Field Nameg: " + fieldName);
 //                                System.out.println("Field Valueg: " + fieldValue);
                                 break;
                             case "txtProductDetail":
-                                product.setProductDetail(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                if (fieldValue.trim().length() < 5 || fieldValue.trim().length() > 2000) {
+                                    errors.setProductDetailLengthError("Product detail is required input from 5 to 2000 characters");
+                                    foundError = true;
+                                } else {
+                                    product.setProductDetail(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                }
                                 break;
                             case "txtSize":
+                                try {
+                                int size = Integer.parseInt(fieldValue);
+                                if (size <= 0) {
+                                    foundError = true;
+                                    errors.setProductSizeFormatError("The size of product is required input an integer number greater than 0");
+                                }
                                 product.setSize(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                            } catch (NumberFormatException e) {
+                                foundError = true;
+                                errors.setProductSizeFormatError("The size of product is required input an integer number greater than 0");
+                            }
+                            break;
+                            case "txtBirds":
+                                birds.add(fieldValue);
                                 break;
                             case "txtAgeRecommendation":
                                 product.setAgeRecommendation(Integer.parseInt(fieldValue));
                                 break;
                             case "txtDate":
-                                //Integer.parseInt(fileds.get("txtAgeRecommendation"))
+                                try {
                                 product.setDate(Integer.parseInt(fieldValue));
-                                //System.out.println("Date" + fieldValue);
-                                break;
+                            } catch (Exception e) {
+                                errors.setProductDateExpireValueError("Date exprice is required input an integer number");
+                                foundError = true;
+                            }
+                            //Integer.parseInt(fileds.get("txtAgeRecommendation"))
+                            //System.out.println("Date" + fieldValue);
+                            break;
                             case "txtStatus":
                                 product.setStatus(Integer.parseInt(fieldValue));
                                 //System.out.println("status" + fieldValue);
                                 break;
                             case "txtCountry":
-                                product.setCountry(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                if (fieldValue.trim().length() < 2 || fieldValue.trim().length() > 50) {
+                                    errors.setProductCountryNotSelect("Country is required input from 2 to 50 characters");
+                                    foundError = true;
+                                } else {
+                                    product.setCountry(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                }
                                 break;
                             case "txtDateManufacture":
-                                product.setDateManufacture(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                if (fieldValue.isEmpty()) {
+                                    errors.setProductDateManuNotSelect("Please select date manufacture");
+                                    foundError = true;
+                                } else {
+                                    product.setDateManufacture(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
+                                }
                                 break;
                         }
                     } else {
@@ -142,12 +201,23 @@ public class CreateNewProductServlet extends HttpServlet {
                         }
                     }
                 }
-
+                if (birds.isEmpty() || birds == null) {
+                    errors.setProductCategoriesBirdNotSelect("Please select this field");
+                    foundError = true;
+                }
+                if (foundError) {
+                    request.setAttribute("CREATE_PRODUCT_ERROR", errors);
+                    request.getRequestDispatcher("MainController?btAction=Create+New+Product").forward(request, response);
+                }
                 // Gọi phương thức DAO để tạo sản phẩm
                 ProductDAO productDAO = new ProductDAO();
-                CategoryDAO categoryDAO = new CategoryDAO();
-                boolean success = productDAO.createProduct(product);
+                int productID = productDAO.createProduct(product);
 
+                // Create Categories Bird
+                CategoriesBirdDAO categoriesBirdDAO = new CategoriesBirdDAO();
+                boolean createCategoriesBird = categoriesBirdDAO.createCategoriesBird(birds, productID);
+                ArrayList<BirdDTO> listBird = new ArrayList<>();
+                listBird = BirdDAO.getBirdsByProductID(productID);
                 // Lấy danh sách sản phẩm đã cập nhật
                 List<ProductDTO> productList = productDAO.loadProducts();
                 //List<CategoryDTO> categoryList = categoryDAO.getCatetoryList();
@@ -155,16 +225,17 @@ public class CreateNewProductServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("products", productList);
                 // Đặt thông tin sản phẩm vừa tạo thành một thuộc tính riêng trong đối tượng yêu cầu (request)
-                session.setAttribute("createdProduct", product);
+                request.setAttribute("createdProduct", product);
+                request.setAttribute("LIST_BIRD", listBird);
                 //request.setAttribute("categoryname", categoryList);
                 // Chuyển tiếp yêu cầu đến trang index.jsp
                 request.getRequestDispatcher("newProduct.jsp").forward(request, response);
 
                 // ...
             } catch (FileUploadException e) {
-                e.printStackTrace();
+                log("CreateNewProductServlet_FileUploadException" + e.getMessage());
             } catch (Exception e) {
-                e.printStackTrace();
+                log("CreateNewProductServlet_Exception" + e.getMessage());
             }
         }
     }

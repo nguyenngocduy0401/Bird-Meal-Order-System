@@ -94,6 +94,41 @@ public class CategoryDAO {
         }
         return listCate;
     }
+    
+    public static List<CategoryDTO> getCatetoryAvailableList() throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<CategoryDTO> listCate = new ArrayList<>();
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [ProjectBirdMealOrderSystem].[dbo].Category.CategoryID, "
+                        + "[ProjectBirdMealOrderSystem].[dbo].Category.CategoryName "
+                        + "FROM [ProjectBirdMealOrderSystem].[dbo].[Category] "
+                        + "Where Status = 1";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int cateID = rs.getInt("CategoryID");
+                    String cateName = rs.getString("CategoryName");
+                    int status = rs.getInt("Status");
+                    listCate.add(new CategoryDTO(cateID, cateName, status));
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return listCate;
+    }
 
     public static boolean createCategory(CategoryDTO category)
             throws ClassNotFoundException, SQLException, NamingException {

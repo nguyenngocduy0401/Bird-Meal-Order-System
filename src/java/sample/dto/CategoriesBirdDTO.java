@@ -11,14 +11,14 @@ package sample.dto;
  */
 public class CategoriesBirdDTO {
     private int birdID;
-    private int broductID;
+    private int productID;
 
     public CategoriesBirdDTO() {
     }
 
     public CategoriesBirdDTO(int birdID, int broductID) {
         this.birdID = birdID;
-        this.broductID = broductID;
+        this.productID = broductID;
     }
 
     public int getBirdID() {
@@ -26,7 +26,7 @@ public class CategoriesBirdDTO {
     }
 
     public int getBroductID() {
-        return broductID;
+        return productID;
     }
 
     public void setBirdID(int birdID) {
@@ -34,7 +34,7 @@ public class CategoriesBirdDTO {
     }
 
     public void setBroductID(int broductID) {
-        this.broductID = broductID;
+        this.productID = broductID;
     }
 
     

@@ -97,4 +97,67 @@ public class CategoriesBirdDAO {
         }
         return listBird;
     }
+    public boolean createCategoriesBird(List<String> birdsID, int productID)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "INSERT INTO CategoriesBird "
+                        + "(BirdID, ProductID) "
+                        + "VALUES (?, ?)";
+                int effectRow = 0;
+                for (String bird : birdsID) {
+                    stm = con.prepareStatement(sql);
+                    stm.setInt(1, Integer.parseInt(bird));
+                    stm.setInt(2, productID);
+                    effectRow = stm.executeUpdate();
+                }
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    
+    public boolean deleteCategoriesBird(int productID)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "DELETE FROM CategoriesBird "
+                        + "WHERE ProductID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, productID);
+                
+                int effectRow = stm.executeUpdate();
+                
+                if (effectRow > 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
 }
+

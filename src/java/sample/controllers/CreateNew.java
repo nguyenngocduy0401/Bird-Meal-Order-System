@@ -16,7 +16,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import sample.dao.BirdDAO;
 import sample.dao.CategoryDAO;
+import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
 
 /**
@@ -40,7 +43,10 @@ public class CreateNew extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             List<CategoryDTO> categoryList = CategoryDAO.getCatetoryList();
-            request.setAttribute("categoryname", categoryList);
+            List<BirdDTO> birdList = BirdDAO.getAllAvailableBird();
+            HttpSession session = request.getSession();
+            session.setAttribute("categoryname", categoryList);
+            session.setAttribute("LIST_BIRD", birdList);
         } finally {
             request.getRequestDispatcher("createNewProduct.jsp").forward(request, response);
         }
