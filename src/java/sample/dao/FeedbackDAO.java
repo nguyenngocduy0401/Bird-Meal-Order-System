@@ -30,8 +30,8 @@ public class FeedbackDAO {
         try {
             con = DBUtils.getConnection();
             if (con != null) {
-                String sql = "INSERT INTO Feedback (OrderID,ProductID,UserID, FeedBackDetail,FeedbackDate, Rate)\n"
-                        + "VALUES (?,?,?,?,?,?)";
+                String sql = "INSERT INTO Feedback (OrderID,ProductID,UserID, FeedBackDetail,FeedbackDate, Rate, Status)\n"
+                        + "VALUES (?,?,?,?,?,?,1)";
                 //3 create
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, orderID);

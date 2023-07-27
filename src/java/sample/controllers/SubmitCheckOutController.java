@@ -172,6 +172,7 @@ public class SubmitCheckOutController extends HttpServlet {
                                 session.removeAttribute("cart");
                                 session.removeAttribute("cartCheckOutForGuest");
                                 response.sendRedirect("checkOutSuccess.jsp");
+                                session.setAttribute("countItemsCart", 0);
                             }
                         }
                     }

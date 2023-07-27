@@ -139,6 +139,7 @@
             },
             success: function () {
                 $('#reloadCalculator').load(window.location.href + ' #reloadCalculator');
+                $('#reloadNumberCart').load(window.location.href + ' #reloadNumberCart');
             },
             error: function () {
                 alert("Error occurred while removing products.");
@@ -161,6 +162,7 @@
             },
             success: function () {
                 $('#reloadCalculator').load(window.location.href + ' #reloadCalculator');
+                $('#reloadNumberCart').load(window.location.href + ' #reloadNumberCart');
             },
             error: function () {
                 alert("Error occurred while removing products.");
