@@ -31,12 +31,22 @@ and open the template in the editor.
         <link href="css/style.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/afb5d5fd3d.js" crossorigin="anonymous"></script>
         <style>
-            .box{
+            .image{
                 display: flex;
-                align-items: center;
+                align-items: end;
                 justify-content: center;
                 width: 100%;
                 height: 500px;
+            }
+            img{
+                height: 300px;
+            }
+            
+            .text{
+                margin-top: 10px;
+                text-align: center;
+                font-weight: bold;
+                font-size: 40px;
             }
         </style>
     </head>
@@ -97,6 +107,9 @@ and open the template in the editor.
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
 
+                <div class="col-md-7 container-fluid">
+
+                </div>
                 <div class="navbar-nav ms-auto py-0">
                     <a href="HomePageController" class="nav-item nav-link">Home</a>
                     <a href="MainController?btAction=Home" class="nav-item nav-link ">Product</a>
@@ -107,13 +120,14 @@ and open the template in the editor.
         </nav>
         <!-- Navbar End -->
 
-        <div class="container-fluid pt-5">
-            <div class="box">
-                <div>
-                    <h3  style="color: red">Unsuccessful confirm email.</h3>
-                    <h6 style="margin-top: 20px">This link is not correct or expired. Please try again!</h6>
-                    </div>
-                </div>
-            
+        <div class="image">
+                <img src="https://cdn-icons-png.flaticon.com/512/5741/5741333.png"
+                     alt="error"/>
+        </div>
+        <div class="text">
+            Something error, please try again!
+        </div>
+        
+
     </body>
 </html>

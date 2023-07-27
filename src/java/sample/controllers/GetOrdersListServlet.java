@@ -29,7 +29,7 @@ import sample.dto.UserDTO;
 @WebServlet(name = "GetOrdersListServlet", urlPatterns = {"/GetOrdersListServlet"})
 public class GetOrdersListServlet extends HttpServlet {
 
-    private final String ERROR_PAGE = "errorRegistration.html";
+    private final String ERROR_PAGE = "error.html";
     private final String ORDERS_LIST_PAGE = "staffOrdersList.jsp";
 
     /**

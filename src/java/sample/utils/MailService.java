@@ -2421,7 +2421,7 @@ public class MailService {
                     + "                                                        alt=\"icon\"\n"
                     + "                                                        style=\"width:100%;max-width:79px;vertical-align:middle\"></span>\n"
                     + "                                                Bird Meal Order Shop\n"
-                    + "                                            </td>\n"
+                    + "                                            </td>\n" 
                     + "                                        </tbody>\n"
                     + "                                    </table>\n"
                     + "                                </td>\n"

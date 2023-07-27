@@ -30,7 +30,7 @@ import sample.dto.UserDTO;
 @WebServlet(name = "SearchOrderStaff", urlPatterns = {"/SearchOrderStaff"})
 public class SearchOrderStaff extends HttpServlet {
 
-    private String ERROR_PAGE = "errorRegistration.html";
+    private String ERROR_PAGE = "error.html";
     private String ORDERS_LIST_PAGE = "staffOrdersList.jsp";
 
     /**
