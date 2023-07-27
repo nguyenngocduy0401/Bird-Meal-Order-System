@@ -27,7 +27,7 @@ import sample.dto.UserDTO;
 public class resetPasswordServlet extends HttpServlet {
 
     private final String RESET_PASSWORD_PAGE = "resetPassword.jsp";
-    private final String ERROR_PAGE = "errorRegistration.html";
+    private final String ERROR_PAGE = "error.html";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

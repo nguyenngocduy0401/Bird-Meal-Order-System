@@ -24,7 +24,7 @@ import sample.dto.UserDTO;
 @WebServlet(name = "EditPasswordServlet", urlPatterns = {"/EditPasswordServlet"})
 public class EditPasswordServlet extends HttpServlet {
 
-    private final String ERROR_PAGE = "errorRegistration.html";
+    private final String ERROR_PAGE = "error.html";
     private final String EDIT_PASSWORD = "editPassword.jsp";
 
     /**

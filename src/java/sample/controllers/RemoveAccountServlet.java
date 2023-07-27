@@ -25,7 +25,7 @@ import sample.dto.UserDTO;
 @WebServlet(name = "removeAccountServlet", urlPatterns = {"/removeAccountServlet"})
 public class RemoveAccountServlet extends HttpServlet {
 
-    private final String ERROR_PAGE = "errorRegistration.html";
+    private final String ERROR_PAGE = "error.html";
     private final String REMOVE_RESULT_PAGE = "removeAccount.jsp";
 
     /**

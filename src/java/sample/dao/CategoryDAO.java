@@ -106,7 +106,7 @@ public class CategoryDAO {
             if (con != null) {
                 String sql = "SELECT [ProjectBirdMealOrderSystem].[dbo].Category.CategoryID, "
                         + "[ProjectBirdMealOrderSystem].[dbo].Category.CategoryName, "
-                        + "[ProjectBirdMealOrderSystem].[dbo].Category.Status"
+                        + "[ProjectBirdMealOrderSystem].[dbo].Category.Status "
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Category] "
                         + "Where Status = 1"
                         + "  ORDER BY CategoryID DESC ";

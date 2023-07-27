@@ -31,7 +31,7 @@ import sample.dto.ProductDTO;
 public class AdminPageController extends HttpServlet {
 
     private final String ADMIN_PAGE = "admin.jsp";
-    private final String ERROR_PAGE = "error.jsp";
+    private final String ERROR_PAGE = "error.html";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

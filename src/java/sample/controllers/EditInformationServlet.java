@@ -25,7 +25,7 @@ import sample.dto.UserDTO;
 public class EditInformationServlet extends HttpServlet {
 
     private final String EDIT_INFORMATION_RESULT_PAGE = "editInformation.jsp";
-    private final String ERROR_PAGE = "errorRegistration.html";
+    private final String ERROR_PAGE = "error.html";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

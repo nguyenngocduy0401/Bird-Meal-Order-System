@@ -30,7 +30,7 @@ import sample.utils.MailService;
 @WebServlet(name = "UpdateOrderStatusServlet", urlPatterns = {"/UpdateOrderStatusServlet"})
 public class UpdateOrderStatusServlet extends HttpServlet {
 
-    private String ERROR_PAGE = "errorRegistration.html";
+    private String ERROR_PAGE = "error.html";
     private String GET_ORDERS_LIST_SERVLET = "GetOrdersListServlet";
 
     /**
