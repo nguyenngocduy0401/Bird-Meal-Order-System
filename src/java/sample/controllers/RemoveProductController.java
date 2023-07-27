@@ -44,14 +44,16 @@ public class RemoveProductController extends HttpServlet {
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
+            int itemCount = 0;
             if (userDTO != null) {
                 if (userDTO.getRole() == 2) {
                     try {
                         CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
                         for (String pidpart : pid) {
-                            CartDetailDAO.deleteCartDetail(cartDTO.getCartID(), Integer.parseInt(pidpart));
-                            cart = CartDetailDAO.getCartDetail(cartDTO.getCartID());
+                            CartDetailDAO.deleteCartDetail(cartDTO.getCartID(), Integer.parseInt(pidpart));  
                         }
+                        cart = CartDetailDAO.getCartDetail(cartDTO.getCartID());
+                        itemCount = cart.size();
                     } catch (Exception e) {
                     }
 
@@ -77,6 +79,7 @@ public class RemoveProductController extends HttpServlet {
 
                                 if (shouldKeepProduct) {
                                     cart.put(productId, quantity);
+                                    itemCount++;
                                 }
                             }
                         }
@@ -99,6 +102,7 @@ public class RemoveProductController extends HttpServlet {
 
             }
             session.setAttribute("cart", cart);
+            session.setAttribute("countItemsCart", itemCount);
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

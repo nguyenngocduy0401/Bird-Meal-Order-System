@@ -368,32 +368,32 @@
                         <div class=" cards pb-5">
                             <div class="product-item position-relative bg-light d-flex flex-column text-center">
                                 <section class="panel">
-                                    <div class="clickable" onclick="document.getElementById('formid_top5new${dto.productID}').submit()">
-                                        <div class="product-item card product-item position-relative bg-light d-flex flex-column text-center product">
+                                    <div class="product-item card product-item position-relative bg-light d-flex flex-column text-center product">
+                                        <div class="clickable" onclick="document.getElementById('formid_top5new${dto.productID}').submit()">
                                             <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                             <p class="name text-uppercase">${dto.productName}</p>
                                             <h5 class="text-primary mb-0">${dto.price} VND</h5>
-                                            <div class="btn-action d-flex justify-content-center">
-                                                <div class="d-flex">
-                                                    <c:if test="${dto.quantity eq 0}">
-                                                    </c:if>
-                                                    <c:if test="${dto.quantity ne 0}">
+                                        </div>
+                                        <div class="btn-action d-flex justify-content-center">
+                                            <div class="d-flex">
+                                                <c:if test="${dto.quantity eq 0}">
+                                                </c:if>
+                                                <c:if test="${dto.quantity ne 0}">
 
-                                                        <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-cart btn-primary py-2 px-3" type="button">
-                                                            <i class="bi bi-cart-fill fa-2x "  style="font-size: 25px;"></i>
-                                                        </button>
+                                                    <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-cart btn-primary py-2 px-3" type="button">
+                                                        <i class="bi bi-cart-fill fa-2x "  style="font-size: 25px;"></i>
+                                                    </button>
 
-                                                    </c:if>
-                                                </div>
-                                                <div class="d-flex">
+                                                </c:if>
+                                            </div>
+                                            <div class="d-flex">
 
-                                                    <form action="ProductDetailController" method="post" style="display: none;" id="formid_top5new${dto.productID}">
-                                                        <input type="hidden" name="productID" value="${dto.productID}">
-                                                        <button type="submit" class="btn btn-primary py-2 px-3">
-                                                            <i class="bi bi-eye"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                <form action="ProductDetailController" method="post" style="display: none;" id="formid_top5new${dto.productID}">
+                                                    <input type="hidden" name="productID" value="${dto.productID}">
+                                                    <button type="submit" class="btn btn-primary py-2 px-3">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -419,34 +419,35 @@
                         <div class=" cards pb-5">
                             <div class="product-item position-relative bg-light d-flex flex-column text-center">
                                 <section class="panel">
-                                    <div class="clickable" onclick="document.getElementById('formid_top5new${dto.productID}').submit()">
-                                        <div class="product-item card product-item position-relative bg-light d-flex flex-column text-center product">
+                                    <div class="product-item card product-item position-relative bg-light d-flex flex-column text-center product">
+                                        <div class="clickable" onclick="document.getElementById('formid_top5new${dto.productID}').submit()">
                                             <img class="img-fluid mb-3" src="${dto.imgPath}" alt="">
                                             <p class="name text-uppercase">${dto.productName}</p>
                                             <h5 class="text-primary mb-0">${dto.price} VND</h5>
-                                            <div class="btn-action d-flex justify-content-center">
-                                                <div class="d-flex">
-                                                    <c:if test="${dto.quantity eq 0}">
-                                                    </c:if>
-                                                    <c:if test="${dto.quantity ne 0}">
+                                        </div>
+                                        <div class="btn-action d-flex justify-content-center">
+                                            <div class="d-flex">
+                                                <c:if test="${dto.quantity eq 0}">
+                                                </c:if>
+                                                <c:if test="${dto.quantity ne 0}">
 
-                                                        <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-cart btn-primary py-2 px-3" type="button">
-                                                            <i class="bi bi-cart-fill fa-2x "  style="font-size: 25px;"></i>
-                                                        </button>
+                                                    <button  value="Add" onclick="addToCart(${dto.productID})" class="btn btn-cart btn-primary py-2 px-3" type="button">
+                                                        <i class="bi bi-cart-fill fa-2x "  style="font-size: 25px;"></i>
+                                                    </button>
 
-                                                    </c:if>
-                                                </div>
-                                                <div class="d-flex">
+                                                </c:if>
+                                            </div>
+                                            <div class="d-flex">
 
-                                                    <form action="ProductDetailController" method="post" style="display: none;" id="formid_top5new${dto.productID}">
-                                                        <input type="hidden" name="productID" value="${dto.productID}">
-                                                        <button type="submit" class="btn btn-primary py-2 px-3">
-                                                            <i class="bi bi-eye"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                <form action="ProductDetailController" method="post" style="display: none;" id="formid_top5new${dto.productID}">
+                                                    <input type="hidden" name="productID" value="${dto.productID}">
+                                                    <button type="submit" class="btn btn-primary py-2 px-3">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
+
                                     </div>
                                 </section>
                             </div>
@@ -479,7 +480,7 @@
                                             <small><i class="bi bi-calendar-date me-2" id="date1"></i></small>
                                         </div>
                                         <h5 class="text-uppercase mb-3" id="title1"></h5>
-<!--                                        <p id="content1"></p>-->
+                                        <!--                                        <p id="content1"></p>-->
                                         <a class="text-primary text-uppercase" id="src1" href="">Read More<i class="bi bi-chevron-right"></i></a>
                                     </div>
                                 </div>
@@ -499,7 +500,7 @@
                                             <small><i class="bi bi-calendar-date me-2" id="date2"></i></small>
                                         </div>
                                         <h5 class="text-uppercase mb-3" id="title2"></h5>
-<!--                                        <p id="content2"></p>-->
+                                        <!--                                        <p id="content2"></p>-->
                                         <a class="text-primary text-uppercase" id="src2" href="">Read More<i class="bi bi-chevron-right"></i></a>
                                     </div>
                                 </div>
@@ -534,7 +535,7 @@
                 const author1 = document.getElementById('author1');
                 const image1 = document.getElementById('image1');
                 const src1 = document.getElementById('src1');
-                
+
 
                 const title2 = document.getElementById('title2');
                 const content2 = document.getElementById('content2');
@@ -548,32 +549,32 @@
 
 
                 const regex = /<img[^>]+src="([^">]+)"/i;
-                const match =  post1.content.match(regex);
+                const match = post1.content.match(regex);
                 var extractedURL;
                 var extractedURL2;
                 if (match && match[1]) {
                     extractedURL = match[1];
-                    console.log(extractedURL); 
+                    console.log(extractedURL);
                 } else {
                     console.log("URL not found in the content.");
                 }
-                
-                const match2 =  post2.content.match(regex);
+
+                const match2 = post2.content.match(regex);
                 var extractedURL2;
                 if (match2 && match2[1]) {
                     extractedURL2 = match2[1];
-                    console.log(extractedURL2); 
+                    console.log(extractedURL2);
                 } else {
                     console.log("URL not found in the content.");
                 }
-                
+
                 title1.textContent = post1.title;
 //                content1.textContent = post1.content.slice(0, 100) + "..."; // Add ellipsis to indicate truncated content
                 date1.textContent = post1.published;
                 author1.textContent = post1.author.displayName;
                 image1.src = extractedURL;
                 src1.href = post1.url;
-                
+
 
                 title2.textContent = post2.title;
 //                content2.textContent = post2.content.slice(0, 100) + "..."; // Add ellipsis to indicate truncated content
