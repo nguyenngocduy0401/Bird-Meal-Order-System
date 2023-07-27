@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.naming.NamingException;
 import sample.dto.BirdDTO;
-import sample.dto.ProductDTO;
 import sample.utils.DBUtils;
 
 /**
@@ -72,7 +71,8 @@ public class BirdDAO {
                 String sql = "SELECT [BirdID]\n"
                         + "         ,[BirdName]\n"
                         + "         ,[Status]\n"
-                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird] ";
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird] "
+                        + "  ORDER BY BirdID DESC ";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {
@@ -112,7 +112,8 @@ public class BirdDAO {
                         + "         ,[BirdName]\n"
                         + "         ,[Status]\n"
                         + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird] "
-                        + "Where Status = 1";
+                        + "Where Status = 1"
+                        + "  ORDER BY BirdID DESC ";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 if (rs != null) {

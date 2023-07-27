@@ -61,20 +61,26 @@ public class PagingFilter extends HttpServlet {
         int cateID = Integer.parseInt(cateFilter);
         String sizeFilter = request.getParameter("sizeFilter");
         String birdFilter = request.getParameter("birdFilter");
+        int birdID;
+        if (birdFilter.trim().isEmpty()) {
+            birdID = 0;
+        } else {
+            birdID = Integer.parseInt(birdFilter);
+        }
         double minPrice = Double.parseDouble(minPriceString);
         double maxPrice = Double.parseDouble(maxPriceString);
         String txtSearchValue = request.getParameter("txtSearchValue");
         List<ProductDTO> result = null;
         if (txtSearchValue.trim().equals("") || txtSearchValue.isEmpty()) {
-            result = dao.pagingProductFilterUser(page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
-            int amount = dao.getAmountProductFilter(cateID, sizeFilter, minPrice, maxPrice, birdFilter);
+            result = dao.pagingProductFilterUser(page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdID);
+            int amount = dao.getAmountProductFilter(cateID, sizeFilter, minPrice, maxPrice, birdID);
             endPage = amount / ON_PAGE_PRODUCT;
             if (amount % ON_PAGE_PRODUCT != 0) {
                 endPage++;
             }
-        }else {
-            result = dao.searchListProductUser(txtSearchValue, page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
-            int amount = dao.getAmountSearchProductUser(txtSearchValue, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
+        } else {
+            result = dao.searchListProductUser(txtSearchValue, page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdID);
+            int amount = dao.getAmountSearchProductUser(txtSearchValue, cateID, sizeFilter, minPrice, maxPrice, birdID);
             endPage = amount / ON_PAGE_PRODUCT;
             if (amount % ON_PAGE_PRODUCT != 0) {
                 endPage++;

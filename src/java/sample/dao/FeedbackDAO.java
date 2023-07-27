@@ -198,7 +198,8 @@ public class FeedbackDAO {
                         + "      ,[ReplyStaff]\n"
                         + "      ,[ReplyDetails]\n"
                         + "      ,[ReplyDate]"
-                        + "  FROM [Feedback]\n";
+                        + "  FROM [Feedback]\n"
+                        + "  ORDER BY FeedbackID DESC ";
 
                 stm = con.prepareStatement(sql);
 

@@ -8,6 +8,7 @@ package sample.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,6 +64,12 @@ public class PagingProduct extends HttpServlet {
         int cateID = Integer.parseInt(cateFilter);
         String sizeFilter = request.getParameter("sizeFilter");
         String birdFilter = request.getParameter("birdFilter");
+        int birdID;
+        if (birdFilter.trim().isEmpty()) {
+            birdID = 0;
+        } else {
+            birdID = Integer.parseInt(birdFilter);
+        }
         double minPrice = Double.parseDouble(minPriceString);
         double maxPrice = Double.parseDouble(maxPriceString);
         String txtSearchValue = request.getParameter("txtSearchValue");
@@ -75,8 +82,8 @@ public class PagingProduct extends HttpServlet {
                 endPage++;
             }
         } else {
-            result = dao.searchListProductUser(txtSearchValue, page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
-            int amount = dao.getAmountSearchProductUser(txtSearchValue, cateID, sizeFilter, minPrice, maxPrice, birdFilter);
+            result = dao.searchListProductUser(txtSearchValue, page, ON_PAGE_PRODUCT, cateID, sizeFilter, minPrice, maxPrice, birdID);
+            int amount = dao.getAmountSearchProductUser(txtSearchValue, cateID, sizeFilter, minPrice, maxPrice, birdID);
             endPage = amount / ON_PAGE_PRODUCT;
             if (amount % ON_PAGE_PRODUCT != 0) {
                 endPage++;
@@ -84,7 +91,6 @@ public class PagingProduct extends HttpServlet {
         }
 
         PrintWriter out = response.getWriter();
-
         try {
             if (result.isEmpty()) {
                 out.print("<p class=\"text-uppercase mb-1\">No similar products found!</p>");

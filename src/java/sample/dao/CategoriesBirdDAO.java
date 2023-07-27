@@ -73,7 +73,8 @@ public class CategoriesBirdDAO {
                 String sql = "SELECT [BirdID]\n"
                         + "      ,[BirdName]\n"
                         + "      ,[Status]\n"
-                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird]";
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Bird]"
+                        + "  WHERE Status = 1";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {

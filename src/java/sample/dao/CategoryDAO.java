@@ -71,7 +71,8 @@ public class CategoryDAO {
                 String sql = "SELECT [ProjectBirdMealOrderSystem].[dbo].Category.CategoryID,\n"
                         + "[ProjectBirdMealOrderSystem].[dbo].Category.CategoryName\n"
                         + ",[Status]"
-                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Category]";
+                        + "  FROM [ProjectBirdMealOrderSystem].[dbo].[Category]"
+                        + "  ORDER BY CategoryID DESC ";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -106,7 +107,8 @@ public class CategoryDAO {
                 String sql = "SELECT [ProjectBirdMealOrderSystem].[dbo].Category.CategoryID, "
                         + "[ProjectBirdMealOrderSystem].[dbo].Category.CategoryName "
                         + "FROM [ProjectBirdMealOrderSystem].[dbo].[Category] "
-                        + "Where Status = 1";
+                        + "Where Status = 1"
+                        + "  ORDER BY CategoryID DESC ";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {

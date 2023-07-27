@@ -8,6 +8,7 @@ package sample.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,13 +62,13 @@ public class SearchController extends HttpServlet {
             } else {
                 ProductDAO dao = new ProductDAO();
                 CategoryDAO cateDAO = new CategoryDAO();
-                List<CategoryDTO> cateList = cateDAO.getCatetoryList();
+                List<CategoryDTO> cateList = CategoryDAO.getCatetoryList();
                 List<String> listSize = dao.getSizeList();
                 List<BirdDTO> listBird = CategoriesBirdDAO.getBirdList();
-            List<ProductDTO> listTop5Sale = ProductDAO.listTop5Product();
-            List<ProductDTO> listTop5New = ProductDAO.list5NewProduct();
-                List<ProductDTO> result = dao.searchListProductUser(searchValue, page, ON_PAGE_PRODUCT, -1, "", -1, -1, "");
-                int amount = dao.getAmountSearchProductUser(searchValue, -1, "", -1, -1, "");
+                List<ProductDTO> listTop5Sale = ProductDAO.listTop5Product();
+                List<ProductDTO> listTop5New = ProductDAO.list5NewProduct();
+                List<ProductDTO> result = dao.searchListProductUser(searchValue, page, ON_PAGE_PRODUCT, -1, "", -1, -1, 0);
+                int amount = dao.getAmountSearchProductUser(searchValue, -1, "", -1, -1, 0);
                 int endPage = amount / ON_PAGE_PRODUCT;
                 if (amount % ON_PAGE_PRODUCT != 0) {
                     endPage++;
