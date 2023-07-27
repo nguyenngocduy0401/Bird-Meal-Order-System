@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="sample.dto.UserDTO" %>
 <%@ page import="sample.dao.UserDAO" %>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     .card{
         box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
@@ -27,8 +27,6 @@
         <meta charset="utf-8">
         <title>Bird Meal Order System</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="Free HTML Templates" name="keywords">
-        <meta content="Free HTML Templates" name="description">
 
         <!-- Favicon -->
         <link href="img/favicon.ico" rel="icon">
@@ -62,7 +60,7 @@
                         <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
                         <div class="text-start">
                             <h6 class="text-uppercase mb-1">Our Address</h6>
-                            <span>L� E2a-7, ???ng D1, ?. D1, Long Th?nh M?, Th�nh Ph? Th? ??c</span>
+                            <span>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức</span>
                         </div>
                     </div>
                 </div>

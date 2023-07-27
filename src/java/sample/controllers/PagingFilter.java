@@ -85,67 +85,76 @@ public class PagingFilter extends HttpServlet {
 
         try {
             if (result.isEmpty()) {
-                out.print("<p class=\"text-uppercase mb-1\">Không có sản phẩm tương tự được tìm thấy!!</p>");
+                out.print("<p class=\"text-uppercase mb-1\">No similar products found!</p>");
             } else {
                 result.forEach((dto) -> {
-                    out.println("<div class=\"block col-md-4 mt-1\">\n"
-                            + "                            <section class=\"panel\">\n"
-                            + "                                <div class=\"card product-item position-relative bg-light d-flex flex-column text-center product\">\n"
+                    out.println("<div class=\"cards block col-md-4 mt-1\">\n"
+                            + " <section class=\"panel\">\n"
+                            + " <div class=\"card product-item position-relative bg-light d-flex flex-column text-center product\">\n"
+                            + " <div class=\"clickable\" onclick=\"document.getElementById('formid_" + dto.getProductID() + "').submit()\">\n"
                             + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
                             + "                                    <p class=\"name text-uppercase\">" + dto.getProductName() + "</p>\n"
                             + "                                    <h5 class=\"text-primary mb-0\">" + dto.getPrice() + " VND</h5>\n"
+                            + "                              </div>\n"
                             + "                                    <div class=\"btn-action d-flex justify-content-center\">\n"
                             + "\n"
                             + "                                        <div class=\"d-flex\">\n");
                     if (dto.getQuantity() != 0) {
-                        out.print("<button type=\"submit\" value=\"Add\" onclick=\"addToCart(" + dto.getProductID() + ")\" class=\"btn btn-primary py-2 px-3\" type=\"button\">\n"
-                                + "                                                        <i class=\"bi bi-cart-fill me-1 \"></i>\n"
+                        out.print("<button type=\"submit\" value=\"Add\" onclick=\"addToCart(" + dto.getProductID() + ")\" class=\"btn btn-cart btn-primary py-2 px-3\" type=\"button\">\n"
+                                + "                                                        <i class=\"bi bi-cart-fill fa-2x \"  style=\"font-size: 25px;\"></i>\n"
                                 + "                                                    </button>");
                     }
 
                     out.print("                                        </div>\n"
-                            + "                                        <a class=\"btn btn-primary py-2 px-3\" href=\"ProductDetailController?productID=" + dto.getProductID() + "\"><i class=\"bi bi-eye\"></i></a>\n"
+                            + "                                        <div class=\"d-flex\">\n"
+                            + "\n"
+                            + "                                                    <form action=\"ProductDetailController\" method=\"post\" style=\"display: none;\" id=\"formid_" + dto.getProductID() + "\">\n"
+                            + "                                                        <input type=\"hidden\" name=\"productID\" value=\"" + dto.getProductID() + "\">\n"
+                            + "                                                        <button type=\"submit\" class=\"btn btn-primary py-2 px-3\">\n"
+                            + "                                                            <i class=\"bi bi-eye\"></i>\n"
+                            + "                                                        </button>\n"
+                            + "                                                    </form>\n"
+                            + "                                     </div>\n"
                             + "                                    </div>\n"
                             + "                                </div>\n"
                             + "                            </section>\n"
                             + "                        </div>");
                 });
-                if (endPage != 1) {
-                    out.println("<div class=\"col-12 mt-5 paging\">\n"
-                            + "                            <nav aria-label=\"Page navigation\">\n"
-                            + "                                <ul class=\"pagination pagination-lg m-0\">");
-                    if (1 < page && page <= endPage) {
+                out.println("<div class=\"col-12 mt-5 paging\">\n"
+                        + "                            <nav aria-label=\"Page navigation\">\n"
+                        + "                                <ul class=\"pagination pagination-lg m-0\">");
+                if (1 < page && page <= endPage) {
+                    out.println("<li class=\"page-item\">\n"
+                            + "                                            <a class=\"page-link rounded-0\" onclick=\"loadPage(" + (page - 1) + ")\" aria-label=\"Previous\">\n"
+                            + "                                                <span aria-hidden=\"true\">Previous</span>\n"
+                            + "                                            </a>\n"
+                            + "                                        </li>");
+                }
+                for (int i = 1; i <= endPage; i++) {
+                    if (page == i) {
+                        out.println("<li class=\"page-item active\">\n"
+                                + "                                            <a class=\"page-link\" onclick=\"loadPage(" + i + ")\">" + i + "</a>\n"
+                                + "                                        </li>");
+                    } else {
                         out.println("<li class=\"page-item\">\n"
-                                + "                                            <a class=\"page-link rounded-0\" onclick=\"loadPage(" + (page - 1) + ")\" aria-label=\"Previous\">\n"
-                                + "                                                <span aria-hidden=\"true\">Previous</span>\n"
-                                + "                                            </a>\n"
+                                + "                                            <a class=\"page-link\" onclick=\"loadPage(" + i + ")\">" + i + "</a>\n"
                                 + "                                        </li>");
                     }
-                    for (int i = 1; i <= endPage; i++) {
-                        if (page == i) {
-                            out.println("<li class=\"page-item active\">\n"
-                                    + "                                            <a class=\"page-link\" onclick=\"loadPage(" + i + ")\">" + i + "</a>\n"
-                                    + "                                        </li>");
-                        } else {
-                            out.println("<li class=\"page-item\">\n"
-                                    + "                                            <a class=\"page-link\" onclick=\"loadPage(" + i + ")\">" + i + "</a>\n"
-                                    + "                                        </li>");
-                        }
 
-                    }
-                    if (1 <= page && page < endPage) {
-                        out.println("<li class=\"page-item\">\n"
-                                + "                                            <a onclick=\"loadPage(" + (page + 1) + ")\" class=\"page-link rounded-0\" aria-label=\"Next\">\n"
-                                + "                                                <span aria-hidden=\"true\">Next</span>\n"
-                                + "                                            </a>\n"
-                                + "                                        </li>");
-                    }
+                }
+                if (1 <= page && page < endPage) {
+                    out.println("<li class=\"page-item\">\n"
+                            + "                                            <a onclick=\"loadPage(" + (page + 1) + ")\" class=\"page-link rounded-0\" aria-label=\"Next\">\n"
+                            + "                                                <span aria-hidden=\"true\">Next</span>\n"
+                            + "                                            </a>\n"
+                            + "                                        </li>");
                 }
             }
         } finally {
 
         }
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
