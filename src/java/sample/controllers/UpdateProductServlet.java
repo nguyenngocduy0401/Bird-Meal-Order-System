@@ -28,8 +28,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 import sample.dao.BirdDAO;
 import sample.dao.CategoriesBirdDAO;
+import sample.dao.CategoryDAO;
 import sample.dao.ProductDAO;
 import sample.dto.BirdDTO;
+import sample.dto.CategoryDTO;
 import sample.dto.ProductDTO;
 
 /**
@@ -209,6 +211,8 @@ public class UpdateProductServlet extends HttpServlet {
                             HttpSession session = request.getSession();
                             session.setAttribute("updateProduct", productdto);
                             listBird = BirdDAO.getBirdsByProductID(productdto.getProductID());
+                            CategoryDTO categoryProduct = CategoryDAO.getCategoryByID(productdto.getCategoryID());
+                            request.setAttribute("CATEGORY_PRODUCT", categoryProduct);
                             request.setAttribute("LIST_BIRD", listBird);
                         } else {
 

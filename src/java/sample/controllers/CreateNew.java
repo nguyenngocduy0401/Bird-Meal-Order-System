@@ -42,7 +42,7 @@ public class CreateNew extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            List<CategoryDTO> categoryList = CategoryDAO.getCatetoryList();
+            List<CategoryDTO> categoryList = CategoryDAO.getCatetoryAvailableList();
             List<BirdDTO> birdList = BirdDAO.getAllAvailableBird();
             HttpSession session = request.getSession();
             session.setAttribute("categoryname", categoryList);

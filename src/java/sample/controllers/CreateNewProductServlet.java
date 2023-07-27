@@ -131,8 +131,9 @@ public class CreateNewProductServlet extends HttpServlet {
                                 if (size <= 0) {
                                     foundError = true;
                                     errors.setProductSizeFormatError("The size of product is required input an integer number greater than 0");
+                                } else {
+                                    product.setSize(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
                                 }
-                                product.setSize(new String(fieldValue.getBytes("ISO-8859-1"), "UTF-8"));
                             } catch (NumberFormatException e) {
                                 foundError = true;
                                 errors.setProductSizeFormatError("The size of product is required input an integer number greater than 0");
@@ -142,8 +143,18 @@ public class CreateNewProductServlet extends HttpServlet {
                                 birds.add(fieldValue);
                                 break;
                             case "txtAgeRecommendation":
-                                product.setAgeRecommendation(Integer.parseInt(fieldValue));
-                                break;
+                                try {
+                                int age = Integer.parseInt(fieldValue);
+                                if (age <= 0) {
+                                    errors.setProductAgeRecommendationLengthError("The age recommendation of product is required input an integer number greater than 0");
+                                    foundError = true;
+                                } else 
+                                    product.setAgeRecommendation(age);
+                            } catch (NumberFormatException e) {
+                                errors.setProductAgeRecommendationLengthError("The age recommendation of product is required input an integer number greater than 0");
+                                foundError = true;
+                            }
+                            break;
                             case "txtDate":
                                 try {
                                 product.setDate(Integer.parseInt(fieldValue));

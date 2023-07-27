@@ -88,7 +88,7 @@
 
                 <!-- Sidebar - Brand -->
                 <li class="nav-item">
-                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="staff.jsp">
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="StaffHomeController">
                         <div class="sidebar-brand-icon">
                             <i class="fas fa-dove"></i>
                         </div>
@@ -133,6 +133,15 @@
                     <a target="_blank" class="nav-link" href="https://birdfoodswp.blogspot.com/">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Blog</span></a>
+                </li>
+                
+                <li class="nav-item">
+                    <form action="ListFeedBack">
+                        <button type="submit" class="nav-link" style="border: none; background: none;">
+                            <i class="fas fa-fw fa-reply"></i>
+                            <span>Reply</span>
+                        </button>
+                    </form>
                 </li>
 
                 <!-- Nav Item - Orders -->
@@ -185,7 +194,7 @@
                                 <div class="topbar-divider d-none d-sm-block"></div>
 
                                 <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
+                          <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">${user.fullName}</span>
@@ -194,25 +203,25 @@
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Settings
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
-                                </div>
+                                 aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="details.jsp">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="MainController?btAction=Home">
+                                    <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Home
+                                </a>
+                                <!--                                <a class="dropdown-item" href="#">
+                                                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                                    Activity Log
+                                                                </a>-->
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
                             </li>
 
                         </ul>
@@ -251,9 +260,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtCategory" class="col-sm-3 col-form-label">Category ID</label>
+                                    <label for="txtCategory" class="col-sm-3 col-form-label">Category</label>
                                     <div class="col-sm-9">
-                                        ${updateProduct.categoryID}
+                                        ${requestScope.CATEGORY_PRODUCT.categoryName}
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -265,7 +274,7 @@
                                 <div class="form-group row">
                                     <label for="txtSize" class="col-sm-3 col-form-label">Size</label>
                                     <div class="col-sm-9">
-                                        ${updateProduct.size}
+                                        ${updateProduct.size}g
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -284,13 +293,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtDate" class="col-sm-3 col-form-label">Date</label>
+                                    <label for="txtDate" class="col-sm-3 col-form-label">Date expire</label>
                                     <div class="col-sm-9">
                                         ${updateProduct.date} months
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtDateManufacture" class="col-sm-3 col-form-label">Status</label>
+                                    <label for="txtDateManufacture" class="col-sm-3 col-form-label">Date manufacture</label>
                                     <div class="col-sm-9">
                                         ${updateProduct.dateManufacture}
                                     </div>
@@ -298,7 +307,12 @@
                                 <div class="form-group row">
                                     <label for="txtStatus" class="col-sm-3 col-form-label">Status</label>
                                     <div class="col-sm-9">
-                                        ${updateProduct.status}
+                                        <c:if test = "${updateProduct.status == 1}">
+                                            Available
+                                        </c:if>
+                                        <c:if test = "${updateProduct.status == 0}">
+                                            Not Available
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">

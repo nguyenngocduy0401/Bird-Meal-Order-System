@@ -646,5 +646,60 @@ public boolean updateSuccessOrder(int orderID)
         }
         return result;
     }
+    
+     public static OrderDTO searchOrderByOrderID(int orderID)
+            throws SQLException, NamingException, ClassNotFoundException {
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        OrderDTO order = null;
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "SELECT [OrderID]\n"
+                        + ",[Order].[UserID]\n"
+                        + ",[Order].[OrderDate]\n"
+                        + ",[Order].[ShippingDate]\n"
+                        + ",[Order].FullName\n"
+                        + ",[Order].PhoneNumber\n"
+                        + ",[Order].[Status]\n"
+                        + ",[OrderAddress]\n"
+                        + ",[Order].ShippingFee\n"
+                        + ",[Notes] "
+                        + ",[Order].Email\n"
+                        + "FROM [ProjectBirdMealOrderSystem].[dbo].[Order]\n"
+                        + "WHERE OrderID = ? "
+                        + " ORDER BY [OrderID] DESC";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, orderID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String date = rs.getString("OrderDate");
+                    String shippingDate = rs.getString("ShippingDate");
+                    String orderAddress = rs.getString("OrderAddress");
+                    int userID = rs.getInt("UserID");
+                    String note = rs.getString("Notes");
+                    String fullName = rs.getString("FullName");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    double shippingFee = rs.getDouble("ShippingFee");
+                    int status = rs.getInt("Status");
+                    String email = rs.getString("Email");
+                    order = new OrderDTO(orderID, userID, fullName, phoneNumber, shippingDate, date, status, orderAddress, note, shippingFee, email);
+                }//end while rs not null
+            }//end if con is not null
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return order;
+    }
 
 }
