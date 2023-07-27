@@ -212,7 +212,7 @@
                         <div class="container-fluid col-md-6" id="content">
                             <button class="btn-add" data-toggle="modal" data-target="#AddNewCategoryModal">+</button>
                             <!-- DataTales Example -->
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4" id="category">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Category</h6>
                                 </div>
@@ -245,12 +245,12 @@
                                                             </td>
                                                             <td>
                                                                 <c:if test="${category.status eq 1}">
-                                                                    <button class="updateButton" onclick="removeCategory(${category.categoryID},0)">
+                                                                    <button class="updateButton" onclick="removeCategory(${category.categoryID}, 0)">
                                                                         Unavailable
                                                                     </button>
                                                                 </c:if>
                                                                 <c:if test="${category.status eq 0}">
-                                                                    <button class="updateButton" onclick="removeCategory(${category.categoryID},1)">
+                                                                    <button class="updateButton" onclick="removeCategory(${category.categoryID}, 1)">
                                                                         Available
                                                                     </button>
                                                                 </c:if>
@@ -270,7 +270,7 @@
 
                         <div class="container-fluid col-md-6" id="content">
                             <button class="btn-add" data-toggle="modal" data-target="#AddNewBirdModal">+</button>
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4" id="bird">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Bird</h6>
                                 </div>
@@ -302,12 +302,12 @@
                                                             </td>
                                                             <td>
                                                                 <c:if test="${bird.status eq 1}">
-                                                                    <button class="updateButton" onclick="removeBird(${bird.birdID},0)">
+                                                                    <button class="updateButton" onclick="removeBird(${bird.birdID}, 0)">
                                                                         Unavailable
                                                                     </button>
                                                                 </c:if>
                                                                 <c:if test="${bird.status eq 0}">
-                                                                    <button class="updateButton" onclick="removeBird(${bird.birdID},1)">
+                                                                    <button class="updateButton" onclick="removeBird(${bird.birdID}, 1)">
                                                                         Available
                                                                     </button>
                                                                 </c:if>
@@ -403,7 +403,7 @@
                     <input id="cateName" class="tetx-box" type="text" name="cateName" value="" placeholder="Enter category name"/>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" onclick="addNewCategory()">Create</a>
+                        <a id="createButton" class="btn btn-primary" onclick="addNewCategory()">Create</a>
                     </div>
                 </div>
             </div>
@@ -430,6 +430,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
+                           
                             function removeBird(birdID, status) {
                                 $.ajax({
                                     type: "POST",
@@ -440,14 +442,33 @@
                                     },
                                     success: function (data) {
                                         if (data === "true") {
-                                            alert("Success");
-                                            location.reload();
+                                            Swal.fire({
+
+                                                icon: 'success',
+                                                title: 'Successful!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
+                                            $('#bird').load(window.location.href + ' #bird');
+
                                         } else {
-                                            alert("Fail");
+                                            Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                         }
                                     },
                                     error: function () {
-                                        alert("Fail");
+                                        Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                     }
                                 });
                             }
@@ -459,15 +480,34 @@
                                         BIRDNAME: $('#birdName').val()
                                     },
                                     success: function (data) {
+                                        $('#birdName').val('');
                                         if (data === "true") {
-                                            alert("Success");
-                                            location.reload();
+                                            Swal.fire({
+
+                                                icon: 'success',
+                                                title: 'Successful!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
+                                            $('#bird').load(window.location.href + ' #bird');
                                         } else {
-                                            alert("Fail");
+                                            Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                         }
                                     },
                                     error: function () {
-                                        alert("Fail");
+                                        Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                     }
                                 });
                             }
@@ -481,15 +521,33 @@
                                     },
                                     success: function (data) {
                                         if (data === "true") {
-                                            alert("Success");
-                                            location.reload();
+                                            Swal.fire({
+
+                                                icon: 'success',
+                                                title: 'Successful!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
+                                            $('#category').load(window.location.href + ' #category');
                                         } else {
-                                            alert("Fail");
+                                            Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                         }
                                         ;
                                     },
                                     error: function () {
-                                        alert("Fail!");
+                                        Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                     }
                                 });
                             }
@@ -502,15 +560,36 @@
                                         CATEGORYNAME: $('#cateName').val()
                                     },
                                     success: function (data) {
+                                        $('#cateName').val('');
                                         if (data === "true") {
-                                            alert("Success");
-                                            location.reload();
+                                            Swal.fire({
+
+                                                icon: 'success',
+                                                title: 'Successful!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
+                                            $('#category').load(window.location.href + ' #category');
+                                            
+
                                         } else {
-                                            alert("Fail");
+                                            Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                         }
                                     },
                                     error: function () {
-                                        alert("Fail");
+                                        Swal.fire({
+
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                showConfirmButton: false,
+                                                timer: 1000
+                                            });
                                     }
                                 });
                             }

@@ -195,7 +195,7 @@
         }
     }
 </script>
-<html>
+<html lang="vi">
     <head>
         <meta charset="utf-8">
         <title>Bird Meal Order System</title>

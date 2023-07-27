@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
     <c:set var="result" value="${requestScope.PRODUCTS}" />
     <c:set var="cateList" value="${requestScope.CATEGORY_LIST}"/>
     <c:set var="sizeList" value="${requestScope.SIZE_LIST}"/>
@@ -18,7 +18,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>PET SHOP - Pet Shop Website Template</title>
+        <title>Bird Meal Order System</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="Free HTML Templates" name="keywords">
         <meta content="Free HTML Templates" name="description">
@@ -591,9 +591,9 @@
             <div class="col-lg-3 col-md-6">
                 <h5 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Get In Touch</h5>
                 <p class="mb-4">No dolore ipsum accusam no lorem. Invidunt sed clita kasd clita et et dolor sed dolor</p>
-                <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>123 Street, New York, USA</p>
-                <p class="mb-2"><i class="bi bi-envelope-open text-primary me-2"></i>info@example.com</p>
-                <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>Lô E2a-7, Đường D1, Đ. D1</p>
+                <p class="mb-2"><i class="bi bi-envelope-open text-primary me-2"></i>info@fpt.com</p>
+                <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+84 345 67890</p>
             </div>
             <div class="col-lg-3 col-md-6">
                 <h5 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Quick Links</h5>
@@ -653,10 +653,10 @@
     <div class="container">
         <div class="row g-5">
             <div class="col-md-6 text-center text-md-start">
-                <p class="mb-md-0">&copy; <a class="text-white" href="#">Your Site Name</a>. All Rights Reserved.</p>
+                <p class="mb-md-0">&copy; <a class="text-white" href="#">Bird meal order system</a>. All Rights Reserved.</p>
             </div>
             <div class="col-md-6 text-center text-md-end">
-                <p class="mb-0">Designed by <a class="text-white" href="https://htmlcodex.com">HTML Codex</a></p>
+                <p class="mb-0"><a class="text-white" href=""></a></p>
             </div>
         </div>
     </div>

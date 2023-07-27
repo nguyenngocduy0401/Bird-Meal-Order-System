@@ -22,98 +22,122 @@
         margin-bottom: 15px;
     }
 </style>
-<meta charset="utf-8">
-<title>Bird Meal Order System</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport
+<html lang="vi">
+<head>
+        <meta charset="utf-8">
+        <title>Bird Meal Order System</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Free HTML Templates" name="keywords">
+        <meta content="Free HTML Templates" name="description">
 
-      <!-- Favicon -->
-      <link href="img/favicon.ico" rel="icon">
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
 
-      <!-- Google Web Fonts -->
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">  
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">  
 
-<!-- Icon Font Stylesheet -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-<link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
 
-<!-- Libraries Stylesheet -->
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <!-- Libraries Stylesheet -->
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-<!-- Customized Bootstrap Stylesheet -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Template Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
+        <!-- Template Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
+    </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid border-bottom d-none d-lg-block">
-        <div class="row gx-0">
-            <div class="col-lg-3 text-center py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Our address</h6>
-                        <span>Lô E2a-7, ???ng D1, ?. D1, Long Th?nh M?, Thành Ph? Th? ??c</span>
+            <div class="row gx-0">
+                <div class="col-lg-3 text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Our Address</h6>
+                            <span>Lô E2a-7, ???ng D1, ?. D1, Long Th?nh M?, Thành Ph? Th? ??c</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 text-center border-start border-end py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Email Us</h6>
+                <div class="col-lg-3 text-center border-start border-end py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Email Us</h6>
 
-                        <span>fpt@example.com</span>
+                            <span>fpt@example.com</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 text-center py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Call Us</h6>
-                        <span>+123454654</span>
+                <div class="col-lg-3  text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Call Us</h6>
+                            <span>+123454654</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 text-center py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-facebook fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Facebook</h6>
-                        <span><a href="https://www.facebook.com/" class="link">https://www.facebook.com/</a></span>
+                <div class="col-lg-3 border-start text-center py-2">
+                    <div class="d-inline-flex align-items-center">
+                        <i class="bi bi-facebook fs-1 text-primary me-3"></i>
+                        <div class="text-start">
+                            <h6 class="text-uppercase mb-1">Facebook</h6>
+                            <span><a href="https://www.facebook.com/" class="link">https://www.facebook.com/</a></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Topbar End -->
 
 
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-        <a href="MainController?btAction=Home" class="navbar-brand ms-lg-5">
-            <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-
-            <div class="col-md-7 container-fluid">
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm py-3 py-lg-0 px-3 px-lg-0">
+            <a href="HomePageController" class="navbar-brand ms-lg-5">
+                <h1 class="m-0 text-uppercase text-dark"><i class="bi bi-shop fs-1 text-primary me-3"></i>Bird Food Store</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="col-md-7 container-fluid" >
+                   
+                </div>
+                <div class="navbar-nav  py-0">
+                    <a href="HomePageController" class="nav-item nav-link ">Home</a>
+                    <a href="MainController?btAction=Home" class="nav-item nav-link active">Product</a>
+                    <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
+                    <a href="viewcart.jsp" class="nav-item nav-link pt-3 ">
+                        <i class="bi bi-cart  fs-1  me-1" style="line-height: 0.6"></i>
+                        <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bi bg-light text-primary" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
+                    </a>
+                    <c:if test="${empty sessionScope.user}">
+                        <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
+                            Login
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </c:if>
+                    <c:if test="${not empty sessionScope.user}">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link pt-3" data-bs-toggle="dropdown">
+                                <i class="bi bi-person fs-1  me-1" style="line-height: 0.6"></i>
+                            </a>
+                            <div class="dropdown-menu m-0 dropdown-menu-end">
+                                <a href="details.jsp" class="dropdown-item">My profile</a>
+                                <a href="MainController?btAction=Purchase" class="dropdown-item">My purchase</a>
+                                <a href="LogoutController" class="dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
             </div>
-            <div class="navbar-nav ms-auto py-0">
-                <a href="MainController?btAction=Home" class="nav-item nav-link active">Home</a>
-                <a href="https://birdfoodswp.blogspot.com/" class="nav-item nav-link">Blog</a>
-                <a href="viewcart.jsp" class="nav-item nav-link pt-3 "><i class="bi bi-cart  fs-1 text-primary me-1"></i></a>
-                <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
-            </div>
-        </div>
-    </nav>
+        </nav>
     <!-- Navbar End -->
     <section class="py-7">
         <div class="card container px-4 px-lg-5 my-5">
