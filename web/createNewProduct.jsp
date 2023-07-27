@@ -6,6 +6,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<c:if test="${sessionScope.user==null||sessionScope.user.role ne 1}">
+    <c:redirect url="login.jsp"></c:redirect>
+</c:if>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -103,7 +108,7 @@
 
                 <hr class="sidebar-divider my-0">
 
-                
+
                 <li class="nav-item">
                     <form action="MainController">
                         <input type="hidden" name="btAction" value="StaffHome" />
@@ -123,7 +128,7 @@
                         </button>
                     </form>
                 </li>
-                
+
                 <li class="nav-item">
                     <form action="ListUnavailable">
 
@@ -205,25 +210,25 @@
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="details.jsp">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="MainController?btAction=Home">
-                                    <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Home
-                                </a>
-                                <!--                                <a class="dropdown-item" href="#">
-                                                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                                    Activity Log
-                                                                </a>-->
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="details.jsp">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <a class="dropdown-item" href="MainController?btAction=Home">
+                                        <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Home
+                                    </a>
+                                    <!--                                <a class="dropdown-item" href="#">
+                                                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                                        Activity Log
+                                                                    </a>-->
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
                             </li>
 
                         </ul>
@@ -287,12 +292,12 @@
                                     <label for="txtQuantity" class="col-sm-3 col-form-label">Quantity</label>
                                     <div class="col-sm-9">
                                         <c:if test="${empty errors.productQuantityFormatError}">
-                                            <input type="number" name="txtQuantity" id="txtQuantity" class="form-control" required=""
+                                            <input type="text" name="txtQuantity" id="txtQuantity" class="form-control" required=""
                                                    placeholder="Enter quantity of product (EX: 100)" value="${param.txtQuantity}"
                                                    onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
                                         </c:if>
                                         <c:if test="${not empty errors.productQuantityFormatError}">
-                                            <input type="number" name="txtQuantity" id="txtQuantity" class="form-control is-invalid" required=""
+                                            <input type="text" name="txtQuantity" id="txtQuantity" class="form-control is-invalid" required=""
                                                    placeholder="Enter quantity of product (EX: 100)" value="${param.txtQuantity}"
                                                    onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
                                             <font color ="red">
@@ -304,7 +309,7 @@
                                 <div class="form-group row">
                                     <label for="txtCatory" class="col-sm-3 col-form-label">Category ID</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" name="txtCatory">
+                                        <select class="form-control form-select" name="txtCatory">
                                             <c:forEach var="cate" items="${category}">
                                                 <option value="${cate.categoryID}">${cate.categoryName}</option>
                                             </c:forEach>
@@ -317,12 +322,12 @@
                                     <div class="col-sm-9">
                                         <c:if test="${empty errors.productDetailLengthError}">
                                             <input type="text" name="txtProductDetail" id="txtProductDetail" class="form-control"
-                                                   required="" value="${param.productDetailLengthError}"
+                                                   required="" value="${param.txtProductDetail}"
                                                    placeholder="Enter product detail from 5 to 2000 characters">
                                         </c:if>
                                         <c:if test="${not empty errors.productDetailLengthError}">
                                             <input type="text" name="txtProductDetail" id="txtProductDetail" class="form-control is-invalid"
-                                                   required="" value="${param.productDetailLengthError}"
+                                                   required="" value="${param.txtProductDetail}"
                                                    placeholder="Enter product detail from 5 to 2000 characters">
                                             <font color ="red">
                                             ${errors.productDetailLengthError}
@@ -358,7 +363,6 @@
                                             <select name="txtBirds" id="birds" class="form-control" multiple>
                                                 <c:forEach var="bird" items="${birds}">
                                                     <option value="${bird.birdID}"
-                                                            
                                                             >${bird.birdName}</option>
                                                 </c:forEach>
                                             </select>
@@ -378,15 +382,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtAgeRecommendation" class="col-sm-3 col-form-label">Age Recommendation</label>
+                                    <label for="txtAgeRecommendation" class="col-sm-3 col-form-label">Age Recommendation(months)</label>
                                     <div class="col-sm-9">
                                         <c:if test="${empty errors.productAgeRecommendationLengthError}">
-                                            <input type="number" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control"
-                                                   required="" value="${param.txtAgeRecommendation}">
+                                            <input type="text" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control"
+                                                   required="" value="${param.txtAgeRecommendation}"
+                                                   placeholder="Enter the number of months suitable for the bird(EX: 12)"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
                                         </c:if>
                                         <c:if test="${not empty errors.productAgeRecommendationLengthError}">
-                                            <input type="number" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control is-invalid"
-                                                   required="" value="${param.txtAgeRecommendation}">
+                                            <input type="text" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control is-invalid"
+                                                   required="" value="${param.txtAgeRecommendation}"
+                                                   placeholder="Enter the number of months suitable for the bird(EX: 12)"
+                                                   onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))">
                                             <font color ="red">
                                             ${errors.productAgeRecommendationLengthError}
                                             </font>
@@ -431,7 +439,7 @@
                                 <div class="form-group row">
                                     <label for="txtStatus" class="col-sm-3 col-form-label">Status</label>
                                     <div class="col-sm-9">
-                                        <select name="txtStatus" class="form-control">
+                                        <select name="txtStatus" class="form-control form-select">
                                             <option value="1">Available</option>
                                             <option value="0">Not Available</option>
                                         </select>
@@ -439,7 +447,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="txtCountry" class="col-sm-3 col-form-label">Country</label>
+                                    <label for="txtCountry" class="col-sm-3 col-form-label ">Country</label>
                                     <div class="col-sm-9">
                                         <c:if test="${empty errors.productCountryNotSelect}">
                                             <input type="text" name="txtCountry" id="txtCountry" class="form-control" required=""
