@@ -81,6 +81,10 @@
 
         <!--multi-select scripts css-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+        
+        
+        <!--multi-select scripts js-->
+        <script src="https://cdn.jsdel<sivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
 
     </head>
     <body id="page-top">
@@ -194,7 +198,7 @@
                             <div class="topbar-divider d-none d-sm-block"></div>
 
                             <!-- Nav Item - User Information -->
-                            
+
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -204,25 +208,25 @@
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="details.jsp">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="MainController?btAction=Home">
-                                    <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Home
-                                </a>
-                                <!--                                <a class="dropdown-item" href="#">
-                                                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                                    Activity Log
-                                                                </a>-->
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="details.jsp">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <a class="dropdown-item" href="MainController?btAction=Home">
+                                        <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Home
+                                    </a>
+                                    <!--                                <a class="dropdown-item" href="#">
+                                                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                                        Activity Log
+                                                                    </a>-->
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
                             </li>
 
                         </ul>
@@ -243,6 +247,7 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <form action="UpdateProductServlet?action=${ACTION}" method="post" enctype="multipart/form-data">
+                                <c:set var="errors" value="${requestScope.UPDATE_PRODUCT_ERROR}"/>
                                 <div class="form-group row">
                                     <label for="txtProductId" class="col-sm-3 col-form-label">Product ID</label>
                                     <div class="col-sm-9">
@@ -252,19 +257,35 @@
                                 <div class="form-group row">
                                     <label for="txtProductName" class="col-sm-3 col-form-label">Product Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtProductName" value="${INFOR.productName}" id="txtProductName" class="form-control" required="">
+                                        <c:if test="${not empty errors.productNameLengthError}">
+                                            <input type="text" name="txtProductName" value="${param.txtProductName}"
+                                                   id="txtProductName" class="form-control" required=""
+                                                   placeholder="Enter product name from 3 to 500 characters">
+                                            <font color ="red">
+                                            ${errors.productNameLengthError}
+                                            </font>
+                                        </c:if>
+                                        <c:if test="${empty errors.productNameLengthError}">
+                                            <input type="text" name="txtProductName" value="${INFOR.productName}"
+                                                   id="txtProductName" class="form-control" required=""
+                                                   placeholder="Enter product name from 3 to 500 characters">
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtPrice" class="col-sm-3 col-form-label">Price</label>
+                                    <label for="txtPrice" class="col-sm-3 col-form-label">Price(VND)</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtPrice" value="${INFOR.price}" id="txtPrice" class="form-control" required="">
+                                        <input type="text" name="txtPrice" value="${INFOR.price}" id="txtPrice" class="form-control" required=""
+                                               onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                               placeholder="Enter the price of product (EX: 500,000)">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="txtQuantity" class="col-sm-3 col-form-label">Quantity</label>
                                     <div class="col-sm-9">
-                                        <input type="number" name="txtQuantity" value="${INFOR.quantity}" id="txtQuantity" class="form-control" required="">
+                                        <input type="text" name="txtQuantity" value="${INFOR.quantity}" id="txtQuantity" class="form-control" required=""
+                                               onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                               placeholder="Enter quantity of product (EX: 100)">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -280,13 +301,15 @@
                                 <div class="form-group row">
                                     <label for="txtProductDetail" class="col-sm-3 col-form-label">Product Detail</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtProductDetail" value="${INFOR.productDetail}" id="txtProductDetail" class="form-control" required="">
+                                        <input type="text" name="txtProductDetail" value="${INFOR.productDetail}" id="txtProductDetail" class="form-control" required=""
+                                               placeholder="Enter product detail from 5 to 2000 characters">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtSize" class="col-sm-3 col-form-label">Size</label>
+                                    <label for="txtSize" class="col-sm-3 col-form-label">Size(gram)</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtSize" value="${INFOR.size}" id="txtSize" class="form-control" required="">
+                                        <input type="text" name="txtSize" value="${INFOR.size}" id="txtSize"
+                                               placeholder="Enter the number grams of product (Ex: 500)" class="form-control" required="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -295,28 +318,44 @@
                                     <label for="txtBird" class="col-sm-3 col-form-label">Bird</label>
                                     <div class="col-sm-9">
                                         <!--<input type="number" name="txtAgeRecommendation" id="txtAgeRecommendation" class="form-control" required="">-->
-                                        <select name="txtBirds" id="birds" multiple>
-                                            <c:forEach var="bird" items="${birds}">
-                                                <option value="${bird.birdID}"
-                                                        <c:forEach var="birdSelect" items="${birdSelects}">
-                                                            <c:if test="${birdSelect.birdID == bird.birdID}"> selected </c:if>
-                                                        </c:forEach>
-                                                        >${bird.birdName}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
+                                        <c:if test="${empty errors.productCategoriesBirdNotSelect}">
+                                            <select name="txtBirds" id="birds" multiple>
+                                                <c:forEach var="bird" items="${birds}">
+                                                    <option value="${bird.birdID}"
+                                                            <c:forEach var="birdSelect" items="${birdSelects}">
+                                                                <c:if test="${birdSelect.birdID == bird.birdID}"> selected </c:if>
+                                                            </c:forEach>
+                                                            >${bird.birdName}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </c:if>
+                                        <c:if test="${not empty errors.productCategoriesBirdNotSelect}">
+                                            <select name="txtBirds" id="birds" class="form-control" multiple>
+                                                <c:forEach var="bird" items="${birds}">
+                                                    <option value="${bird.birdID}"
+                                                            >${bird.birdName}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <font color ="red">
+                                            ${errors.productCategoriesBirdNotSelect}
+                                            </font>
+                                        </c:if>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtAgeRecommendation" class="col-sm-3 col-form-label">Age Recommendation</label>
+                                    <label for="txtAgeRecommendation" class="col-sm-3 col-form-label">Age Recommendation(months)</label>
                                     <div class="col-sm-9">
-                                        <input type="number" name="txtAgeRecommendation" value="${INFOR.ageRecommendation}" id="txtAgeRecommendation" class="form-control" required="">
+                                        <input type="text" name="txtAgeRecommendation" value="${INFOR.ageRecommendation}" id="txtAgeRecommendation" class="form-control" required=""
+                                               onkeypress="return (event.charCode != 8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                               placeholder="Enter the number of months suitable for the bird(EX: 12)">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="txtDate" class="col-sm-3 col-form-label">Date</label>
+                                    <label for="txtDate" class="col-sm-3 col-form-label">Date expire</label>
                                     <div class="col-sm-9">
-                                        <input type="number" name="txtDate" value="${INFOR.date}" id="txtDate" class="form-control" required="">
+                                        <input type="text" name="txtDate" value="${INFOR.date}" id="txtDate" class="form-control" required=""
+                                               placeholder="Enter number of months expire from the date manufacture (Ex: 12)">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -343,7 +382,8 @@
                                 <div class="form-group row">
                                     <label for="txtCountry" class="col-sm-3 col-form-label">Country</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="txtCountry" value="${INFOR.country}" id="txtCountry" class="form-control" required="">
+                                        <input type="text" name="txtCountry" value="${INFOR.country}" id="txtCountry" class="form-control" required=""
+                                               placeholder="Enter the country made this product (EX: Viet Nam)">
                                     </div>
                                 </div>
                                 <div class="form-group row">

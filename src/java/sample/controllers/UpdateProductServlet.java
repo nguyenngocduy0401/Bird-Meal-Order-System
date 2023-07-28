@@ -32,6 +32,7 @@ import sample.dao.CategoryDAO;
 import sample.dao.ProductDAO;
 import sample.dto.BirdDTO;
 import sample.dto.CategoryDTO;
+import sample.dto.InformationCreateError;
 import sample.dto.ProductDTO;
 
 /**
@@ -107,6 +108,8 @@ public class UpdateProductServlet extends HttpServlet {
 
                     // Parse the request
                     List<FileItem> items = upload.parseRequest(request);
+                    InformationCreateError errors = new InformationCreateError();
+                    boolean foundError = false;
 
                     // Process the uploaded items
                     Iterator<FileItem> iter = items.iterator();
@@ -125,9 +128,93 @@ public class UpdateProductServlet extends HttpServlet {
                             if (name.equals("txtBirds")) {
                                 birds.add(value);
                             }
-                            //    String value = item.getString();
-                            System.out.println("name " + name);
-                            System.out.println("value " + value);
+
+                            switch (name) {
+//                            case "productId":
+//                                product.setProductId(fieldValue);
+//                                System.out.println("Field Name: " + fieldName);
+//                                System.out.println("Field Value: " + fieldValue);
+//                                break;
+                                case "txtProductName":
+                                    if (value.trim().length() < 3 || value.trim().length() > 500) {
+                                        errors.setProductNameLengthError("Product name is required input from 3 to 500 characters");
+                                        foundError = true;
+                                    }
+                                    break;
+                                case "txtPrice":    
+                                try {
+                                    String price = value.replaceAll(",", "");
+                                    double priceDouble = Double.parseDouble(price);
+                                    if (priceDouble <= 0) {
+                                        foundError = true;
+                                        errors.setProductPriceFormatError("Price is required input number only and greater than 0");
+                                    }
+                                } catch (NumberFormatException e) {
+                                    foundError = true;
+                                    errors.setProductPriceFormatError("Price is required input number only and greater than 0");
+                                }
+                                break;
+                                case "txtQuantity":
+                                try {
+                                    int quantity = Integer.parseInt(value);
+                                } catch (NumberFormatException e) {
+                                    foundError = true;
+                                    errors.setProductQuantityFormatError("The quantity of product is required input an integer number");
+                                }
+                                break;
+                                case "txtProductDetail":
+                                    if (value.trim().length() < 5 || value.trim().length() > 2000) {
+                                        errors.setProductDetailLengthError("Product detail is required input from 5 to 2000 characters");
+                                        foundError = true;
+                                    }
+                                    break;
+                                case "txtSize":
+                                try {
+                                    int size = Integer.parseInt(value);
+                                    if (size <= 0) {
+                                        foundError = true;
+                                        errors.setProductSizeFormatError("The size of product is required input an integer number greater than 0");
+                                    }
+                                } catch (NumberFormatException e) {
+                                    foundError = true;
+                                    errors.setProductSizeFormatError("The size of product is required input an integer number greater than 0");
+                                }
+                                break;
+                                case "txtAgeRecommendation":
+                                try {
+                                    int age = Integer.parseInt(value);
+                                    if (age <= 0) {
+                                        errors.setProductAgeRecommendationLengthError("The age recommendation of product is required input an integer number greater than 0");
+                                        foundError = true;
+                                    }
+                                } catch (NumberFormatException e) {
+                                    errors.setProductAgeRecommendationLengthError("The age recommendation of product is required input an integer number greater than 0");
+                                    foundError = true;
+                                }
+                                break;
+                                case "txtDate":
+                                try {
+                                    Integer.parseInt(value);
+                                } catch (Exception e) {
+                                    errors.setProductDateExpireValueError("Date exprice is required input an integer number");
+                                    foundError = true;
+                                }
+                                //Integer.parseInt(fileds.get("txtAgeRecommendation"))
+                                //System.out.println("Date" + fieldValue);
+                                break;
+                                case "txtCountry":
+                                    if (value.trim().length() < 2 || value.trim().length() > 50) {
+                                        errors.setProductCountryNotSelect("Country is required input from 2 to 50 characters");
+                                        foundError = true;
+                                    }
+                                    break;
+                                case "txtDateManufacture":
+                                    if (value.isEmpty()) {
+                                        errors.setProductDateManuNotSelect("Please select date manufacture");
+                                        foundError = true;
+                                    }
+                                    break;
+                            }
                         } else {
                             String fileName = item.getName();
 
@@ -162,7 +249,16 @@ public class UpdateProductServlet extends HttpServlet {
                         }
                     }
 
-                    // Lấy giá trị tiếng Việt từ trường dữ liệu "productName"
+                    if (birds.isEmpty() || birds == null) {
+                        errors.setProductCategoriesBirdNotSelect("Please select this field");
+                        foundError = true;
+                    }
+                    if (foundError) {
+                        request.setAttribute("UPDATE_PRODUCT_ERROR", errors);
+                        request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
+                        break;
+                    }
+                    // Lấy giá trị tiếng Việt từ trường dữ liệu "productName"   
                     String productName = new String(fileds.get("txtProductName").getBytes("ISO-8859-1"), "UTF-8");
 
                     // Lấy giá trị tiếng Việt từ trường dữ liệu "description"
@@ -215,7 +311,7 @@ public class UpdateProductServlet extends HttpServlet {
                             request.setAttribute("CATEGORY_PRODUCT", categoryProduct);
                             request.setAttribute("LIST_BIRD", listBird);
                         } else {
-
+                                
                         }
                         //request.setAttribute("productDTO", productdto);
                         //request.setAttribute("cateName", cateName.getCategoryName());

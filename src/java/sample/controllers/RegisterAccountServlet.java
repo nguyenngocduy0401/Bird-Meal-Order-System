@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import sample.dao.TokenDAO;
 import sample.dao.UserDAO;
 import sample.dto.InformationCreateError;
+import sample.dto.TokenDTO;
 import sample.dto.UserDTO;
 
 /**
@@ -53,6 +54,7 @@ public class RegisterAccountServlet extends HttpServlet {
         String addressDetails = request.getParameter("txtAddressDetails").trim();
         String address = "";
         String ddlGender = request.getParameter("ddlGender").trim();
+        String token = request.getParameter("token");
         boolean gender;
         if(!province.isEmpty() && !district.isEmpty() && !ward.isEmpty() && !addressDetails.isEmpty()) {
             address = addressDetails + ", " + ward + ", " + district + ", " + province;
@@ -95,6 +97,12 @@ public class RegisterAccountServlet extends HttpServlet {
                 foundError = true;
                 errors.setPhoneNumberFormatError("Please enter a valid mobile phone number. Enter 10 digits starting from 0");
             }
+            TokenDAO tokenDAO = new TokenDAO();
+            TokenDTO tokenDTO = tokenDAO.findByToken(token);
+            if(!email.equals(tokenDTO.getEmail())){
+                foundError = true;
+                errors.setEmailNotFound("You can not edit this field");
+            }
             //2.Process
             //2.1 if errors occur, thong bao cho ng dung
             //2.2 ko co loi, call model
@@ -102,7 +110,7 @@ public class RegisterAccountServlet extends HttpServlet {
                 request.setAttribute("CREATE_ERROR", errors);
             } else {
                 UserDAO dao = new UserDAO();
-                UserDTO dto = new UserDTO(username, password, email, fullName, 2, gender, address, phoneNumber, gender, 0);
+                UserDTO dto = new UserDTO(username, password, email, fullName, 2, true, address, phoneNumber, gender, 0);
                 boolean result = dao.createAccount(dto);
                 if (result) {
                     url = LOGIN_PAGE;

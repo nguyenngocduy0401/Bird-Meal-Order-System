@@ -224,7 +224,7 @@
                                         Vui long them moi san pham!!
                                     </c:if>
                                     <c:if test="${not empty result}">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table table-bordered" data-order='[[ 0, "desc" ]]' id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>Image</th>

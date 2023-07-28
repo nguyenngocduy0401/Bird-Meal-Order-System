@@ -1,26 +1,21 @@
-<%-- 
-    Document   : staffOrdersList
-    Created on : Jun 27, 2023, 1:40:19 PM
-    Author     : haong
---%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="sample.dto.UserDTO" %>
 <%@ page import="sample.dao.UserDAO" %>
+<%@ page import="sample.dao.CategoryDAO" %>
 <!DOCTYPE html>
 <c:if test="${sessionScope.user==null||sessionScope.user.role ne 1}">
     <c:redirect url="login.jsp"></c:redirect>
 </c:if>
 <html>
     <head>
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Staff</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
+        <title>Staff - List Orders</title>
         <link href="img/icon.png" rel="icon">
         <!-- Custom fonts for this template -->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -40,11 +35,48 @@
             .card {
                 box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
             }
+            .sweet_loader {
+                width: 140px;
+                height: 140px;
+                margin: 0 auto;
+                animation-duration: 0.5s;
+                animation-timing-function: linear;
+                animation-iteration-count: infinite;
+                animation-name: ro;
+                transform-origin: 50% 50%;
+                transform: rotate(0) translate(0,0);
+            }
+            @keyframes ro {
+                100% {
+                    transform: rotate(-360deg) translate(0,0);
+                }
+            }
         </style>
 
-    </head>
-    <body id="page-top">
 
+    </head>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+
+
+
+    <body id="page-top">
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -52,7 +84,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="StaffHomeController">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="MainController?btAction=StaffHome">
                     <div class="sidebar-brand-icon">
                         <i class="fas fa-dove"></i>
                     </div>
@@ -81,8 +113,8 @@
                         </button>
                     </form>
                 </li>
-                
-                                <li class="nav-item">
+
+                <li class="nav-item">
                     <form action="ListUnavailable">
 
                         <button type="submit" class="nav-link" style="border: none; background: none;">
@@ -134,289 +166,98 @@
             <div id="content-wrapper" class="d-flex flex-column">
 
                 <!-- Main Content -->
-
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <!--                    <form class="form-inline">
-                                            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                                                <i class="fa fa-bars"></i>
-                                            </button>
-                                        </form>-->
-
-                    <!-- Topbar Search -->
-
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <!--                        <li class="nav-item dropdown no-arrow d-sm-none">
-                                                    <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-search fa-fw"></i>
-                                                    </a>
-                                                     Dropdown - Messages 
-                                                    <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                                         aria-labelledby="searchDropdown">
-                                                        <form class="form-inline mr-auto w-100 navbar-search" action="MainController">
-                                                            <div class="input-group">
-                                                                <input type="text" name="txtSearchValue" class="form-control bg-light border-0 small"
-                                                                       placeholder="Search for..." aria-label="Search"
-                                                                       aria-describedby="basic-addon2">
-                                                                <div class="input-group-append">
-                                                                    <button class="btn btn-primary" type="button">
-                                                                        <i class="fas fa-search fa-sm"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <input type="hidden" name="btAction" value="SearchOfStaff" />
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </li>-->
-
-                        <!-- Nav Item - Alerts -->
-                        <!--                        <li class="nav-item dropdown no-arrow mx-1">
-                                                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-bell fa-fw"></i>
-                                                         Counter - Alerts 
-                                                        <span class="badge badge-danger badge-counter">3+</span>
-                                                    </a>
-                                                     Dropdown - Alerts 
-                                                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                                         aria-labelledby="alertsDropdown">
-                                                        <h6 class="dropdown-header">
-                                                            Alerts Center
-                                                        </h6>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            <div class="mr-3">
-                                                                <div class="icon-circle bg-primary">
-                                                                    <i class="fas fa-file-alt text-white"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="small text-gray-500">December 12, 2019</div>
-                                                                <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            <div class="mr-3">
-                                                                <div class="icon-circle bg-success">
-                                                                    <i class="fas fa-donate text-white"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="small text-gray-500">December 7, 2019</div>
-                                                                $290.29 has been deposited into your account!
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            <div class="mr-3">
-                                                                <div class="icon-circle bg-warning">
-                                                                    <i class="fas fa-exclamation-triangle text-white"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="small text-gray-500">December 2, 2019</div>
-                                                                Spending Alert: We've noticed unusually high spending for your account.
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                                                    </div>
-                                                </li>-->
-
-                        <!-- Nav Item - Messages -->
-                        <!--                        <li class="nav-item dropdown no-arrow mx-1">
-                                                    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-envelope fa-fw"></i>
-                                                         Counter - Messages 
-                                                        <span class="badge badge-danger badge-counter">7</span>
-                                                    </a>
-                                                     Dropdown - Messages 
-                                                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                                         aria-labelledby="messagesDropdown">
-                                                        <h6 class="dropdown-header">
-                                                            Message Center
-                                                        </h6>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            <div class="dropdown-list-image mr-3">
-                                                                <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                                                     alt="...">
-                                                                <div class="status-indicator bg-success"></div>
-                                                            </div>
-                                                            <div class="font-weight-bold">
-                                                                <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                                                    problem I've been having.</div>
-                                                                <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            <div class="dropdown-list-image mr-3">
-                                                                <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                                                     alt="...">
-                                                                <div class="status-indicator"></div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-truncate">I have the photos that you ordered last month, how
-                                                                    would you like them sent to you?</div>
-                                                                <div class="small text-gray-500">Jae Chun · 1d</div>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            <div class="dropdown-list-image mr-3">
-                                                                <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                                                     alt="...">
-                                                                <div class="status-indicator bg-warning"></div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-truncate">Last month's report looks great, I am very happy with
-                                                                    the progress so far, keep up the good work!</div>
-                                                                <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            <div class="dropdown-list-image mr-3">
-                                                                <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                                                     alt="...">
-                                                                <div class="status-indicator bg-success"></div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                                                    told me that people say this to all dogs, even if they aren't good...</div>
-                                                                <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                                            </div>
-                                                        </a>
-                                                        <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                                                    </div>
-                                                </li>-->
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${user.fullName}</span>
-                                <img class="img-profile rounded-circle"
-                                     src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="details.jsp">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="MainController?btAction=Home">
-                                    <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Home
-                                </a>
-                                <!--                                <a class="dropdown-item" href="#">
-                                                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                                    Activity Log
-                                                                </a>-->
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <!-- Page Heading -->
-                <div class="container-fluid">
-                    <h1 class="h3 mb-2 text-gray-800">ORDERS LIST</h1>
-                    <!--<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                                                                                   href="https://datatables.net">official DataTables documentation
-                        </a>.</p>-->
-                    <div class="card shadow mb-4">
-
-                        <div class="card-header py-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <!--                                <form action="MainController">
-                                                                    <button class="btn btn-outline-primary mr-auto" name="btAction" value="Create New Product">Add new product</button>
-                                                                </form>-->
-                                <form action="GetOrdersListServlet">
-                                    <button class="btn btn-outline-primary mr-auto" type="submit">Show All</button>
-                                </form>
-                                <form action="MainController">
-                                    <div class="form-inline navbar-search">
-                                        <div class="input-group">
-                                            <input name="txtSearchValue" type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                                   aria-label="Search" aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-
-                                                <button class="btn btn-primary">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
-                                                <input type="hidden" name="btAction" value="SearchOfStaff" />
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- DataTales Example -->
                 <div id="content">
+
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <form class="form-inline">
+                            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </form>
+
+                        <!-- Topbar Search -->
+
+
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">${user.fullName}</span>
+                                    <img class="img-profile rounded-circle"
+                                         src="img/undraw_profile.svg">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="details.jsp">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <a class="dropdown-item" href="MainController?btAction=Home">
+                                        <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Home
+                                    </a>
+                                    <!--                                <a class="dropdown-item" href="#">
+                                                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                                        Activity Log
+                                                                    </a>-->
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
                     <div class="container-fluid">
-
-
-
-                        <!-- DataTales Example -->
-                        <c:set var="result" value="${sessionScope.ORDERS_LIST_CUSTOMER}" />
-                        <c:set var="resultGuest" value="${sessionScope.ORDERS_LIST_GUEST}"/>
-
+                        <!-- DataTales -->
                         <div class="card shadow mb-4">
-
+                            <!--                            <div class="card-header py-3">
+                                                        </div>-->
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <c:if test="${empty result && empty resultGuest}">
-                                        No orders yet!!
+                                    <c:set var="result" value="${sessionScope.ORDERS_LIST_CUSTOMER}"/>
+                                    <c:if test="${empty result}">
+                                        No order yet!    
                                     </c:if>
-                                    <c:if test="${not empty result || not empty resultGuest}">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <c:if test="${not empty result}">
+                                        <table class="table table-bordered" data-order='[[ 0, "desc" ]]' id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>OrderID</th>
                                                     <th>Username</th>
                                                     <th>Name</th>
                                                     <th>Quantity</th>
-                                                    <th>Total Price</th>
+                                                    <th>Total Price(₫)</th>
+                                                    <th>Order Date</th>
+                                                    <th width = 13%>Status</th>
+                                                    <th width = 9%  data-sortable="false">Action</th> 
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>OrderID</th>
+                                                    <th>Username</th>
+                                                    <th>Name</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total Price(₫)</th>
                                                     <th>Order Date</th>
                                                     <th width = 13%>Status</th>
                                                     <th width = 9%>Action</th> 
                                                 </tr>
-                                            </thead>
-                                            <!--                                            <tfoot>
-                                                                                            <tr>
-                                                                                                <th>OrderID</th>
-                                                                                                <th>Order Date</th>
-                                                                                                <th>Name</th>
-                                                                                                <th>Quantity</th>
-                                                                                                <th>Total Price</th>
-                                                                                                <th>Status</th>
-                                                                                                <th>Action</th> 
-                                                                                            </tr>
-                                                                                        </tfoot>-->
+                                            </tfoot>
                                             <tbody>
-
-
                                                 <c:forEach var="dto" items="${result}">
                                                     <tr>
                                                         <c:set var="subTotal" value = "0"/>
@@ -442,13 +283,13 @@
                                                             ${totalQuantity}
                                                         </td>
 
-                                                        <td class="price">
+                                                        <td class="total">
                                                             ${subTotal + dto.shippingFee}
                                                         </td>
 
                                                         <td>${dto.date}</td>
 
-                                                        <td style="text-align: center; vertical-align: middle">
+                                                        <td style="text-align: center; vertical-align: middle" id="status">
                                                             <c:choose>
                                                                 <c:when test="${dto.status == 0}">
                                                                     <span class="p-2 rounded " style="background-color: #F9E2E1; color: #E05151; font-weight: bold">
@@ -519,12 +360,14 @@
                                                                                                     </div>
                                                                                                     <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
                                                                                                         <p class="text-muted mb-0 small">
+                                                                                                            <!-- 
                                                                                                             <c:if test="${products.categoryID == 1}">
                                                                                                                 Food
                                                                                                             </c:if>
                                                                                                             <c:if test="${products.categoryID == 2}">
                                                                                                                 Combo
-                                                                                                            </c:if>
+                                                                                                            </c:if>-->
+                                                                                                            ${CategoryDAO.getCategoryByID(products.categoryID).categoryName}
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
@@ -599,37 +442,37 @@
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between">
                                                                                         <p class="text-muted mb-0">Status: 
-                                                                                                <c:choose>
-                                                                                                    <c:when test="${dto.status == '1'}">
-                                                                                                        <select name="ddlStatus" id="status">
-                                                                                                            <option value="1" hidden="hidden"}>Waiting</option>
-                                                                                                            <option value="0"}>Cancelled</option>
-                                                                                                            <option value="2"}>Confirmed</option>
-                                                                                                        </select>
-                                                                                                    </c:when>
-                                                                                                    <c:when test="${dto.status == '2'}">
-                                                                                                        <select name="ddlStatus" id="status">
-                                                                                                            <option value="2" hidden="hidden"}>Confirmed</option>
-                                                                                                            <option value="3">Shipping</option>
-                                                                                                        </select>
-                                                                                                    </c:when>
-                                                                                                    <c:when test="${dto.status == '3'}">
-                                                                                                        <select name="ddlStatus" id="status">
-                                                                                                            <option value="3" hidden="hidden"}>Shipping</option>
-                                                                                                            <option value="4" >Completed</option>
-                                                                                                            <option value="5" >Incompleted</option>
-                                                                                                        </select>
-                                                                                                    </c:when>
-                                                                                                    <c:when test="${dto.status == '4'}">
-                                                                                                        Completed
-                                                                                                    </c:when>
-                                                                                                    <c:when test="${dto.status == '4'}">
-                                                                                                        Completed
-                                                                                                    </c:when>
-                                                                                                    <c:when test="${dto.status == '0'}">
-                                                                                                        Cancelled
-                                                                                                    </c:when>    
-                                                                                                </c:choose>
+                                                                                            <c:choose>
+                                                                                                <c:when test="${dto.status == '1'}">
+                                                                                                    <select name="ddlStatus" id="status">
+                                                                                                        <option value="1" hidden="hidden"}>Waiting</option>
+                                                                                                        <option value="0">Cancelled</option>
+                                                                                                        <option value="2">Confirmed</option>
+                                                                                                    </select>
+                                                                                                </c:when>
+                                                                                                <c:when test="${dto.status == '2'}">
+                                                                                                    <select name="ddlStatus" id="status">
+                                                                                                        <option value="2" hidden="hidden"}>Confirmed</option>
+                                                                                                        <option value="3">Shipping</option>
+                                                                                                    </select>
+                                                                                                </c:when>
+                                                                                                <c:when test="${dto.status == '3'}">
+                                                                                                    <select name="ddlStatus" id="status">
+                                                                                                        <option value="3" hidden="hidden"}>Shipping</option>
+                                                                                                        <option value="4" >Completed</option>
+                                                                                                        <option value="5" >Incompleted</option>
+                                                                                                    </select>
+                                                                                                </c:when>
+                                                                                                <c:when test="${dto.status == '4'}">
+                                                                                                    Completed
+                                                                                                </c:when>
+                                                                                                <c:when test="${dto.status == '4'}">
+                                                                                                    Completed
+                                                                                                </c:when>
+                                                                                                <c:when test="${dto.status == '0'}">
+                                                                                                    Cancelled
+                                                                                                </c:when>    
+                                                                                            </c:choose>
                                                                                         </p>
                                                                                     </div>
                                                                                 </div>
@@ -643,7 +486,7 @@
                                                                                 <button type="button" class="btn" data-bs-dismiss="modal"
                                                                                         style="color: black; background-color: lightgray; border-color: lightgray">Close</button>
                                                                                 <c:if test="${dto.status != '4' and dto.status != '5'}">
-                                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                                    <button type="button" class="btn btn-primary" onclick="updateStatus(${dto.orderID}, ddlStatus.value)">Update</button>
                                                                                 </c:if>
                                                                             </div>
                                                                         </div>
@@ -660,93 +503,12 @@
                                         </table>
                                     </c:if>
                                 </div>
-                                <c:set var="prePage" value="${TAGS - 1}" />
-                                <c:set var="nextPage" value="${TAGS + 1}" />
-                                <!--                                <div class="col-12 mt-5">
-                                <c:if test="${requestScope.PAGE != 1}">
-                                    <div class="d-flex justify-content-center">
-                                        <nav aria-label="Page navigation">
-                                            <ul class="pagination pagination-lg m-0">
-                                    <c:if test="${TAGS <= PAGE && TAGS > 1}">
-                                        <li class="page-item">
-                                            <a class="page-link rounded-0" onclick="previousPage()" aria-label="Previous">
-                                                <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                                            </a>
-                                        </li>
-                                    </c:if>
-
-                                    <c:forEach begin="1" end="${PAGE}" var="i">
-                                        <li class="${TAGS == i?"page-item active":"page-item"}">
-                                            <a class="page-link" onclick="loadPage(${i})">${i}</a>
-                                        </li>
-                                    </c:forEach>
-                                    <c:if test="${TAGS >= 1 &&TAGS < PAGE}">
-                                        <li class="page-item">
-                                            <a onclick="nextPage()" class="page-link rounded-0" aria-label="Next">
-                                                <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                                            </a>
-                                        </li>
-                                    </c:if>
-                                </ul>
-                            </nav>
-                        </div>
-                                </c:if>
-                            </div>-->
                             </div>
                         </div>
 
                     </div>
-
                     <!-- /.container-fluid -->
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                     <script>
-                        //                        function nextPage() {
-                        //                            var amount = ${requestScope.TAGS};
-                        //
-                        //                            $.ajax({
-                        //                                type: "get",
-                        //                                url: "PagingStaffProduct",
-                        //                                data: {
-                        //                                    index: amount + 1,
-                        //                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                        //                                },
-                        //                                success: function (data) {
-                        //                                    var row = document.getElementById("content");
-                        //                                    row.innerHTML = data;
-                        //                                }
-                        //                            });
-                        //                        }
-                        //                        function previousPage() {
-                        //                            var amount = ${requestScope.TAGS};
-                        //                            $.ajax({
-                        //                                type: "get",
-                        //                                url: "PagingStaffProduct",
-                        //                                data: {
-                        //                                    index: amount - 1,
-                        //                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                        //                                },
-                        //                                success: function (data) {
-                        //                                    var row = document.getElementById("content");
-                        //                                    row.innerHTML = data;
-                        //                                }
-                        //                            });
-                        //                        }
-                        //                        function loadPage(param) {
-                        //                            var amount = param;
-                        //                            $.ajax({
-                        //                                type: "get",
-                        //                                url: "PagingStaffProduct",
-                        //                                data: {
-                        //                                    index: amount,
-                        //                                    txtSearchValue: '${requestScope.txtSearchValue}',
-                        //                                },
-                        //                                success: function (data) {
-                        //                                    var row = document.getElementById("content");
-                        //                                    row.innerHTML = data;
-                        //                                }
-                        //                            });
-                        //                        }
-
                         //format money
                         var price = document.getElementsByClassName("price");
                         formatCurrencyArrayClassName(price);
@@ -761,35 +523,65 @@
                                 style: "currency",
                                 currency: "VND"
                             });
-
                             return formatter.format(amount);
                         }
-                        //function remove select status is existing
-//                        var select = document.getElementById('status')
-//                        select.removeChild(getOptionByValue(select, ${dto.status})
-//
-//                        function getOptionByValue(select, value) {
-//                            var options = select.options;
-//                            for (var i = 0; i < options.length; i++) {
-//                                if (options[i].value === value) {
-//                                    return options[i]
-//                                }
-//                            }
-//                            return null
-//                        }
-                        //alert when update status success
-                        if (${requestScope.ORDER_UPDATE_STATUS == true}) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: 'Update status order!',
-                                showConfirmButton: false,
-                                timer: 2000,
-                                timerProgressBar: true
-                            })
+
+                        var total = document.getElementsByClassName("total");
+                        formatTotalArrayClassName(total);
+                        function formatTotalArrayClassName(array) {
+                            for (var i = 0; i < array.length; i++) {
+                                array[i].textContent = numberWithCommas(array[i].textContent);
+                            }
+                            ;
                         }
 
-
+                        function numberWithCommas(x) {
+                            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                        //alert when update status success
+//                        if (${requestScope.ORDER_UPDATE_STATUS == true}) {
+//                            Swal.fire({
+//                                icon: 'success',
+//                                title: 'Success!',
+//                                text: 'Update status order!',
+//                                showConfirmButton: false,
+//                                timer: 2000,
+//                                timerProgressBar: true
+//                            })
+//                        }
+                        //update status function
+                        function updateStatus(orderID, statusID) {
+                            swal.fire({
+                                title: "Checking...",
+                                text: "Please wait",
+                                imageUrl: "images/ajaxloader.gif",
+                                showConfirmButton: false,
+                                allowOutsideClick: false
+                            });
+                            $.ajax({
+                                type: "post",
+                                url: "UpdateOrderStatusServlet",
+                                data: {
+                                    txtOrderID: orderID,
+                                    ddlStatus: statusID
+                                },
+                                success: function () {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: 'Update status order!',
+                                        showConfirmButton: false,
+                                        timer: 2000,
+                                        timerProgressBar: true
+                                    }).then(function () {
+                                        window.location = "GetOrdersListServlet";
+                                    });
+                                },
+                                error: function () {
+                                    window.location = "error.html";
+                                }
+                            });
+                        }
                     </script>
                 </div>
                 <!-- End of Main Content -->
@@ -835,24 +627,7 @@
             </div>
         </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- Bootstrap  5.0-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
-
-        <!-- Page level plugins -->
-
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
-
     </body>
 </html>

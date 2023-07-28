@@ -359,6 +359,7 @@
                                     <c:set var="birds" value="${sessionScope.LIST_BIRD}"/>
                                     <label for="txtBird" class="col-sm-3 col-form-label">Bird</label>
                                     <div class="col-sm-9">  
+                                        
                                         <c:if test="${empty errors.productCategoriesBirdNotSelect}">
                                             <select name="txtBirds" id="birds" class="form-control" multiple>
                                                 <c:forEach var="bird" items="${birds}">
