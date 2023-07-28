@@ -7,6 +7,7 @@ package sample.controllers;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -70,6 +71,11 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                 switch (status) {
                     case 0:
                         result = orderDAO.updateStatusOrder(orderID, 0);
+                        if (accountDTO != null) {
+                            sendEmail = mailservice.sendEmailOrderIsCancelledToCustomer(orderDTO, accountDTO);
+                        } else if (orderDTO.getEmail() != null) {
+                            sendEmail = mailservice.sendEmailOrderIsCancelledToGuest(orderDTO);
+                        }
                         break;
                     case 2:
                         result = orderDAO.updateStatusOrder(orderID, 2);
@@ -108,8 +114,16 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                         break;
                 }
                 if (result) {
-                    url = GET_ORDERS_LIST_SERVLET;
                     request.setAttribute("ORDER_UPDATE_STATUS", result);
+                    orderDAO = new OrderDAO();
+                    productDAO = new ProductDAO();
+                    ArrayList<OrderDTO> listOrder = orderDAO.loadOrder();
+                    listOrder.sort(Comparator.comparing(OrderDTO::getOrderID).reversed());
+                    for (OrderDTO order : listOrder) {
+                        productList = productDAO.getProductByOrderID(order.getOrderID());
+                        order.setProductsList(productList);
+                    }
+                    session.setAttribute("ORDERS_LIST_CUSTOMER", listOrder);
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -119,8 +133,8 @@ public class UpdateOrderStatusServlet extends HttpServlet {
         } catch (NamingException ex) {
             log("UpdateOrderStatusServlett_NamingException" + ex.getMessage());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+//            RequestDispatcher rd = request.getRequestDispatcher(url);
+//            rd.forward(request, response);
         }
     }
 

@@ -85,7 +85,6 @@ public class EditAddressController extends HttpServlet {
                         if (check) {
                             response.sendRedirect("addresses.jsp");
                         }
-
                     }
                 }
             } catch (Exception e) {

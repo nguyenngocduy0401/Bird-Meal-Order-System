@@ -108,7 +108,7 @@ and open the template in the editor.
                         <i class="bi bi-cart  fs-1 me-1" style="line-height: 0.6"></i>
                         <span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bi bg-light text-primary" id="reloadNumberCart">${sessionScope.countItemsCart}</span>
                     </a>
-                    <a href="" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
+                    <a href="login.jsp" class="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">Login <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </nav>
@@ -123,6 +123,7 @@ and open the template in the editor.
                 <div class="row g-5">
                     <div class="col-lg-7">
                         <form action="RegisterAccountServlet" class="form-floating">
+                            <input type="hidden" name="token" value="${param.token}" />
                             <c:set var="errors" value="${requestScope.CREATE_ERROR}"/>
                             <div class="row g-3">
                                 <div class="col-12">
@@ -181,16 +182,11 @@ and open the template in the editor.
                                 <div class="col-12">
                                     <input type="text" class="form-control px-4" placeholder="Email*"
                                            style="height: 55px;" name="txtEmail" value="${sessionScope.REGISTRATION.email}" readonly="">
-                                    <c:if test="${not empty errors.emailFormatError}">
+                                    <c:if test="${not empty errors.emailNotFound}">
                                         <font color ="red">
-                                        ${errors.emailFormatError}
+                                        ${errors.emailNotFound}
                                         </font>
                                     </c:if>
-                                    <c:if test="${not empty errors.emailIsExisted}">
-                                        <font color ="red">
-                                        ${errors.emailIsExisted}
-                                        </font>
-                                    </c:if>    
                                 </div>
 
                                 <div class="col-12">
@@ -270,31 +266,6 @@ and open the template in the editor.
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
                 <script type="text/javascript">
-                                                               //check session user
-                                                               if (${empty sessionScope.user}) {
-                                                                   swal.fire({
-                                                                       icon: 'warning',
-                                                                       title: "Warning!",
-                                                                       text: "Your need to login",
-                                                                       confirmButtonText: 'Click to login'
-                                                                   }).then(function () {
-                                                                       window.location = "login.jsp";
-                                                                   });
-                                                               }
-                                                               //alert sucsess
-//                    var status = document.getElementById("status").value;
-//                    console.log(status)
-                                                               if (${requestScope.EDIT_INFORMATION_STATUS == true}) {
-                                                                   Swal.fire({
-                                                                       icon: 'success',
-                                                                       title: 'success!',
-                                                                       text: 'Update information success!',
-                                                                       showConfirmButton: false,
-                                                                       timer: 2000,
-                                                                       timerProgressBar: true
-                                                                   })
-                                                               }
-//                    
                                                                //filter location
                                                                var citis = document.getElementById("city");
                                                                var districts = document.getElementById("district");

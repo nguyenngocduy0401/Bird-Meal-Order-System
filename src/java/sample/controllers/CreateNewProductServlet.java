@@ -25,8 +25,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import sample.dao.BirdDAO;
 import sample.dao.CategoriesBirdDAO;
+import sample.dao.CategoryDAO;
 import sample.dao.ProductDAO;
 import sample.dto.BirdDTO;
+import sample.dto.CategoryDTO;
 import sample.dto.InformationCreateError;
 import sample.dto.ProductDTO;
 
@@ -229,11 +231,13 @@ public class CreateNewProductServlet extends HttpServlet {
                 boolean createCategoriesBird = categoriesBirdDAO.createCategoriesBird(birds, productID);
                 ArrayList<BirdDTO> listBird = new ArrayList<>();
                 listBird = BirdDAO.getBirdsByProductID(productID);
+                CategoryDTO categoryProduct = CategoryDAO.getCategoryByID(product.getCategoryID());
                 // Lấy danh sách sản phẩm đã cập nhật
                 List<ProductDTO> productList = productDAO.loadProducts();
                 //List<CategoryDTO> categoryList = categoryDAO.getCatetoryList();
                 // Đặt productList là một thuộc tính trong session
                 HttpSession session = request.getSession();
+                request.setAttribute("CATEGORY_PRODUCT", categoryProduct);
                 session.setAttribute("products", productList);
                 // Đặt thông tin sản phẩm vừa tạo thành một thuộc tính riêng trong đối tượng yêu cầu (request)
                 request.setAttribute("createdProduct", product);

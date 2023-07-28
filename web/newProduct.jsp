@@ -257,7 +257,7 @@
                                 <div class="form-group row">
                                     <label for="txtCategory" class="col-sm-3 col-form-label">Category ID</label>
                                     <div class="col-sm-9">
-                                        ${createdProduct.categoryID}
+                                       ${requestScope.CATEGORY_PRODUCT.categoryName}
                                     </div>
                                 </div>
                                 <div class="form-group row">
