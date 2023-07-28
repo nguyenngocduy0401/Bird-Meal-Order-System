@@ -47,6 +47,8 @@ public class BuyAgainController extends HttpServlet {
             HttpSession session = request.getSession(true);
             LinkedHashMap<String, Integer> listProductFromOrder = new LinkedHashMap<>();
             LinkedHashMap<String, Integer> listProductFromCart = new LinkedHashMap<>();
+            LinkedHashMap<String, Integer> cart = new LinkedHashMap<>();
+            int itemCount = 0;
             UserDTO userDTO = (UserDTO) session.getAttribute("user");
             ProductDTO productDTO;
             try {
@@ -68,15 +70,27 @@ public class BuyAgainController extends HttpServlet {
                             productDTO = ProductDAO.getProductByID(Integer.parseInt(key));
                             if (mergeQuantity > productDTO.getQuantity()) {
                                 mergeQuantity = productDTO.getQuantity();
-                            }else{
-                            mergeQuantity = existingQuantity + quantity;
-                                    }
+                            } else {
+                                mergeQuantity = existingQuantity + quantity;
+                            }
                             mergedList.put(key, mergeQuantity);
                         } else {
                             mergedList.put(key, quantity);
                         }
                     }
                     CartDetailDAO.createCartDetailsForCustomer(cartDTO.getCartID(), mergedList);
+                    if (userDTO != null) {
+                        if (userDTO.getRole() == 2) {
+                            try {
+
+                                cart = CartDetailDAO.getCartDetail(cartDTO.getCartID());
+                                itemCount = cart.size();
+                                session.setAttribute("countItemsCart", itemCount);
+                            } catch (Exception e) {
+                            }
+
+                        }
+                    }
                 }
             } catch (ClassNotFoundException | NumberFormatException | SQLException | NamingException e) {
             }

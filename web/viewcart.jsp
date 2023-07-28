@@ -140,6 +140,7 @@
             success: function () {
                 $('#reloadCalculator').load(window.location.href + ' #reloadCalculator');
                 $('#reloadNumberCart').load(window.location.href + ' #reloadNumberCart');
+                $('#content').load(window.location.href + ' #content');
             },
             error: function () {
                 alert("Error occurred while removing products.");
@@ -163,6 +164,7 @@
             success: function () {
                 $('#reloadCalculator').load(window.location.href + ' #reloadCalculator');
                 $('#reloadNumberCart').load(window.location.href + ' #reloadNumberCart');
+                $('#content').load(window.location.href + ' #content');
             },
             error: function () {
                 alert("Error occurred while removing products.");
@@ -203,11 +205,11 @@
         <title>Bird Meal Order System</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<!--               Favicon -->
-              <link href="img/icon.png" rel="icon">
+        <!--               Favicon -->
+        <link href="img/icon.png" rel="icon">
 
-              <!-- Google Web Fonts -->
-              <link rel="preconnect" href="https://fonts.gstatic.com">
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
@@ -317,127 +319,129 @@
                 </div>
             </div>
         </div>
-        <div id="content"></div>
+        <div id="content">
 
-        <section class="card col-md-9 mx-auto container-fluid pt-5" >
-            <div class="ps-5" id="checkselect" style="color: red;"></div>
-            <c:set var="cart" value="${sessionScope.cart}" />
-            <c:if test="${not empty cart}">
-                <div class="container" id="reloadCalculator">
-                    <div class="row w-100">
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <form action="MainController">
-                                <table id="shoppingCart" class="table table-condensed table-responsive">
-                                    <thead>
-                                        <c:forEach var="item" items="${cart}" varStatus="counter">
-                                            <c:set var="pid" value="${item.key}" />
-                                            <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
-                                            <c:set var="quantity" value="${item.value}" />
-                                            <c:set var="price" value="${product.price}" />
-                                            <c:set var="total" value="${total + (quantity * product.price)}"/>
-                                        </c:forEach>
-                                        <tr>
-                                            <th style="width: 7%">
-                                                <div class="btn btn-white  bg-white btn-md mb-2" >
-                                                    <input type="checkbox" id="selectAll" onclick="toggleSelectAll(${total}, this)" />
-                                                </div>
-                                            </th>
-                                            <th style="width:70%">Name</th>
-                                            <th style="width:8%">Price</th>
-                                            <th style="width:10%">Quantity</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="item" items="${cart}" varStatus="counter">
-                                            <c:set var="pid" value="${item.key}" />
-                                            <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
-                                            <c:set var="quantity" value="${item.value}" />
-                                            <c:set var="price" value="${product.price}" />
-                                            <c:set var="total" value="${total + (quantity * product.price)}"/>
-                                            <c:set var="quantityRepo" value="${product.quantity}"/>
-                                            <tr>
-                                                <td class="actions" data-th="">
-                                                    <div class="text-right">
-                                                        <div class="btn btn-white  bg-white btn-md mb-2">
-                                                            <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                                <td data-th="Product">
-                                                    <div class="row">
-                                                        <div class="col-md-3 text-left">
-                                                            <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
-                                                        </div>
-                                                        <div class="col-md-9 text-left mt-sm-2">
-                                                            <h4>${product.productName}</h4>
-                                                            <p class="font-weight-light">Size: ${product.size}g</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td data-th="Price"><div style="font-weight: bold;">${price}₫</div></td>
-                                                <td data-th="Quantity">
-                                                    <input type="number" data-repo="${quantityRepo}" data-key="${item.key}"  class="form-control form-control-lg text-center" min="1" value=${quantity} >
-                                                </td>
-                                                <td class="actions" data-th="">
-                                                    <div class="text-right">
-                                                        <div class="btn btn-white  bg-white btn-md mb-2">
-                                                            <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="removeProduct(${item.key})"><span class="bi bi-trash"></span></button>
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                            <tr>
+            <section class="card col-md-9 mx-auto container-fluid pt-5" >
+                <div class="ps-5" id="checkselect" style="color: red;"></div>
+                <c:set var="cart" value="${sessionScope.cart}" />
+                <c:if test="${not empty cart}">
+                    <div class="container" id="reloadCalculator">
+                        <div class="row w-100">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <form action="MainController">
+                                    <table id="shoppingCart" class="table table-condensed table-responsive">
+                                        <thead>
+                                            <c:forEach var="item" items="${cart}" varStatus="counter">
+                                                <c:set var="pid" value="${item.key}" />
+                                                <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
+                                                <c:set var="quantity" value="${item.value}" />
+                                                <c:set var="price" value="${product.price}" />
+                                                <c:set var="total" value="${total + (quantity * product.price)}"/>
                                             </c:forEach>
+                                            <tr>
+                                                <th style="width: 7%">
+                                                    <div class="btn btn-white  bg-white btn-md mb-2" >
+                                                        <input type="checkbox" id="selectAll" onclick="toggleSelectAll(${total}, this)" />
+                                                    </div>
+                                                </th>
+                                                <th style="width:70%">Name</th>
+                                                <th style="width:8%">Price</th>
+                                                <th style="width:10%">Quantity</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="item" items="${cart}" varStatus="counter">
+                                                <c:set var="pid" value="${item.key}" />
+                                                <c:set var="product" value="${ProductDAO.getProductByID(pid)}" />
+                                                <c:set var="quantity" value="${item.value}" />
+                                                <c:set var="price" value="${product.price}" />
+                                                <c:set var="total" value="${total + (quantity * product.price)}"/>
+                                                <c:set var="quantityRepo" value="${product.quantity}"/>
+                                                <tr>
+                                                    <td class="actions" data-th="">
+                                                        <div class="text-right">
+                                                            <div class="btn btn-white  bg-white btn-md mb-2">
+                                                                <input type="checkbox" name="select" onchange="calculateTotal(${item.value},${product.price}, this)" value="${product.productID}" />
+                                                            </div>
 
-                                    </tbody>
-                                </table>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-7"></div>
-                                        <div class="col-md-1 text-left">
-                                        </div>
-                                        <div class="col-md-1 text-left">
-                                        </div>
-                                        <div class="col-md-1 text-right">
-                                        </div>
-                                        <div class="col-md-2 text-right">
-                                            <!--                                            <button class="btn btn-primary btn-sm" id="selectAll" type="button" onclick="toggleSelectAll($total, this)">Select All</button>-->
+                                                        </div>
+                                                    </td>
+                                                    <td data-th="Product">
+                                                        <div class="row">
+                                                            <div class="col-md-3 text-left">
+                                                                <img src=${product.imgPath} alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                                            </div>
+                                                            <div class="col-md-9 text-left mt-sm-2">
+                                                                <h4>${product.productName}</h4>
+                                                                <p class="font-weight-light">Size: ${product.size}g</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td data-th="Price">
+                                                        <div style="font-weight: bold;" >${price} ₫</div>
+                                                    </td>
+                                                    <td data-th="Quantity">
+                                                        <input type="number" data-repo="${quantityRepo}" data-key="${item.key}"  class="form-control form-control-lg text-center" min="1" value=${quantity} >
+                                                    </td>
+                                                    <td class="actions" data-th="">
+                                                        <div class="text-right">
+                                                            <div class="btn btn-white  bg-white btn-md mb-2">
+                                                                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="removeProduct(${item.key})"><span class="bi bi-trash"></span></button>
+                                                            </div>
 
+                                                        </div>
+                                                    </td>
+                                                <tr>
+                                                </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-7"></div>
+                                            <div class="col-md-1 text-left">
+                                            </div>
+                                            <div class="col-md-1 text-left">
+                                            </div>
+                                            <div class="col-md-1 text-right">
+                                            </div>
+                                            <div class="col-md-2 text-right">
+                                                <!--                                            <button class="btn btn-primary btn-sm" id="selectAll" type="button" onclick="toggleSelectAll($total, this)">Select All</button>-->
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="float-right text-right">
-                                    <h4>Subtotal:</h4>
-                                    <div class="row mt-4 d-flex align-items-center">
-                                        <div class="col-sm-6 order-md-2">
-                                            <h1><span id="subtotalAmount"></span></h1>
+                                    <div class="float-right text-right">
+                                        <h4>Subtotal:</h4>
+                                        <div class="row mt-4 d-flex align-items-center">
+                                            <div class="col-sm-6 order-md-2">
+                                                <h1><span id="subtotalAmount"></span></h1>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-4 d-flex align-items-center">
+                                            <div class="col-sm-6 order-md-2 text-right">
+                                                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="removeSelectedProduct()">Remove Selected Product</button>
+                                            </div>
+                                            <div class="col-sm-6 order-md-2 text-right">
+                                                <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5"  type="button" onclick="checkOutSelectedProduct()" value="checkOutSelectedProduct">Check Out Selected Product</button>
+
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row mt-4 d-flex align-items-center">
-                                        <div class="col-sm-6 order-md-2 text-right">
-                                            <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5" type="button" onclick="removeSelectedProduct()">Remove Selected Product</button>
-                                        </div>
-                                        <div class="col-sm-6 order-md-2 text-right">
-                                            <button class="btn btn-primary mb-4 btn-lg pl-5 pr-5"  type="button" onclick="checkOutSelectedProduct()" value="checkOutSelectedProduct">Check Out Selected Product</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </c:if>
-            <c:if test="${empty cart}">
-                <div>
-                    <h1>No item exited in your cart!</h1>
-                    <a href="HomeController">Click Here To Go Shopping</a>
-                </div>
-            </c:if>
-        </section>
+                </c:if>
+                <c:if test="${empty cart}">
+                    <div>
+                        <h1>No item exited in your cart!</h1>
+                        <a href="HomeController">Click Here To Go Shopping</a>
+                    </div>
+                </c:if>
+            </section>
+        </div>
     </body>
     <footer class="footer">
         <div class="container">
