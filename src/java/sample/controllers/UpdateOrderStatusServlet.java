@@ -99,7 +99,7 @@ public class UpdateOrderStatusServlet extends HttpServlet {
                             boolean minusProductQuantity = ProductDAO.minusProductQuantity(product.getQuantity(), product.getProductID());
                         }
                         if (accountDTO != null) {
-                            sendEmail = mailservice.sendEmailOrderIsShippedSuccessfullyToCustomer(orderDTO, userDTO);
+                            sendEmail = mailservice.sendEmailOrderIsShippedSuccessfullyToCustomer(orderDTO, accountDTO);
                         } else if (orderDTO.getEmail() != null) {
                             sendEmail = mailservice.sendEmailOrderIsShippedSuccessfullyToGuest(orderDTO);
                         }
