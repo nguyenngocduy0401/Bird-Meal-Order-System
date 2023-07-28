@@ -6,9 +6,7 @@
 package sample.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +56,26 @@ public class SearchController extends HttpServlet {
         String searchValue = request.getParameter("txtSearchValue");
         try {
             if (searchValue == null || searchValue.trim().isEmpty()) {
-                request.setAttribute("PRODUCTS", null);
+                ProductDAO dao = new ProductDAO();
+                List<ProductDTO> result = dao.pagingProductUser(page, ON_PAGE_PRODUCT, -1, "", -1, -1, "");
+                List<ProductDTO> listTop5Sale = ProductDAO.listTop5Product();
+                List<ProductDTO> listTop5New = ProductDAO.list5NewProduct();
+                List<CategoryDTO> cateList = CategoryDAO.getCatetoryList();
+                List<String> listSize = dao.getSizeList();
+                List<BirdDTO> listBird = CategoriesBirdDAO.getBirdList();
+                int amount = dao.getAmountProductUser(-1, "", -1, -1, "");
+                int endPage = amount / ON_PAGE_PRODUCT;
+                if (amount % ON_PAGE_PRODUCT != 0) {
+                    endPage++;
+                }
+                request.setAttribute("PRODUCTS", result);
+                request.setAttribute("PAGE", endPage);
+                request.setAttribute("TAGS", page);
+                request.setAttribute("CATEGORY_LIST", cateList);
+                request.setAttribute("SIZE_LIST", listSize);
+                request.setAttribute("BIRD_LIST", listBird);
+                request.setAttribute("TOP5SALE", listTop5Sale);
+                request.setAttribute("TOP5NEW", listTop5New);
             } else {
                 ProductDAO dao = new ProductDAO();
                 CategoryDAO cateDAO = new CategoryDAO();

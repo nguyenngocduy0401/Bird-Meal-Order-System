@@ -102,7 +102,7 @@ public class PagingProduct extends HttpServlet {
                             + " <div class=\"clickable\" onclick=\"document.getElementById('formid_" + dto.getProductID() + "').submit()\">\n"
                             + "                                    <img class=\"img-fluid mb-4\" src=\"" + dto.getImgPath() + "\" alt=\"\">\n"
                             + "                                    <p class=\"name text-uppercase\">" + dto.getProductName() + "</p>\n"
-                            + "                                    <h5 class=\"text-primary mb-0\">" + dto.getPrice() + " VND</h5>\n"
+                            + "                                    <h5 class=\"text-primary mb-0 \">" + dto.getPrice() + " VND</h5>\n"
                             + "                              </div>\n"
                             + "                                    <div class=\"btn-action d-flex justify-content-center\">\n"
                             + "\n"
