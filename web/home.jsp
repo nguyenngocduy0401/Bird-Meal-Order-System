@@ -287,7 +287,7 @@
                         <select id="bird" name="ddbBird" class="text-primary bg-light border-0 price-box test">
                             <option value="">Bird</option>
                             <c:forEach var="bird" items="${birdList}">
-                                <option value="${bird.birdName}">${bird.birdName}</option>
+                                <option value="${bird.birdID}">${bird.birdName}</option>
                             </c:forEach>
                         </select>
                         <select id="cate" name="ddbCategory" class="text-primary bg-light border-0 price-box test"> 
