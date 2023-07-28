@@ -82,11 +82,11 @@
                 </li>
 
                 <!-- Nav Item - Tables -->
-                <li class="nav-item">
+<!--                <li class="nav-item">
                     <button class="nav-link" onclick="productView()" style="border: none; background: none;">
                         <span>Products</span>
                     </button>
-                </li>
+                </li>-->
 
                 <li class="nav-item">
                     <button class="nav-link" onclick="reportView()" style="border: none; background: none;">

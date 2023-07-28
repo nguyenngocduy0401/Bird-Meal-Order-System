@@ -132,6 +132,7 @@ public class SubmitCheckOutController extends HttpServlet {
                                 CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
                                 CartDetailDAO.cleanCart(cartDTO.getCartID());
                                 response.sendRedirect("checkOutSuccess.jsp");
+                                session.setAttribute("countItemsCart", 0);
                             }
                         } else {
 
@@ -142,6 +143,7 @@ public class SubmitCheckOutController extends HttpServlet {
                                 CartDTO cartDTO = CartDAO.getCartByUserID(userDTO.getUserID());
                                 CartDetailDAO.cleanCart(cartDTO.getCartID());
                                 response.sendRedirect("checkOutSuccess.jsp");
+                                session.setAttribute("countItemsCart", 0);
                             }
                         }
 

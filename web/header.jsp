@@ -29,6 +29,17 @@
         <link href="css/style_old.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/afb5d5fd3d.js" crossorigin="anonymous"></script>
     </head>
+    <style>
+         .dropdown:hover>.dropdown-menu {
+                display: block;
+            }
+            .dropdown>.nav-link:active {
+                pointer-events: none;
+            }
+            .dropdown-menu {
+                right: 0;
+            }
+    </style>
     <body>
         <div class="container-fluid border-bottom d-none d-lg-block">
             <div class="row gx-0">

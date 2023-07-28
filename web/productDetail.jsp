@@ -23,6 +23,16 @@
         margin-top: 15px;
         margin-bottom: 15px;
     }
+    
+     .dropdown:hover>.dropdown-menu {
+                display: block;
+            }
+            .dropdown>.nav-link:active {
+                pointer-events: none;
+            }
+            .dropdown-menu {
+                right: 0;
+            }
 </style>
 <html lang="vi">
     <head>
