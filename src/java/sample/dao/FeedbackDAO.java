@@ -66,7 +66,7 @@ public class FeedbackDAO {
             if (con != null) {
                 String sql = "SELECT COUNT (*) "
                         + "FROM [Feedback] "
-                        + "WHERE [ProductID] = ? ";
+                        + "WHERE [ProductID] = ? AND Status = 1";
                 //3 create
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, productID);
@@ -110,7 +110,7 @@ public class FeedbackDAO {
                         + "      ,[ReplyDetails]\n"
                         + "      ,[ReplyDate]"
                         + "  FROM [Feedback]\n"
-                        + "  WHERE [ProductID] = ? ";
+                        + "  WHERE [ProductID] = ? AND Status = 1";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, productID);
                 rs = stm.executeQuery();
@@ -198,6 +198,7 @@ public class FeedbackDAO {
                         + "      ,[ReplyStaff]\n"
                         + "      ,[ReplyDetails]\n"
                         + "      ,[ReplyDate]"
+                        + "      ,[Status]"
                         + "  FROM [Feedback]\n"
                         + "  ORDER BY FeedbackID DESC ";
 
@@ -216,7 +217,8 @@ public class FeedbackDAO {
                     String REplyStaff = rs.getString("ReplyStaff");
                     String replyDetails = rs.getString("ReplyDetails");
                     String replyDate = rs.getString("ReplyDate");
-
+                    int status = rs.getInt("Status");
+                    
                     FeedbackDTO fb = new FeedbackDTO(feedbackID, orderID, userID, productID, details, date, rate, REplyStaff, replyDetails, replyDate);
                     listFeedback.add(fb);
                 }//end while rs not null
@@ -339,6 +341,35 @@ public class FeedbackDAO {
             }
         }
         return fb;
+    }
+    
+    public static boolean updateStatusFeedback(int feedbackID, int status)
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            con = DBUtils.getConnection();
+            if (con != null) {
+                String sql = "UPDATE [Feedback] \n"
+                        + "SET [Status] = ?\n"
+                        + "WHERE [FeedbackID] = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, status);
+                stm.setInt(2, feedbackID);
+                int rowCount = stm.executeUpdate();
+                result = (rowCount == 1);
+            }//end if con is not null
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
     }
     
     public static void main(String[] args) throws SQLException, ClassNotFoundException {

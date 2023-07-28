@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.FeedbackDAO;
 import sample.dao.ReportDAO;
 import sample.dto.UserDTO;
 
@@ -50,6 +51,7 @@ public class GiveReportFeedback extends HttpServlet {
                 rate = Integer.parseInt(rating);
             }
             ReportDAO.giveReportFeedback(userID, feedbackID, details, rate);
+            FeedbackDAO.updateStatusFeedback(feedbackID, 0);
         } finally {
         }
     }

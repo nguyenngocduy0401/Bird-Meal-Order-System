@@ -227,7 +227,7 @@
                                 <div class="table-responsive">
                                     <c:if test="${empty result}">
                                         <h5>Không có feed back được tìm thấy</h5>
-                                        </c:if>
+                                    </c:if>
                                     <c:if test="${not empty result}">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
@@ -243,7 +243,7 @@
                                             </thead>
                                             <tbody>
                                                 <c:forEach var="dto" items="${result}">
-                                                   <c:if test="${empty dto.replyDetails}">
+                                                    <c:if test="${empty dto.replyDetails}">
                                                         <c:set var="report" value="${ReportDAO.getReportByFeedbackID(dto.feedbackID)}"/>
                                                         <c:if test="${report eq 1}">
                                                             <tr>
@@ -267,7 +267,7 @@
                                                                         <i class="fa">Details</i>
                                                                     </button>
                                                                     <c:if test="${report eq 1}">
-                                                                        <button class="updateButton" onclick="reportFeedback(${dto.feedbackID})">
+                                                                       <button class="updateButton" onclick="reportFeedback(${dto.feedbackID})">
                                                                             <i class="fa">Report</i>
                                                                         </button>
                                                                     </c:if>
@@ -373,7 +373,7 @@
     <script>
                             $(document).ready(function () {
                                 // Xử lý sự kiện khi nhấn nút cập nhật
-                                $('.updateButton').click(function () {
+                                $('.updateButtonhai').click(function () {
                                     var feedbackID = $(this).data('feedbackid');
                                     var details = $(this).closest('tr').find('.detailsInput').val();
 
@@ -467,7 +467,7 @@
                                     url: "GiveReportFeedback",
                                     data: {
                                         feedbackID: fbID,
-                                        details: $('#details').val(),
+                                        details: '',
                                         rating: checkValue
                                     },
                                     success: function () {
