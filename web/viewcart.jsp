@@ -130,7 +130,7 @@
                 selectedProductIds.push(checkboxes[i].value);
             }
         }
-
+         if (selectedProductIds.length > 0) {
         $.ajax({
             type: "post",
             url: "RemoveProductController",
@@ -146,6 +146,11 @@
                 alert("Error occurred while removing products.");
             }
         });
+        } else
+        {
+            document.getElementById("checkselect").textContent = "Please select a product for remove."
+
+        }
     }
 
     function removeProduct(pid) {
@@ -444,9 +449,9 @@
         </div>
     </body>
     <footer class="footer">
-        <div class="container">
+<!--        <div class="container">
             <p>&copy; 2023 Bird Meal Order System. All rights reserved.</p>
-        </div>
+        </div>-->
     </footer>
 </html>
 

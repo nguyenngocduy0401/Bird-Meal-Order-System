@@ -329,16 +329,20 @@
                                                                     <p class="font-weight-light text-right">x ${product.quantity}</p>
                                                                 </div>
                                                                 <c:if test="${dto.status eq 4 }">
-                                                                    <div class="col-md-2 text-right mt-sm-2">
-                                                                        <form action="MainController" method="post">
-                                                                            <button type="submit" value="Feedback" name="btAction" class="btn btn-primary btn-buy" type="button">
-                                                                                Feedback
-                                                                            </button>
-                                                                            <input type="hidden" name="orderID" value="${orderID}" />
-                                                                            <input type="hidden" name="productID" value="${productID}" />
-                                                                        </form>
-                                                                    </div>
+                                                                    <c:set var="feedback" value="${FeedbackDAO.getFeedbackUserProductOrder(productID, sessionScope.user.getUserID(), orderID)}" />
+                                                                    <c:if test="${empty feedback.feedbackDetails}">
+                                                                        <div class="col-md-2 text-right mt-sm-2">
+                                                                            <form action="MainController" method="post">
+                                                                                <button type="submit" value="Feedback" name="btAction" class="btn btn-primary btn-buy" type="button">
+                                                                                    Feedback
+                                                                                </button>
+                                                                                <input type="hidden" name="orderID" value="${orderID}" />
+                                                                                <input type="hidden" name="productID" value="${productID}" />
+                                                                            </form>
+                                                                        </div>
+                                                                    </c:if>
                                                                 </c:if>
+
 
 
                                                             </div>

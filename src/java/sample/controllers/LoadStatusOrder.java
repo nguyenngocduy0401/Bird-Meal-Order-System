@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.dao.FeedbackDAO;
 import sample.dao.OrderDAO;
 import sample.dao.ProductDAO;
 import sample.dto.OrderDTO;
@@ -116,15 +117,21 @@ public class LoadStatusOrder extends HttpServlet {
                                 + "                                                                <p class=\"font-weight-light text-right\">x " + product.getQuantity() + "</p>\n"
                                 + "                                                            </div>\n");
                         if (dto.getStatus() == 4) {
-                            out.print("<div class=\"col-md-2 text-right mt-sm-2\">\n"
-                                    + "                                                                        <form action=\"MainController\" method=\"POST\">\n"
-                                    + "                                                                            <button type=\"submit\" value=\"Feedback\" name=\"btAction\" class=\"btn btn-primary btn-buy\" type=\"button\">\n"
-                                    + "                                                                                Feedback\n"
-                                    + "                                                                            </button>\n"
-                                    + "                                                                            <input type=\"hidden\" name=\"orderID\" value=" + dto.getOrderID() + " />\n"
-                                    + "                                                                            <input type=\"hidden\" name=\"productID\" value=" + product.getProductID() + " />\n"
-                                    + "                                                                        </form>\n"
-                                    + "                                                                    </div>");
+                            try {
+                                if (FeedbackDAO.getFeedbackUserProductOrder(product.getProductID(), user.getUserID(), dto.getOrderID()).getFeedbackDetails().isEmpty()) {
+                                    out.print("<div class=\"col-md-2 text-right mt-sm-2\">\n"
+                                            + "                                                                        <form action=\"MainController\" method=\"POST\">\n"
+                                            + "                                                                            <button type=\"submit\" value=\"Feedback\" name=\"btAction\" class=\"btn btn-primary btn-buy\" type=\"button\">\n"
+                                            + "                                                                                Feedback\n"
+                                            + "                                                                            </button>\n"
+                                            + "                                                                            <input type=\"hidden\" name=\"orderID\" value=" + dto.getOrderID() + " />\n"
+                                            + "                                                                            <input type=\"hidden\" name=\"productID\" value=" + product.getProductID() + " />\n"
+                                            + "                                                                        </form>\n"
+                                            + "                                                                    </div>");
+                                }
+                            } catch (SQLException | ClassNotFoundException ex) {
+                                Logger.getLogger(LoadStatusOrder.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         out.print("                                                        </div>\n");
                     });

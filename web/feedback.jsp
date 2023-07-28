@@ -160,7 +160,7 @@
                                                 rating: checkValue
                                             },
                                             success: function () {
-                                                alert("gui feedback thanh cong");
+                                                alert("feedback successful");
                                                 window.location.replace("MainController?btAction=Purchase");
                                             }
                                         });

@@ -243,35 +243,37 @@
                                             </thead>
                                             <tbody>
                                                 <c:forEach var="dto" items="${result}">
-                                                    <c:if test="${empty dto.replyDetails}">
-                                                        <tr>
-                                                            <td>
-                                                                ${UserDAO.getUserByID(dto.userID).userName}
-                                                            </td>
-                                                            <td>
-                                                                ${ProductDAO.getProductByID(dto.productID).productName}
-                                                            </td>
-                                                            <td>
-                                                                ${dto.feedbackDetails}
-                                                            </td>
-                                                            <td>
-                                                                ${dto.feedbackDate}
-                                                            </td>
-                                                            <td>
-                                                                ${dto.rate}
-                                                            </td>
-                                                            <td>
-                                                                <c:set var="report" value="${ReportDAO.getReportByFeedbackID(dto.feedbackID)}"/>
-                                                                <button class="updateButton" data-feedbackid="${dto.feedbackID}" onclick="feedbackDetails(${dto.feedbackID})">
-                                                                    <i class="fa">Details</i>
-                                                                </button>
-                                                                <c:if test="${report eq 1}">
-                                                                    <button class="updateButton" onclick="reportFeedback(${dto.feedbackID})">
-                                                                        <i class="fa">Report</i>
+                                                   <c:if test="${empty dto.replyDetails}">
+                                                        <c:set var="report" value="${ReportDAO.getReportByFeedbackID(dto.feedbackID)}"/>
+                                                        <c:if test="${report eq 1}">
+                                                            <tr>
+                                                                <td>
+                                                                    ${UserDAO.getUserByID(dto.userID).userName}
+                                                                </td>
+                                                                <td>
+                                                                    ${ProductDAO.getProductByID(dto.productID).productName}
+                                                                </td>
+                                                                <td>
+                                                                    ${dto.feedbackDetails}
+                                                                </td>
+                                                                <td>
+                                                                    ${dto.feedbackDate}
+                                                                </td>
+                                                                <td>
+                                                                    ${dto.rate}
+                                                                </td>
+                                                                <td>
+                                                                    <button class="updateButton" data-feedbackid="${dto.feedbackID}" onclick="feedbackDetails(${dto.feedbackID})">
+                                                                        <i class="fa">Details</i>
                                                                     </button>
-                                                                </c:if>
-                                                            </td>
-                                                        </tr>
+                                                                    <c:if test="${report eq 1}">
+                                                                        <button class="updateButton" onclick="reportFeedback(${dto.feedbackID})">
+                                                                            <i class="fa">Report</i>
+                                                                        </button>
+                                                                    </c:if>
+                                                                </td>
+                                                            </tr>
+                                                        </c:if>
                                                     </c:if>
                                                 </c:forEach>
                                             </tbody>
